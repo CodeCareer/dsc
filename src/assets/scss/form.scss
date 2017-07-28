@@ -1,0 +1,69 @@
+form {
+  .el-input-group__append {
+    border-color: $border-color;
+  }
+  .el-form-item__content {
+    .el-radio {
+      margin-right: 20px;
+      margin-left: 0;
+      line-height: 1;
+    }
+  }
+  .el-form-item-tip {
+    font-size: 12px;
+    padding-left: 10px;
+  }
+  .el-radio__label {
+    font-size: 13px;
+    color: #626473;
+  }
+  .el-form-item__label {
+    font-size: 13px;
+  }
+  .form-inner {
+    max-width: 430px;
+    &.center {
+      margin: 0 auto;
+    }
+  }
+  .el-input,
+  .el-input-group {
+    max-width: 300px;
+    &.el-date-editor {
+      width: 100%;
+    }
+  }
+  .el-select {
+    width: 100%;
+    max-width: 300px;
+  }
+  .el-form-item {
+    margin-bottom: 13px;
+    &.is-error.custom-error {
+      .el-input__inner,
+      .el-textarea__inner {
+        border-color: $border-color;
+      }
+      .has-error {
+        .el-input__inner,
+        .el-textarea__inner {
+          border-color: #ff4949;
+        }
+      }
+    }
+  }
+  .el-form-item__error {
+    padding-top: 0;
+  }
+  .el-input__inner {
+    font-size: 13px;
+    color: #595f67;
+    // width: 275px;
+    height: 30px;
+    padding: 0 5px;
+    border: 1px solid $border-color;
+    &:focus {
+      border-color: $primary-color;
+    }
+  }
+}
