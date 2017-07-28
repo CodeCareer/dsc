@@ -1,6 +1,6 @@
-# kt-batonx-frontend
+# wdy-frontend
 
-> 开通金融-交易所产品管理系统
+> 微贷云系统
 
 ## Build Setup
 
@@ -29,3 +29,4 @@ npm test
 ```
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
