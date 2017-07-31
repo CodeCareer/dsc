@@ -14,7 +14,7 @@ export default [{
   children: [{
     path: 'products',
     name: 'products',
-    component: resolve => require(['@/views/product_management/Products.vue'], resolve),
+    component: resolve => require(['@/views/product_manage/Products.vue'], resolve),
     meta: {
       title: '微贷系统-产品发行管理',
       crumbs: [{
