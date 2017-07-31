@@ -151,12 +151,24 @@ export default {
       }, {
         name: '风控管理',
         index: '4',
-        icon: 'icon-risk-mange',
+        icon: 'icon-dunpai',
         menus: [{
           name: '风控准入管理',
           index: '4-1',
           route: {
-            name: 'ClientList'
+            name: 'accessControl'
+          }
+        }, {
+          name: '风控预警管理',
+          index: '4-2',
+          route: {
+            name: 'preWarning'
+          }
+        }, {
+          name: '预警信息管理',
+          index: '4-3',
+          route: {
+            name: 'preWarningInfo'
           }
         }]
       }, {
@@ -167,42 +179,42 @@ export default {
           name: '车型信息',
           index: '5-1',
           route: {
-            name: 'ClientList'
+            name: 'carInfo'
           }
         }, {
           name: '资产方车型匹配',
-          index: '5-1',
+          index: '5-2',
           route: {
-            name: 'ClientList'
+            name: 'carMatch'
           }
         }, {
           name: 'GPS数据查询',
-          index: '5-1',
+          index: '5-3',
           route: {
-            name: 'ClientList'
+            name: 'carGps'
           }
         }]
       }, {
         name: '用户管理',
         index: '6',
-        icon: 'icon-user',
+        icon: 'icon-users',
         menus: [{
           name: '用户列表',
           index: '6-1',
           route: {
-            name: 'CompanyAccountList'
+            name: 'accountList'
           }
         }, {
           name: '权限管理',
           index: '6-2',
           route: {
-            name: 'CompanyAccountAuthority'
+            name: 'authorityManage'
           }
         }, {
           name: '个人设置',
           index: '6-3',
           route: {
-            name: 'Setting'
+            name: 'settings'
           }
         }]
       }],
