@@ -5,7 +5,7 @@
       img.logo(src="../assets/images/logo.svg")
       .user-info.fr
         span
-          i.icon-wd.icon-user.icon-color
+          i.iconfont.icon-user.icon-color
           | hi，{{user.name}}
         span.log-out(@click="logout()") 退出
     section.container(:style='containerStyles')
@@ -14,11 +14,11 @@
           template(v-for="menu in menus")
             el-submenu(v-if="menu.menus", :index="menu.index", v-show="!menu.hidden")
               template(slot='title')
-                i.icon-wd.icon-color(:class="menu.icon")
+                i.iconfont.icon-color(:class="menu.icon")
                 | {{menu.name}}
               el-menu-item( v-for="item in menu.menus", :index='item.index', :route="item.route", :key="item.index") {{item.name}}
             el-menu-item(v-else, :index='menu.index', :route="menu.route", v-show="!menu.hidden")
-              i.icon-wd.icon-color(:class="menu.icon")
+              i.iconfont.icon-color(:class="menu.icon")
               | {{menu.name}}
       .body(:style='containerStyles')
         el-breadcrumb
@@ -105,7 +105,7 @@ export default {
       menus: [{
         name: '产品管理',
         index: '1',
-        icon: 'icon-proman',
+        icon: 'icon-layers',
         menus: [{
           name: '产品发行管理',
           index: '1-2',
@@ -122,7 +122,7 @@ export default {
       }, {
         name: '资产管理',
         index: '2',
-        icon: 'icon-assetman',
+        icon: 'icon-assets',
         menus: [{
           name: '资产数据查询',
           index: '2-1',
@@ -134,7 +134,7 @@ export default {
       }, {
         name: '资金管理',
         index: '3',
-        icon: 'icon-fund',
+        icon: 'icon-money',
         menus: [{
           name: '入金明细信息',
           index: '3-1',
@@ -151,7 +151,7 @@ export default {
       }, {
         name: '风控管理',
         index: '4',
-        icon: 'icon-shield',
+        icon: 'icon-risk-mange',
         menus: [{
           name: '风控准入管理',
           index: '4-1',
@@ -185,7 +185,7 @@ export default {
       }, {
         name: '用户管理',
         index: '6',
-        icon: 'icon-customer',
+        icon: 'icon-user',
         menus: [{
           name: '用户列表',
           index: '6-1',

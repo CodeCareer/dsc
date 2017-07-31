@@ -3,7 +3,7 @@
     .box
       .box-tab-head
         el-button(type="primary", size="small", @click="openAccountDialog()")
-          i.icon-wd.icon-plus
+          i.iconfont.icon-plus
           | 新增
       .filters
         el-input(placeholder='所属方', icon='search', v-model.lazy='filter.belongto')
@@ -20,7 +20,7 @@
               p 提示: {{ scope.row.note }}
               .name-wrapper(slot='reference')
                 | {{ scope.row.belongto }}
-                i.icon-wd.icon-explain
+                i.iconfont.icon-explain
             span(v-if="!scope.row.note") {{scope.row.belongto}}
         el-table-column(prop='type', label='账户类型', width='120')
         el-table-column(prop='name', label='账户名', width='220')
@@ -29,13 +29,13 @@
         el-table-column(label='关联产品', width='100')
           template(scope="scope")
             a(@click="openRelationProducts(scope.row)")
-              i.icon-wd.icon-relation
+              i.iconfont.icon-relation
         el-table-column(prop='updateDate', label='更新时间', width='120')
         el-table-column(label='操作', :fixed="fixed", width='100')
           template(scope="scope")
             .operations
-              i.icon-wd.icon-edit(@click="openAccountDialog(scope.row)")
-              i.icon-wd.icon-delete(@click.stop="deleteAccount(scope.row)")
+              i.iconfont.icon-edit(@click="openAccountDialog(scope.row)")
+              i.iconfont.icon-delete(@click.stop="deleteAccount(scope.row)")
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='page.current', :page-sizes="page.sizes", :page-size="page.size", layout='total, prev, pager, next, jumper', :total='accounts.length')
     el-dialog(title='关联产品', v-model='relationProductsVisible')
       el-table(:data='relationProducts')
