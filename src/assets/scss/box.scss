@@ -8,6 +8,23 @@
   &.mt20 {
     margin-top: 20px;
   }
+  .table-container {
+    margin-top: 20px;
+    .el-pagination {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .icon-relation {
+      font-size: 15px;
+    }
+  }
+  .box-tab-head {
+    text-align: right;
+    background: #f3f6f8;
+    height: 40px;
+    line-height: 40px;
+    padding-right: 15px;
+  }
   .box-tab-header {
     position: absolute;
     right: 15px;

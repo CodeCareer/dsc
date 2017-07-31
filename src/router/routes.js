@@ -157,12 +157,12 @@ export default [{
       name: 'authorityManage',
       component: resolve => require(['@/views/account/AuthorityManage.vue'], resolve),
       meta: {
-        title: '微贷系统-用户列表',
+        title: '微贷系统-权限管理',
         crumbs: [{
           name: '用户管理',
           to: { name: 'accountList' }
         }, {
-          name: '用户列表',
+          name: '权限管理',
           to: { name: 'authorityManage' }
         }]
       }
@@ -171,12 +171,12 @@ export default [{
       name: 'settings',
       component: resolve => require(['@/views/account/Settings.vue'], resolve),
       meta: {
-        title: '微贷系统-用户列表',
+        title: '微贷系统-个人设置',
         crumbs: [{
           name: '用户管理',
           to: { name: 'accountList' }
         }, {
-          name: '用户列表',
+          name: '个人设置',
           to: { name: 'settings' }
         }]
       }
