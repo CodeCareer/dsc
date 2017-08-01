@@ -112,12 +112,6 @@ export default {
           route: {
             name: 'products'
           }
-        }, {
-          name: '发行限制信息',
-          index: '1-3',
-          route: {
-            name: ''
-          }
         }]
       }, {
         name: '资产管理',
