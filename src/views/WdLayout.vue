@@ -110,7 +110,7 @@ export default {
           name: '产品发行管理',
           index: '1-2',
           route: {
-            name: 'products'
+            name: 'productsRelease'
           }
         }]
       }, {
@@ -121,25 +121,31 @@ export default {
           name: '资产数据查询',
           index: '2-1',
           route: {
-            name: 'AssetList'
+            name: 'assetData'
           },
-          activeIncludes: ['AssetList', 'AssetForm', 'AssetDetail']
+          activeIncludes: ['assetData', 'AssetForm', 'AssetDetail']
         }]
       }, {
         name: '资金管理',
         index: '3',
         icon: 'icon-money',
         menus: [{
-          name: '入金明细信息',
+          name: '资金账户管理',
           index: '3-1',
           route: {
-            name: ''
+            name: 'fundAccountManage'
           }
         }, {
           name: '账户入金管理',
-          index: '3-1',
+          index: '3-3',
           route: {
-            name: ''
+            name: 'accountDepositManage'
+          }
+        }, {
+          name: '入金明细信息',
+          index: '3-2',
+          route: {
+            name: 'fundDepositDetail'
           }
         }]
       }, {

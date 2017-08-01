@@ -1,6 +1,6 @@
 export default [{
   path: '/',
-  redirect: '/wd/products'
+  redirect: {name: 'productsRelease'}
 }, {
   path: '/login',
   name: 'login',
@@ -9,22 +9,108 @@ export default [{
 }, {
   path: '/wd',
   name: 'wd',
-  redirect: 'wd/products',
+  redirect: {name: 'productsRelease'},
   component: resolve => require(['@/views/WdLayout.vue'], resolve),
   children: [{
-    path: 'products',
-    name: 'products',
-    component: resolve => require(['@/views/product_manage/Products.vue'], resolve),
-    meta: {
-      title: '微贷系统-产品发行管理',
-      crumbs: [{
-        name: '产品管理',
-        to: { name: 'wd' }
-      }, {
-        name: '产品发行管理',
-        to: { name: 'products' }
-      }]
-    }
+    path: 'products_manage',
+    name: 'productsManage',
+    redirect: { name: 'productsRelease' },
+    component: {
+      render(h) {
+        return h('router-view')
+      }
+    },
+    children: [{
+      path: 'products_release',
+      name: 'productsRelease',
+      component: resolve => require(['@/views/product_manage/ProductsRelease.vue'], resolve),
+      meta: {
+        title: '微贷系统-产品发行管理',
+        crumbs: [{
+          name: '产品管理',
+          to: { name: 'productsRelease' }
+        }, {
+          name: '产品发行管理',
+          to: { name: 'productsRelease' }
+        }]
+      }
+    }]
+  }, {
+    path: 'asset_manage',
+    name: 'assetManage',
+    redirect: { name: 'assetData' },
+    component: {
+      render(h) {
+        return h('router-view')
+      }
+    },
+    children: [{
+      path: 'asste_data',
+      name: 'assetData',
+      component: resolve => require(['@/views/asset_manage/AssetData.vue'], resolve),
+      meta: {
+        title: '微贷系统-资产数据查询',
+        crumbs: [{
+          name: '资产管理',
+          to: { name: 'assetData' }
+        }, {
+          name: '资产数据查询',
+          to: { name: 'assetData' }
+        }]
+      }
+    }]
+  }, {
+    path: 'fund_manage',
+    name: 'fundManage',
+    redirect: { name: 'fundDepositDetail' },
+    component: {
+      render(h) {
+        return h('router-view')
+      }
+    },
+    children: [{
+      path: 'fund_deposit_detail',
+      name: 'fundDepositDetail',
+      component: resolve => require(['@/views/fund_manage/FundDepositDetail.vue'], resolve),
+      meta: {
+        title: '微贷系统-入金明细信息',
+        crumbs: [{
+          name: '资金管理',
+          to: { name: 'fundAccountManage' }
+        }, {
+          name: '入金明细信息',
+          to: { name: 'fundDepositDetail' }
+        }]
+      }
+    }, {
+      path: 'account_deposit_manage',
+      name: 'accountDepositManage',
+      component: resolve => require(['@/views/fund_manage/AccountDepositManage.vue'], resolve),
+      meta: {
+        title: '微贷系统-账户入金管理',
+        crumbs: [{
+          name: '资金管理',
+          to: { name: 'fundAccountManage' }
+        }, {
+          name: '账户入金管理',
+          to: { name: 'accountDepositManage' }
+        }]
+      }
+    }, {
+      path: 'fund_account_manage',
+      name: 'fundAccountManage',
+      component: resolve => require(['@/views/fund_manage/FundAccountManage.vue'], resolve),
+      meta: {
+        title: '微贷系统-资金账户管理',
+        crumbs: [{
+          name: '资金管理',
+          to: { name: 'fundAccountManage' }
+        }, {
+          name: '资金账户管理',
+          to: { name: 'fundAccountManage' }
+        }]
+      }
+    }]
   }, {
     path: 'risk_control',
     name: 'riskControl',
