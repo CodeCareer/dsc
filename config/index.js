@@ -30,7 +30,10 @@ module.exports = {
     proxyTable: {
       '/api': {
         target: 'http://apidoc.wjs-dev.com/mockjsdata/61',
-        changeOrigin: true
+        changeOrigin: true,
+        pathRewrite: function(path, req) {
+          return path.replace('/api/', '/')
+        }
       }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"

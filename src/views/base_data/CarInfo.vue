@@ -75,16 +75,20 @@ export default {
 
     addCarInfo() {
       this.$router.push({
-        name: ''
+        name: 'carInfoForm',
+        params: {
+          id: 'add'
+        }
       })
     },
 
-    editCarInfo() {
-
-    },
-
-    deleteCarInfo() {
-
+    editCarInfo(car) {
+      this.$router.push({
+        name: 'carInfoForm',
+        params: {
+          id: car.id
+        }
+      })
     },
 
     _fetchData() {

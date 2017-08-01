@@ -40,7 +40,7 @@ http.interceptors.response.use(res => res, err => {
 
 const APIS = {
   session: '/session',
-  carInfo: '/thirdpartydata/vehiclemanage/v1/vehicle'
+  carInfo: '/thirdPartyData/vehicleManage/vehicles'
 }
 
 export const session = {

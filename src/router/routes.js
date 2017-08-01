@@ -1,6 +1,6 @@
 export default [{
   path: '/',
-  redirect: {name: 'productsRelease'}
+  redirect: { name: 'productsRelease' }
 }, {
   path: '/login',
   name: 'login',
@@ -9,7 +9,7 @@ export default [{
 }, {
   path: '/wd',
   name: 'wd',
-  redirect: {name: 'productsRelease'},
+  redirect: { name: 'productsRelease' },
   component: resolve => require(['@/views/WdLayout.vue'], resolve),
   children: [{
     path: 'products_manage',
@@ -184,6 +184,24 @@ export default [{
         }, {
           name: '基础车型信息',
           to: { name: 'carInfo' }
+        }]
+      }
+    }, {
+      path: 'car_info/:id',
+      name: 'carInfoForm',
+      component: resolve => require(['@/views/base_data/CarInfoForm.vue'], resolve),
+      meta: {
+        title: '微贷系统-基础车型信息管理',
+        crumbs: [{
+          name: '基础数据管理',
+          to: { name: 'carInfo' }
+        }, {
+          name: '基础车型信息',
+          to: { name: 'carInfo' }
+        }, {
+          id: 'carInfoForm',
+          name: '新增基础车型',
+          to: { name: 'carInfoForm' }
         }]
       }
     }, {
