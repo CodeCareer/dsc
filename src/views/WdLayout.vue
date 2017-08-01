@@ -182,13 +182,13 @@ export default {
             name: 'carInfo'
           }
         }, {
-          name: '资产方车型匹配',
+          name: '车型匹配',
           index: '5-2',
           route: {
             name: 'carMatch'
           }
         }, {
-          name: 'GPS数据查询',
+          name: 'GPS数据',
           index: '5-3',
           route: {
             name: 'carGps'
@@ -269,7 +269,7 @@ $menu-height: 50px;
     height: $header-height;
     line-height: $header-height;
     background: #3e4b5c;
-    z-index: 999;
+    z-index: 99999;
     .log-out {
       cursor: pointer;
       &:hover {
