@@ -1,16 +1,17 @@
 <template lang="pug">
   section.account-list
     .box
+      .box-tab-head
+        el-button(type="primary", size="small", @click="openAccountDialog()")
+          i.iconfont.icon-plus
+          | 新增
       .filters
-        el-date-picker(placeholder='上架日期下限', type='date', v-model.lazy='filter.carriageDateLower', :picker-options="pickerOptions")
-        el-date-picker(placeholder='上架日期上限', type='date', v-model.lazy='filter.carriageDateUpper', :picker-options="pickerOptions")
-        el-date-picker(placeholder='起息日下限', type='date', v-model.lazy='filter.valueDateLower', :picker-options="pickerOptions")
-        el-date-picker(placeholder='起息日上限', type='date', v-model.lazy='filter.valueDateUpper', :picker-options="pickerOptions")
-        el-input(placeholder='产品名称', icon='search', v-model.lazy='filter.productName')
-        el-select(v-model="filter.assetFrom", placeholder="资产来源")
-          el-option(v-for="t in assetTypes", :key="t.name", :value="t.value", :label="t.name")
-        el-button(size="small", @click="clearFilter")  清除
-        el-button(size="small", type="primary", @click="") 查询
+        el-input(placeholder='所属方', icon='search', v-model.lazy='filter.belongto')
+        el-input(placeholder='账户名', icon='search', v-model.lazy='filter.name')
+        el-input(placeholder='账户', icon='search', v-model.lazy='filter.bankNum')
+        el-select(v-model="filter.type", placeholder="账户类型")
+          el-option(v-for="t in accountTypes", :key="t.name", :value="t.value", :label="t.name")
+        el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='filterAccounts', style='width: 100%')
         el-table-column(prop='belongto', label='所属方', width='220')
@@ -114,30 +115,36 @@ export default {
 
   data() {
     return {
-      pickerOptions: '',
       fixed: window.innerWidth - 180 - 12 * 2 > 1150 ? false : 'right', // 180 左侧菜单宽度，12 section的padding
       tab: 'first',
       relationProductsVisible: false,
       relationProducts: [],
       filter: {
-        carriageDateLower: '',
-        carriageDateUpper: '',
-        valueDateLower: '',
-        valueDateUpper: '',
-        assetFrom: '',
-        productName: ''
+        belongto: '',
+        name: '',
+        bankNum: '',
+        type: ''
       },
       page: {
         current: 1,
         size: 10,
         sizes: [10, 20, 30, 50]
       },
-      assetTypes: [{
-        name: '花生',
-        value: '花生'
+      accountTypes: [{
+        name: '募集账户',
+        value: '募集账户'
       }, {
-        name: '大搜车',
-        value: '大搜车'
+        name: '产品账户',
+        value: '产品账户'
+      }, {
+        name: '资产账户',
+        value: '资产账户'
+      }, {
+        name: '费用账户',
+        value: '费用账户'
+      }, {
+        name: '其他第三方账户',
+        value: '其他第三方账户'
       }],
       accounts: [{
         id: 1,
