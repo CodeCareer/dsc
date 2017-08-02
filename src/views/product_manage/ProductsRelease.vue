@@ -159,10 +159,10 @@ export default {
       },
       assetTypes: [{
         name: '花生',
-        value: '花生'
+        value: 'HUASHENG'
       }, {
         name: '大搜车',
-        value: '大搜车'
+        value: 'DSC'
       }]
     }
   }

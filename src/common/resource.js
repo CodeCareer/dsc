@@ -52,6 +52,11 @@ const APIS = {
   session: '/session',
   productsRelease: '/productManage/pageProductInfo', //产品发行管理
   productsAudit: '/productManage/auditManually', //产品发行审核
+  accountDepositManage: '/fundManage/listAccountFundDetail', //账户入金查询
+  accountDepositDelete: '/fundManage/deleteAccountFundDetail', //账户入金删除
+  accountDepositEdit: '/fundManage/editAccountFundDetail', //账户入金编辑
+  accountDepositAudit: '/fundManage/auditAccountFundDetail', //账户入金审核
+  accountDepositadd: '/fundManage/addAccountFundDetail', //账户入金新增
   riskZr: '/riskManage/riskRuleResults', //风控准入列表
   riskEdit: '/risk_manage/risk_rules/#{rrid}/update', //风控修改风险规则
   riskQuery: '/riskManage/riskRuleTemplates', //查询风险规则模板
@@ -83,6 +88,26 @@ export const productsRelease = {
 
 export const productsAudit = {
   post: (config) => http.post(APIS.productsAudit, config)
+}
+
+export const accountDepositManage = {
+  post: (config) => http.post(APIS.accountDepositManage, config)
+}
+
+export const accountDepositDelete = {
+  post: (config) => http.post(APIS.accountDepositDelete, config)
+}
+
+export const accountDepositEdit = {
+  post: (config) => http.post(APIS.accountDepositEdit, config)
+}
+
+export const accountDepositAudit = {
+  post: (config) => http.post(APIS.accountDepositAudit, config)
+}
+
+export const accountDepositadd = {
+  post: (config) => http.post(APIS.accountDepositadd, config)
 }
 
 export const riskZr = {
