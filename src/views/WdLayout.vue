@@ -153,19 +153,19 @@ export default {
         index: '4',
         icon: 'icon-dunpai',
         menus: [{
-          name: '风控准入管理',
+          name: '准入校验结果',
           index: '4-1',
           route: {
             name: 'accessControl'
           }
         }, {
-          name: '风控预警管理',
+          name: '风险规则模板',
           index: '4-2',
           route: {
             name: 'preWarning'
           }
         }, {
-          name: '预警信息管理',
+          name: '风险预警监控',
           index: '4-3',
           route: {
             name: 'preWarningInfo'
@@ -249,6 +249,7 @@ export default {
     startsWith: startsWith,
     breadcrumbRefresh() {
       this.crumbs = this.$route.meta.crumbs
+      console.log(this.$route.meta.crumbs)
     },
     ...mapActions(['logout'])
   }

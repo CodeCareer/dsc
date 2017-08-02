@@ -41,7 +41,11 @@ http.interceptors.response.use(res => res, err => {
 const APIS = {
   session: '/session',
   carInfo: '/thirdPartyData/vehicleManage/vehicles',
-  productsRelease: '/productManage/pageProductInfo'
+  productsRelease: '/productManage/pageProductInfo',
+  riskZr: '/riskManage/riskRuleResults', //风控准入列表
+  riskEdit: '/risk_manage/risk_rules/#{rrid}/update', //风控修改风险规则
+  riskQuery: '/riskManage/riskRuleTemplates', //查询风险规则模板
+  riskWarn: '/riskManage/riskRuleWarnings' //查询风险预警信息
 }
 
 export const session = {
@@ -55,4 +59,20 @@ export const carInfo = {
 
 export const productsRelease = {
   post: config => http.post(APIS.productsRelease, config)
+}
+
+export const riskZr = {
+  get: (config) => http.get(APIS.riskZr, config)
+}
+
+export const riskEdit = {
+  post: (config) => http.post(APIS.riskEdit, config)
+}
+
+export const riskQuery = {
+  get: (config) => http.get(APIS.riskQuery, config)
+}
+
+export const riskWarn = {
+  get: (config) => http.get(APIS.riskWarn, config)
 }

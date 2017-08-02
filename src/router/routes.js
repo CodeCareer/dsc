@@ -130,7 +130,7 @@ export default [{
           name: '风控管理',
           to: { name: 'accessControl' }
         }, {
-          name: '风控准入管理',
+          name: '准入校验结果',
           to: { name: 'accessControl' }
         }]
       }
@@ -144,7 +144,7 @@ export default [{
           name: '风控管理',
           to: { name: 'accessControl' }
         }, {
-          name: '风控预警管理',
+          name: '风险规则模板',
           to: { name: 'preWarning' }
         }]
       }
@@ -158,7 +158,7 @@ export default [{
           name: '风控管理',
           to: { name: 'accessControl' }
         }, {
-          name: '预警信息管理',
+          name: '风险预警监控',
           to: { name: 'preWarningInfo' }
         }]
       }
