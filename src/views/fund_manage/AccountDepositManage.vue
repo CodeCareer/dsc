@@ -150,15 +150,19 @@ export default {
 
     edit(rows) {
       this.$router.push({
-        name: 'productsReleaseForm',
-        params: rows
+        name: 'accountDepositForm',
+        params: {
+          id: rows.id
+        }
       })
     },
 
     add(rows) {
       this.$router.push({
-        name: 'productsReleaseForm',
-        params: rows
+        name: 'accountDepositForm',
+        params: {
+          id: 'add'
+        }
       })
     },
 

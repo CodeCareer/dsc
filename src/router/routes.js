@@ -115,6 +115,23 @@ export default [{
         }]
       }
     }, {
+      path: 'account_deposit/:id',
+      name: 'accountDepositForm',
+      component: resolve => require(['@/views/fund_manage/AccountDepositForm.vue'], resolve),
+      meta: {
+        title: '微贷系统-账户入金管理',
+        crumbs: [{
+          name: '资金管理',
+          to: { name: 'fundAccountManage' }
+        }, {
+          name: '账户入金管理',
+          to: { name: 'accountDepositManage' }
+        }, {
+          name: '账户入金编辑',
+          to: { name: 'accountDepositForm' }
+        }]
+      }
+    }, {
       path: 'fund_account_manage',
       name: 'fundAccountManage',
       component: resolve => require(['@/views/fund_manage/FundAccountManage.vue'], resolve),
