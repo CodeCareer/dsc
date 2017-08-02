@@ -34,6 +34,24 @@ export default [{
           to: { name: 'productsRelease' }
         }]
       }
+    }, {
+      path: 'products_release/:id',
+      name: 'productsReleaseForm',
+      component: resolve => require(['@/views/product_manage/ProductsReleaseForm.vue'], resolve),
+      meta: {
+        title: '微贷系统-产品发行审核',
+        crumbs: [{
+          name: '产品管理',
+          to: { name: 'productsRelease' }
+        }, {
+          name: '产品发行管理',
+          to: { name: 'productsRelease' }
+        }, {
+          id: 'productsReleaseForm',
+          name: '产品发行审核',
+          to: { name: 'productsReleaseForm' }
+        }]
+      }
     }]
   }, {
     path: 'asset_manage',
