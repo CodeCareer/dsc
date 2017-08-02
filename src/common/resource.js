@@ -50,18 +50,14 @@ http.interceptors.response.use(res => {
 
 const APIS = {
   session: '/session',
-<<<<<<< Updated upstream
-  carInfo: '/thirdPartyData/vehicleManage/vehicles',
   productsRelease: '/productManage/pageProductInfo', //产品发行管理
   productsAudit: '/productManage/auditManually', //产品发行审核
   riskZr: '/riskManage/riskRuleResults', //风控准入列表
   riskEdit: '/risk_manage/risk_rules/#{rrid}/update', //风控修改风险规则
   riskQuery: '/riskManage/riskRuleTemplates', //查询风险规则模板
-  riskWarn: '/riskManage/riskRuleWarnings' //查询风险预警信息
-=======
+  riskWarn: '/riskManage/riskRuleWarnings', //查询风险预警信息
   carInfos: '/thirdPartyData/vehicleManage/vehicles/:id', // 车辆信息列表获取接口
   carMatchs: '/thirdPartyData/vehicleManage/vehicleMatchs/:id' // 车辆匹配信息管理
->>>>>>> Stashed changes
 }
 
 export const session = {
