@@ -38,7 +38,7 @@ export default {
             .then(res => {
               loadingInstance.close()
               this.$router.push({
-                name: 'products'
+                name: 'productsRelease'
               })
             })
             .catch(res => {

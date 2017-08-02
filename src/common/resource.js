@@ -40,7 +40,8 @@ http.interceptors.response.use(res => res, err => {
 
 const APIS = {
   session: '/session',
-  carInfo: '/thirdPartyData/vehicleManage/vehicles'
+  carInfo: '/thirdPartyData/vehicleManage/vehicles',
+  productsRelease: '/productManage/pageProductInfo'
 }
 
 export const session = {
@@ -50,4 +51,8 @@ export const session = {
 
 export const carInfo = {
   get: config => http.get(APIS.carInfo, config)
+}
+
+export const productsRelease = {
+  post: config => http.post(APIS.productsRelease, config)
 }
