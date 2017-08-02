@@ -18,6 +18,8 @@
         el-table-column(prop='assetFrom', fixed="left", label='资产来源', width='100')
         el-table-column(prop='productStatus', label='产品状态', width='220')
         el-table-column(prop='profitYearRate', label='发行利率', width='220')
+          template(scope="scope")
+            span {{scope.row.profitYearRate | ktPercent}}
         el-table-column(prop='carriageDate', label='上架日期', width='120')
           template(scope="scope")
             span {{scope.row.carriageDate | moment('YYYY-MM-DD')}}
@@ -65,9 +67,11 @@ import {
   each,
   merge
 } from 'lodash'
+
 import {
   productsRelease
 } from '@/common/resource.js'
+
 import {
   pruneParams
 } from '@/common/util.js'
@@ -118,9 +122,7 @@ export default {
     audit(rows) {
       this.$router.push({
         name: 'productsReleaseForm',
-        params: {
-          id: rows.id
-        }
+        params: rows
       })
     }
   },

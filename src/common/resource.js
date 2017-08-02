@@ -41,7 +41,8 @@ http.interceptors.response.use(res => res, err => {
 const APIS = {
   session: '/session',
   carInfo: '/thirdPartyData/vehicleManage/vehicles',
-  productsRelease: '/productManage/pageProductInfo',
+  productsRelease: '/productManage/pageProductInfo', //产品发行管理
+  productsAudit: '/productManage/auditManually', //产品发行审核
   riskZr: '/riskManage/riskRuleResults', //风控准入列表
   riskEdit: '/risk_manage/risk_rules/#{rrid}/update', //风控修改风险规则
   riskQuery: '/riskManage/riskRuleTemplates', //查询风险规则模板
@@ -59,6 +60,10 @@ export const carInfo = {
 
 export const productsRelease = {
   post: config => http.post(APIS.productsRelease, config)
+}
+
+export const productsAudit = {
+  post: (config) => http.post(APIS.productsAudit, config)
 }
 
 export const riskZr = {

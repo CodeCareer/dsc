@@ -1,0 +1,156 @@
+<template lang="pug">
+.products-release-form
+  .box
+    .box-header
+      | {{title}}
+    .box-content
+      .box-section
+        el-row(:gutter="20")
+            el-col(:span="8")
+              table
+                tr
+                  th 产品名称：
+                  td {{product.productName}}
+                tr
+                  th 产品代码：
+                  td {{product.productCode}}
+                tr
+                  th 资产来源：
+                  td {{product.assetFrom}}
+                tr
+                  th 产品状态：
+                  td {{product.productStatus}}
+                tr
+                  th 发行利率：
+                  td {{product.profitYearRate | ktPercent}}
+                tr
+                  th 上架日期：
+                  td {{product.carriageDate}}
+            el-col(:span="8")
+              table
+                tr
+                  th 下架日期：
+                  td {{product.underDate}}
+                tr
+                  th 起息日期：
+                  td {{product.valueDate}}
+                tr
+                  th 期限：
+                  td {{product.term}}
+                tr
+                  th 申请融资金额：
+                  td {{product.requestAmount}}
+                tr
+                  th 到期日：
+                  td {{product.dueDate}}
+                tr
+                  th 实际募集金额：
+                  td {{product.factCollectAmount}}
+            el-col(:span="8")
+              table        
+                tr
+                  th 到期应付总收益：
+                  td {{product.dueTotalInterest}}
+                tr
+                  th 实际到期日期：
+                  td {{product.factDueDate}}
+                tr
+                  th 实际兑付给投资人总金额：
+                  td {{product.factRedeemAmount}}
+                tr
+                  th 最早可提前还款日期：
+                  td {{product.minPreDueDate}}
+                tr
+                  th 到期应对付总金额：
+                  td {{product.redeemAmount}}
+                tr
+                  th 备注：
+                  td  {{product.remark}}
+    .bottom-buttons
+      el-button(type="primary", size="small", @click="submitForm") 审核
+      el-button(type="gray", size="small", @click="cancel") 取消
+</template>
+
+<script>
+import {
+  updateCrumb
+} from '@/common/crosser.js'
+
+import {
+  productsAudit
+} from '@/common/resource.js'
+
+export default {
+  methods: {
+    submitForm() {
+      this.$confirm('确定审核通过吗？', '提示', {
+        type: 'warning'
+      }).then(() => {
+        const loadingInstance = this.$loading({
+          target: '.products-release-form'
+        })
+        productsAudit.post({
+          params: {
+            id: this.$route.params.id
+          }
+        }).then(res => {
+          const data = res.data
+          if (data.resultCode === 'SUCCESS') {
+            this.$notify({
+              title: '成功',
+              message: data.resultMsg || '审核成功',
+              type: 'success'
+            })
+            this.$router.back()
+          } else {
+            this.$notify({
+              title: '错误',
+              message: data.resultMsg || '审核失败',
+              type: 'error'
+            })
+          }
+          loadingInstance.close()
+        })
+      })
+    },
+    cancel() {
+      this.$router.back()
+    }
+  },
+  mounted() {
+    const name = this.$route.params.productName
+    updateCrumb.$emit('update-crumbs', [{
+      id: 'productsReleaseForm',
+      name: name
+    }])
+    this.product = this.$route.params
+  },
+  data() {
+    return {
+      title: '产品发行审核',
+      loadingInstance: {
+        close() {}
+      },
+      product: {}
+    }
+  }
+}
+</script>
+
+<style lang="scss">
+.products-release-form {
+  .bottom-buttons {
+    margin: 0 0 20px;
+  }
+}
+.box {
+  .box-content {
+    .el-col {
+      th{
+        width: 180px;
+      }
+    }
+  }
+}
+  
+</style>
