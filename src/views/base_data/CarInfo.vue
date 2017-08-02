@@ -1,14 +1,16 @@
 <template lang="pug">
   section.car-info
     .box
-      .box-tab-head
-        el-button(type="primary", size="small", @click="addCarInfo()")
-          i.iconfont.icon-add
-          | 新增
+      .box-header
+        h3 筛选条件
+        .buttons
+          el-button(type="primary", size="small", @click="addCarInfo()")
+            i.iconfont.icon-add
+            | 新增
       .filters
-        el-input(placeholder='品牌', icon='search', @keyup.native.13="search", v-model='filter.brandName')
-        el-input(placeholder='车系', icon='search', @keyup.native.13="search", v-model='filter.seriesName')
-        el-input(placeholder='车型', icon='search', @keyup.native.13="search", v-model='filter.modelName')
+        el-input(placeholder='品牌', icon='search', @keyup.native.13='search', v-model='filter.brandName')
+        el-input(placeholder='车系', icon='search', @keyup.native.13='search', v-model='filter.seriesName')
+        el-input(placeholder='车型', icon='search', @keyup.native.13='search', v-model='filter.modelName')
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='carInfos', style='width: 100%')
@@ -34,45 +36,22 @@
 
 <script>
 import {
-  each,
   merge
 } from 'lodash'
 import {
-  carInfo
+  carInfos
 } from '@/common/resource.js'
 import {
   pruneParams
 } from '@/common/util.js'
+import {
+  tableListMixins
+} from '@/common/mixins.js'
 
 export default {
+  mixins: [tableListMixins],
   methods: {
     parseInt: window.parseInt,
-    clearFilter() {
-      each(this.filter, (v, k) => {
-        if (k !== 'limit' && k !== 'page') {
-          this.filter[k] = ''
-        }
-      })
-      this.search()
-    },
-
-    search() {
-      this.$router.push({
-        name: this.$route.name,
-        query: pruneParams(this.filter)
-      })
-    },
-
-    pageChange(val) {
-      this.filter.page = val
-      this.search()
-    },
-
-    pageSizeChange(val) {
-      this.filter.limit = val
-      this.search()
-    },
-
     addCarInfo() {
       this.$router.push({
         name: 'carInfoForm',
@@ -92,19 +71,15 @@ export default {
     },
 
     _fetchData() {
-      const loadingInstance = this.$loading({
-        target: '.car-info'
-      })
-
-      carInfo.get({
+      carInfos.get({
+        loadingMarkTarget: '.car-info',
         params: {
           ...pruneParams(this.filter)
         }
       }).then(res => {
         const data = res.data
-        this.carInfos = data.list
+        this.carInfos = data.rows
         this.page.total = data.total
-        loadingInstance.close()
       })
     }
   },
@@ -130,10 +105,6 @@ export default {
         modelName: '',
         page: 1,
         limit: 10
-      },
-      page: {
-        total: 1000,
-        sizes: [10, 20, 30, 50]
       }
     }
   }

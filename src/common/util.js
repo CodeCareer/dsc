@@ -1,8 +1,8 @@
 import { cloneDeep, isNull, each, isPlainObject } from 'lodash'
 
-export function urlMatcher(url, params) {
-  return url.replace(/:([^/]+)/g, (match, g1) => {
-    return params[g1]
+export function urlMatcher(url, params = {}) {
+  return url.replace(/\/:([^/]+)/g, (match, g1) => {
+    return params[g1] ? '/' + params[g1] : ''
   })
 }
 
@@ -16,4 +16,3 @@ export function pruneParams(params, visible) {
   })
   return newParams
 }
-

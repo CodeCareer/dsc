@@ -180,7 +180,8 @@ export default {
           index: '5-1',
           route: {
             name: 'carInfo'
-          }
+          },
+          activeIncludes: ['carInfo', 'carInfoForm']
         }, {
           name: '车型匹配',
           index: '5-2',
@@ -270,7 +271,7 @@ $menu-height: 50px;
     height: $header-height;
     line-height: $header-height;
     background: #3e4b5c;
-    z-index: 99999;
+    z-index: 9999;
     .log-out {
       cursor: pointer;
       &:hover {

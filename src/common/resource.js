@@ -1,7 +1,8 @@
 import axios from 'axios'
-import { MessageBox } from 'element-ui'
+import { MessageBox, Loading } from 'element-ui'
 import store from '@/vuex/store.js'
 import { urlMatcher } from '@/common/util.js'
+let loadingInstance
 
 export const http = axios.create({
   baseURL: '/api/',
@@ -10,15 +11,24 @@ export const http = axios.create({
 
 http.interceptors.request.use(config => {
   config.headers.common['Authorization'] = store.getters.token
-  if (config.pathParams) {
-    config.url = urlMatcher(config.url, config.pathParams)
+  config.url = urlMatcher(config.url, config.pathParams)
+  if (config.loadingMarkTarget) {
+    loadingInstance = Loading.service({
+      target: config.loadingMarkTarget
+    })
   }
   return config
 })
 
-http.interceptors.response.use(res => res, err => {
+http.interceptors.response.use(res => {
+  if (loadingInstance) loadingInstance.close()
+  return res
+}, err => {
   const res = err.response
   const request = res.request
+  loadingInstance.close()
+  if (!res) return Promise.reject(err)
+
   if (res.status === 419 || res.status === 401) {
     if (request.config.skipAuth) {
       store.dispatch('logout', true)
@@ -40,6 +50,7 @@ http.interceptors.response.use(res => res, err => {
 
 const APIS = {
   session: '/session',
+<<<<<<< Updated upstream
   carInfo: '/thirdPartyData/vehicleManage/vehicles',
   productsRelease: '/productManage/pageProductInfo', //产品发行管理
   productsAudit: '/productManage/auditManually', //产品发行审核
@@ -47,15 +58,27 @@ const APIS = {
   riskEdit: '/risk_manage/risk_rules/#{rrid}/update', //风控修改风险规则
   riskQuery: '/riskManage/riskRuleTemplates', //查询风险规则模板
   riskWarn: '/riskManage/riskRuleWarnings' //查询风险预警信息
+=======
+  carInfos: '/thirdPartyData/vehicleManage/vehicles/:id', // 车辆信息列表获取接口
+  carMatchs: '/thirdPartyData/vehicleManage/vehicleMatchs/:id' // 车辆匹配信息管理
+>>>>>>> Stashed changes
 }
 
 export const session = {
-  get: (config) => http.get(APIS.session, config),
-  post: (config) => http.post(APIS.session, config)
+  get: config => http.get(APIS.session, config),
+  post: (data, config) => http.post(APIS.session, data, config)
 }
 
-export const carInfo = {
-  get: config => http.get(APIS.carInfo, config)
+export const carInfos = {
+  get: config => http.get(APIS.carInfos, config),
+  post: (data, config) => http.post(APIS.carInfos, data, config),
+  put: (data, config) => http.put(APIS.carInfos, data, config),
+  delete: config => http.delete(APIS.carInfos, config)
+}
+
+export const carMatchs = {
+  get: config => http.get(APIS.carMatchs, config),
+  put: (data, config) => http.put(APIS.carMatchs, data, config)
 }
 
 export const productsRelease = {
