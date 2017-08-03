@@ -4,15 +4,17 @@
       .box-header
         h3 筛选条件
       .filters
-        el-date-picker(placeholder='上架日期下限', type='date', v-model.lazy='filter.carriageDateLower', :picker-options="pickerOptions")
-        el-date-picker(placeholder='上架日期上限', type='date', v-model.lazy='filter.carriageDateUpper', :picker-options="pickerOptions")
-        el-date-picker(placeholder='起息日下限', type='date', v-model.lazy='filter.valueDateLower', :picker-options="pickerOptions")
-        el-date-picker(placeholder='起息日上限', type='date', v-model.lazy='filter.valueDateUpper', :picker-options="pickerOptions")
-        el-input(placeholder='产品名称', icon='search', v-model.lazy='filter.productName')
-        el-select(v-model="filter.assetFrom", placeholder="资产来源")
-          el-option(v-for="t in assetTypes", :key="t.name", :value="t.value", :label="t.name")
-        el-button(size="small", @click="clearFilter")  清除
-        el-button(size="small", type="primary", @click="search") 查询
+        .filter-line
+          el-date-picker(placeholder='上架日期下限', type='date', v-model.lazy='filter.carriageDateLower', :picker-options="pickerOptions")
+          el-date-picker(placeholder='上架日期上限', type='date', v-model.lazy='filter.carriageDateUpper', :picker-options="pickerOptions")
+          el-date-picker(placeholder='起息日下限', type='date', v-model.lazy='filter.valueDateLower', :picker-options="pickerOptions")
+          el-date-picker(placeholder='起息日上限', type='date', v-model.lazy='filter.valueDateUpper', :picker-options="pickerOptions")
+        .filter-line
+          el-input(placeholder='产品名称', icon='search', v-model.lazy='filter.productName')
+          el-select(v-model="filter.assetFrom", placeholder="资产来源")
+            el-option(v-for="t in assetTypes", :key="t.name", :value="t.value", :label="t.name")
+          el-button(size="small", @click="clearFilter")  清除
+          el-button(size="small", type="primary", @click="search") 查询
     .table-container
       el-table(:data='productsRelease', style='width: 100%')
         el-table-column(prop='productName', fixed="left", label='产品名称', width='220')

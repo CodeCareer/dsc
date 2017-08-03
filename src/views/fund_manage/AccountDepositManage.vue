@@ -1,10 +1,12 @@
 <template lang="pug">
   section.account-deposit-manage
     .box
-      .box-tab-head
-        el-button(type="primary", size="small", @click="add()")
-          i.iconfont.icon-add
-          | 新增
+      .box-header
+        h3 筛选条件
+        .buttons
+          el-button(type="primary", size="small", @click="add()")
+            i.iconfont.icon-add
+            | 新增
       .filters
         el-date-picker(placeholder='入金日期', type='date', v-model.lazy='filter.payDate', :picker-options="pickerOptions")
         el-select(v-model="filter.accountType", placeholder="账户类型")
@@ -16,16 +18,16 @@
         el-table-column(prop='fundAccountId', label='资金账户id', width='220')
         el-table-column(prop='accountType', label='账户类型', width='80')
           template(scope="scope")
-            span {{scope.row.accountType | ktAccountType}}
+            span {{scope.row.accountType | statusFormat}}
         el-table-column(prop='createDateTime', label='创建时间', width='100')
           template(scope="scope")
             span {{scope.row.carriageDate | moment('YYYY-MM-DD')}}
         el-table-column(prop='auditStatus', label='审核状态', width='80')
           template(scope="scope")
-            span {{scope.row.auditStatus | ktAuditStatus}}
+            span(:class="scope.row.auditStatus | statusClass") {{scope.row.auditStatus | statusFormat}}
         el-table-column(prop='fundDirection', label='资金方向', width='80')
           template(scope="scope")
-            span {{scope.row.fundDirection | ktFundDirection}}
+            span {{scope.row.fundDirection | statusFormat}}
         el-table-column(prop='factPayAmount', label='实际支付金额', width='140')
           template(scope="scope")
             span {{scope.row.factPayAmount | ktCurrency}}
@@ -40,7 +42,7 @@
             span {{scope.row.payWithEndDate | moment('YYYY-MM-DD')}}
         el-table-column(prop='checkingStatus', label='对账状态', width='80')
           template(scope="scope")
-            span {{scope.row.checkingStatus | ktCheckingStatus}}
+            span(:class="scope.row.checkingStatus | statusClass") {{scope.row.checkingStatus | statusFormat}}
         el-table-column(prop='unpassReason', label='对账不通过原因', width='220')
         el-table-column(label='操作', width='120')
           template(scope="scope")
@@ -54,7 +56,8 @@
 <script>
 import {
   each,
-  merge
+  merge,
+  find
 } from 'lodash'
 
 import {
@@ -67,7 +70,52 @@ import {
   pruneParams
 } from '@/common/util.js'
 
+const statusList = [{
+  name: '待审核',
+  value: 'WAIT_AUDIT'
+}, {
+  name: '已审核',
+  value: 'AUDITED'
+}, {
+  name: '流入',
+  value: 'IN'
+}, {
+  name: '流出',
+  value: 'OUT'
+}, {
+  name: '大搜车',
+  value: 'DSC'
+}, {
+  name: '花生',
+  value: 'HUASHENG'
+}, {
+  name: '待对账',
+  value: 'WAIT_CHECKING'
+}, {
+  name: '对账通过',
+  value: 'PASS'
+}, {
+  name: '对账不通过',
+  value: 'UNPASS'
+}]
+
 export default {
+  filters: {
+    statusClass(value) {
+      const classMap = {
+        'AUDITED': 'color-green',
+        'WAIT_AUDIT': 'color-red',
+        'UNPASS': 'color-red',
+        'WAIT_CHECKING': 'color-yellow',
+        'PASS': 'color-green'
+      }
+      return classMap[value] || ''
+    },
+    statusFormat(value) {
+      const status = find(statusList, s => s.value === value)
+      return status ? status.name : '未知状态'
+    }
+  },
   methods: {
     parseInt: window.parseInt,
     clearFilter() {
@@ -168,16 +216,12 @@ export default {
 
     operationStatus(data) {
       if (data.resultCode === 'SUCCESS') {
-        this.$notify({
-          title: '成功',
-          message: data.resultMsg,
-          type: 'success'
+        this.$message.success({
+          message: data.resultMsg || '成功！'
         })
       } else {
-        this.$notify({
-          title: '错误',
-          message: data.resultMsg,
-          type: 'error'
+        this.$message.error({
+          message: data.resultMsg || '失败！'
         })
       }
     }
