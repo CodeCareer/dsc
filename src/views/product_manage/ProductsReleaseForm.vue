@@ -67,7 +67,7 @@
                   th 备注：
                   td  {{product.remark}}
     .bottom-buttons
-      el-button(type="primary", size="small", @click="submitForm") 审核
+      el-button(type="primary", size="small", @click="audit") 审核
       el-button(type="gray", size="small", @click="cancel") 取消
 </template>
 
@@ -87,7 +87,7 @@ import {
 export default {
   mixins: [tableListMixins],
   methods: {
-    submitForm() {
+    audit() {
       this.$confirm('确定审核通过吗？', '提示', {
         type: 'warning'
       }).then(() => {

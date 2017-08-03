@@ -1,25 +1,24 @@
 <template lang="pug">
-.car-info-form
+.account-deposit-form
   .box
     .box-header
       | {{title}}
     .box-content
-      el-form(:model="car", :rules="rules", ref="carInfoForm", label-width="120px")
+      el-form(:model="accountDeposit", :rules="rules", ref="accountDepositForm", label-width="120px")
         el-row
           el-col(:span="12", :offset="6")
             .form-inner.center
-              el-form-item(label="品牌：", prop="brandName")
-                el-input(type="text", placeholder="请输入汽车品牌", v-model="car.brandName")
-              el-form-item(label="车系：", prop="seriesName")
-                el-input(type="text", placeholder="请输入汽车车系", v-model="car.seriesName")
-              el-form-item(label="车型：", prop="modelName")
-                el-input(type="text", placeholder="请输入汽车车型", v-model="car.modelName")
-              el-form-item(label="厂商指导价：", prop="guidePrice")
-                el-input(type="text", placeholder="请输入指导价", v-model="car.guidePrice")
+              el-form-item(label="支付金额：", prop="factPayAmount")
+                el-input(type="text", placeholder="请输入实际支付金额", v-model="accountDeposit.factPayAmount")
                   template(slot="prepend") ¥
                   template(slot="append") 元
-              el-form-item(label="残值金额：", prop="residualValue")
-                el-input(type="text", placeholder="请输入残值金额", v-model="car.residualValue")
+              el-form-item(label="资金账户：", prop="fundAccountId")
+                el-input(type="text", placeholder="请输入资金账户ID", v-model="accountDeposit.fundAccountId")
+              el-form-item(label="资金方向：", prop="fundDirection")
+                el-select(v-model="accountDeposit.fundDirection", placeholder="请选择资金方向")
+                  el-option(v-for="t in fundDirectionTypes", :key="t.name", :value="t.value", :label="t.name")
+              el-form-item(label="支付日期：", prop="payDate")
+                el-date-picker(placeholder='请选择支付日期', type='date', v-model='accountDeposit.payDate', :picker-options="pickerOptions")
     .bottom-buttons
       el-button(type="primary", size="small", @click="submitForm") 保存
       el-button(type="gray", size="small", @click="cancel") 取消
@@ -30,28 +29,22 @@ import {
   updateCrumb
 } from '@/common/crosser.js'
 import {
-  carInfos
+  accountDepositEdit
 } from '@/common/resource.js'
-import {
-  merge
-} from 'lodash'
+// import {
+//   merge
+// } from 'lodash'
 
 export default {
   methods: {
     submitForm() {
-      this.$refs.carInfoForm.validate((valid) => {
+      this.$refs.accountDepositForm.validate((valid) => {
         if (valid) {
-          carInfos[this.car.id ? 'put' : 'post'](this.car, {
-            loadingMaskTarget: '.car-info-form',
-            pathParams: {
-              id: this.car.id || ''
-            }
+          accountDepositEdit.post(this.accountDeposit, {
+            loadingMaskTarget: '.account-deposit-form'
           }).then(res => {
-            this.$router.push({
-              name: 'carInfo'
-            })
-          }).catch(err => {
-            this.$message.error(err.msg)
+            const data = res.data
+            this.operationStatus(data)
           })
         }
       })
@@ -66,22 +59,23 @@ export default {
     }
   },
 
+  operationStatus(data) {
+    if (data.resultCode === 'SUCCESS') {
+      this.$message.success({
+        message: data.resultMsg || '成功！'
+      })
+      this.$router.back()
+    } else {
+      this.$message.error({
+        message: data.resultMsg || '失败！'
+      })
+    }
+  },
+
   mounted() {
     if (this.$route.params.id !== 'add') {
-      const id = this.$route.params.id
-
-      carInfos.get({
-        pathParams: {
-          id
-        },
-        loadingMaskTarget: '.car-info-form'
-      }).then(res => {
-        merge(this.car, res.data.data)
-        this.title = '编辑账户入金'
-      })
-
       updateCrumb.$emit('update-crumbs', [{
-        id: 'carInfoForm',
+        id: 'accountDepositForm',
         name: '编辑账户入金'
       }])
     }
@@ -89,41 +83,43 @@ export default {
 
   data() {
     return {
+      pickerOptions: '',
       title: '新增账户入金',
+      fundDirectionTypes: [{
+        name: '流入',
+        value: 'IN'
+      }, {
+        name: '流出',
+        value: 'OUT'
+      }],
       rules: {
-        brandName: [{
+        factPayAmount: [{
           required: true,
-          message: '必填项',
-          trigger: 'change'
-        }],
-        seriesName: [{
-          required: true,
-          message: '必填项',
-          trigger: 'change'
-        }],
-        modelName: [{
-          required: true,
-          message: '必填项',
-          trigger: 'change'
-        }],
-        guidePrice: [{
           pattern: /^\d+$/,
-          message: '请正确填写指导价',
+          message: '请输入正确的金额',
           trigger: 'change'
         }],
-        residualValue: [{
-          pattern: /^\d+$/,
-          message: '请正确填写残值金额',
+        fundAccountId: [{
+          required: true,
+          message: '必填项',
+          trigger: 'change'
+        }],
+        fundDirection: [{
+          required: true,
+          message: '必填项',
+          trigger: 'change'
+        }],
+        payDate: [{
+          required: true,
+          message: '必填项',
           trigger: 'change'
         }]
       },
-      car: {
-        id: null,
-        brandName: null,
-        seriesName: null,
-        modelName: null,
-        guidePrice: null,
-        residualValue: null
+      accountDeposit: {
+        factPayAmount: '',
+        fundAccountId: '',
+        fundDirection: '',
+        payDate: ''
       }
     }
   }
@@ -131,7 +127,7 @@ export default {
 </script>
 
 <style lang="scss">
-.car-info-form {
+.account-deposit-form {
   .bottom-buttons {
     margin: 0 0 20px;
   }

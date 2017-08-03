@@ -55,7 +55,6 @@
 
 <script>
 import {
-  each,
   merge,
   find
 } from 'lodash'
@@ -69,6 +68,10 @@ import {
 import {
   pruneParams
 } from '@/common/util.js'
+
+import {
+  tableListMixins
+} from '@/common/mixins.js'
 
 const statusList = [{
   name: '待审核',
@@ -100,6 +103,7 @@ const statusList = [{
 }]
 
 export default {
+  mixins: [tableListMixins],
   filters: {
     statusClass(value) {
       const classMap = {
@@ -118,43 +122,13 @@ export default {
   },
   methods: {
     parseInt: window.parseInt,
-    clearFilter() {
-      each(this.filter, (v, k) => {
-        this.filter[k] = ''
-      })
-      this.search()
-    },
-
-    search() {
-      this.$router.push({
-        name: this.$route.name,
-        query: pruneParams(this.filter)
-      })
-    },
-
-    pageChange(val) {
-      this.filter.page = val
-      this.search()
-    },
-
-    pageSizeChange(val) {
-      this.filter.limit = val
-      this.search()
-    },
-
     _fetchData() {
-      const loadingInstance = this.$loading({
-        target: '.account-deposit-manage'
-      })
-      accountDepositManage.post({
-        params: {
-          ...pruneParams(this.filter)
-        }
+      accountDepositManage.post(pruneParams(this.filter), {
+        loadingMaskTarget: '.account-deposit-manage'
       }).then(res => {
         const data = res.data.data
         this.accountDeposit = data.rows
         this.page.total = data.total
-        loadingInstance.close()
       })
     },
 
@@ -162,17 +136,11 @@ export default {
       this.$confirm('确定删除吗？', '提示', {
         type: 'warning'
       }).then(() => {
-        const loadingInstance = this.$loading({
-          target: '.account-deposit-manage'
-        })
-        accountDepositDelete.post({
-          params: {
-            id: rows.id
-          }
+        accountDepositDelete.post({id: rows.id}, {
+          loadingMaskTarget: '.account-deposit-manage'
         }).then(res => {
-          const data = res.data
+          const data = res.data.data
           this.operationStatus(data)
-          loadingInstance.close()
         })
       }).catch(() => {})
     },
@@ -181,17 +149,11 @@ export default {
       this.$confirm('确定审核通过吗？', '提示', {
         type: 'warning'
       }).then(() => {
-        const loadingInstance = this.$loading({
-          target: '.account-deposit-manage'
-        })
-        accountDepositAudit.post({
-          params: {
-            id: rows.id
-          }
+        accountDepositAudit.post({id: rows.id}, {
+          loadingMaskTarget: '.account-deposit-manage'
         }).then(res => {
-          const data = res.data
+          const data = res.data.data
           this.operationStatus(data)
-          loadingInstance.close()
         })
       }).catch(() => {})
     },

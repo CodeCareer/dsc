@@ -100,19 +100,19 @@ export const productsAudit = {
 }
 
 export const accountDepositManage = {
-  post: (config) => http.post(APIS.accountDepositManage, config)
+  post: (data, config) => http.post(APIS.accountDepositManage, data, config)
 }
 
 export const accountDepositDelete = {
-  post: (config) => http.post(APIS.accountDepositDelete, config)
+  post: (data, config) => http.post(APIS.accountDepositDelete, data, config)
 }
 
 export const accountDepositEdit = {
-  post: (config) => http.post(APIS.accountDepositEdit, config)
+  post: (data, config) => http.post(APIS.accountDepositEdit, data, config)
 }
 
 export const accountDepositAudit = {
-  post: (config) => http.post(APIS.accountDepositAudit, config)
+  post: (data, config) => http.post(APIS.accountDepositAudit, data, config)
 }
 
 export const accountDepositadd = {
