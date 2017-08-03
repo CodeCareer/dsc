@@ -92,7 +92,7 @@ export const carMatchs = {
 }
 
 export const productsRelease = {
-  post: config => http.post(APIS.productsRelease, config)
+  post: (data, config) => http.post(APIS.productsRelease, data, config)
 }
 
 export const productsAudit = {
