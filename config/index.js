@@ -8,7 +8,7 @@ module.exports = {
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
     // ${tag-begin-assetsPublicPath}
-    assetsPublicPath: 'http://cdn.wjs.com/1.2.1/resources',
+    assetsPublicPath: 'http://cdn.wjs.com/1.2.1/resources/',
     // ${tag-end-assetsPublicPath}
     productionSourceMap: true,
     // Gzip off by default as many popular static hosts such as
