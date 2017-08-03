@@ -96,7 +96,7 @@ export const productsRelease = {
 }
 
 export const productsAudit = {
-  post: (config) => http.post(APIS.productsAudit, config)
+  post: (data, config) => http.post(APIS.productsAudit, data, config)
 }
 
 export const accountDepositManage = {
