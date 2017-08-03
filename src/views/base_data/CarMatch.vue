@@ -31,7 +31,7 @@
               i.iconfont.icon-pipei(@click="editCarMatch(scope.row)")
               //- i.iconfont.icon-delete(@click.stop="deleteCarMatch(scope.row)")
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
-    car-match-dialog(ref="carMatchDialog", :car-match="activeCarMatch", @dialog-close="updateRow")
+    car-match-dialog(ref="carMatchDialog", @dialog-close="updateRow")
 </template>
 
 <script>
@@ -81,7 +81,7 @@ export default {
   methods: {
     _fetchData() {
       carMatchs.get({
-        loadingMarkTarget: '.car-match',
+        loadingMaskTarget: '.car-match',
         params: {
           ...pruneParams(this.filter)
         }
@@ -93,13 +93,14 @@ export default {
     },
 
     updateRow(checkedCar) {
+      if (!checkedCar.id) return
       this.activeCarMatch.baseId = checkedCar.id
       this.activeCarMatch.status = 'MATCH_SUCCESS'
     },
 
     editCarMatch(value) {
       this.activeCarMatch = value
-      this.$refs.carMatchDialog.open()
+      this.$refs.carMatchDialog.open(value)
     }
   },
 

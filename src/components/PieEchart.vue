@@ -3,7 +3,9 @@
 </template>
 
 <script>
-import _ from 'lodash'
+import {
+  merge
+} from 'lodash'
 import echarts from 'echarts/lib/echarts.js'
 require('echarts/lib/chart/pie')
 require('echarts/lib/model/series')
@@ -71,7 +73,7 @@ export default {
         data: []
       }]
     }
-    this.echart.setOption(_.merge({}, this.chartOption, option))
+    this.echart.setOption(merge({}, this.chartOption, option))
     window.addEventListener('resize', () => {
       this.echart.resize()
     })

@@ -42,7 +42,7 @@ export default {
       this.$refs.carInfoForm.validate((valid) => {
         if (valid) {
           carInfos[this.car.id ? 'put' : 'post'](this.car, {
-            loadingMarkTarget: '.car-info-form',
+            loadingMaskTarget: '.car-info-form',
             pathParams: {
               id: this.car.id || ''
             }
@@ -74,7 +74,7 @@ export default {
         pathParams: {
           id
         },
-        loadingMarkTarget: '.car-info-form'
+        loadingMaskTarget: '.car-info-form'
       }).then(res => {
         merge(this.car, res.data.data)
         this.title = '编辑基础车型'

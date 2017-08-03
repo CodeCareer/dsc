@@ -72,7 +72,7 @@ export default {
 
     _fetchData() {
       carInfos.get({
-        loadingMarkTarget: '.car-info',
+        loadingMaskTarget: '.car-info',
         params: {
           ...pruneParams(this.filter)
         }

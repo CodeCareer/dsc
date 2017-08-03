@@ -7,7 +7,9 @@ module.exports = {
     index: path.resolve(__dirname, '../dist/index.html'),
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    // ${tag-begin-assetsPublicPath}
+    assetsPublicPath: 'http://cdn.wjs.com/1.2.1/resources',
+    // ${tag-end-assetsPublicPath}
     productionSourceMap: true,
     // Gzip off by default as many popular static hosts such as
     // Surge or Netlify already gzip all static assets for you.

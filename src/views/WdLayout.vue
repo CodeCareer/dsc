@@ -271,7 +271,7 @@ $menu-height: 50px;
     height: $header-height;
     line-height: $header-height;
     background: #3e4b5c;
-    z-index: 9999;
+    z-index: 999;
     .log-out {
       cursor: pointer;
       &:hover {

@@ -1,5 +1,5 @@
 <template lang="pug">
-  el-dialog(title='账户信息', v-model='carListVisible', size="large", @open="onCarListOpen", @close="onCarListClose")
+  el-dialog(title='账户信息', v-model='carListVisible', size="large", @open="onCarListOpen")
     .car-list-dialog
       .box
         .box-header
@@ -48,17 +48,13 @@ import {
 
 export default {
   mixins: [tableListMixins],
-  props: {
-    carMatch: {}
-  },
-
   methods: {
     _fetchData() {
       carInfos.get({
         params: {
           ...pruneParams(this.filter)
         },
-        loadingMarkTarget: '.car-list-dialog'
+        loadingMaskTarget: '.car-list-dialog'
       }).then(res => {
         this.carInfos = res.data.rows
       })
@@ -68,16 +64,14 @@ export default {
       this._fetchData()
     },
 
-    open() {
+    open(activeCarMatch) {
+      this.checkedCar = {}
       this.carListVisible = true
+      this.carMatch = activeCarMatch
     },
 
     onCarListOpen() {
       this._fetchData()
-    },
-
-    onCarListClose() {
-      this.$emit('dialog-close', this.checkedCar)
     },
 
     checkCar(value) {
@@ -89,8 +83,11 @@ export default {
         id: this.carMatch.id,
         baseId: this.checkedCar.id
       }).then(res => {
-        this.$message.success('手动匹配保存成功！')
+        this.$message.success({
+          message: '手动匹配保存成功！'
+        })
         this.carListVisible = false
+        this.$emit('dialog-close', this.checkedCar)
       })
     }
   },
@@ -106,6 +103,7 @@ export default {
 
   data() {
     return {
+      carMatch: {},
       filter: {
         brandName: '',
         seriesName: '',

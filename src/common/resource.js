@@ -5,16 +5,17 @@ import { urlMatcher } from '@/common/util.js'
 let loadingInstance
 
 export const http = axios.create({
-  baseURL: '/api/',
-  timeout: 1000
+  baseURL: process.env.API_HOST || '/api/',
+  withCredentials: process.env.NODE_ENV === 'production',
+  timeout: 5000
 })
 
 http.interceptors.request.use(config => {
   config.headers.common['Authorization'] = store.getters.token
   config.url = urlMatcher(config.url, config.pathParams)
-  if (config.loadingMarkTarget) {
+  if (config.loadingMaskTarget) {
     loadingInstance = Loading.service({
-      target: config.loadingMarkTarget
+      target: config.loadingMaskTarget
     })
   }
   return config
@@ -62,6 +63,7 @@ const APIS = {
   riskQuery: '/riskManage/riskRuleTemplates', //查询风险规则模板
   riskWarn: '/riskManage/riskRuleWarnings', //查询风险预警信息
   carInfos: '/thirdPartyData/vehicleManage/vehicles/:id', // 车辆信息列表获取接口
+  carGps: '/thirdPartyData/vehicleManage/geos/:id', // 车辆GPS信息列表获取接口
   carMatchs: '/thirdPartyData/vehicleManage/vehicleMatchs/:id' // 车辆匹配信息管理
 }
 
@@ -75,6 +77,13 @@ export const carInfos = {
   post: (data, config) => http.post(APIS.carInfos, data, config),
   put: (data, config) => http.put(APIS.carInfos, data, config),
   delete: config => http.delete(APIS.carInfos, config)
+}
+
+export const carGps = {
+  get: config => http.get(APIS.carGps, config),
+  post: (data, config) => http.post(APIS.carGps, data, config),
+  put: (data, config) => http.put(APIS.carGps, data, config),
+  delete: config => http.delete(APIS.carGps, config)
 }
 
 export const carMatchs = {
