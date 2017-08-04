@@ -127,7 +127,8 @@ export default [{
           name: '账户入金管理',
           to: { name: 'accountDepositManage' }
         }, {
-          name: '账户入金编辑',
+          id: 'accountDepositForm',
+          name: '新增账户入金',
           to: { name: 'accountDepositForm' }
         }]
       }

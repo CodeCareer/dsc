@@ -57,7 +57,8 @@ const APIS = {
   accountDepositDelete: '/fundManage/deleteAccountFundDetail', //账户入金删除
   accountDepositEdit: '/fundManage/editAccountFundDetail', //账户入金编辑
   accountDepositAudit: '/fundManage/auditAccountFundDetail', //账户入金审核
-  accountDepositadd: '/fundManage/addAccountFundDetail', //账户入金新增
+  accountDepositAdd: '/fundManage/addAccountFundDetail', //账户入金新增
+  fundDeposit: '/fundManage/listCapitalDetail', //账户入金新增
   riskZr: '/riskManage/riskRuleResults', //风控准入列表
   riskEdit: '/risk_manage/risk_rules/#{rrid}/update', //风控修改风险规则
   riskQuery: '/riskManage/riskRuleTemplates', //查询风险规则模板
@@ -92,31 +93,35 @@ export const carMatchs = {
 }
 
 export const productsRelease = {
-  post: config => http.post(APIS.productsRelease, config)
+  post: (data, config) => http.post(APIS.productsRelease, data, config)
 }
 
 export const productsAudit = {
-  post: (config) => http.post(APIS.productsAudit, config)
+  post: (data, config) => http.post(APIS.productsAudit, data, config)
 }
 
 export const accountDepositManage = {
-  post: (config) => http.post(APIS.accountDepositManage, config)
+  post: (data, config) => http.post(APIS.accountDepositManage, data, config)
 }
 
 export const accountDepositDelete = {
-  post: (config) => http.post(APIS.accountDepositDelete, config)
+  post: (data, config) => http.post(APIS.accountDepositDelete, data, config)
 }
 
 export const accountDepositEdit = {
-  post: (config) => http.post(APIS.accountDepositEdit, config)
+  post: (data, config) => http.post(APIS.accountDepositEdit, data, config)
 }
 
 export const accountDepositAudit = {
-  post: (config) => http.post(APIS.accountDepositAudit, config)
+  post: (data, config) => http.post(APIS.accountDepositAudit, data, config)
 }
 
-export const accountDepositadd = {
-  post: (config) => http.post(APIS.accountDepositadd, config)
+export const accountDepositAdd = {
+  post: (data, config) => http.post(APIS.accountDepositAdd, data, config)
+}
+
+export const fundDeposit = {
+  post: (data, config) => http.post(APIS.fundDeposit, data, config)
 }
 
 export const riskZr = {

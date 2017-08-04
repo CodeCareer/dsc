@@ -36,22 +36,6 @@ export default {
       return round(value, decimal).toFixed(2)
     })
 
-    Vue.filter('ktAccountType', (value) => {
-      return value === 'DSC' ? '大搜车' : '花生'
-    })
-
-    Vue.filter('ktFundDirection', (value) => {
-      return value === 'IN' ? '流入' : '流出'
-    })
-
-    Vue.filter('ktCheckingStatus', (value) => {
-      return value === 'WAIT_CHECKING' ? '待对账' : (value === 'PASS' ? '对账通过' : '对账不通过')
-    })
-
-    Vue.filter('ktAuditStatus', (value) => {
-      return value === 'WAIT_AUDIT' ? '待审核' : '已审核'
-    })
-
     Vue.filter('ktAppend', (value, str) => {
       return (isNil(value) ? '' : value) + str
     })

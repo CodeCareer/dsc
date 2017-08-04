@@ -67,7 +67,7 @@
                   th 备注：
                   td  {{product.remark}}
     .bottom-buttons
-      el-button(type="primary", size="small", @click="submitForm") 审核
+      el-button(type="primary", size="small", @click="audit") 审核
       el-button(type="gray", size="small", @click="cancel") 取消
 </template>
 
@@ -80,39 +80,43 @@ import {
   productsAudit
 } from '@/common/resource.js'
 
+import {
+  tableListMixins
+} from '@/common/mixins.js'
+
 export default {
+  mixins: [tableListMixins],
   methods: {
-    submitForm() {
+    audit() {
       this.$confirm('确定审核通过吗？', '提示', {
         type: 'warning'
       }).then(() => {
-        const loadingInstance = this.$loading({
-          target: '.products-release-form'
-        })
-        productsAudit.post({
-          params: {
-            id: this.$route.params.id
-          }
-        }).then(res => {
-          const data = res.data
-          if (data.resultCode === 'SUCCESS') {
-            this.$notify({
-              title: '成功',
-              message: data.resultMsg || '审核成功',
-              type: 'success'
-            })
-            this.$router.back()
-          } else {
-            this.$notify({
-              title: '错误',
-              message: data.resultMsg || '审核失败',
-              type: 'error'
-            })
-          }
-          loadingInstance.close()
-        })
+        this.productsAudit()
       })
     },
+
+    productsAudit() {
+      productsAudit.post({id: this.$route.params.id}, {
+        loadingMaskTarget: '.products-release'
+      }).then(res => {
+        const data = res.data
+        this.operationStatus(data)
+      })
+    },
+
+    operationStatus(data) {
+      if (data.resultCode === 'SUCCESS') {
+        this.$message.success({
+          message: data.resultMsg || '审核成功！'
+        })
+        this.$router.back()
+      } else {
+        this.$message.error({
+          message: data.resultMsg || '审核失败！'
+        })
+      }
+    },
+
     cancel() {
       this.$router.back()
     }

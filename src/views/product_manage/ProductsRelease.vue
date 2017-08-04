@@ -1,16 +1,20 @@
 <template lang="pug">
   section.products-release
     .box
+      .box-header
+        h3 筛选条件
       .filters
-        el-date-picker(placeholder='上架日期下限', type='date', v-model.lazy='filter.carriageDateLower', :picker-options="pickerOptions")
-        el-date-picker(placeholder='上架日期上限', type='date', v-model.lazy='filter.carriageDateUpper', :picker-options="pickerOptions")
-        el-date-picker(placeholder='起息日下限', type='date', v-model.lazy='filter.valueDateLower', :picker-options="pickerOptions")
-        el-date-picker(placeholder='起息日上限', type='date', v-model.lazy='filter.valueDateUpper', :picker-options="pickerOptions")
-        el-input(placeholder='产品名称', icon='search', v-model.lazy='filter.productName')
-        el-select(v-model="filter.assetFrom", placeholder="资产来源")
-          el-option(v-for="t in assetTypes", :key="t.name", :value="t.value", :label="t.name")
-        el-button(size="small", @click="clearFilter")  清除
-        el-button(size="small", type="primary", @click="search") 查询
+        .filter-line
+          el-date-picker(placeholder='上架日期下限', type='date', v-model.lazy='filter.carriageDateLower', :picker-options="pickerOptions")
+          el-date-picker(placeholder='上架日期上限', type='date', v-model.lazy='filter.carriageDateUpper', :picker-options="pickerOptions")
+          el-date-picker(placeholder='起息日下限', type='date', v-model.lazy='filter.valueDateLower', :picker-options="pickerOptions")
+          el-date-picker(placeholder='起息日上限', type='date', v-model.lazy='filter.valueDateUpper', :picker-options="pickerOptions")
+        .filter-line
+          el-input(placeholder='产品名称', icon='search', v-model.lazy='filter.productName')
+          el-select(v-model="filter.assetFrom", placeholder="资产来源")
+            el-option(v-for="t in assetTypes", :key="t.name", :value="t.value", :label="t.name")
+          el-button(size="small", @click="clearFilter")  清除
+          el-button(size="small", type="primary", @click="search") 查询
     .table-container
       el-table(:data='productsRelease', style='width: 100%')
         el-table-column(prop='productName', fixed="left", label='产品名称', width='220')
@@ -64,7 +68,6 @@
 
 <script>
 import {
-  each,
   merge
 } from 'lodash'
 
@@ -76,46 +79,21 @@ import {
   pruneParams
 } from '@/common/util.js'
 
+import {
+  tableListMixins
+} from '@/common/mixins.js'
+
 export default {
+  mixins: [tableListMixins],
   methods: {
     parseInt: window.parseInt,
-    clearFilter() {
-      each(this.filter, (v, k) => {
-        this.filter[k] = ''
-      })
-      this.search()
-    },
-
-    search() {
-      this.$router.push({
-        name: this.$route.name,
-        query: pruneParams(this.filter)
-      })
-    },
-
-    pageChange(val) {
-      this.filter.page = val
-      this.search()
-    },
-
-    pageSizeChange(val) {
-      this.filter.limit = val
-      this.search()
-    },
-
     _fetchData() {
-      const loadingInstance = this.$loading({
-        target: '.products-release'
-      })
-      productsRelease.post({
-        params: {
-          ...pruneParams(this.filter)
-        }
+      productsRelease.post(pruneParams(this.filter), {
+        loadingMaskTarget: '.products-release'
       }).then(res => {
         const data = res.data.data
         this.productsRelease = data.rows
         this.page.total = data.total
-        loadingInstance.close()
       })
     },
 
@@ -152,10 +130,6 @@ export default {
         productName: '',
         page: 1,
         limit: 10
-      },
-      page: {
-        total: 100,
-        sizes: [10, 20, 30, 50]
       },
       assetTypes: [{
         name: '花生',
