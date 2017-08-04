@@ -209,10 +209,6 @@ export default {
         page: 1,
         limit: 10
       },
-      page: {
-        total: 100,
-        sizes: [10, 20, 30, 50]
-      },
       assetTypes: [{
         name: '花生',
         value: 'HUASHENG'

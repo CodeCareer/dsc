@@ -1,121 +1,109 @@
 <template lang="pug">
-  section.products-release
+  section.fund-deposit-detail
     .box
+      .box-header
+        h3 筛选条件
       .filters
-        el-date-picker(placeholder='上架日期下限', type='date', v-model.lazy='filter.carriageDateLower', :picker-options="pickerOptions")
-        el-date-picker(placeholder='上架日期上限', type='date', v-model.lazy='filter.carriageDateUpper', :picker-options="pickerOptions")
-        el-date-picker(placeholder='起息日下限', type='date', v-model.lazy='filter.valueDateLower', :picker-options="pickerOptions")
-        el-date-picker(placeholder='起息日上限', type='date', v-model.lazy='filter.valueDateUpper', :picker-options="pickerOptions")
-        el-input(placeholder='产品名称', icon='search', v-model.lazy='filter.productName')
-        el-select(v-model="filter.assetFrom", placeholder="资产来源")
-          el-option(v-for="t in assetTypes", :key="t.name", :value="t.value", :label="t.name")
+        el-select(v-model="filter.accountType", placeholder="账户类型")
+          el-option(v-for="t in accountTypes", :key="t.name", :value="t.value", :label="t.name")
+        el-select(v-model="filter.checkingStatus", placeholder="对账状态")
+          el-option(v-for="t in checkingTypes", :key="t.name", :value="t.value", :label="t.name")
+        el-date-picker(placeholder='入金日期', type='date', v-model='filter.depositDate', :picker-options="pickerOptions")
         el-button(size="small", @click="clearFilter")  清除
         el-button(size="small", type="primary", @click="search") 查询
     .table-container
-      el-table(:data='productsRelease', style='width: 100%')
-        el-table-column(prop='productName', fixed="left", label='产品名称', width='220')
-        el-table-column(prop='productCode', fixed="left", label='产品代码', width='220')
-        el-table-column(prop='assetFrom', fixed="left", label='资产来源', width='100')
-        el-table-column(prop='productStatus', label='产品状态', width='220')
-        el-table-column(prop='profitYearRate', label='发行利率', width='220')
+      el-table(:data='fundDepositData', style='width: 100%')
+        el-table-column(prop='accountName', label='账户名称', width='220')
+        el-table-column(prop='accountType', label='账户类型', width='220')
           template(scope="scope")
-            span {{scope.row.profitYearRate | ktPercent}}
-        el-table-column(prop='carriageDate', label='上架日期', width='120')
+            span {{scope.row.accountType | statusFormat}}
+        el-table-column(prop='assetId', label='资产ID', width='220')
+        el-table-column(prop='checkingStatus', label='对账状态', width='220')
           template(scope="scope")
-            span {{scope.row.carriageDate | moment('YYYY-MM-DD')}}
-        el-table-column(prop='underDate', label='下架日期', width='220')
+            span(:class="scope.row.checkingStatus | statusClass") {{scope.row.checkingStatus | statusFormat}}
+        el-table-column(prop='depositAmout', label='入金金额', width='220')
           template(scope="scope")
-            span {{scope.row.underDate | moment('YYYY-MM-DD')}}
-        el-table-column(prop='valueDate', label='起息日期', width='220')
+            span {{scope.row.depositAmout | ktCurrency}}
+        el-table-column(prop='depositDate', label='入金日期', width='120')
           template(scope="scope")
-            span {{scope.row.valueDate | moment('YYYY-MM-DD')}}
-        el-table-column(prop='term', label='期限', width='220')
-        el-table-column(prop='requestAmount', label='申请融资金额', width='220')
+            span {{scope.row.depositDate | moment('YYYY-MM-DD')}}
+        el-table-column(prop='depositType', label='入金类型', width='220')
           template(scope="scope")
-            span {{scope.row.requestAmount | ktCurrency}}
-        el-table-column(prop='dueDate', label='到期日', width='220')
-          template(scope="scope")
-            span {{scope.row.dueDate | moment('YYYY-MM-DD')}}
-        el-table-column(prop='factCollectAmount', label='实际募集金额', width='220')
-          template(scope="scope")
-            span {{scope.row.factCollectAmount | ktCurrency}}
-        el-table-column(prop='dueTotalInterest', label='到期应付总收益', width='220')
-          template(scope="scope")
-            span {{scope.row.dueTotalInterest | ktCurrency}}
-        el-table-column(prop='factDueDate', label='实际到期日期', width='220')
-          template(scope="scope")
-            span {{scope.row.factDueDate | moment('YYYY-MM-DD')}}
-        el-table-column(prop='factRedeemAmount', label='实际兑付给投资人总金额', width='220')
-          template(scope="scope")
-            span {{scope.row.factRedeemAmount | ktCurrency}}
-        el-table-column(prop='minPreDueDate', label='最早可提前还款日期', width='220')
-          template(scope="scope")
-            span {{scope.row.minPreDueDate | moment('YYYY-MM-DD')}}
-        el-table-column(prop='redeemAmount', label='到期应对付总金额', width='220')
-          template(scope="scope")
-            span {{scope.row.requestAmount | ktCurrency}}
-        el-table-column(prop='remark', label='备注', width='220')
-        el-table-column(label='操作', fixed="right", width='60')
-          template(scope="scope")
-            .operations
-              i.iconfont.icon-edit(@click="audit(scope.row)")
+            span {{scope.row.depositType | statusFormat}}
+        el-table-column(prop='fundAccountId', label='资金账户ID', width='220')
+        el-table-column(prop='termNo', label='	月供期数', width='220')
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
 <script>
 import {
-  each,
-  merge
+  merge,
+  find
 } from 'lodash'
 
 import {
-  productsRelease
+  fundDeposit
 } from '@/common/resource.js'
 
 import {
   pruneParams
 } from '@/common/util.js'
 
+import {
+  tableListMixins
+} from '@/common/mixins.js'
+
+const statusList = [{
+  name: '月供',
+  value: 'INSTALMENT'
+}, {
+  name: '尾款',
+  value: 'REST'
+}, {
+  name: '回购款',
+  value: 'BUY_BACK'
+}, {
+  name: '大搜车',
+  value: 'DSC'
+}, {
+  name: '花生',
+  value: 'HUASHENG'
+}, {
+  name: '待对账',
+  value: 'WAIT_CHECKING'
+}, {
+  name: '对账通过',
+  value: 'PASS'
+}, {
+  name: '对账不通过',
+  value: 'UNPASS'
+}]
+
 export default {
+  mixins: [tableListMixins],
+  filters: {
+    statusClass(value) {
+      const classMap = {
+        'UNPASS': 'color-red',
+        'WAIT_CHECKING': 'color-yellow',
+        'PASS': 'color-green'
+      }
+      return classMap[value] || ''
+    },
+    statusFormat(value) {
+      const status = find(statusList, s => s.value === value)
+      return status ? status.name : '未知状态'
+    }
+  },
   methods: {
     parseInt: window.parseInt,
-    clearFilter() {
-      each(this.filter, (v, k) => {
-        this.filter[k] = ''
-      })
-      this.search()
-    },
-
-    search() {
-      this.$router.push({
-        name: this.$route.name,
-        query: pruneParams(this.filter)
-      })
-    },
-
-    pageChange(val) {
-      this.filter.page = val
-      this.search()
-    },
-
-    pageSizeChange(val) {
-      this.filter.limit = val
-      this.search()
-    },
-
     _fetchData() {
-      const loadingInstance = this.$loading({
-        target: '.products-release'
-      })
-      productsRelease.post({
-        params: {
-          ...pruneParams(this.filter)
-        }
+      fundDeposit.post(pruneParams(this.filter), {
+        loadingMaskTarget: '.fund-deposit-detail'
       }).then(res => {
-        const data = res.data.data
-        this.productsRelease = data.rows
+        const data = res.data[0].data
+        this.fundDepositData = data.rows
         this.page.total = data.total
-        loadingInstance.close()
       })
     },
 
@@ -142,27 +130,30 @@ export default {
     return {
       pickerOptions: '',
       fixed: window.innerWidth - 180 - 12 * 2 > 1150 ? false : 'right', // 180 左侧菜单宽度，12 section的padding
-      productsRelease: [],
+      fundDepositData: [],
       filter: {
-        carriageDateLower: '',
-        carriageDateUpper: '',
-        valueDateLower: '',
-        valueDateUpper: '',
-        assetFrom: '',
-        productName: '',
+        accountType: '',
+        checkingStatus: '',
+        depositDate: '',
         page: 1,
         limit: 10
       },
-      page: {
-        total: 100,
-        sizes: [10, 20, 30, 50]
-      },
-      assetTypes: [{
+      accountTypes: [{
         name: '花生',
-        value: '花生'
+        value: 'HUASHENG'
       }, {
         name: '大搜车',
-        value: '大搜车'
+        value: 'DSC'
+      }],
+      checkingTypes: [{
+        name: '待对账',
+        value: 'WAIT_CHECKING'
+      }, {
+        name: '对账通过',
+        value: 'PASS'
+      }, {
+        name: '对账不通过',
+        value: 'UNPASS'
       }]
     }
   }

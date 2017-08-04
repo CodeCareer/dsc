@@ -58,6 +58,7 @@ const APIS = {
   accountDepositEdit: '/fundManage/editAccountFundDetail', //账户入金编辑
   accountDepositAudit: '/fundManage/auditAccountFundDetail', //账户入金审核
   accountDepositAdd: '/fundManage/addAccountFundDetail', //账户入金新增
+  fundDeposit: '/fundManage/listCapitalDetail', //账户入金新增
   riskZr: '/riskManage/riskRuleResults', //风控准入列表
   riskEdit: '/risk_manage/risk_rules/#{rrid}/update', //风控修改风险规则
   riskQuery: '/riskManage/riskRuleTemplates', //查询风险规则模板
@@ -117,6 +118,10 @@ export const accountDepositAudit = {
 
 export const accountDepositAdd = {
   post: (data, config) => http.post(APIS.accountDepositAdd, data, config)
+}
+
+export const fundDeposit = {
+  post: (data, config) => http.post(APIS.fundDeposit, data, config)
 }
 
 export const riskZr = {
