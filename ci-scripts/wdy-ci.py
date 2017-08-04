@@ -119,7 +119,7 @@ def get_wdy_static_url():
     if env == 'product':
         return _CONFIG_PRODUCT_WDY_URL_PREFIX
     else:
-        return _CONFIG_DEV_WDY_URL_PREFIX + get_wdy_env_context()
+        return _CONFIG_DEV_WDY_URL_PREFIX + get_wdy_env_context() + '/'
 
 def get_wdy_env_context():
     if env == 'product':
