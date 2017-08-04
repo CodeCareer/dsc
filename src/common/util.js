@@ -10,7 +10,7 @@ export function urlMatcher(url, params = {}) {
 export function pruneParams(params, visible) {
   var newParams = cloneDeep(params)
   each(newParams, (v, i) => {
-    if (newParams[i] === '' || isNull(newParams[i]) || (isPlainObject(visible) && visible[i] === false)) {
+    if (newParams[i] === '' || isNull(newParams[i]) || newParams[i] === '_all_' || (isPlainObject(visible) && visible[i] === false)) {
       delete newParams[i]
     }
   })

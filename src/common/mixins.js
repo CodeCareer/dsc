@@ -5,9 +5,10 @@ import {
 
 export const tableListMixins = {
   methods: {
+    parseInt: window.parseInt,
     clearFilter() {
       each(this.filter, (v, k) => {
-        if (k !== 'limit' && k !== 'page') {
+        if (k !== 'limit' && k !== 'size' && k !== 'page') {
           this.filter[k] = ''
         }
       })

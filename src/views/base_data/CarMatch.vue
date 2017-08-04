@@ -51,6 +51,9 @@ import {
 import CarMatchDialog from '@/views/base_data/CarMatchDialog.vue'
 
 const statusList = [{
+  name: '全部',
+  value: '_all_'
+}, {
   name: '待匹配',
   value: 'WATING_MATCH'
 }, {
@@ -111,7 +114,7 @@ export default {
   },
 
   mounted() {
-    this.filter = merge(this.filter, this.$route.query)
+    merge(this.filter, this.$route.query)
     this._fetchData()
   },
 
@@ -138,4 +141,3 @@ export default {
   }
 }
 </script>
-

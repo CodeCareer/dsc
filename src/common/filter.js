@@ -7,17 +7,15 @@ export default {
     Vue.filter('ktCurrency', (value, prefix = '￥', suffix = '') => {
       if (isNumber(value)) {
         return prefix + numeral(round(value, 2)).format('0,0.00') + suffix
-      } else {
-        return value
       }
+      return value
     })
 
-    Vue.filter('ktFlow', (value) => {
-      if (value > 0) {
-        return value
-      } else {
-        return -(value)
+    Vue.filter('ktKm', value => {
+      if (isNumber(value)) {
+        return numeral(round(value / 1000)).format('0,0') + 'km'
       }
+      return value
     })
 
     Vue.filter('ktPercent', (value, decimal = 2, multi = 100, unit = '%') => {
@@ -69,12 +67,20 @@ export default {
       return value
     })
 
+    Vue.filter('ktNegativeNumber', (value) => {
+      if (value > 0) {
+        return value
+      } else {
+        return -(value)
+      }
+    })
+
     Vue.filter('ktNull', (value, str) => {
       return isNull(value) ? '-' : (str || value)
     })
 
     Vue.filter('moment', (date, format) => {
-      return moment(date).format(format)
+      return date ? moment(date).format(format) : '-'
     })
   }
 }

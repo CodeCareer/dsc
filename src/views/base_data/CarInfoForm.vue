@@ -47,6 +47,7 @@ export default {
               id: this.car.id || ''
             }
           }).then(res => {
+            this.$message.success('保存成功！')
             this.$router.push({
               name: 'carInfo'
             })
@@ -62,7 +63,7 @@ export default {
         type: 'warning'
       }).then(() => {
         this.$router.back()
-      })
+      }).catch(() => {})
     }
   },
 

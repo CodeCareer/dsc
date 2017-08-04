@@ -6,7 +6,7 @@
       .user-info.fr
         span
           i.iconfont.icon-user.icon-color
-          | hi，{{user.name}}
+          | hi，{{user.nickname}}
         span.log-out(@click="logout()") 退出
     section.container(:style='containerStyles')
       aside
@@ -203,8 +203,9 @@ export default {
           name: '用户列表',
           index: '6-1',
           route: {
-            name: 'accountList'
-          }
+            name: 'accounts'
+          },
+          activeIncludes: ['accounts', 'accountForm']
         }, {
           name: '权限管理',
           index: '6-2',
@@ -250,7 +251,6 @@ export default {
     startsWith: startsWith,
     breadcrumbRefresh() {
       this.crumbs = this.$route.meta.crumbs
-      console.log(this.$route.meta.crumbs)
     },
     ...mapActions(['logout'])
   }
@@ -287,7 +287,7 @@ $menu-height: 50px;
       span {
         padding: 0 25px;
         text-align: center;
-        color: #929aa3;
+        color: $color-unimportant;
         font-size: 13px;
         &:first-child {
           height: 15px;

@@ -5,11 +5,15 @@
       img.logo(src='../assets/images/logo.svg')
   .login-warpper(@keyup.13="submitForm()")
     h2 登录
-    el-form.login-form(ref="user",:model="user",:rules="rules")
-      el-form-item(prop="email")
-        el-input(placeholder='请输入您的邮箱地址', v-model="user.email")
+    el-form.login-form(ref="user", :model="user", :rules="rules")
+      el-form-item(prop="username")
+        el-input(placeholder='请输入您的用户名', v-model="user.username")
       el-form-item(prop="password")
-        el-input(placeholder="请输入您的密码",v-model="user.password",type="password")
+        el-input(placeholder="请输入您的密码", v-model="user.password", type="password")
+      el-form-item(prop="v_code")
+        el-input(placeholder="请输入验证码", v-model="user.v_code", type="string")
+          template(slot='append')
+            img(:src='capthaUrl', style="height:20px;", @click="refreshCaptha()")
       el-form-item
         el-button.input(type="submit",@click="submitForm") 立即登录
   footer
@@ -27,48 +31,52 @@ export default {
   methods: {
     ...mapActions(['login']),
     submitForm() {
-      let loadingInstance
       this.$refs.user.validate((valid) => {
         if (valid) {
-          loadingInstance = this.$loading({
-            target: '.login-form'
+          this.login({
+            user: this.user,
+            config: {
+              loadingMaskTarget: '.login-form'
+            }
+          }).then(res => {
+            this.$router.push({
+              name: 'productsRelease'
+            })
+          }).catch(err => {
+            this.$message.error(err || '用户名或密码错误')
+            this.refreshCaptha()
           })
-
-          this.login(this.user)
-            .then(res => {
-              loadingInstance.close()
-              this.$router.push({
-                name: 'productsRelease'
-              })
-            })
-            .catch(res => {
-              this.$message.error('用户名或密码错误')
-              loadingInstance.close()
-            })
         }
       })
+    },
+
+    refreshCaptha() {
+      this.capthaUrl = `/api/usermanage/v1/captcha.png?t=${Math.random()}`
     }
   },
 
   data() {
     return {
+      capthaUrl: `/api/usermanage/v1/captcha.png?t=${Math.random()}`,
       user: {
-        email: '',
-        password: ''
+        username: '',
+        password: '',
+        v_code: ''
       },
       rules: {
-        email: [{
+        username: [{
           required: true,
-          message: '请输入邮箱地址',
+          message: '请输入用户名',
           trigger: 'blur'
-        }, {
-          type: 'email',
-          message: '请输入正确邮箱地址',
-          trigger: 'change,blur'
         }],
         password: [{
           required: true,
           message: '请输入密码',
+          trigger: 'blur'
+        }],
+        v_code: [{
+          required: true,
+          message: '请输入验证码',
           trigger: 'blur'
         }]
       }

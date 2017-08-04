@@ -1,5 +1,6 @@
 import { router } from '@/router'
-import { session } from '@/common/resource.js'
+import { session, orgId } from '@/common/resource_auth.js'
+const ORG_NAME = 'xwwd2' // 机构名称
 
 export default {
   updateUser: function({ commit }, user = {}) {
@@ -18,16 +19,29 @@ export default {
     return user
   },
 
-  async login({ commit, dispatch }, user) {
-    const data = await session.post(user).then(res => res.data)
-    await dispatch('updateToken', data.token)
-    await dispatch('getUser')
+  updateOrgId({ commit, dispatch }, orgId = '') {
+    window.localStorage.orgId = orgId
+    commit('updateOrgId', orgId)
+  },
+
+  async getOrgId({ commit, dispatch }, params = {}) {
+    const data = await orgId.get(params).then(res => res.data)
+    await dispatch('updateOrgId', data.data)
+  },
+
+  async login({ commit, dispatch }, params) {
+    const data = await session.post(params.user, params.config).then(res => res.data)
+    await dispatch('updateToken', data.token || 'no-token')
+    await dispatch('updateUser', data.data)
+    await dispatch('getOrgId', { params: { orgName: ORG_NAME } })
     return data
   },
 
-  logout({ commit }, silent) {
+  async logout({ commit }, silent) {
+    // await session.delete()
     window.localStorage.user = '{}'
     window.localStorage.token = ''
+    window.localStorage.orgId = ''
     commit('updateUser', {})
     commit('updateToken')
 

@@ -51,7 +51,6 @@ import {
 export default {
   mixins: [tableListMixins],
   methods: {
-    parseInt: window.parseInt,
     addCarInfo() {
       this.$router.push({
         name: 'carInfoForm',
@@ -91,7 +90,7 @@ export default {
   },
 
   mounted() {
-    this.filter = merge(this.filter, this.$route.query)
+    merge(this.filter, this.$route.query)
     this._fetchData()
   },
 

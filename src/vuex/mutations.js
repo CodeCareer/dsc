@@ -5,5 +5,9 @@ export default {
 
   updateToken(state, token) {
     state.token = token
+  },
+
+  updateOrgId(state, orgId) {
+    state.orgId = orgId
   }
 }

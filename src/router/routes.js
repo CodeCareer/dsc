@@ -278,17 +278,35 @@ export default [{
       }
     },
     children: [{
-      path: 'account_list',
-      name: 'accountList',
-      component: resolve => require(['@/views/account/AccountList.vue'], resolve),
+      path: 'accounts',
+      name: 'accounts',
+      component: resolve => require(['@/views/account/Accounts.vue'], resolve),
       meta: {
         title: '微贷系统-用户列表',
         crumbs: [{
           name: '用户管理',
-          to: { name: 'accountList' }
+          to: { name: 'accounts' }
         }, {
           name: '用户列表',
-          to: { name: 'accountList' }
+          to: { name: 'accounts' }
+        }]
+      }
+    }, {
+      path: 'accounts/:id',
+      name: 'accountForm',
+      component: resolve => require(['@/views/account/AccountForm.vue'], resolve),
+      meta: {
+        title: '微贷系统-用户管理',
+        crumbs: [{
+          name: '用户管理',
+          to: { name: 'accounts' }
+        }, {
+          name: '用户列表',
+          to: { name: 'accounts' }
+        }, {
+          id: 'accountForm',
+          name: '新增用户',
+          to: { name: 'acountForm' }
         }]
       }
     }, {

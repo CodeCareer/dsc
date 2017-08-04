@@ -30,7 +30,7 @@ router.beforeEach((to, from, next) => {
 
   let user = store.getters.user
   let token = store.getters.token
-  if (!to.meta.skipAuth && (!token || !user.email)) {
+  if (!to.meta.skipAuth && (!token || !user.name)) {
     next({ name: 'login' })
   }
   next()

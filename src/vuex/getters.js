@@ -5,5 +5,9 @@ export default {
 
   token(state) {
     return state.token
+  },
+
+  orgId(state) {
+    return state.orgId
   }
 }

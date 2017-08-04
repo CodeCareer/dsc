@@ -3,34 +3,40 @@
     .box
       .box-header
         h3 筛选条件
-        //- .buttons
-        //-   el-button(type="primary", size="small", @click="addCarGps()")
-        //-     i.iconfont.icon-add
-        //-     | 新增
       .filters
-        el-input(placeholder='品牌', icon='search', @keyup.native.13='search', v-model='filter.brandName')
-        el-input(placeholder='车系', icon='search', @keyup.native.13='search', v-model='filter.seriesName')
-        el-input(placeholder='车型', icon='search', @keyup.native.13='search', v-model='filter.modelName')
+        el-input(placeholder='VIN码', icon='search', @keyup.native.13='search', v-model='filter.vinCode')
+        el-input(placeholder='SIM码', icon='search', @keyup.native.13='search', v-model='filter.simNo')
+        el-date-picker(placeholder='起始时间', format='yyyy-MM-dd', type='date', :value="filter.gpsTimeStart", @input="handleStartDate", :picker-options="pickerOptions")
+        el-date-picker(placeholder='起始时间', format='yyyy-MM-dd', type='date', :value='filter.gpsTimeEnd', @input="handleEndDate", :picker-options="pickerOptions")
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='carGps', style='width: 100%')
-        el-table-column(prop='brandName', label='品牌', width='200')
-        el-table-column(prop='seriesName', label='车系', width='200')
-        el-table-column(prop='modelName', label='车型', width='200')
-        el-table-column(prop='guidePrice', label='厂商指导价', width='120')
+        el-table-column(prop='vinCode', label='VIN码', width='200')
+        el-table-column(prop='simNo', label='SIM码', width='200')
+        el-table-column(prop='longitude', label='经度', width='200')
+        el-table-column(prop='latitude', label='维度', width='200')
+        el-table-column(prop='alarmInfo', label='报警信息', width='200')
+        el-table-column(prop='direct', label='行驶方向', width='200')
+        el-table-column(prop='plate', label='车牌号', width='120')
+        el-table-column(prop='terminalType', label='终端类型', width='200')
+        el-table-column(prop='lastPower', label='剩余电量', width='120')
           template(scope="scope")
-            span {{scope.row.guidePrice | ktCurrency}}
-        el-table-column(prop='residualValue', label='残值金额', width='120')
+            span {{scope.row.lastPower | ktPercent(0)}}
+        el-table-column(prop='travelDistance', label='总里程', width='120')
           template(scope="scope")
-            span {{scope.row.residualValue | ktCurrency}}
-        el-table-column(prop='updateTime', label='数据更新日期', width='200')
+            span {{scope.row.travelDistance | ktKm}}
+        el-table-column(prop='speed', label='速度', width='120')
           template(scope="scope")
-            span {{scope.row.updateTime | moment('YYYY-MM-DD HH:mm:ss')}}
-        el-table-column(label='操作', :fixed="fixed", width='80')
+            span {{scope.row.speed | ktAppend('km/h')}}
+        el-table-column(prop='locationStyle', label='位置规格', width='120')
           template(scope="scope")
-            .operations
-              i.iconfont.icon-edit(@click="editCarGps(scope.row)")
-              //- i.iconfont.icon-delete(@click.stop="deleteCarGps(scope.row)")
+            span {{scope.row.locationStyle | locationStyleLocal}}
+        el-table-column(prop='gpsTime', label='数据上报时间', width='200')
+          template(scope="scope")
+            span {{scope.row.gpsTime | moment('YYYY-MM-DD HH:mm:ss')}}
+        el-table-column(prop='vehicleStatus', label='车辆状态', width='120')
+          template(scope="scope")
+            span(:class="scope.row.vehicleStatus | vehicleStatusClass") {{scope.row.vehicleStatus | vehicleStatusLocal}}
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
@@ -47,27 +53,51 @@ import {
 import {
   tableListMixins
 } from '@/common/mixins.js'
+import moment from 'moment'
 
 export default {
   mixins: [tableListMixins],
+  filters: {
+    locationStyleLocal(value) {
+      const map = {
+        '-1': '不知道',
+        0: '不定位',
+        1: 'GPS定位',
+        2: 'WIFI定位',
+        3: '多基站',
+        4: '单基站'
+      }
+      return map[value] || '未知状态'
+    },
+    vehicleStatusLocal(value) {
+      const map = {
+        0: '未上线',
+        1: '行驶',
+        2: '停车',
+        3: '离线'
+      }
+      return map[value] || '未知状态'
+    },
+    vehicleStatusClass(value) {
+      const map = {
+        0: 'color-gray',
+        1: 'color-green',
+        2: 'color-blue',
+        3: 'color-gray'
+      }
+      return map[value] || ''
+    }
+  },
+
   methods: {
-    parseInt: window.parseInt,
-    addCarGps() {
-      this.$router.push({
-        name: 'carGpsForm',
-        params: {
-          id: 'add'
-        }
-      })
+    handleStartDate(value) {
+      this.filter.gpsTimeStart = value ? moment(value).format('YYYY-MM-DD') : ''
+      this.search()
     },
 
-    editCarGps(car) {
-      this.$router.push({
-        name: 'carGpsForm',
-        params: {
-          id: car.id
-        }
-      })
+    handleEndDate(value) {
+      this.filter.gpsTimeEnd = value ? moment(value).format('YYYY-MM-DD') : ''
+      this.search()
     },
 
     _fetchData() {
@@ -91,20 +121,26 @@ export default {
   },
 
   mounted() {
-    this.filter = merge(this.filter, this.$route.query)
+    merge(this.filter, this.$route.query)
     this._fetchData()
   },
 
   data() {
     return {
       fixed: window.innerWidth - 180 - 12 * 2 > 1150 ? false : 'right', // 180 左侧菜单宽度，12 section的padding
+      pickerOptions: {},
       carGps: [],
       filter: {
-        brandName: '',
-        seriesName: '',
-        modelName: '',
+        vinCode: '',
+        simNo: '',
+        gpsTimeStart: '',
+        gpsTimeEnd: '',
         page: 1,
         limit: 10
+      },
+      page: {
+        total: 1000,
+        sizes: [10, 20, 30, 50]
       }
     }
   }

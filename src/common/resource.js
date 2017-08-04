@@ -11,7 +11,7 @@ export const http = axios.create({
 })
 
 http.interceptors.request.use(config => {
-  config.headers.common['Authorization'] = store.getters.token
+  config.headers.common['x-auth-token'] = store.getters.token
   config.url = urlMatcher(config.url, config.pathParams)
   if (config.loadingMaskTarget) {
     loadingInstance = Loading.service({
@@ -26,12 +26,12 @@ http.interceptors.response.use(res => {
   return res
 }, err => {
   const res = err.response
-  const request = res.request
+  // const request = res.request
   loadingInstance.close()
   if (!res) return Promise.reject(err)
 
   if (res.status === 419 || res.status === 401) {
-    if (request.config.skipAuth) {
+    if (res.config.skipAuth) {
       store.dispatch('logout', true)
     } else {
       MessageBox(res.data.msg || '无访问权限！', '提示')

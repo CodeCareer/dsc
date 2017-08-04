@@ -36,6 +36,10 @@ body {
   color: $color-blue;
 }
 
+.color-gray {
+  color: $color-unimportant;
+}
+
 .mr-0_5em {
   margin-right: .5em;
 }
@@ -124,7 +128,6 @@ body {
 .ov-h {
   overflow: hidden;
 }
-
 
 .blank:after {
   content: '空';

@@ -30,9 +30,16 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
+      '/api/usermanage': {
+        target: 'http://xwwd.uats.cc/',
+        changeOrigin: true
+      },
       '/api': {
         target: 'http://apidoc.wjs-dev.com/mockjsdata/61',
         changeOrigin: true,
+        onProxyRes: function(proxyRes, req, res) {
+          delete proxyRes.headers['set-cookie'] // 删除Rap上的cookie设置因为会影响到/api/usermanage的cookie设置
+        },
         pathRewrite: function(path, req) {
           return path.replace('/api/', '/')
         }
