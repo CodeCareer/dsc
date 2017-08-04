@@ -29,7 +29,8 @@ import {
   updateCrumb
 } from '@/common/crosser.js'
 import {
-  accountDepositEdit
+  accountDepositEdit,
+  accountDepositAdd
 } from '@/common/resource.js'
 import {
   merge
@@ -40,13 +41,30 @@ export default {
     submitForm() {
       this.$refs.accountDepositForm.validate((valid) => {
         if (valid) {
-          accountDepositEdit.post(this.accountDeposit, {
-            loadingMaskTarget: '.account-deposit-form'
-          }).then(res => {
-            const data = res.data
-            this.operationStatus(data)
-          })
+          if (this.$route.params.id !== 'add') {
+            this.edit()
+          } else {
+            this.add()
+          }
         }
+      })
+    },
+
+    edit() {
+      accountDepositEdit.post(this.accountDeposit, {
+        loadingMaskTarget: '.account-deposit-form'
+      }).then(res => {
+        const data = res.data
+        this.operationStatus(data)
+      })
+    },
+
+    add() {
+      accountDepositAdd.post(this.accountDeposit, {
+        loadingMaskTarget: '.account-deposit-form'
+      }).then(res => {
+        const data = res.data
+        this.operationStatus(data)
       })
     },
 
@@ -56,35 +74,41 @@ export default {
       }).then(() => {
         this.$router.back()
       })
+    },
+
+    operationStatus(data) {
+      if (data.resultCode === 'SUCCESS') {
+        this.$message.success({
+          message: data.resultMsg || '成功！'
+        })
+        this.$router.back()
+      } else {
+        this.$message.error({
+          message: data.resultMsg || '失败！'
+        })
+      }
     }
   },
-
-  operationStatus(data) {
-    if (data.resultCode === 'SUCCESS') {
-      this.$message.success({
-        message: data.resultMsg || '成功！'
-      })
-      this.$router.back()
-    } else {
-      this.$message.error({
-        message: data.resultMsg || '失败！'
-      })
-    }
-  },
-
   mounted() {
     if (this.$route.params.id !== 'add') {
       merge(this.accountDeposit, this.$route.params)
       this.title = '编辑账户入金'
+      this.fundAccountIdStatus = true
       updateCrumb.$emit('update-crumbs', [{
         id: 'accountDepositForm',
         name: '编辑账户入金'
+      }])
+    } else {
+      updateCrumb.$emit('update-crumbs', [{
+        id: 'accountDepositForm',
+        name: '新增账户入金'
       }])
     }
   },
 
   data() {
     return {
+      fundAccountIdStatus: false,
       pickerOptions: '',
       title: '新增账户入金',
       fundDirectionTypes: [{
@@ -110,10 +134,6 @@ export default {
           required: true,
           message: '必填项',
           trigger: 'change'
-        }],
-        payDate: [{
-          message: '必填项',
-          trigger: 'change'
         }]
       },
       accountDeposit: {
@@ -121,8 +141,7 @@ export default {
         fundAccountId: '',
         fundDirection: '',
         payDate: '',
-        id: '',
-        fundAccountIdStatus: ''
+        id: ''
       }
     }
   }
