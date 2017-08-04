@@ -13,6 +13,7 @@ export const http = axios.create({
 http.interceptors.request.use(config => {
   config.headers.common['x-auth-token'] = store.getters.token
   config.url = urlMatcher(config.url, config.pathParams)
+  console.log(config)
   if (config.loadingMaskTarget) {
     loadingInstance = Loading.service({
       target: config.loadingMaskTarget
@@ -60,7 +61,7 @@ const APIS = {
   accountDepositAdd: '/fundManage/addAccountFundDetail', //账户入金新增
   fundDeposit: '/fundManage/listCapitalDetail', //账户入金新增
   riskZr: '/riskManage/riskRuleResults', //风控准入列表
-  riskEdit: '/risk_manage/risk_rules/#{rrid}/update', //风控修改风险规则
+  riskEdit: '/riskManage/riskRules/:riskRuleId/update', //风控修改风险规则
   riskQuery: '/riskManage/riskRuleTemplates', //查询风险规则模板
   riskWarn: '/riskManage/riskRuleWarnings', //查询风险预警信息
   carInfos: '/thirdPartyData/vehicleManage/vehicles/:id', // 车辆信息列表获取接口
@@ -129,7 +130,7 @@ export const riskZr = {
 }
 
 export const riskEdit = {
-  post: (config) => http.post(APIS.riskEdit, config)
+  post: (data, config) => http.post(APIS.riskEdit, data, config)
 }
 
 export const riskQuery = {

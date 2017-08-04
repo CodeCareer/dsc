@@ -4,7 +4,7 @@
       .filters
           el-input(placeholder='资产方', icon='search', @keyup.native.13="search", v-model='filter.assetFrom')
           el-input(placeholder='预警名称', icon='search', @keyup.native.13="search", v-model='filter.name')
-          el-select(v-model="filter.status",filterable,placeholder="状态")
+          el-select(v-model="filter.status",filterable,placeholder="状态",@change="search",)
             el-option(v-for="option in options",:value="option.value",:label="option.label")
           el-input(placeholder='对象ID', icon='search', @keyup.native.13="search", v-model='filter.subjectId')
           //- el-button(size="small", type="primary",@click="search") 查找
@@ -17,6 +17,8 @@
         el-table-column(prop="subjectId",label="对象ID")
         el-table-column(prop="status",label="当前状态")
         el-table-column(prop="updatedAt",label="时间")
+          template(scope="scope")
+            span {{scope.row.updatedAt | moment}}
         el-table-column(prop="description",label="详情")
       el-pagination(@size-change="sizeChange",@current-change="currentChange",:current-page="parseInt(filter.page)",:page-sizes="page.sizes",:page-size="parseInt(filter.pageSize)",layout="total, sizes, prev, pager, next, jumper",:total="parseInt(page.total)")
 

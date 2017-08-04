@@ -63,7 +63,7 @@ export default {
       return isNull(value) ? '-' : (str || value)
     })
 
-    Vue.filter('moment', (date, format) => {
+    Vue.filter('moment', (date, format = 'YYYY-MM-DD h:mm:ss') => {
       return date ? moment(date).format(format) : '-'
     })
   }
