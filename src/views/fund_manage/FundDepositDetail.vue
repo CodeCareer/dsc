@@ -14,11 +14,12 @@
     .table-container
       el-table(:data='fundDepositData', style='width: 100%')
         el-table-column(prop='accountName', label='账户名称', width='220')
-        el-table-column(prop='accountType', label='账户类型', width='220')
+        el-table-column(prop='accountType', label='账户类型', width='80')
           template(scope="scope")
             span {{scope.row.accountType | statusFormat}}
         el-table-column(prop='assetId', label='资产ID', width='220')
-        el-table-column(prop='checkingStatus', label='对账状态', width='220')
+        el-table-column(prop='fundAccountId', label='资金账户ID', width='220')
+        el-table-column(prop='checkingStatus', label='对账状态', width='80')
           template(scope="scope")
             span(:class="scope.row.checkingStatus | statusClass") {{scope.row.checkingStatus | statusFormat}}
         el-table-column(prop='depositAmout', label='入金金额', width='220')
@@ -27,11 +28,11 @@
         el-table-column(prop='depositDate', label='入金日期', width='120')
           template(scope="scope")
             span {{scope.row.depositDate | moment('YYYY-MM-DD')}}
-        el-table-column(prop='depositType', label='入金类型', width='220')
+        el-table-column(prop='depositType', label='入金类型', width='80')
           template(scope="scope")
             span {{scope.row.depositType | statusFormat}}
-        el-table-column(prop='fundAccountId', label='资金账户ID', width='220')
-        el-table-column(prop='termNo', label='	月供期数', width='220')
+        
+        el-table-column(prop='termNo', label='	月供期数', width='80')
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
