@@ -8,12 +8,12 @@
         el-row
           el-col(:span="12", :offset="6")
             .form-inner.center
+              el-form-item(label="资金账户：", prop="fundAccountId")
+                el-input(type="text", placeholder="请输入资金账户ID", :disabled="fundAccountIdStatus", v-model="accountDeposit.fundAccountId")
               el-form-item(label="支付金额：", prop="factPayAmount")
                 el-input(type="text", placeholder="请输入实际支付金额", v-model="accountDeposit.factPayAmount")
                   template(slot="prepend") ¥
                   template(slot="append") 元
-              el-form-item(label="资金账户：", prop="fundAccountId")
-                el-input(type="text", placeholder="请输入资金账户ID", v-model="accountDeposit.fundAccountId")
               el-form-item(label="资金方向：", prop="fundDirection")
                 el-select(v-model="accountDeposit.fundDirection", placeholder="请选择资金方向")
                   el-option(v-for="t in fundDirectionTypes", :key="t.name", :value="t.value", :label="t.name")
@@ -31,9 +31,9 @@ import {
 import {
   accountDepositEdit
 } from '@/common/resource.js'
-// import {
-//   merge
-// } from 'lodash'
+import {
+  merge
+} from 'lodash'
 
 export default {
   methods: {
@@ -74,6 +74,8 @@ export default {
 
   mounted() {
     if (this.$route.params.id !== 'add') {
+      merge(this.accountDeposit, this.$route.params)
+      this.title = '编辑账户入金'
       updateCrumb.$emit('update-crumbs', [{
         id: 'accountDepositForm',
         name: '编辑账户入金'
@@ -110,7 +112,6 @@ export default {
           trigger: 'change'
         }],
         payDate: [{
-          required: true,
           message: '必填项',
           trigger: 'change'
         }]
@@ -119,7 +120,9 @@ export default {
         factPayAmount: '',
         fundAccountId: '',
         fundDirection: '',
-        payDate: ''
+        payDate: '',
+        id: '',
+        fundAccountIdStatus: ''
       }
     }
   }

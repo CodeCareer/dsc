@@ -161,9 +161,7 @@ export default {
     edit(rows) {
       this.$router.push({
         name: 'accountDepositForm',
-        params: {
-          id: rows.id
-        }
+        params: rows
       })
     },
 

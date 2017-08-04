@@ -8,7 +8,6 @@ import nprogress from 'nprogress'
 Vue.use(VueRouter)
 
 let router = new VueRouter({
-  mode: 'history',
   base: __dirname,
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
