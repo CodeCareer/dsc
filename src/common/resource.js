@@ -13,7 +13,7 @@ export const http = axios.create({
 http.interceptors.request.use(config => {
   config.headers.common['x-auth-token'] = store.getters.token
   config.url = urlMatcher(config.url, config.pathParams)
-  console.log(config)
+
   if (config.loadingMaskTarget) {
     loadingInstance = Loading.service({
       target: config.loadingMaskTarget
@@ -27,7 +27,6 @@ http.interceptors.response.use(res => {
   return res
 }, err => {
   const res = err.response
-  // const request = res.request
   loadingInstance.close()
   if (!res) return Promise.reject(err)
 
@@ -50,7 +49,7 @@ http.interceptors.response.use(res => {
   return Promise.reject(err)
 })
 
-const APIS = {
+export const APIS = {
   session: '/session',
   productsRelease: '/productManage/pageProductInfo', //产品发行管理
   productsAudit: '/productManage/auditManually', //产品发行审核
@@ -65,7 +64,7 @@ const APIS = {
   riskQuery: '/riskManage/riskRuleTemplates', //查询风险规则模板
   riskWarn: '/riskManage/riskRuleWarnings', //查询风险预警信息
   carInfos: '/thirdPartyData/vehicleManage/vehicles/:id', // 车辆信息列表获取接口
-  carGps: '/thirdPartyData/vehicleManage/geos/:id', // 车辆GPS信息列表获取接口
+  carGps: '/thirdPartyData/vehicleManage/geos', // 车辆GPS信息列表获取接口
   carMatchs: '/thirdPartyData/vehicleManage/vehicleMatchs/:id' // 车辆匹配信息管理
 }
 
@@ -82,10 +81,7 @@ export const carInfos = {
 }
 
 export const carGps = {
-  get: config => http.get(APIS.carGps, config),
-  post: (data, config) => http.post(APIS.carGps, data, config),
-  put: (data, config) => http.put(APIS.carGps, data, config),
-  delete: config => http.delete(APIS.carGps, config)
+  get: config => http.get(APIS.carGps, config)
 }
 
 export const carMatchs = {

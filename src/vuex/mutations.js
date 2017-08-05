@@ -9,5 +9,9 @@ export default {
 
   updateOrgId(state, orgId) {
     state.orgId = orgId
+  },
+
+  updatePermissions(state, permissions) {
+    state.permissions = permissions
   }
 }

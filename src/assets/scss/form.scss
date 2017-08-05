@@ -28,7 +28,8 @@ form {
     }
   }
   .el-input,
-  .el-input-group {
+  .el-input-group,
+  .el-textarea {
     max-width: 300px;
     &.el-date-editor {
       width: 100%;
@@ -62,7 +63,8 @@ form {
   .el-form-item__error {
     padding-top: 0;
   }
-  .el-input__inner {
+  .el-input__inner,
+  .el-textarea__inner {
     font-size: 13px;
     color: #595f67;
     // width: 275px;
@@ -72,5 +74,8 @@ form {
     &:focus {
       border-color: $primary-color;
     }
+  }
+  .el-textarea__inner {
+    height: auto;
   }
 }

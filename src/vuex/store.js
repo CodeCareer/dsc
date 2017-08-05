@@ -8,7 +8,8 @@ import 'core-js/fn/promise' // for vuex
 const state = {
   user: JSON.parse(window.localStorage.user || '{}') || {},
   token: window.localStorage.token,
-  orgId: window.localStorage.orgId
+  orgId: window.localStorage.orgId,
+  permissions: []
 }
 
 Vue.use(Vuex)

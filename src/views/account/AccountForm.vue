@@ -83,19 +83,23 @@ export default {
         this.account.roleId = this.account.roles[0].id
         delete this.account.roles
         this.title = `编辑用户-${this.account.nickname}`
-      })
 
-      updateCrumb.$emit('update-crumbs', [{
-        id: 'accountForm',
-        name: `编辑用户-${this.account.nickname}`
-      }])
+        updateCrumb.$emit('update-crumbs', [{
+          id: 'accountForm',
+          name: `编辑用户-${this.account.nickname}`
+        }])
+      })
     }
 
-    roles.get().then(res => {
-      const roles = map(res.data.data, (v, k) => {
+    roles.get({
+      params: {
+        orgId: this.$store.getters.orgId
+      }
+    }).then(res => {
+      const roles = map(res.data.data.content, v => {
         return {
-          name: v,
-          value: k
+          name: v.roleNickname,
+          value: v.id
         }
       })
       this.roleList = roles

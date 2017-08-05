@@ -307,21 +307,39 @@ export default [{
         }, {
           id: 'accountForm',
           name: '新增用户',
-          to: { name: 'acountForm' }
+          to: { name: 'accountForm' }
         }]
       }
     }, {
-      path: 'authority_manage',
-      name: 'authorityManage',
-      component: resolve => require(['@/views/account/AuthorityManage.vue'], resolve),
+      path: 'roles',
+      name: 'roles',
+      component: resolve => require(['@/views/account/Roles.vue'], resolve),
       meta: {
-        title: '微贷系统-权限管理',
+        title: '微贷系统-角色列表',
         crumbs: [{
           name: '用户管理',
           to: { name: 'accountList' }
         }, {
-          name: '权限管理',
-          to: { name: 'authorityManage' }
+          name: '角色列表',
+          to: { name: 'roles' }
+        }]
+      }
+    }, {
+      path: 'roles/:id',
+      name: 'roleForm',
+      component: resolve => require(['@/views/account/RoleForm.vue'], resolve),
+      meta: {
+        title: '微贷系统-用户管理',
+        crumbs: [{
+          name: '用户管理',
+          to: { name: 'accounts' }
+        }, {
+          name: '角色列表',
+          to: { name: 'roles' }
+        }, {
+          id: 'roleForm',
+          name: '新增角色',
+          to: { name: 'roleForm' }
         }]
       }
     }, {

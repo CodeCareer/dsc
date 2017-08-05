@@ -207,11 +207,12 @@ export default {
           },
           activeIncludes: ['accounts', 'accountForm']
         }, {
-          name: '权限管理',
+          name: '角色列表',
           index: '6-2',
           route: {
-            name: 'authorityManage'
-          }
+            name: 'roles'
+          },
+          activeIncludes: ['roles', 'roleForm']
         }, {
           name: '个人设置',
           index: '6-3',

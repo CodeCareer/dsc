@@ -28,7 +28,7 @@
                 td
                   span.setting-span 用于保护账号信息和登录安全
                     a.iconfont.icon-edit.ml5(@click="passwordDialogVisible = true")
-  el-dialog(v-model="passwordDialogVisible", title="修改密码")
+  el-dialog(v-model="passwordDialogVisible", title="修改密码", @open="onDialogOpen")
     el-form(:model='user', :rules="rules", ref="passwordForm", :label-width='formLabelWidth')
       el-form-item(prop="oldpwd", label='旧密码：')
         el-input(type="password", v-model='user.oldpwd', auto-complete='off', placeholder='请输入旧密码')
@@ -67,6 +67,9 @@ export default {
           })
         }
       })
+    },
+    onDialogOpen() {
+      this.$nextTick(() => this.$refs.passwordForm.resetFields())
     }
   },
 
@@ -78,7 +81,7 @@ export default {
       loadingMaskTarget: '.setting'
     }).then(res => {
       merge(this.account, res.data.data)
-      this.account.roleName = map(this.account.roles, 'nickname').join('，')
+      this.account.roleName = map(this.account.roles, 'roleNickname').join('，')
     })
   },
 

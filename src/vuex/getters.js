@@ -9,5 +9,9 @@ export default {
 
   orgId(state) {
     return state.orgId
+  },
+
+  permissions(state) {
+    return state.permissions
   }
 }

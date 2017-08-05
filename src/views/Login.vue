@@ -33,14 +33,17 @@ export default {
     submitForm() {
       this.$refs.user.validate((valid) => {
         if (valid) {
+          const redirect = this.$route.query.redirect
           this.login({
             user: this.user,
             config: {
               loadingMaskTarget: '.login-form'
             }
           }).then(res => {
-            this.$router.push({
+            this.$router.push(!redirect ? {
               name: 'productsRelease'
+            } : {
+              path: decodeURIComponent(redirect)
             })
           }).catch(err => {
             this.$message.error(err || '用户名或密码错误')

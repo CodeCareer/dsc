@@ -3,7 +3,7 @@ import routes from '@/router/routes.js'
 import Vue from 'vue'
 import App from '@/App.vue'
 import store from '@/vuex/store'
-import nprogress from 'nprogress'
+const nprogress = require('@/vendor/nprogress').NProgress
 
 Vue.use(VueRouter)
 
@@ -24,13 +24,22 @@ router.beforeEach((to, from, next) => {
     document.body.setAttribute('class', to.name)
   }
 
-  if (to.name === 'login') nprogress.remove()
+  if (to.name === 'login' && document.querySelector(nprogress.settings.parent)) nprogress.remove()
   else if (document.querySelector(nprogress.settings.parent)) nprogress.start()
 
   let user = store.getters.user
   let token = store.getters.token
+  let permissions = store.getters.permissions
+
   if (!to.meta.skipAuth && (!token || !user.name)) {
-    next({ name: 'login' })
+    next({
+      name: 'login',
+      query: {
+        redirect: to.name !== 'login' ? to.fullPath : ''
+      }
+    })
+  } else if (!to.meta.skipAuth && !permissions.length) {
+    store.dispatch('getPermissions').then(() => next())
   }
   next()
 })

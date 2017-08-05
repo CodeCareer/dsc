@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import router from '@/router'
 import Filters from '@/common/filter.js'
+import Permissions from '@/common/permission.js'
 
 import {
   Form,
@@ -69,5 +70,6 @@ Vue.prototype.$notify = Notification
 Vue.prototype.$message = Message
 
 Vue.use(Filters)
+Vue.use(Permissions)
 
 router.run()

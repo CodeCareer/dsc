@@ -1,8 +1,8 @@
 <template></template>
 
 <script>
-import nprogress from 'nprogress'
-import 'nprogress/nprogress.css'
+const nprogress = require('@/vendor/nprogress.js').NProgress
+import '@/vendor/nprogress.css'
 
 export default {
   props: {
