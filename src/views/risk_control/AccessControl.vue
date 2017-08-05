@@ -1,6 +1,8 @@
 <template lang="pug">
   section.risk-zr
     .box
+      .box-header
+        h3 筛选条件
       .filters
           el-input(placeholder='资产方', icon='search', @keyup.native.13="search", v-model='filter.assetFrom')
           el-input(placeholder='规则名', icon='search', @keyup.native.13="search", v-model='filter.name')
