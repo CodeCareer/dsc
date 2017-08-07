@@ -173,13 +173,11 @@ export default{
           type: 'success',
           message: '保存成功'
         })
-        console.log(res)
       })
     },
 
     detailAdd(rule) {
       rule.details.push(merge({}, this.riskDetails))
-      console.log(rule.details)
     },
 
     detailDelete(rule, index) {
