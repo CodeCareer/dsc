@@ -1,6 +1,14 @@
 <template lang="pug">
   .risk-rule
-    .risk-rule-tem 大搜车资产风控规则模板
+    //- .risk-rule-tem 大搜车资产风控规则模板
+    .box
+      .box-header
+        h3 筛选条件
+      .filters
+        el-select(v-model="filter.assetFrom",filterable,placeholder="资产方",@change="search",)
+          el-option(v-for="asset in riskAssetFroms",:key="asset.value",:value="asset.value",:label="asset.label")
+        el-select(v-model="filter.type",filterable,placeholder="模板类型",@change="search",)
+          el-option(v-for="type in riskTypes",:key="type.value",:value="type.value",:label="type.label")
     .risk-rule-content
       .risk-rule-form
         .risk-form(v-for="risk in riskWarnDatas")
@@ -15,7 +23,7 @@
                   el-col.risk-col(:span="8")
                     span.risk-also(v-if='indexr !== 0 && risk.type === "WARNING"') 并且
                     span.risk-also(v-if='indexr !== 0 && risk.type === "ACCESS"') 或者
-                    el-checkbox(:label="rule.name",v-model="rule.status",true-label="ENABLED")
+                    el-checkbox(:label="rule.name",v-model="rule.status",true-label="ENABLED",false-label="DISABLED")
                   el-col(:span="14")
                     .risk-filter(v-for="(detail, indexd) in rule.details")
                       //- NUMERIC
@@ -27,7 +35,7 @@
                           el-input.input-width(:placeholder="rule.name",:disabled="!rule.editing",v-model="detail.numericTarget")
                         .el-buttons
                           .risk-edit(v-if="indexd === 0")
-                            el-button(size="small", type="primary",@click="ruleEdit(rule)",v-if="!rule.editing") 编辑
+                            el-button(size="small", type="primary",@click="ruleEdit(rule)",v-if="!rule.editing && $permit('riskEdit')") 编辑
                           .risk-a-d(v-if="indexd !== 0")
                             //- el-button(size="small", type="primary",@click="detailAdd(rule)") 并且
                             el-button(v-if="rule.editing", size="small", type="primary",@click="detailDelete(rule, indexd)") 删除
@@ -42,7 +50,7 @@
                             el-option(v-for="(bool,indexb) in riskBools",:key="bool.value",:value="bool.value",:label="bool.label")
                         .el-buttons
                           .risk-edit(v-if="indexd === 0")
-                            el-button(size="small", type="primary",@click="ruleEdit(rule)",v-if="!rule.editing") 编辑
+                            el-button(size="small", type="primary",@click="ruleEdit(rule)",v-if="!rule.editing && $permit('riskEdit')") 编辑
                           .risk-a-d(v-if="indexd !== 0")
                             //- el-button(size="small", type="primary",@click="detailAdd(rule)") 并且
                             el-button(v-if="rule.editing", size="small", type="primary",@click="detailDelete(rule, detail)") 删除
@@ -82,7 +90,7 @@ export default{
         name: '',
         status: ''
       },
-      riskQuery: {
+      filter: {
         assetFrom: '',
         type: ''
       },
@@ -94,10 +102,22 @@ export default{
       },
       rules: {},
       operators: [{
-        value: 'greateEqual',
+        value: 'EQUAL',
+        label: '='
+      }, {
+        value: 'NOT_EQUAL',
+        label: '≠'
+      }, {
+        value: 'GREATER_THAN',
+        label: '>'
+      }, {
+        value: 'LESS_THAN',
+        label: '<'
+      }, {
+        value: 'GREATER_EQUAL',
         label: '>='
       }, {
-        value: 'lessEqual',
+        value: 'LESS_EQUAL',
         label: '=<'
       }],
       riskBools: [{
@@ -106,6 +126,17 @@ export default{
       }, {
         value: 0,
         label: '为假'
+      }],
+      riskAssetFroms: [{
+        value: 'DSC',
+        label: '大搜车'
+      }],
+      riskTypes: [{
+        value: 'ACCESS',
+        label: '准入类'
+      }, {
+        value: 'WARNING',
+        label: '预警类'
       }]
     }
   },
@@ -116,7 +147,7 @@ export default{
       })
       riskQuery.get({
         params: {
-          ...pruneParams(this.riskQuery)
+          ...pruneParams(this.filter)
         }
       }).then((res) => {
         const data = res.data
@@ -131,7 +162,6 @@ export default{
             })
           })
         })
-        console.log(this.riskWarnDatas)
         this.riskWarnDatas = data.riskRuleTemplates
         loadingInstance.close()
       })
@@ -139,6 +169,7 @@ export default{
 
     ruleEdit(rule) {
       rule.editing = true
+      rule.status = 'ENABLED'
       this.backupRule[rule.id] = cloneDeep(rule.details)
     },
 
@@ -149,6 +180,7 @@ export default{
         type: 'info'
       }).then(() => {
         rule.editing = false
+        rule.status = 'DISABLED'
         rule.details = this.backupRule[rule.id]
         Message({
           type: 'success',
@@ -164,12 +196,15 @@ export default{
 
     ruleSubmit(rule) {
       // merge(this.riskzrForm, cloneDeep(rule))
-      console.log(rule)
+      const loadingInstance = this.$loading({
+        target: '.risk-rule'
+      })
       riskEdit.post({
         ...pruneParams(rule)
       }, {pathParams: {
         riskRuleId: rule.id
       }}).then((res) => {
+        loadingInstance.close()
         Message({
           type: 'success',
           message: '保存成功'
@@ -183,10 +218,24 @@ export default{
 
     detailDelete(rule, index) {
       rule.details.splice(index, 1)
+    },
+    search() {
+      this.$router.push({
+        name: this.$router.name,
+        query: pruneParams(this.filter)
+      })
     }
   },
-
+  watch: {
+    $route() {
+      this.riskWarnGet()
+    }
+  },
   mounted() {
+    this.$router.push({
+      name: this.$route.name,
+      query: pruneParams(this.filter)
+    })
     this.riskWarnGet()
   }
 }
@@ -248,9 +297,4 @@ export default{
     left:-40px;
     z-index:99;
   }
-  // .risk-a-d{
-  //   button{
-  //     margin-right:10px;
-  //   }
-  // }
 </style>
