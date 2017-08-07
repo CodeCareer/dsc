@@ -15,7 +15,7 @@
     .table-container
       el-table(:data='fundAccount', style='width: 100%')
         el-table-column(prop='id', label='ID', width='220')
-        el-table-column(prop='accountName', label='accountName', width='220')
+        el-table-column(prop='accountName', label='账户名称', width='220')
         el-table-column(prop='accountType', label='账户类型', width='80')
           template(scope="scope")
             span {{scope.row.accountType | statusFormat}}
