@@ -57,6 +57,9 @@ export const APIS = {
   fundAccountEdit: '/fundManage/editAccountInfo', //资金账户编辑
   fundAccountAdd: '/fundManage/addAccountInfo', //资金账户新增
   fundAccountDelete: '/fundManage/deleteAccountInfo', //资金账户删除
+  backRecord: '/assetManage/listBuyBackRecord', // 查询回购记录
+  factRepay: '/assetManage/listFactRepayInfo', // 查询实际还款
+  repayPlan: '/assetManage/listRepayPlan', //查询还款计划
   riskZr: '/riskManage/riskRuleResults', //风控准入列表
   riskEdit: '/riskManage/riskRules/:riskRuleId/update', //风控修改风险规则
   riskQuery: '/riskManage/riskRuleTemplates', //查询风险规则模板
@@ -143,6 +146,18 @@ export const fundAccountAdd = {
 
 export const fundAccountDelete = {
   post: (data, config) => http.post(APIS.fundAccountDelete, data, config)
+}
+
+export const backRecord = {
+  post: (data, config) => http.post(APIS.backRecord, data, config)
+}
+
+export const factRepay = {
+  post: (data, config) => http.post(APIS.factRepay, data, config)
+}
+
+export const repayPlan = {
+  post: (data, config) => http.post(APIS.repayPlan, data, config)
 }
 
 export const riskZr = {
