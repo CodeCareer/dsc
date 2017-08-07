@@ -146,6 +146,24 @@ export default [{
           to: { name: 'fundAccountManage' }
         }]
       }
+    }, {
+      path: 'fund_account_manage/:id',
+      name: 'fundAccountForm',
+      component: resolve => require(['@/views/fund_manage/FundAccountForm.vue'], resolve),
+      meta: {
+        title: '微贷系统-资金账户管理',
+        crumbs: [{
+          name: '资金管理',
+          to: { name: 'fundAccountManage' }
+        }, {
+          name: '资金账户管理',
+          to: { name: 'fundAccountManage' }
+        }, {
+          id: 'fundAccountForm',
+          name: '新增资金账户',
+          to: { name: 'fundAccountForm' }
+        }]
+      }
     }]
   }, {
     path: 'risk_control',

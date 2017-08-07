@@ -59,6 +59,10 @@ export const APIS = {
   accountDepositAudit: '/fundManage/auditAccountFundDetail', //账户入金审核
   accountDepositAdd: '/fundManage/addAccountFundDetail', //账户入金新增
   fundDeposit: '/fundManage/listCapitalDetail', //账户入金新增
+  fundAccountManage: '/fundManage/listAccountInfo', //资金账户查询
+  fundAccountEdit: '/fundManage/editAccountInfo', //资金账户编辑
+  fundAccountAdd: '/fundManage/addAccountInfo', //资金账户新增
+  fundAccountDelete: '/fundManage/deleteAccountInfo', //资金账户删除
   riskZr: '/riskManage/riskRuleResults', //风控准入列表
   riskEdit: '/riskManage/riskRules/:riskRuleId/update', //风控修改风险规则
   riskQuery: '/riskManage/riskRuleTemplates', //查询风险规则模板
@@ -119,6 +123,22 @@ export const accountDepositAdd = {
 
 export const fundDeposit = {
   post: (data, config) => http.post(APIS.fundDeposit, data, config)
+}
+
+export const fundAccountManage = {
+  post: (data, config) => http.post(APIS.fundAccountManage, data, config)
+}
+
+export const fundAccountEdit = {
+  post: (data, config) => http.post(APIS.fundAccountEdit, data, config)
+}
+
+export const fundAccountAdd = {
+  post: (data, config) => http.post(APIS.fundAccountAdd, data, config)
+}
+
+export const fundAccountDelete = {
+  post: (data, config) => http.post(APIS.fundAccountDelete, data, config)
 }
 
 export const riskZr = {
