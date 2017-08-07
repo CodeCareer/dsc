@@ -7,7 +7,7 @@ let loadingInstance
 export const http = axios.create({
   baseURL: process.env.API_HOST || '/api/',
   withCredentials: process.env.NODE_ENV === 'production',
-  timeout: 5000
+  timeout: 10000
 })
 
 http.interceptors.request.use(config => {
@@ -24,29 +24,23 @@ http.interceptors.request.use(config => {
 
 http.interceptors.response.use(res => {
   if (loadingInstance) loadingInstance.close()
-  return res
-}, err => {
-  const res = err.response
-  loadingInstance.close()
-  if (!res) return Promise.reject(err)
-
-  if (res.status === 419 || res.status === 401) {
+  const data = res.data
+  data.resultCode = 'SUCCESS' // hack later for delete
+  if (data.resultCode === 'SUCCESS') {
+    return res
+  } else if (data.code === 'INVALID_LOGIN') {
     if (res.config.skipAuth) {
       store.dispatch('logout', true)
     } else {
-      MessageBox(res.data.msg || '无访问权限！', '提示')
+      MessageBox({ message: data.message || '无访问权限！', title: '提示', type: 'error' })
       store.dispatch('logout')
     }
-  } else if (res.status === 400) {
-    MessageBox(res.data.msg || '请求失败！', '提示')
-  } else if (res.status === 403) {
-    MessageBox(res.data.msg || '您无此权限！', '提示')
-  } else if (res.status === 404) {
-    MessageBox(res.data.msg || '访问错误！', '提示')
-  } else if (res.status === 500 || res.status === 502) {
-    MessageBox(res.data.msg || '抱歉！服务器忙。', '提示')
+  } else if (data.code === 'BIZ_EXCEPTION') {
+    MessageBox({ message: data.message || '业务异常', title: '提示', type: 'error' })
+  } else {
+    MessageBox({ message: data.message || '请求失败！', title: '提示', type: 'error' })
   }
-  return Promise.reject(err)
+  return Promise.reject(data.message)
 })
 
 export const APIS = {

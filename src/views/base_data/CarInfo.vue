@@ -4,7 +4,7 @@
       .box-header
         h3 筛选条件
         .buttons
-          el-button(type="primary", size="small", @click="addCarInfo()", v-if="$pemit('carInfoAdd')")
+          el-button(type="primary", size="small", @click="addCarInfo()", v-if="$permit('carInfoAdd')")
             i.iconfont.icon-add
             | 新增
       .filters
