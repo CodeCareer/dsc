@@ -77,6 +77,23 @@ export default [{
         }]
       }
     }, {
+      path: 'asste_info/:productCode',
+      name: 'assetInfoForm',
+      component: resolve => require(['@/views/asset_manage/AssetInfoForm.vue'], resolve),
+      meta: {
+        title: '微贷系统-资产全部信息',
+        crumbs: [{
+          name: '资产管理',
+          to: { name: 'assetInfo' }
+        }, {
+          name: '资产全部信息',
+          to: { name: 'assetInfo' }
+        }, {
+          name: '资产全部信息详情',
+          to: { name: 'assetInfoForm' }
+        }]
+      }
+    }, {
       path: 'back_record',
       name: 'backRecord',
       component: resolve => require(['@/views/asset_manage/BackRecord.vue'], resolve),

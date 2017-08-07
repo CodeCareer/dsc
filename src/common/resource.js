@@ -57,6 +57,7 @@ export const APIS = {
   fundAccountEdit: '/fundManage/editAccountInfo', //资金账户编辑
   fundAccountAdd: '/fundManage/addAccountInfo', //资金账户新增
   fundAccountDelete: '/fundManage/deleteAccountInfo', //资金账户删除
+  assetInfo: '/assetManage/listAllAssetInfo', //资产的全部信息
   backRecord: '/assetManage/listBuyBackRecord', // 查询回购记录
   factRepay: '/assetManage/listFactRepayInfo', // 查询实际还款
   repayPlan: '/assetManage/listRepayPlan', //查询还款计划
@@ -146,6 +147,10 @@ export const fundAccountAdd = {
 
 export const fundAccountDelete = {
   post: (data, config) => http.post(APIS.fundAccountDelete, data, config)
+}
+
+export const assetInfo = {
+  post: (data, config) => http.post(APIS.assetInfo, data, config)
 }
 
 export const backRecord = {

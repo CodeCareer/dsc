@@ -4,34 +4,32 @@
       .box-header
         h3 筛选条件
       .filters
-        el-select(v-model="filter.accountType", placeholder="账户类型", @change="search")
-          el-option(v-for="t in accountTypes", :key="t.name", :value="t.value", :label="t.name")
-        el-select(v-model="filter.checkingStatus", placeholder="对账状态", @change="search")
-          el-option(v-for="t in checkingTypes", :key="t.name", :value="t.value", :label="t.name")
-        el-date-picker(placeholder='入金日期', type='date', format='yyyy-MM-dd', :value='filter.depositDate', @input="handleDepositDate", :picker-options="pickerOptions")
+        el-input(placeholder='外部资产订单编号', icon='search', @keyup.native.13='search', v-model='filter.outerAssetOrderNo')
+        el-select(v-model="filter.assetFrom", placeholder="资产来源", @change="search")
+          el-option(v-for="t in assetFroms", :key="t.name", :value="t.value", :label="t.name")
+        el-input(placeholder='产品代码', icon='search', @keyup.native.13='search', v-model='filter.productCode')
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
-      el-table(:data='fundDepositData', style='width: 100%')
-        el-table-column(prop='accountName', label='账户名称', width='220')
-        el-table-column(prop='accountType', label='账户类型', width='80')
+      el-table(:data='assetInfo', style='width: 100%')
+        el-table-column(prop='assetBaseInfo.alipayAccount', label='账户名称', width='220')
+        el-table-column(prop='assetBaseInfo.assetFrom', label='账户类型', width='80')
           template(scope="scope")
-            span {{scope.row.accountType | statusFormat}}
-        el-table-column(prop='assetId', label='资产ID', width='220')
-        el-table-column(prop='fundAccountId', label='资金账户ID', width='220')
-        el-table-column(prop='checkingStatus', label='对账状态', width='80')
+            span {{scope.row.assetBaseInfo.assetFrom | statusFormat}}
+        el-table-column(prop='assetBaseInfo.productCode', label='产品代码', width='220')
+        el-table-column(prop='assetBaseInfo.assetStatus', label='资产状态', width='220')
           template(scope="scope")
-            span(:class="scope.row.checkingStatus | statusClass") {{scope.row.checkingStatus | statusFormat}}
-        el-table-column(prop='depositAmout', label='入金金额', width='220')
+            span {{scope.row.assetBaseInfo.assetStatus | statusFormat}}
+        el-table-column(prop='assetBaseInfo.buyBackStatus', label='回购状态', width='220')
           template(scope="scope")
-            span {{scope.row.depositAmout | ktCurrency}}
-        el-table-column(prop='depositDate', label='入金日期', width='120')
+            span {{scope.row.assetBaseInfo.buyBackStatus | statusFormat}}
+        el-table-column(prop='assetBaseInfo.phoneNum', label='电话号码', width='220')
+        el-table-column(prop='assetBaseInfo.pushStatus', label='推送状态', width='220')
           template(scope="scope")
-            span {{scope.row.depositDate | moment('YYYY-MM-DD')}}
-        el-table-column(prop='depositType', label='入金类型', width='80')
+            span {{scope.row.assetBaseInfo.pushStatus | statusFormat}}
+        el-table-column(label='操作', width='60')
           template(scope="scope")
-            span {{scope.row.depositType | statusFormat}}
-        
-        el-table-column(prop='termNo', label='	月供期数', width='80')
+            .operations
+              i.iconfont.icon-details(@click="detail(scope.row)")
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
@@ -42,7 +40,7 @@ import {
 } from 'lodash'
 
 import {
-  fundDeposit
+  assetInfo
 } from '@/common/resource.js'
 
 import {
@@ -52,17 +50,25 @@ import {
 import {
   tableListMixins
 } from '@/common/mixins.js'
-import moment from 'moment'
 
 const statusList = [{
-  name: '月供',
-  value: 'INSTALMENT'
+  name: '待审核',
+  value: 'WAIT_ADUIT'
 }, {
-  name: '尾款',
-  value: 'REST'
+  name: '审核失败',
+  value: 'AUDIT_FAILED'
 }, {
-  name: '回购款',
-  value: 'BUY_BACK'
+  name: '审核成功，待入池',
+  value: 'WAIT_INTO_POOL'
+}, {
+  name: '已入池',
+  value: 'HAVE_IN_POOL'
+}, {
+  name: '已出池',
+  value: 'HAVE_OUT_POOL'
+}, {
+  name: '募集失败',
+  value: 'COLLECT_FAILED'
 }, {
   name: '大搜车',
   value: 'DSC'
@@ -70,14 +76,20 @@ const statusList = [{
   name: '花生',
   value: 'HUASHENG'
 }, {
-  name: '待对账',
-  value: 'WAIT_CHECKING'
+  name: '未回购',
+  value: 'NOT_BUY_BACK'
 }, {
-  name: '对账通过',
-  value: 'PASS'
+  name: '已回购-未打款',
+  value: 'BUY_BACKED_UNPAID'
 }, {
-  name: '对账不通过',
-  value: 'UNPASS'
+  name: '已回购-已打款',
+  value: 'BUY_BACKED_PAID'
+}, {
+  name: '待推送校验',
+  value: 'WAIT_PUSH_CHECK'
+}, {
+  name: '已推送校验',
+  value: 'PUSH_CHECKED'
 }]
 
 export default {
@@ -85,9 +97,8 @@ export default {
   filters: {
     statusClass(value) {
       const classMap = {
-        'UNPASS': 'color-red',
-        'WAIT_CHECKING': 'color-yellow',
-        'PASS': 'color-green'
+        'AUDIT_FAILED': 'color-red',
+        'WAIT_INTO_POOL': 'color-green'
       }
       return classMap[value] || ''
     },
@@ -97,24 +108,20 @@ export default {
     }
   },
   methods: {
-    handleDepositDate(value) {
-      this.filter.depositDate = value ? moment(value).format('YYYY-MM-DD') : ''
-      this.search()
-    },
     parseInt: window.parseInt,
     _fetchData() {
-      fundDeposit.post(pruneParams(this.filter), {
+      assetInfo.post(pruneParams(this.filter), {
         loadingMaskTarget: '.fund-deposit-detail'
       }).then(res => {
-        const data = res.data[0].data
-        this.fundDepositData = data.rows
+        const data = res.data.data
+        this.assetInfo = data.rows
         this.page.total = data.total
       })
     },
 
-    audit(rows) {
+    detail(rows) {
       this.$router.push({
-        name: 'productsReleaseForm',
+        name: 'assetInfoForm',
         params: rows
       })
     }
@@ -135,30 +142,20 @@ export default {
     return {
       pickerOptions: '',
       fixed: window.innerWidth - 180 - 12 * 2 > 1150 ? false : 'right', // 180 左侧菜单宽度，12 section的padding
-      fundDepositData: [],
+      assetInfo: [],
       filter: {
-        accountType: '',
-        checkingStatus: '',
-        depositDate: '',
+        assetFrom: '',
+        outerAssetOrderNo: '',
+        productCode: '',
         page: 1,
         limit: 10
       },
-      accountTypes: [{
+      assetFroms: [{
         name: '花生',
         value: 'HUASHENG'
       }, {
         name: '大搜车',
         value: 'DSC'
-      }],
-      checkingTypes: [{
-        name: '待对账',
-        value: 'WAIT_CHECKING'
-      }, {
-        name: '对账通过',
-        value: 'PASS'
-      }, {
-        name: '对账不通过',
-        value: 'UNPASS'
       }]
     }
   }
