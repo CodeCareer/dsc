@@ -7,7 +7,7 @@
           el-input(placeholder='资产方', icon='search', @keyup.native.13="search", v-model='filter.assetFrom')
           el-input(placeholder='预警名称', icon='search', @keyup.native.13="search", v-model='filter.name')
           el-select(v-model="filter.status",filterable,placeholder="状态",@change="search",)
-            el-option(v-for="option in options",:value="option.value",:label="option.label")
+            el-option(v-for="option in options",:key="option.value",:value="option.value",:label="option.label")
           el-input(placeholder='对象ID', icon='search', @keyup.native.13="search", v-model='filter.subjectId')
           //- el-button(size="small", type="primary",@click="search") 查找
           el-button(size="small", type="primary",@click="clearFilter")  清除

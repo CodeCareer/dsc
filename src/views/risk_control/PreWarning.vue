@@ -10,45 +10,46 @@
             el-form-item(label="模板名称：")
               span.font-content {{risk.name}}
             el-form-item(label="风控规则：")
-              el-row.risk-row(v-for="(rule, indexr) in risk.riskRules")
-                el-col.risk-col(:span="8")
-                  span.risk-also(v-if='indexr !== 0 && risk.type === "WARNING"') 并且
-                  span.risk-also(v-if='indexr !== 0 && risk.type === "ACCESS"') 或者
-                  el-checkbox(:label="rule.name",v-model="rule.status",true-label="ENABLED")
-                el-col(:span="14")
-                  .risk-filter(v-for="(detail, indexd) in rule.details")
-                    //- NUMERIC
-                    .risk-num(v-if="rule.inputType ==='NUMERIC'")
-                      el-form-item.risk-verify
-                        el-select.input-width(v-model="detail.operator",:disabled="!rule.editing" placeholder="选择")
-                          el-option(v-for="operator in operators",:key="operator.value",:value="operator.value",:label="operator.label")
-                      el-form-item.risk-verify
-                        el-input.input-width(:placeholder="rule.name",:disabled="!rule.editing",v-model="detail.numericTarget")
-                      .el-buttons
-                        .risk-edit(v-if="indexd === 0")
-                          el-button(size="small", type="primary",@click="ruleEdit(rule)",v-if="!rule.editing") 编辑
-                        .risk-a-d(v-if="indexd !== 0")
-                          //- el-button(size="small", type="primary",@click="detailAdd(rule)") 并且
-                          el-button(v-if="rule.editing", size="small", type="primary",@click="detailDelete(rule, indexd)") 删除
-                        .el-buttons-n(v-if="rule.editing && indexd === 0")
-                          el-button(size="small", type="primary",@click="detailAdd(rule)") 并且
-                          el-button(size="small", type="primary",@click="ruleSubmit(rule)") 保存
-                          el-button(size="small", type="primary",@click="ruleCancel(rule)") 取消
-                    //- BOOLEAN
-                    .risk-bool(v-if="rule.inputType === 'BOOLEAN'")
-                      el-form-item.risk-verify
-                        el-select.input-width(v-model="detail.booleanTarget",placeholder="选择",:disabled="!rule.editing")
-                          el-option(v-for="(bool,indexb) in riskBools",:value="bool.value",:label="bool.label")
-                      .el-buttons
-                        .risk-edit(v-if="indexd === 0")
-                          el-button(size="small", type="primary",@click="ruleEdit(rule)",v-if="!rule.editing") 编辑
-                        .risk-a-d(v-if="indexd !== 0")
-                          //- el-button(size="small", type="primary",@click="detailAdd(rule)") 并且
-                          el-button(v-if="rule.editing", size="small", type="primary",@click="detailDelete(rule, detail)") 删除
-                        .el-buttons-n(v-if="rule.editing && indexd === 0")
-                          el-button(size="small", type="primary",@click="detailAdd(rule)") 并且
-                          el-button(size="small", type="primary",@click="ruleSubmit(rule)") 保存
-                          el-button(size="small", type="primary",@click="ruleCancel(rule)") 取消
+              .risk-row(v-for="(rule, indexr) in risk.riskRules")
+                el-row
+                  el-col.risk-col(:span="8")
+                    span.risk-also(v-if='indexr !== 0 && risk.type === "WARNING"') 并且
+                    span.risk-also(v-if='indexr !== 0 && risk.type === "ACCESS"') 或者
+                    el-checkbox(:label="rule.name",v-model="rule.status",true-label="ENABLED")
+                  el-col(:span="14")
+                    .risk-filter(v-for="(detail, indexd) in rule.details")
+                      //- NUMERIC
+                      .risk-num(v-if="rule.inputType ==='NUMERIC'")
+                        el-form-item.risk-verify
+                          el-select.input-width(v-model="detail.operator",:disabled="!rule.editing" placeholder="选择")
+                            el-option(v-for="operator in operators",:key="operator.value",:value="operator.value",:label="operator.label")
+                        el-form-item.risk-verify
+                          el-input.input-width(:placeholder="rule.name",:disabled="!rule.editing",v-model="detail.numericTarget")
+                        .el-buttons
+                          .risk-edit(v-if="indexd === 0")
+                            el-button(size="small", type="primary",@click="ruleEdit(rule)",v-if="!rule.editing") 编辑
+                          .risk-a-d(v-if="indexd !== 0")
+                            //- el-button(size="small", type="primary",@click="detailAdd(rule)") 并且
+                            el-button(v-if="rule.editing", size="small", type="primary",@click="detailDelete(rule, indexd)") 删除
+                          .el-buttons-n(v-if="rule.editing && indexd === 0")
+                            el-button(size="small", type="primary",@click="detailAdd(rule)") 并且
+                            el-button(size="small", type="primary",@click="ruleSubmit(rule)") 保存
+                            el-button(size="small", type="primary",@click="ruleCancel(rule)") 取消
+                      //- BOOLEAN
+                      .risk-bool(v-if="rule.inputType === 'BOOLEAN'")
+                        el-form-item.risk-verify
+                          el-select.input-width(v-model="detail.booleanTarget",placeholder="选择",:disabled="!rule.editing")
+                            el-option(v-for="(bool,indexb) in riskBools",:key="bool.value",:value="bool.value",:label="bool.label")
+                        .el-buttons
+                          .risk-edit(v-if="indexd === 0")
+                            el-button(size="small", type="primary",@click="ruleEdit(rule)",v-if="!rule.editing") 编辑
+                          .risk-a-d(v-if="indexd !== 0")
+                            //- el-button(size="small", type="primary",@click="detailAdd(rule)") 并且
+                            el-button(v-if="rule.editing", size="small", type="primary",@click="detailDelete(rule, detail)") 删除
+                          .el-buttons-n(v-if="rule.editing && indexd === 0")
+                            el-button(size="small", type="primary",@click="detailAdd(rule)") 并且
+                            el-button(size="small", type="primary",@click="ruleSubmit(rule)") 保存
+                            el-button(size="small", type="primary",@click="ruleCancel(rule)") 取消
 </template>
 
 <script>
@@ -130,7 +131,7 @@ export default{
             })
           })
         })
-
+        console.log(this.riskWarnDatas)
         this.riskWarnDatas = data.riskRuleTemplates
         loadingInstance.close()
       })
