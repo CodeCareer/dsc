@@ -4,7 +4,7 @@
       .box-header
         h3 筛选条件
         .buttons
-          el-button(type="primary", size="small", @click="addCarInfo()")
+          el-button(type="primary", size="small", @click="addCarInfo()", v-if="$pemit('carInfoAdd')")
             i.iconfont.icon-add
             | 新增
       .filters
@@ -29,7 +29,7 @@
         el-table-column(label='操作', :fixed="fixed", width='80')
           template(scope="scope")
             .operations
-              i.iconfont.icon-edit(@click="editCarInfo(scope.row)")
+              i.iconfont.icon-edit(@click="editCarInfo(scope.row)", v-if="$permit('carInfoUpdate')")
               //- i.iconfont.icon-delete(@click.stop="deleteCarInfo(scope.row)")
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>

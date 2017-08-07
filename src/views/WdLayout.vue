@@ -181,19 +181,22 @@ export default {
           route: {
             name: 'carInfo'
           },
+          hidden: !this.$permit(['carInfoList']),
           activeIncludes: ['carInfo', 'carInfoForm']
         }, {
           name: '车型匹配',
           index: '5-2',
           route: {
             name: 'carMatch'
-          }
+          },
+          hidden: !this.$permit(['carMatchList'])
         }, {
           name: 'GPS数据',
           index: '5-3',
           route: {
             name: 'carGps'
-          }
+          },
+          hidden: !this.$permit(['carGpsList'])
         }]
       }, {
         name: '用户管理',
@@ -205,6 +208,7 @@ export default {
           route: {
             name: 'accounts'
           },
+          hidden: !this.$permit(['accountList']),
           activeIncludes: ['accounts', 'accountForm']
         }, {
           name: '角色列表',
@@ -212,13 +216,15 @@ export default {
           route: {
             name: 'roles'
           },
+          hidden: !this.$permit(['roleList']),
           activeIncludes: ['roles', 'roleForm']
         }, {
           name: '个人设置',
           index: '6-3',
           route: {
             name: 'settings'
-          }
+          },
+          hidden: !this.$permit(['accountDetail'])
         }]
       }],
       containerStyles: {

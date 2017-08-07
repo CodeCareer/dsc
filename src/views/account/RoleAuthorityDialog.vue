@@ -4,12 +4,12 @@
       el-form(:model='role', :rules="rules", ref="roleForm", :label-width='formLabelWidth')
         .authority-table.bd
           table
-            tr(v-for="module in permissions")
+            tr(v-for="module in permissions", :key="module.id")
               th.bd-b.bd-r
                 el-checkbox.circle.mini(@change="handleCheckAllChange($event, module)", :indeterminate="module.indeterminate" v-model="module.check") {{module.name}}
               td.bd-b
                 el-checkbox-group(v-model="module.checkedList", @change="handleCheckChange(module)")
-                  el-checkbox.circle.mini(v-for="o in module.functions", :label="o.id") {{o.name}}
+                  el-checkbox.circle.mini(v-for="o in module.functions", :label="o.id", :key="o.id") {{o.name}}
       .dialog-footer(slot="footer")
         el-button(type="primary", size="small", @click='roleSave') 确定
         el-button(type='gray', size="small", @click='dialogVisible = false') 取消

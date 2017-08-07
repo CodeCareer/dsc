@@ -4,7 +4,7 @@
       .box-header
         h3 筛选条件
         .buttons
-          el-button(type="primary", size="small", @click="addRole()")
+          el-button(type="primary", size="small", @click="addRole()", v-if="$permit('roleAdd')")
             i.iconfont.icon-add
             | 新增
       .filters
@@ -22,10 +22,10 @@
         el-table-column(label='操作', width="100")
           template(scope="scope")
             .operations
-              i.iconfont.icon-qiyong(v-if="!scope.row.enabled", title="启用用户", @click="startRole(scope.row)")
-              i.iconfont.icon-tingyong(v-if="scope.row.enabled", title="停用用户", @click.stop="stopRole(scope.row)")
-              i.iconfont.icon-edit(title="修改用户", @click.stop="editRole(scope.row)")
-              i.iconfont.icon-quanxian(title="权限设置", @click.stop="editAuthority(scope.row)")
+              i.iconfont.icon-qiyong(v-if="!scope.row.enabled && $permit('roleUpdateEable')", title="启用用户", @click="startRole(scope.row)")
+              i.iconfont.icon-tingyong(v-if="scope.row.enabled && $permit('roleUpdateEable')", title="停用用户", @click.stop="stopRole(scope.row)")
+              i.iconfont.icon-edit(v-if="$permit('roleUpdate')", title="修改用户", @click.stop="editRole(scope.row)")
+              i.iconfont.icon-quanxian(v-if="$permit('roleAddPermission')", title="权限设置", @click.stop="editAuthority(scope.row)")
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.size)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
     role-authority-dialog(ref="authorityDialog")
 </template>

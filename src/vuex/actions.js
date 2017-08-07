@@ -28,7 +28,7 @@ export default {
 
   async getUser({ dispatch }) {
     const user = await session.get().then(res => res.data)
-    dispatch('updateUser', user)
+    await dispatch('updateUser', user)
     return user
   },
 

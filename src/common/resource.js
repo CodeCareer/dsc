@@ -63,9 +63,13 @@ export const APIS = {
   riskEdit: '/riskManage/riskRules/:riskRuleId/update', //风控修改风险规则
   riskQuery: '/riskManage/riskRuleTemplates', //查询风险规则模板
   riskWarn: '/riskManage/riskRuleWarnings', //查询风险预警信息
-  carInfos: '/thirdPartyData/vehicleManage/vehicles/:id', // 车辆信息列表获取接口
-  carGps: '/thirdPartyData/vehicleManage/geos', // 车辆GPS信息列表获取接口
-  carMatchs: '/thirdPartyData/vehicleManage/vehicleMatchs/:id' // 车辆匹配信息管理
+  carInfoList: '/thirdPartyData/vehicleManage/vehicles/list', // 车辆信息列表获取接口
+  carInfoDetail: '/thirdPartyData/vehicleManage/vehicles/detail/:id', // 车辆信息获取接口
+  carInfoAdd: '/thirdPartyData/vehicleManage/vehicles/create', // 车辆信息
+  carInfoUpdate: '/thirdPartyData/vehicleManage/vehicles/update', // 车辆信息
+  carGpsList: '/thirdPartyData/vehicleManage/geos', // 车辆GPS信息列表获取接口
+  carMatchList: '/thirdPartyData/vehicleManage/vehicleMatchs/list', // 车辆匹配信息管理
+  carMatchUpdate: '/thirdPartyData/vehicleManage/vehicleMatchs/update' // 车辆匹配信息管理
 }
 
 export const session = {
@@ -74,19 +78,25 @@ export const session = {
 }
 
 export const carInfos = {
-  get: config => http.get(APIS.carInfos, config),
-  post: (data, config) => http.post(APIS.carInfos, data, config),
-  put: (data, config) => http.put(APIS.carInfos, data, config),
-  delete: config => http.delete(APIS.carInfos, config)
+  get: config => http.get(APIS.carInfoList, config)
+}
+
+export const carInfo = {
+  get: config => http.get(APIS.carInfoDetail, config),
+  post: (data, config) => http.post(APIS.carInfoAdd, data, config),
+  put: (data, config) => http.post(APIS.carInfoUpdate, data, config)
 }
 
 export const carGps = {
-  get: config => http.get(APIS.carGps, config)
+  get: config => http.get(APIS.carGpsList, config)
 }
 
 export const carMatchs = {
-  get: config => http.get(APIS.carMatchs, config),
-  put: (data, config) => http.put(APIS.carMatchs, data, config)
+  get: config => http.get(APIS.carMatchList, config)
+}
+
+export const carMatch = {
+  put: (data, config) => http.put(APIS.carMatchUpdate, data, config)
 }
 
 export const productsRelease = {

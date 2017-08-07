@@ -48,12 +48,12 @@ export default {
       'url': '/api/usermanage/v1/user/update/pwd',
       'check': true
     }, {
-      'id': '00000000000000001008',
+      'id': '00000000000000001009',
       'name': '查看用户权限',
       'url': '/api/usermanage/v1/permission/listByRoleId',
       'check': true
     }, {
-      'id': '00000000000000001008',
+      'id': '00000000000000001010',
       'name': '修改用户权限',
       'url': '/api/usermanage/v1/role/create/permission',
       'check': true

@@ -30,7 +30,7 @@ import {
   updateCrumb
 } from '@/common/crosser.js'
 import {
-  carInfos
+  carInfo
 } from '@/common/resource.js'
 import {
   merge
@@ -41,11 +41,8 @@ export default {
     submitForm() {
       this.$refs.carInfoForm.validate((valid) => {
         if (valid) {
-          carInfos[this.car.id ? 'put' : 'post'](this.car, {
-            loadingMaskTarget: '.car-info-form',
-            pathParams: {
-              id: this.car.id || ''
-            }
+          carInfo[this.car.id ? 'put' : 'post'](this.car, {
+            loadingMaskTarget: '.car-info-form'
           }).then(res => {
             this.$message.success('保存成功！')
             this.$router.push({
@@ -71,7 +68,7 @@ export default {
     if (this.$route.params.id !== 'add') {
       const id = this.$route.params.id
 
-      carInfos.get({
+      carInfo.get({
         pathParams: {
           id
         },
