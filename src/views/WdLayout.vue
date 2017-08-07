@@ -12,12 +12,12 @@
       aside
         el-menu(:unique-opened='true', :default-openeds="defaultOpeneds", :default-active="defaultActive", :router='true', ref="menus")
           template(v-for="menu in menus")
-            el-submenu(v-if="menu.menus", :index="menu.index", v-show="!menu.hidden")
+            el-submenu(v-if="menu.menus", :index="menu.index", v-show="menu.visible")
               template(slot='title')
                 i.iconfont.icon-color(:class="menu.icon")
                 | {{menu.name}}
               el-menu-item( v-for="item in menu.menus", :index='item.index', :route="item.route", :key="item.index") {{item.name}}
-            el-menu-item(v-else, :index='menu.index', :route="menu.route", v-show="!menu.hidden")
+            el-menu-item(v-else, :index='menu.index', :route="menu.route", v-show="menu.visible")
               i.iconfont.icon-color(:class="menu.icon")
               | {{menu.name}}
       .body(:style='containerStyles')
@@ -181,7 +181,7 @@ export default {
           route: {
             name: 'carInfo'
           },
-          hidden: !this.$permit(['carInfoList']),
+          visible: this.$permit(['carInfoList']),
           activeIncludes: ['carInfo', 'carInfoForm']
         }, {
           name: '车型匹配',
@@ -189,14 +189,14 @@ export default {
           route: {
             name: 'carMatch'
           },
-          hidden: !this.$permit(['carMatchList'])
+          visible: this.$permit(['carMatchList'])
         }, {
           name: 'GPS数据',
           index: '5-3',
           route: {
             name: 'carGps'
           },
-          hidden: !this.$permit(['carGpsList'])
+          visible: this.$permit(['carGpsList'])
         }]
       }, {
         name: '用户管理',
@@ -208,7 +208,7 @@ export default {
           route: {
             name: 'accounts'
           },
-          hidden: !this.$permit(['accountList']),
+          visible: this.$permit(['accountList']),
           activeIncludes: ['accounts', 'accountForm']
         }, {
           name: '角色列表',
@@ -216,7 +216,7 @@ export default {
           route: {
             name: 'roles'
           },
-          hidden: !this.$permit(['roleList']),
+          visible: this.$permit(['roleList']),
           activeIncludes: ['roles', 'roleForm']
         }, {
           name: '个人设置',
@@ -224,7 +224,7 @@ export default {
           route: {
             name: 'settings'
           },
-          hidden: !this.$permit(['accountDetail'])
+          visible: this.$permit(['accountDetail'])
         }]
       }],
       containerStyles: {
