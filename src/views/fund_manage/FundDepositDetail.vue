@@ -4,9 +4,9 @@
       .box-header
         h3 筛选条件
       .filters
-        el-select(v-model="filter.accountType", placeholder="账户类型")
+        el-select(v-model="filter.accountType", placeholder="账户类型", @change="search")
           el-option(v-for="t in accountTypes", :key="t.name", :value="t.value", :label="t.name")
-        el-select(v-model="filter.checkingStatus", placeholder="对账状态")
+        el-select(v-model="filter.checkingStatus", placeholder="对账状态", @change="search")
           el-option(v-for="t in checkingTypes", :key="t.name", :value="t.value", :label="t.name")
         el-date-picker(placeholder='入金日期', type='date', v-model='filter.depositDate', :picker-options="pickerOptions")
         el-button(size="small", @click="clearFilter")  清除
