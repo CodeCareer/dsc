@@ -4,13 +4,12 @@
       .box-header
         h3 筛选条件
       .filters
-        el-select(v-model="filter.accountType", placeholder="账户类型")
+        el-select(v-model="filter.accountType", placeholder="账户类型", @change="search")
           el-option(v-for="t in accountTypes", :key="t.name", :value="t.value", :label="t.name")
-        el-select(v-model="filter.checkingStatus", placeholder="对账状态")
+        el-select(v-model="filter.checkingStatus", placeholder="对账状态", @change="search")
           el-option(v-for="t in checkingTypes", :key="t.name", :value="t.value", :label="t.name")
-        el-date-picker(placeholder='入金日期', type='date', v-model='filter.depositDate', :picker-options="pickerOptions")
-        el-button(size="small", @click="clearFilter")  清除
-        el-button(size="small", type="primary", @click="search") 查询
+        el-date-picker(placeholder='入金日期', type='date', format='yyyy-MM-dd', :value='filter.depositDate', @input="handleDepositDate", :picker-options="pickerOptions")
+        el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='fundDepositData', style='width: 100%')
         el-table-column(prop='accountName', label='账户名称', width='220')
@@ -53,6 +52,7 @@ import {
 import {
   tableListMixins
 } from '@/common/mixins.js'
+import moment from 'moment'
 
 const statusList = [{
   name: '月供',
@@ -97,6 +97,10 @@ export default {
     }
   },
   methods: {
+    handleDepositDate(value) {
+      this.filter.depositDate = value ? moment(value).format('YYYY-MM-DD') : ''
+      this.search()
+    },
     parseInt: window.parseInt,
     _fetchData() {
       fundDeposit.post(pruneParams(this.filter), {
