@@ -8,11 +8,10 @@
             i.iconfont.icon-add
             | 新增
       .filters
-        el-date-picker(placeholder='入金日期', type='date', v-model.lazy='filter.payDate', :picker-options="pickerOptions")
+        el-date-picker(placeholder='入金日期', type='date', format='yyyy-MM-dd', :value='filter.payDate', @input="handlePayDate", :picker-options="pickerOptions")
         el-select(v-model="filter.accountType", placeholder="账户类型")
           el-option(v-for="t in assetTypes", :key="t.name", :value="t.value", :label="t.name")
-        el-button(size="small", @click="clearFilter")  清除
-        el-button(size="small", type="primary", @click="search") 查询
+        el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='accountDeposit', style='width: 100%')
         el-table-column(prop='fundAccountId', label='资金账户id', width='220')
@@ -72,6 +71,7 @@ import {
 import {
   tableListMixins
 } from '@/common/mixins.js'
+import moment from 'moment'
 
 const statusList = [{
   name: '待审核',
@@ -121,6 +121,10 @@ export default {
     }
   },
   methods: {
+    handlePayDate(value) {
+      this.filter.payDate = value ? moment(value).format('YYYY-MM-DD') : ''
+      this.search()
+    },
     parseInt: window.parseInt,
     _fetchData() {
       accountDepositManage.post(pruneParams(this.filter), {

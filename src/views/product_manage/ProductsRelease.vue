@@ -4,17 +4,16 @@
       .box-header
         h3 筛选条件
       .filters
+        .filter-line 
+          el-date-picker(placeholder='上架日期下限', format='yyyy-MM-dd', type='date', :value='filter.carriageDateLower', @input="handleCarriageDateLower", :picker-options="pickerOptions")
+          el-date-picker(placeholder='上架日期上限', format='yyyy-MM-dd', type='date', :value='filter.carriageDateUpper', @input="handleCarriageDateUpper", :picker-options="pickerOptions")
+          el-date-picker(placeholder='起息日下限', format='yyyy-MM-dd', type='date', :value='filter.valueDateLower', @input="handleValueDateLower", :picker-options="pickerOptions")
+          el-date-picker(placeholder='起息日上限', format='yyyy-MM-dd', type='date', :value='filter.valueDateUpper', @input="handleValueDateUpper", :picker-options="pickerOptions")
         .filter-line
-          el-date-picker(placeholder='上架日期下限', type='date', v-model.lazy='filter.carriageDateLower', :picker-options="pickerOptions")
-          el-date-picker(placeholder='上架日期上限', type='date', v-model.lazy='filter.carriageDateUpper', :picker-options="pickerOptions")
-          el-date-picker(placeholder='起息日下限', type='date', v-model.lazy='filter.valueDateLower', :picker-options="pickerOptions")
-          el-date-picker(placeholder='起息日上限', type='date', v-model.lazy='filter.valueDateUpper', :picker-options="pickerOptions")
-        .filter-line
-          el-input(placeholder='产品名称', icon='search', v-model.lazy='filter.productName')
-          el-select(v-model="filter.assetFrom", placeholder="资产来源")
+          el-input(placeholder='产品名称', icon='search', @keyup.native.13="search", v-model='filter.productName')
+          el-select(v-model="filter.assetFrom", placeholder="资产来源", @change="search")
             el-option(v-for="t in assetTypes", :key="t.name", :value="t.value", :label="t.name")
-          el-button(size="small", @click="clearFilter")  清除
-          el-button(size="small", type="primary", @click="search") 查询
+          el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='productsRelease', style='width: 100%')
         el-table-column(prop='productName', fixed="left", label='产品名称', width='220')
@@ -82,10 +81,27 @@ import {
 import {
   tableListMixins
 } from '@/common/mixins.js'
+import moment from 'moment'
 
 export default {
   mixins: [tableListMixins],
   methods: {
+    handleValueDateUpper(value) {
+      this.filter.valueDateUpper = value ? moment(value).format('YYYY-MM-DD') : ''
+      this.search()
+    },
+    handleValueDateLower(value) {
+      this.filter.valueDateLower = value ? moment(value).format('YYYY-MM-DD') : ''
+      this.search()
+    },
+    handleCarriageDateUpper(value) {
+      this.filter.carriageDateUpper = value ? moment(value).format('YYYY-MM-DD') : ''
+      this.search()
+    },
+    handleCarriageDateLower(value) {
+      this.filter.carriageDateLower = value ? moment(value).format('YYYY-MM-DD') : ''
+      this.search()
+    },
     parseInt: window.parseInt,
     _fetchData() {
       productsRelease.post(pruneParams(this.filter), {

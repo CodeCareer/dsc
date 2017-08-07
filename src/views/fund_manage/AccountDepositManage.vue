@@ -8,11 +8,10 @@
             i.iconfont.icon-add
             | 新增
       .filters
-        el-date-picker(placeholder='入金日期', type='date', v-model.lazy='filter.payDate', :picker-options="pickerOptions")
-        el-select(v-model="filter.accountType", placeholder="账户类型")
+        el-date-picker(placeholder='入金日期', format='yyyy-MM-dd', type='date', :value='filter.payDate', @input="handlePayDate", :picker-options="pickerOptions")
+        el-select(v-model="filter.accountType", placeholder="账户类型" @change="search")
           el-option(v-for="t in assetTypes", :key="t.name", :value="t.value", :label="t.name")
-        el-button(size="small", @click="clearFilter")  清除
-        el-button(size="small", type="primary", @click="search") 查询
+        el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='accountDeposit', style='width: 100%')
         el-table-column(prop='fundAccountId', label='资金账户id', width='220')
@@ -21,7 +20,7 @@
             span {{scope.row.accountType | statusFormat}}
         el-table-column(prop='createDateTime', label='创建时间', width='100')
           template(scope="scope")
-            span {{scope.row.carriageDate | moment('YYYY-MM-DD')}}
+            span {{scope.row.createDateTime | moment('YYYY-MM-DD')}}
         el-table-column(prop='auditStatus', label='审核状态', width='80')
           template(scope="scope")
             span(:class="scope.row.auditStatus | statusClass") {{scope.row.auditStatus | statusFormat}}
@@ -64,6 +63,7 @@ import {
   accountDepositDelete,
   accountDepositAudit
 } from '@/common/resource.js'
+import moment from 'moment'
 
 import {
   pruneParams
@@ -121,6 +121,10 @@ export default {
     }
   },
   methods: {
+    handlePayDate(value) {
+      this.filter.payDate = value ? moment(value).format('YYYY-MM-DD') : ''
+      this.search()
+    },
     parseInt: window.parseInt,
     _fetchData() {
       accountDepositManage.post(pruneParams(this.filter), {
@@ -139,7 +143,7 @@ export default {
         accountDepositDelete.post({id: rows.id}, {
           loadingMaskTarget: '.account-deposit-manage'
         }).then(res => {
-          const data = res.data.data
+          const data = res.data
           this.operationStatus(data)
         })
       }).catch(() => {})
@@ -152,7 +156,7 @@ export default {
         accountDepositAudit.post({id: rows.id}, {
           loadingMaskTarget: '.account-deposit-manage'
         }).then(res => {
-          const data = res.data.data
+          const data = res.data
           this.operationStatus(data)
         })
       }).catch(() => {})
