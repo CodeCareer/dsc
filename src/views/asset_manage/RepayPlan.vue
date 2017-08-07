@@ -1,37 +1,56 @@
 <template lang="pug">
-  section.fund-deposit-detail
+  section.reapy-plan
     .box
       .box-header
         h3 筛选条件
       .filters
-        el-select(v-model="filter.accountType", placeholder="账户类型", @change="search")
-          el-option(v-for="t in accountTypes", :key="t.name", :value="t.value", :label="t.name")
-        el-select(v-model="filter.checkingStatus", placeholder="对账状态", @change="search")
-          el-option(v-for="t in checkingTypes", :key="t.name", :value="t.value", :label="t.name")
-        el-date-picker(placeholder='入金日期', type='date', format='yyyy-MM-dd', :value='filter.depositDate', @input="handleDepositDate", :picker-options="pickerOptions")
+        el-input(placeholder='资产ID', icon='search', @keyup.native.13='search', v-model='filter.assetId')
+        el-input(placeholder='期数', icon='search', @keyup.native.13='search', v-model='filter.termNo')
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
-      el-table(:data='fundDepositData', style='width: 100%')
-        el-table-column(prop='accountName', label='账户名称', width='220')
-        el-table-column(prop='accountType', label='账户类型', width='80')
-          template(scope="scope")
-            span {{scope.row.accountType | statusFormat}}
+      el-table(:data='repayPlan', style='width: 100%')
         el-table-column(prop='assetId', label='资产ID', width='220')
-        el-table-column(prop='fundAccountId', label='资金账户ID', width='220')
-        el-table-column(prop='checkingStatus', label='对账状态', width='80')
+        el-table-column(prop='benefit', label='优惠金额', width='220')
           template(scope="scope")
-            span(:class="scope.row.checkingStatus | statusClass") {{scope.row.checkingStatus | statusFormat}}
-        el-table-column(prop='depositAmout', label='入金金额', width='220')
+            span {{scope.row.benefit | ktCurrency}}
+        el-table-column(prop='benefitType', label='优惠方式', width='80')
           template(scope="scope")
-            span {{scope.row.depositAmout | ktCurrency}}
-        el-table-column(prop='depositDate', label='入金日期', width='120')
+            span {{scope.row.benefitType | statusFormat}}
+        el-table-column(prop='faceRepayDate', label='实际还款日期', width='120')
           template(scope="scope")
-            span {{scope.row.depositDate | moment('YYYY-MM-DD')}}
-        el-table-column(prop='depositType', label='入金类型', width='80')
+            span {{scope.row.faceRepayDate | moment('YYYY-MM-DD')}}
+        el-table-column(prop='factBenefit', label='实际优惠金额', width='220')
           template(scope="scope")
-            span {{scope.row.depositType | statusFormat}}
-        
-        el-table-column(prop='termNo', label='	月供期数', width='80')
+            span {{scope.row.factBenefit | ktCurrency}}
+        el-table-column(prop='factRepayAmount', label='实际还款金额', width='220')
+          template(scope="scope")
+            span {{scope.row.factRepayAmount | ktCurrency}}
+        el-table-column(prop='nameInstalmentsAmount', label='名义月供金额', width='220')
+          template(scope="scope")
+            span {{scope.row.nameInstalmentsAmount | ktCurrency}}
+        el-table-column(prop='overdueDays', label='逾期天数', width='80')
+        el-table-column(prop='payChannel', label='支付渠道', width='80')
+          template(scope="scope")
+            span {{scope.row.payChannel | statusFormat}}
+        el-table-column(prop='payNo', label='支付流水号', width='200')
+        el-table-column(prop='penaltyInterst', label='罚息', width='220')
+          template(scope="scope")
+            span {{scope.row.penaltyInterst | ktCurrency}}
+        el-table-column(prop='repayAmount', label='应还款金额', width='220')
+          template(scope="scope")
+            span {{scope.row.repayAmount | ktCurrency}}
+        el-table-column(prop='repayDate', label='应还款日', width='120')
+          template(scope="scope")
+            span {{scope.row.repayDate | moment('YYYY-MM-DD')}}
+        el-table-column(prop='repayInterest', label='应还款利息', width='220')
+          template(scope="scope")
+            span {{scope.row.repayInterest | ktCurrency}}
+        el-table-column(prop='repayPrincipal', label='应还款本金', width='220')
+          template(scope="scope")
+            span {{scope.row.repayPrincipal | ktCurrency}}
+        el-table-column(prop='repayStatus', label='还款状态', width='220')
+          template(scope="scope")
+            span(:class="scope.row.repayStatus | statusClass") {{scope.row.repayStatus | statusFormat}}
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
@@ -42,7 +61,7 @@ import {
 } from 'lodash'
 
 import {
-  fundDeposit
+  repayPlan
 } from '@/common/resource.js'
 
 import {
@@ -52,32 +71,34 @@ import {
 import {
   tableListMixins
 } from '@/common/mixins.js'
-import moment from 'moment'
 
 const statusList = [{
-  name: '月供',
-  value: 'INSTALMENT'
+  name: '抵扣',
+  value: 'DEDUCT'
 }, {
-  name: '尾款',
-  value: 'REST'
+  name: '返现',
+  value: 'RETURN_CASH'
 }, {
-  name: '回购款',
-  value: 'BUY_BACK'
+  name: '待还款',
+  value: 'WAITING'
 }, {
-  name: '大搜车',
-  value: 'DSC'
+  name: '已还款',
+  value: 'REPAID'
 }, {
-  name: '花生',
-  value: 'HUASHENG'
+  name: '网商',
+  value: 'MYBANK'
 }, {
-  name: '待对账',
-  value: 'WAIT_CHECKING'
+  name: '中金',
+  value: 'ZHONGJIN'
 }, {
-  name: '对账通过',
-  value: 'PASS'
+  name: '银联',
+  value: 'UNIPAY'
 }, {
-  name: '对账不通过',
-  value: 'UNPASS'
+  name: '线下',
+  value: 'OFF_LINE'
+}, {
+  name: '其他',
+  value: 'OTHER'
 }]
 
 export default {
@@ -85,9 +106,8 @@ export default {
   filters: {
     statusClass(value) {
       const classMap = {
-        'UNPASS': 'color-red',
-        'WAIT_CHECKING': 'color-yellow',
-        'PASS': 'color-green'
+        'REPAID': 'color-green',
+        'WAITING': 'color-red'
       }
       return classMap[value] || ''
     },
@@ -97,25 +117,14 @@ export default {
     }
   },
   methods: {
-    handleDepositDate(value) {
-      this.filter.depositDate = value ? moment(value).format('YYYY-MM-DD') : ''
-      this.search()
-    },
     parseInt: window.parseInt,
     _fetchData() {
-      fundDeposit.post(pruneParams(this.filter), {
-        loadingMaskTarget: '.fund-deposit-detail'
+      repayPlan.post(pruneParams(this.filter), {
+        loadingMaskTarget: '.reapy-plan'
       }).then(res => {
-        const data = res.data[0].data
-        this.fundDepositData = data.rows
+        const data = res.data.data
+        this.repayPlan = data.rows
         this.page.total = data.total
-      })
-    },
-
-    audit(rows) {
-      this.$router.push({
-        name: 'productsReleaseForm',
-        params: rows
       })
     }
   },
@@ -133,33 +142,13 @@ export default {
 
   data() {
     return {
-      pickerOptions: '',
       fixed: window.innerWidth - 180 - 12 * 2 > 1150 ? false : 'right', // 180 左侧菜单宽度，12 section的padding
-      fundDepositData: [],
+      repayPlan: [],
       filter: {
-        accountType: '',
-        checkingStatus: '',
-        depositDate: '',
+        assetId: '',
         page: 1,
         limit: 10
-      },
-      accountTypes: [{
-        name: '花生',
-        value: 'HUASHENG'
-      }, {
-        name: '大搜车',
-        value: 'DSC'
-      }],
-      checkingTypes: [{
-        name: '待对账',
-        value: 'WAIT_CHECKING'
-      }, {
-        name: '对账通过',
-        value: 'PASS'
-      }, {
-        name: '对账不通过',
-        value: 'UNPASS'
-      }]
+      }
     }
   }
 }
@@ -172,15 +161,5 @@ export default {
     margin-top: 20px;
     text-align: center;
   }
-  .icon-relation {
-    font-size: 15px;
-  }
-}
-.box-tab-head{
-  text-align: right;
-    background: #f3f6f8;
-    height: 40px;
-    line-height: 40px;
-    padding-right: 15px;
 }
 </style>
