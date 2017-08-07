@@ -56,24 +56,66 @@ export default [{
   }, {
     path: 'asset_manage',
     name: 'assetManage',
-    redirect: { name: 'assetData' },
+    redirect: { name: 'assetInfo' },
     component: {
       render(h) {
         return h('router-view')
       }
     },
     children: [{
-      path: 'asste_data',
-      name: 'assetData',
-      component: resolve => require(['@/views/asset_manage/AssetData.vue'], resolve),
+      path: 'asste_info',
+      name: 'assetInfo',
+      component: resolve => require(['@/views/asset_manage/AssetInfo.vue'], resolve),
       meta: {
-        title: '微贷系统-资产数据查询',
+        title: '微贷系统-资产全部信息',
         crumbs: [{
           name: '资产管理',
-          to: { name: 'assetData' }
+          to: { name: 'assetInfo' }
         }, {
-          name: '资产数据查询',
-          to: { name: 'assetData' }
+          name: '资产全部信息',
+          to: { name: 'assetInfo' }
+        }]
+      }
+    }, {
+      path: 'back_record',
+      name: 'backRecord',
+      component: resolve => require(['@/views/asset_manage/BackRecord.vue'], resolve),
+      meta: {
+        title: '微贷系统-资产回购记录',
+        crumbs: [{
+          name: '资产管理',
+          to: { name: 'assetInfo' }
+        }, {
+          name: '回购记录',
+          to: { name: 'backRecord' }
+        }]
+      }
+    }, {
+      path: 'fact_repay',
+      name: 'factRepay',
+      component: resolve => require(['@/views/asset_manage/FactRepay.vue'], resolve),
+      meta: {
+        title: '微贷系统-资产实际还款',
+        crumbs: [{
+          name: '资产管理',
+          to: { name: 'assetInfo' }
+        }, {
+          name: '实际还款',
+          to: { name: 'factRepay' }
+        }]
+      }
+    }, {
+      path: 'repay_plan',
+      name: 'repayPlan',
+      component: resolve => require(['@/views/asset_manage/RepayPlan.vue'], resolve),
+      meta: {
+        title: '微贷系统-资产还款计划',
+        crumbs: [{
+          name: '资产管理',
+          to: { name: 'assetInfo' }
+        }, {
+          name: '还款计划',
+          to: { name: 'repayPlan' }
         }]
       }
     }]
