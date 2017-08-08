@@ -111,7 +111,8 @@ export default {
           index: '1-2',
           route: {
             name: 'productsRelease'
-          }
+          },
+          hidden: !this.$permit(['productsRelease'])
         }]
       }, {
         name: '资产管理',
@@ -122,25 +123,29 @@ export default {
           index: '2-1',
           route: {
             name: 'assetInfo'
-          }
+          },
+          hidden: !this.$permit(['assetInfo'])
         }, {
           name: '回购记录',
           index: '2-2',
           route: {
             name: 'backRecord'
-          }
+          },
+          hidden: !this.$permit(['backRecord'])
         }, {
           name: '实际还款',
           index: '2-3',
           route: {
             name: 'factRepay'
-          }
+          },
+          hidden: !this.$permit(['factRepay'])
         }, {
           name: '还款计划',
           index: '2-4',
           route: {
             name: 'repayPlan'
-          }
+          },
+          hidden: !this.$permit(['repayPlan'])
         }]
       }, {
         name: '资金管理',
@@ -151,19 +156,22 @@ export default {
           index: '3-1',
           route: {
             name: 'fundAccountManage'
-          }
+          },
+          hidden: !this.$permit(['fundAccountManage'])
         }, {
           name: '账户入金管理',
           index: '3-3',
           route: {
             name: 'accountDepositManage'
-          }
+          },
+          hidden: !this.$permit(['accountDepositManage'])
         }, {
           name: '入金明细信息',
           index: '3-2',
           route: {
             name: 'fundDepositDetail'
-          }
+          },
+          hidden: !this.$permit(['fundDepositDetail'])
         }]
       }, {
         name: '风控管理',
