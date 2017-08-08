@@ -14,12 +14,12 @@
                 el-input(type="text", placeholder="请输入汽车车系", v-model="car.seriesName")
               el-form-item(label="车型：", prop="modelName")
                 el-input(type="text", placeholder="请输入汽车车型", v-model="car.modelName")
+              el-form-item(label="厂商指导价：", prop="guidePrice", ref="guidePrice")
+                el-input(type="text", placeholder="请输入指导价", v-model="car.guidePrice")
+                  template(slot="prepend") ¥
+                  template(slot="append") 元
               el-form-item(label="年份：", prop="year")
                 el-input(type="text", placeholder="请输入汽车车型", v-model="car.year")
-              el-form-item(label="厂商指导价：", prop="guidePrice")
-                el-input(type="text", placeholder="请输入指导价", v-model="car.guidePrice")
-                  //- template(slot="prepend") ¥
-                  //- template(slot="append") 元
               el-form-item(label="残值金额：", prop="residualValue")
                 el-input(type="text", placeholder="请输入残值金额", v-model="car.residualValue")
     .bottom-buttons
@@ -79,6 +79,7 @@ export default {
         merge(this.car, res.data.data)
         delete this.car.dataSource
         delete this.car.updateTime
+        this.car.guidePrice += ''
         this.title = '编辑基础车型'
       })
 

@@ -43,7 +43,8 @@ import {
   pruneParams
 } from '@/common/util.js'
 import {
-  map
+  map,
+  find
 } from 'lodash'
 
 export default {
@@ -56,7 +57,8 @@ export default {
         },
         loadingMaskTarget: '.car-list-dialog'
       }).then(res => {
-        this.carInfos = res.data.rows
+        this.carInfos = res.data.data.rows
+        this.checkedCar = find(this.carInfos, c => c.id === this.carMatch.baseId) || {}
       })
     },
 
@@ -65,7 +67,6 @@ export default {
     },
 
     open(activeCarMatch) {
-      this.checkedCar = {}
       this.carListVisible = true
       this.carMatch = activeCarMatch
     },
@@ -75,6 +76,7 @@ export default {
     },
 
     checkCar(value) {
+      if (!value) return
       this.checkedCar = value
     },
 
@@ -82,6 +84,8 @@ export default {
       carMatch.put({
         id: this.carMatch.id,
         baseId: this.checkedCar.id
+      }, {
+        loadingMaskTarget: '.car-list-dialog'
       }).then(res => {
         this.$message.success({
           message: '手动匹配保存成功！'
@@ -95,7 +99,7 @@ export default {
   computed: {
     carList() {
       return map(this.carInfos, c => {
-        c.checked = this.checkedCar.id === c.id
+        c.checked = this.checkedCar && this.checkedCar.id === c.id
         return c
       })
     }

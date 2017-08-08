@@ -1,14 +1,14 @@
 import axios from 'axios'
-import { MessageBox, Loading } from 'element-ui'
+import { Loading } from 'element-ui'
+import msgBoxErr from '@/common/msgbox-err.js'
 import store from '@/vuex/store.js'
 import { urlMatcher } from '@/common/util.js'
 import qs from 'qs'
-import mockPerssions from '@/views/account/mock-permissions.js'
 
 let loadingInstance
 
 export const http = axios.create({
-  baseURL: process.env.API_HOST || '/api/',
+  baseURL: process.env.API_HOST ? process.env.API_HOST : '/api/',
   withCredentials: process.env.NODE_ENV === 'production',
   timeout: 10000,
   transformRequest: [data => {
@@ -40,34 +40,29 @@ http.interceptors.response.use(res => {
   const data = res.data
 
   if (data.code === 200) {
-    // mock permissions
-    if (res.config.url === '/api/usermanage/v1/permission/listByRoleId' &&
-      res.config.params.roleId === '88b3148de2184fc9ba5e39196c85b045') {
-      res.data = mockPerssions
-    }
     return res
   }
   if (data.code === 419 || data.code === 401) {
     if (res.config.skipAuth) {
       store.dispatch('logout', true)
     } else {
-      MessageBox({ message: data.message || '无访问权限！', title: '提示', type: 'error' })
+      msgBoxErr(data.message || '无访问权限！', data.code)
       store.dispatch('logout')
     }
   } else if (data.code === 400) {
-    MessageBox({ message: data.message || '请求失败！', title: '提示', type: 'error' })
+    msgBoxErr(data.message || '请求失败！', data.code)
   } else if (data.code === 403) {
-    MessageBox({ message: data.message || '您无此权限！', title: '提示', type: 'error' })
+    msgBoxErr(data.message || '您无此权限！', data.code)
   } else if (data.code === 404) {
-    MessageBox({ message: data.message || '访问错误！', title: '提示', type: 'error' })
+    msgBoxErr(data.message || '访问错误！', data.code)
   } else if (data.code === 500 || data.code === 502) {
-    MessageBox({ message: data.message || '抱歉！服务器忙。', title: '提示', type: 'error' })
+    msgBoxErr(data.message || '抱歉！服务器忙。', data.code)
   } else {
-    MessageBox({ message: data.message || '请求失败！', title: '提示', type: 'error' })
+    msgBoxErr(data.message || '请求失败！', data.code)
   }
   return Promise.reject(data.message)
 }, err => {
-  MessageBox({ message: err.message.indexOf('timeout') > -1 ? '请求超时' : '抱歉，服务器忙！', title: '提示', type: 'error' })
+  msgBoxErr(err.message.indexOf('timeout') > -1 ? '请求超时' : '抱歉，服务器忙！', 'SERVER')
   return Promise.reject(err)
 })
 

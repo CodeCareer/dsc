@@ -2,7 +2,7 @@ import { router } from '@/router'
 import { session, orgId, permissionByRoleId } from '@/common/resource_auth.js'
 import { flattenDeep, map } from 'lodash'
 
-const ORG_NAME = 'xwwd2' // 机构名称
+const ORG_NAME = 'ABCD' // 机构名称
 let logoutLock = false // 锁定退出逻辑，避免多次登出造成redirect不正确
 
 export default {
@@ -43,7 +43,11 @@ export default {
   },
 
   async login({ dispatch }, params) {
-    const data = await session.post(params.user, params.config).then(res => res.data)
+    const data = await session.post(params.user, params.config).then(res => {
+      res.data.token = res.headers['x-auth-token']
+      return res.data
+    })
+    console.log(data.token)
     await dispatch('updateToken', data.token || 'no-token')
     await dispatch('updateUser', data.data)
     await dispatch('getOrgId', { params: { orgName: ORG_NAME } })
@@ -53,7 +57,7 @@ export default {
 
   async logout({ commit }, silent) {
     if (logoutLock) return
-      // await session.delete()
+    // await session.delete()
     window.localStorage.user = '{}'
     window.localStorage.token = ''
     window.localStorage.orgId = ''

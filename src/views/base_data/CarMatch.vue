@@ -27,7 +27,7 @@
             span(:class="scope.row.status | statusClass") {{scope.row.status | statusFormat}}
         el-table-column(label='手动匹配', width="80")
           template(scope="scope")
-            .operations(v-if="scope.row.status === 'WATING_MATCH'")
+            .operations
               i.iconfont.icon-pipei(title="手动关联匹配车型信息", @click="editCarMatch(scope.row)", v-if="$permit('carMatchUpdate')")
               //- i.iconfont.icon-delete(@click.stop="deleteCarMatch(scope.row)")
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
@@ -89,7 +89,7 @@ export default {
           ...pruneParams(this.filter)
         }
       }).then(res => {
-        const data = res.data
+        const data = res.data.data
         this.carMatchs = data.rows
         this.page.total = data.total
       })

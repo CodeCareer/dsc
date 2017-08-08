@@ -30,15 +30,22 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api/thirdPartyData/vehicleManage/': {
-        target: 'http://172.20.10.2:8080',
+      '/api/thirdPartyData/': {
+        target: 'http://192.168.221.8:8080',
         changeOrigin: true,
         pathRewrite: function(path, req) {
           return path.replace('/api/', '/')
         }
       },
-      '/api/usermanage': {
-        target: 'http://xwwd.uats.cc/',
+      // '/api/thirdPartyData/vehicleManage/': {
+      //   target: 'http://172.20.10.2:8080',
+      //   changeOrigin: true,
+      //   pathRewrite: function(path, req) {
+      //     return path.replace('/api/', '/')
+      //   }
+      // },
+      '/api/usermanage/': {
+        target: 'http://192.168.221.9:9090',
         changeOrigin: true
       },
       '/api': {

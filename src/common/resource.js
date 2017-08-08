@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { MessageBox, Loading } from 'element-ui'
+import { Loading } from 'element-ui'
+import msgBoxErr from '@/common/msgbox-err.js'
 import store from '@/vuex/store.js'
 import { urlMatcher } from '@/common/util.js'
 import qs from 'qs'
@@ -33,24 +34,24 @@ http.interceptors.request.use(config => {
 http.interceptors.response.use(res => {
   if (loadingInstance) loadingInstance.close()
   const data = res.data
-  data.resultCode = 'SUCCESS' // hack later for delete
+
   if (data.resultCode === 'SUCCESS') {
     return res
-  } else if (data.code === 'INVALID_LOGIN') {
+  } else if (data.resultCode === 'INVALID_LOGIN') {
     if (res.config.skipAuth) {
       store.dispatch('logout', true)
     } else {
-      MessageBox({ message: data.message || '无访问权限！', title: '提示', type: 'error' })
+      msgBoxErr(data.message || '无访问权限！', data.resultCode)
       store.dispatch('logout')
     }
-  } else if (data.code === 'BIZ_EXCEPTION') {
-    MessageBox({ message: data.message || '业务异常', title: '提示', type: 'error' })
+  } else if (data.resultCode === 'BIZ_EXCEPTION') {
+    msgBoxErr(data.message || '业务异常', data.resultCode)
   } else {
-    MessageBox({ message: data.message || '请求失败！', title: '提示', type: 'error' })
+    msgBoxErr(data.message || '业务异常', 'UNKNOWN')
   }
   return Promise.reject(data.message)
 }, err => {
-  MessageBox({ message: err.message.indexOf('timeout') > -1 ? '请求超时' : '抱歉，服务器忙！', title: '提示', type: 'error' })
+  msgBoxErr(err.message.indexOf('timeout') > -1 ? '请求超时' : '抱歉，服务器忙！', 'SERVER')
   return Promise.reject(err)
 })
 
@@ -80,7 +81,7 @@ export const APIS = {
   carInfoDetail: '/thirdPartyData/vehicleManage/vehicles/details/:id', // 车辆信息获取接口
   carInfoAdd: '/thirdPartyData/vehicleManage/vehicles/create', // 车辆信息
   carInfoUpdate: '/thirdPartyData/vehicleManage/vehicles/update', // 车辆信息
-  carGpsList: '/thirdPartyData/vehicleManage/geos', // 车辆GPS信息列表获取接口
+  carGpsList: '/thirdPartyData/gpsManage/geos', // 车辆GPS信息列表获取接口
   carMatchList: '/thirdPartyData/vehicleManage/vehicleMatchs/list', // 车辆匹配信息管理
   carMatchUpdate: '/thirdPartyData/vehicleManage/vehicleMatchs/update' // 车辆匹配信息管理
 }
@@ -109,7 +110,7 @@ export const carMatchs = {
 }
 
 export const carMatch = {
-  put: (data, config) => http.put(APIS.carMatchUpdate, data, config)
+  put: (data, config) => http.post(APIS.carMatchUpdate, data, config)
 }
 
 export const productsRelease = {

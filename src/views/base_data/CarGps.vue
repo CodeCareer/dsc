@@ -11,6 +11,9 @@
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='carGps', style='width: 100%')
+        el-table-column(prop='acc', label='ACC', width='200')
+          template(scope="scope")
+            span {{scope.row.acc | accLocal}}
         el-table-column(prop='vinCode', label='VIN码', width='200')
         el-table-column(prop='simNo', label='SIM码', width='200')
         el-table-column(prop='longitude', label='经度', width='200')
@@ -21,7 +24,7 @@
         el-table-column(prop='terminalType', label='终端类型', width='200')
         el-table-column(prop='lastPower', label='剩余电量', width='120')
           template(scope="scope")
-            span {{scope.row.lastPower | ktPercent(0)}}
+            span {{scope.row.lastPower | lastPowerLocal}}
         el-table-column(prop='travelDistance', label='总里程', width='120')
           template(scope="scope")
             span {{scope.row.travelDistance | ktKm}}
@@ -54,10 +57,19 @@ import {
   tableListMixins
 } from '@/common/mixins.js'
 import moment from 'moment'
+import Vue from 'vue'
 
 export default {
   mixins: [tableListMixins],
   filters: {
+    lastPowerLocal(value) {
+      if (value === -1) {
+        return '充电中'
+      } else {
+        return Vue.filter('ktAppend')(value, '%')
+      }
+    },
+
     locationStyleLocal(value) {
       const map = {
         '-1': '不知道',
@@ -69,6 +81,12 @@ export default {
       }
       return map[value] || '未知状态'
     },
+
+    accLocal(value) {
+      const map = ['开', '关']
+      return map[value] || '未知'
+    },
+
     vehicleStatusLocal(value) {
       const map = {
         0: '未上线',
@@ -78,6 +96,7 @@ export default {
       }
       return map[value] || '未知状态'
     },
+
     vehicleStatusClass(value) {
       const map = {
         0: 'color-gray',
@@ -107,7 +126,7 @@ export default {
           ...pruneParams(this.filter)
         }
       }).then(res => {
-        const data = res.data
+        const data = res.data.data
         this.carGps = data.rows
         this.page.total = data.total
       })
