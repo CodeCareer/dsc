@@ -66,6 +66,9 @@ http.interceptors.response.use(res => {
     MessageBox({ message: data.message || '请求失败！', title: '提示', type: 'error' })
   }
   return Promise.reject(data.message)
+}, err => {
+  MessageBox({ message: err.message.indexOf('timeout') > -1 ? '请求超时' : '抱歉，服务器忙！', title: '提示', type: 'error' })
+  return Promise.reject(err)
 })
 
 export const APIS = {
@@ -78,13 +81,26 @@ export const APIS = {
   accountDetail: '/usermanage/v1/user/detailExt', // 用户详情
   accountUpdate: '/usermanage/v1/user/update', // 编辑保存用户
   accountAdd: '/usermanage/v1/user/create', // 添加用户
+  accountDelete: '/usermanage/v1/user/delete', // 删除用户
   roleUpdateEable: '/usermanage/v1/role/update/enabled', // 角色启用暂停
   roleDetail: '/usermanage/v1/role/detail', // 角色详情
   roleUpdate: '/usermanage/v1/role/update', // 编辑更新角色
   roleAdd: '/usermanage/v1/role/create', // 添加角色
+  roleDelete: '/usermanage/v1/role/delete', // 删除角色
   roleList: '/usermanage/v1/role/list', // 查看角色
-  permissions: '/usermanage/v1/permission/listByRoleId', // 查看用户权限
-  roleAddPermission: '/usermanage/v1/role/create/permission' // 编辑用户权限
+  permissionByRoleId: '/usermanage/v1/permission/listByRoleId', // 查看用户权限
+  permissionList: '/usermanage/v1/permission/list', // 查看所有权限
+  permissionAdd: '/usermanage/v1/permission/create', // 创建权限
+  permissionDetail: '/usermanage/v1/permission/detail', // 权限详情
+  permissionUpdateEable: '/usermanage/v1/permission/update/enabled', // 启用暂停权限
+  permissionUpdate: '/usermanage/v1/permission/update', // 编辑权限
+  permissionDelete: '/usermanage/v1/permission/delete', // 删除权限
+  groupList: '/usermanage/v1/group/list', // 查看所有分组
+  groupAdd: '/usermanage/v1/group/create', // 创建分组
+  groupDetail: '/usermanage/v1/group/detail', // 分组详情
+  groupUpdateEable: '/usermanage/v1/group/update/enabled', // 启用暂停分组
+  groupUpdate: '/usermanage/v1/group/update', // 编辑分组
+  roleAddPermission: '/usermanage/v1/role/create/permission' // 角色授予权限
 }
 
 export const session = {
@@ -103,7 +119,8 @@ export const accounts = {
 export const account = {
   get: config => http.get(APIS.accountDetail, config),
   put: (data, config) => http.post(APIS.accountUpdate, data, config),
-  post: (data, config) => http.post(APIS.accountAdd, data, config)
+  post: (data, config) => http.post(APIS.accountAdd, data, config),
+  delete: (data, config) => http.post(APIS.accountDelete, data, config)
 }
 
 export const accountUpdateEable = {
@@ -121,17 +138,48 @@ export const roles = {
 export const role = {
   get: config => http.get(APIS.roleDetail, config),
   put: (data, config) => http.post(APIS.roleUpdate, data, config),
-  post: (data, config) => http.post(APIS.roleAdd, data, config)
+  post: (data, config) => http.post(APIS.roleAdd, data, config),
+  delete: (data, config) => http.post(APIS.roleDelete, data, config)
 }
 
 export const roleUpdateEable = {
   post: (data, config) => http.post(APIS.roleUpdateEable, data, config)
 }
 
+export const permissions = {
+  get: config => http.get(APIS.permissionList, config)
+}
+
+export const permission = {
+  get: config => http.get(APIS.permissionDetail, config),
+  put: (data, config) => http.post(APIS.permissionUpdate, data, config),
+  post: (data, config) => http.post(APIS.permissionAdd, data, config),
+  delete: (data, config) => http.post(APIS.permissionDelete, data, config)
+}
+
+export const permissionUpdateEable = {
+  post: (data, config) => http.post(APIS.permissionUpdateEable, data, config)
+}
+
+export const groups = {
+  get: config => http.get(APIS.groupList, config)
+}
+
+export const group = {
+  get: config => http.get(APIS.groupDetail, config),
+  put: (data, config) => http.post(APIS.groupUpdate, data, config),
+  post: (data, config) => http.post(APIS.groupAdd, data, config),
+  delete: (data, config) => http.post(APIS.groupDelete, data, config)
+}
+
+export const groupUpdateEable = {
+  post: (data, config) => http.post(APIS.groupUpdateEable, data, config)
+}
+
 export const roleAddPermission = {
   post: (data, config) => http.post(APIS.roleAddPermission, data, config)
 }
 
-export const permissions = {
-  get: config => http.get(APIS.permissions, config)
+export const permissionByRoleId = {
+  get: config => http.get(APIS.permissionByRoleId, config)
 }

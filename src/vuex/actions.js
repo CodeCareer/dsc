@@ -1,5 +1,5 @@
 import { router } from '@/router'
-import { session, orgId, permissions } from '@/common/resource_auth.js'
+import { session, orgId, permissionByRoleId } from '@/common/resource_auth.js'
 import { flattenDeep, map } from 'lodash'
 
 const ORG_NAME = 'xwwd2' // 机构名称
@@ -21,7 +21,7 @@ export default {
   },
 
   async getPermissions({ dispatch, state }) {
-    const data = await permissions.get({ params: { roleId: state.user.roles ? state.user.roles[0].id : '' } }).then(res => res.data)
+    const data = await permissionByRoleId.get({ params: { roleId: state.user.roles ? state.user.roles[0].id : '' } }).then(res => res.data)
     const ps = flattenDeep(map(data.data, p => p.functions))
     await dispatch('updatePermissions', ps)
   },

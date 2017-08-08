@@ -34,6 +34,7 @@
               i.iconfont.icon-qiyong(v-if="!scope.row.enabled && $permit('accountUpdateEable')", title="启用用户", @click="startAccount(scope.row)")
               i.iconfont.icon-tingyong(v-if="scope.row.enabled && $permit('accountUpdateEable')", title="停用用户", @click.stop="stopAccount(scope.row)")
               i.iconfont.icon-edit(v-if="$permit('accountUpdate')", title="修改用户", @click.stop="editAccount(scope.row)")
+              //- i.iconfont.icon-delete(v-if="$permit('accountDelete')", title="删除用户", @click.stop="deleteAccount(scope.row)")
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.size)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
@@ -45,6 +46,7 @@ import {
 } from 'lodash'
 import {
   accounts,
+  account,
   accountUpdateEable,
   roles
 } from '@/common/resource_auth.js'
@@ -128,6 +130,19 @@ export default {
         }).then(res => {
           account.enabled = 0
           this.$message.success(`用户${account.userName}已停用！`)
+        })
+      }).catch(() => {})
+    },
+
+    deleteAccount(accountObj) {
+      this.$confirm(`此操作将删除${accountObj.accountName}, 是否继续?`, '提示', {
+        type: 'warning'
+      }).then(() => {
+        account.delete({
+          id: accountObj.id
+        }).then(res => {
+          accountObj.enabled = 0
+          this.$message.success(`账户${accountObj.accountName}已删除！`)
         })
       }).catch(() => {})
     },

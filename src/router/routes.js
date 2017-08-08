@@ -403,6 +403,38 @@ export default [{
         }]
       }
     }, {
+      path: 'permissions', // 权限展示不开放
+      name: 'permissions',
+      component: resolve => require(['@/views/account/Permissions.vue'], resolve),
+      meta: {
+        title: '微贷系统-角色列表',
+        crumbs: [{
+          name: '用户管理',
+          to: { name: 'accountList' }
+        }, {
+          name: '角色列表',
+          to: { name: 'permissions' }
+        }]
+      }
+    }, {
+      path: 'permissions/:id',
+      name: 'permissionForm',
+      component: resolve => require(['@/views/account/PermissionForm.vue'], resolve),
+      meta: {
+        title: '微贷系统-用户管理',
+        crumbs: [{
+          name: '用户管理',
+          to: { name: 'accounts' }
+        }, {
+          name: '角色列表',
+          to: { name: 'permissions' }
+        }, {
+          id: 'permissionForm',
+          name: '新增角色',
+          to: { name: 'permissionForm' }
+        }]
+      }
+    }, {
       path: 'settings',
       name: 'settings',
       component: resolve => require(['@/views/account/Settings.vue'], resolve),

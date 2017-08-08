@@ -118,29 +118,12 @@ export default {
         index: '2',
         icon: 'icon-assets',
         menus: [{
-          name: '全部信息',
+          name: '资产数据查询',
           index: '2-1',
           route: {
-            name: 'assetInfo'
-          }
-        }, {
-          name: '回购记录',
-          index: '2-2',
-          route: {
-            name: 'backRecord'
-          }
-        }, {
-          name: '实际还款',
-          index: '2-3',
-          route: {
-            name: 'factRepay'
-          }
-        }, {
-          name: '还款计划',
-          index: '2-4',
-          route: {
-            name: 'repayPlan'
-          }
+            name: 'assetData'
+          },
+          activeIncludes: ['assetData', 'AssetForm', 'AssetDetail']
         }]
       }, {
         name: '资金管理',

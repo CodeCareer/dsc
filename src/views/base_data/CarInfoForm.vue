@@ -14,10 +14,12 @@
                 el-input(type="text", placeholder="请输入汽车车系", v-model="car.seriesName")
               el-form-item(label="车型：", prop="modelName")
                 el-input(type="text", placeholder="请输入汽车车型", v-model="car.modelName")
+              el-form-item(label="年份：", prop="year")
+                el-input(type="text", placeholder="请输入汽车车型", v-model="car.year")
               el-form-item(label="厂商指导价：", prop="guidePrice")
                 el-input(type="text", placeholder="请输入指导价", v-model="car.guidePrice")
-                  template(slot="prepend") ¥
-                  template(slot="append") 元
+                  //- template(slot="prepend") ¥
+                  //- template(slot="append") 元
               el-form-item(label="残值金额：", prop="residualValue")
                 el-input(type="text", placeholder="请输入残值金额", v-model="car.residualValue")
     .bottom-buttons
@@ -75,6 +77,8 @@ export default {
         loadingMaskTarget: '.car-info-form'
       }).then(res => {
         merge(this.car, res.data.data)
+        delete this.car.dataSource
+        delete this.car.updateTime
         this.title = '编辑基础车型'
       })
 
@@ -104,7 +108,20 @@ export default {
           message: '必填项',
           trigger: 'change'
         }],
+        year: [{
+          required: true,
+          message: '必填项',
+          trigger: 'change'
+        }, {
+          pattern: /^\d{4}$/,
+          message: '请正确填写年份',
+          trigger: 'change'
+        }],
         guidePrice: [{
+          required: true,
+          message: '必填项',
+          trigger: 'change'
+        }, {
           pattern: /^\d+$/,
           message: '请正确填写指导价',
           trigger: 'change'
@@ -120,6 +137,7 @@ export default {
         brandName: null,
         seriesName: null,
         modelName: null,
+        year: null,
         guidePrice: null,
         residualValue: null
       }

@@ -17,7 +17,12 @@
         el-table-column(prop='brandName', label='品牌', width='200')
         el-table-column(prop='seriesName', label='车系', width='200')
         el-table-column(prop='modelName', label='车型', width='200')
+        el-table-column(prop='year', label='年份', width='120')
+        el-table-column(prop='dataSource', label='信息来源', width='200')
         el-table-column(prop='guidePrice', label='厂商指导价', width='120')
+          template(scope="scope")
+            span {{scope.row.guidePrice | ktCurrency}}
+        el-table-column(prop='marketPrice', label='市场参考价', width='120')
           template(scope="scope")
             span {{scope.row.guidePrice | ktCurrency}}
         el-table-column(prop='residualValue', label='残值金额', width='120')
@@ -76,7 +81,7 @@ export default {
           ...pruneParams(this.filter)
         }
       }).then(res => {
-        const data = res.data
+        const data = res.data.data
         this.carInfos = data.rows
         this.page.total = data.total
       })

@@ -2,14 +2,22 @@ import axios from 'axios'
 import { MessageBox, Loading } from 'element-ui'
 import store from '@/vuex/store.js'
 import { urlMatcher } from '@/common/util.js'
+import qs from 'qs'
 let loadingInstance
 
 export const http = axios.create({
   baseURL: process.env.API_HOST || '/api/',
   withCredentials: process.env.NODE_ENV === 'production',
-  timeout: 10000
+  timeout: 10000,
+  transformRequest: [data => {
+    if (data) {
+      return qs.stringify(data)
+    }
+    return data
+  }]
 })
 
+http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 http.interceptors.request.use(config => {
   config.headers.common['x-auth-token'] = store.getters.token
   config.url = urlMatcher(config.url, config.pathParams)
@@ -41,6 +49,9 @@ http.interceptors.response.use(res => {
     MessageBox({ message: data.message || '请求失败！', title: '提示', type: 'error' })
   }
   return Promise.reject(data.message)
+}, err => {
+  MessageBox({ message: err.message.indexOf('timeout') > -1 ? '请求超时' : '抱歉，服务器忙！', title: '提示', type: 'error' })
+  return Promise.reject(err)
 })
 
 export const APIS = {
@@ -62,7 +73,7 @@ export const APIS = {
   riskQuery: '/riskManage/riskRuleTemplates', //查询风险规则模板
   riskWarn: '/riskManage/riskRuleWarnings', //查询风险预警信息
   carInfoList: '/thirdPartyData/vehicleManage/vehicles/list', // 车辆信息列表获取接口
-  carInfoDetail: '/thirdPartyData/vehicleManage/vehicles/detail/:id', // 车辆信息获取接口
+  carInfoDetail: '/thirdPartyData/vehicleManage/vehicles/details/:id', // 车辆信息获取接口
   carInfoAdd: '/thirdPartyData/vehicleManage/vehicles/create', // 车辆信息
   carInfoUpdate: '/thirdPartyData/vehicleManage/vehicles/update', // 车辆信息
   carGpsList: '/thirdPartyData/vehicleManage/geos', // 车辆GPS信息列表获取接口

@@ -26,7 +26,7 @@ import {
   // includes
 } from 'lodash'
 import {
-  permissions,
+  permissionByRoleId,
   roleAddPermission
 } from '@/common/resource_auth.js'
 
@@ -48,7 +48,7 @@ export default {
       this.title = `角色权限设置-${role.roleName}`
       this.dialogVisible = true
 
-      permissions.get({
+      permissionByRoleId.get({
         params: {
           roleId: role.id
         },

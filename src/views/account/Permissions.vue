@@ -1,10 +1,10 @@
 <template lang="pug">
-  section.role-list
+  section.permission-list
     .box
       .box-header
         h3 筛选条件
         .buttons
-          el-button(type="primary", size="small", @click="addRole()", v-if="$permit('roleAdd')")
+          el-button(type="primary", size="small", @click="addPermission()", v-if="$permit('permissionAdd')")
             i.iconfont.icon-add
             | 新增
       .filters
@@ -12,23 +12,21 @@
           el-option(v-for="o in statusList", :value="o.value", :label="o.name", :key="o.value")
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
-      el-table(:data='roleList', style='width: 100%')
-        el-table-column(prop='roleName', label='角色名称', width='200')
-        el-table-column(prop='roleNickname', label='角色昵称', width='200')
+      el-table(:data='permissionList', style='width: 100%')
+        el-table-column(prop='permissionName', label='权限名称', width='200')
+        el-table-column(prop='permissionNickname', label='权限昵称', width='200')
         el-table-column(prop='note', label='备注')
         el-table-column(prop='enabled', label='状态', width='120')
           template(scope="scope")
             span(:class="scope.row.enabled | statusClass") {{scope.row.enabled | statusFormat}}
-        el-table-column(label='操作', width="120")
+        el-table-column(label='操作', width="100")
           template(scope="scope")
             .operations
-              i.iconfont.icon-qiyong(v-if="!scope.row.enabled && $permit('roleUpdateEable')", title="启用角色", @click="startRole(scope.row)")
-              i.iconfont.icon-tingyong(v-if="scope.row.enabled && $permit('roleUpdateEable')", title="停用角色", @click.stop="stopRole(scope.row)")
-              i.iconfont.icon-edit(v-if="$permit('roleUpdate')", title="修改角色", @click.stop="editRole(scope.row)")
-              //- i.iconfont.icon-delete(v-if="$permit('roleDelete')", title="删除角色", @click.stop="deleteRole(scope.row)")
-              i.iconfont.icon-quanxian(v-if="$permit('roleAddPermission')", title="权限设置", @click.stop="editAuthority(scope.row)")
+              i.iconfont.icon-qiyong(v-if="!scope.row.enabled && $permit('permissionUpdateEable')", title="启用权限", @click="startPermission(scope.row)")
+              i.iconfont.icon-tingyong(v-if="scope.row.enabled && $permit('permissionUpdateEable')", title="停用权限", @click.stop="stopPermission(scope.row)")
+              i.iconfont.icon-edit(v-if="$permit('permissionUpdate')", title="修改权限", @click.stop="editPermission(scope.row)")
+              //- i.iconfont.icon-quanxian(v-if="$permit('permissionDelete')", title="删除权限", @click.stop="deletePermission(scope.row)")
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.size)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
-    role-authority-dialog(ref="authorityDialog")
 </template>
 
 <script>
@@ -37,9 +35,9 @@ import {
   find
 } from 'lodash'
 import {
-  roleUpdateEable,
-  roles,
-  role
+  permissionUpdateEable,
+  permissions,
+  permission
 } from '@/common/resource_auth.js'
 import {
   pruneParams
@@ -47,7 +45,6 @@ import {
 import {
   tableListMixins
 } from '@/common/mixins.js'
-import RoleAuthorityDialog from '@/views/account/RoleAuthorityDialog.vue'
 
 const statusList = [{
   name: '全部',
@@ -62,9 +59,6 @@ const statusList = [{
 
 export default {
   mixins: [tableListMixins],
-  components: {
-    RoleAuthorityDialog
-  },
   filters: {
     statusClass(value) {
       const classMap = {
@@ -80,78 +74,74 @@ export default {
   },
 
   methods: {
-    addRole() {
+    addPermission() {
       this.$router.push({
-        name: 'roleForm',
+        name: 'permissionForm',
         params: {
           id: 'add'
         }
       })
     },
 
-    editRole(role) {
+    editPermission(permission) {
       this.$router.push({
-        name: 'roleForm',
+        name: 'permissionForm',
         params: {
-          id: role.id
+          id: permission.id
         }
       })
     },
 
-    startRole(role) {
-      this.$confirm(`此操作将启用${role.roleName}, 是否继续?`, '提示', {
+    startPermission(permission) {
+      this.$confirm(`此操作将启用${permission.permissionName}, 是否继续?`, '提示', {
         type: 'warning'
       }).then(() => {
-        roleUpdateEable.post({
-          id: role.id,
+        permissionUpdateEable.post({
+          id: permission.id,
           enabled: 1
         }).then(res => {
-          role.enabled = 1
-          this.$message.success(`角色${role.roleName}已启用！`)
+          permission.enabled = 1
+          this.$message.success(`权限${permission.permissionName}已启用！`)
         })
       }).catch(() => {})
     },
 
-    stopRole(role) {
-      this.$confirm(`此操作将停用${role.roleName}, 是否继续?`, '提示', {
+    stopPermission(permission) {
+      this.$confirm(`此操作将停用${permission.permissionName}, 是否继续?`, '提示', {
         type: 'warning'
       }).then(() => {
-        roleUpdateEable.post({
-          id: role.id,
+        permissionUpdateEable.post({
+          id: permission.id,
           enabled: 0
         }).then(res => {
-          role.enabled = 0
-          this.$message.success(`角色${role.roleName}已停用！`)
+          permission.enabled = 0
+          this.$message.success(`权限${permission.permissionName}已停用！`)
         })
       }).catch(() => {})
     },
 
-    editAuthority(role) {
-      this.$refs.authorityDialog.open(role)
-    },
-
-    deleteRole(roleObj) {
-      this.$confirm(`此操作将删除${roleObj.roleName}, 是否继续?`, '提示', {
+    deletePermission(permissionObj) {
+      this.$confirm(`此操作将删除${permissionObj.permissionName}, 是否继续?`, '提示', {
         type: 'warning'
       }).then(() => {
-        role.delete({
-          id: roleObj.id
+        permission.delete({
+          id: permissionObj.id
         }).then(res => {
-          roleObj.enabled = 0
-          this.$message.success(`角色${roleObj.roleName}已删除！`)
+          permissionObj.enabled = 0
+          this.$message.success(`权限${permissionObj.permissionName}已删除！`)
         })
       }).catch(() => {})
     },
 
     _fetchData() {
-      roles.get({
-        loadingMaskTarget: '.role-list',
+      permissions.get({
+        loadingMaskTarget: '.permission-list',
         params: {
           ...pruneParams(this.filter)
         }
       }).then(res => {
         const data = res.data.data
-        this.roleList = data.content
+        this.permissionList = data.content
         this.page.total = data.totalElements
       })
     }
@@ -171,11 +161,11 @@ export default {
   data() {
     return {
       fixed: window.innerWidth - 180 - 12 * 2 > 1150 ? false : 'right', // 180 左侧菜单宽度，12 section的padding
-      roleList: [],
+      permissionList: [],
       statusList,
       filter: {
-        orgId: this.$store.getters.orgId, // 需要提供
-        // roleId: '_all_',
+        // orgId: this.$store.getters.orgId, // 需要提供
+        // permissionId: '_all_',
         enabled: '_all_',
         page: 1,
         size: 10
