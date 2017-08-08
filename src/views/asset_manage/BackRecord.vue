@@ -8,14 +8,14 @@
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='backRecord', style='width: 100%')
-        el-table-column(prop='assetId', label='资产ID', width='220')
-        el-table-column(prop='buyBackAmout', label='回购金额', width='220')
+        el-table-column(prop='assetId', label='资产ID')
+        el-table-column(prop='buyBackAmout', label='回购金额')
           template(scope="scope")
             span {{scope.row.buyBackAmout | ktCurrency}}
-        el-table-column(prop='buyBackDate', label='回购日期', width='120')
+        el-table-column(prop='buyBackDate', label='回购日期')
           template(scope="scope")
             span {{scope.row.buyBackDate | moment('YYYY-MM-DD')}}
-        el-table-column(prop='buyBackReason', label='回购原因', width='320')
+        el-table-column(prop='buyBackReason', label='回购原因')
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
