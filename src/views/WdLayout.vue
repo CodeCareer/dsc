@@ -157,19 +157,22 @@ export default {
           index: '4-1',
           route: {
             name: 'accessControl'
-          }
+          },
+          hidden: !this.$permit(['riskZr'])
         }, {
           name: '风险规则模板',
           index: '4-2',
           route: {
             name: 'preWarning'
-          }
+          },
+          hidden: !this.$permit(['riskQuery'])
         }, {
           name: '风险预警监控',
           index: '4-3',
           route: {
             name: 'preWarningInfo'
-          }
+          },
+          hidden: !this.$permit(['riskWarn'])
         }]
       }, {
         name: '基础数据',
