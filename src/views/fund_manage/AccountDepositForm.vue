@@ -18,7 +18,7 @@
                 el-select(v-model="accountDeposit.fundDirection", placeholder="请选择资金方向")
                   el-option(v-for="t in fundDirectionTypes", :key="t.name", :value="t.value", :label="t.name")
               el-form-item(label="支付日期：", prop="payDate")
-                el-date-picker(placeholder='请选择支付日期', type='date', v-model='accountDeposit.payDate', :picker-options="pickerOptions")
+                el-date-picker(placeholder='请选择支付日期', type='date', :value='accountDeposit.payDate', @input="handlePayDate" :picker-options="pickerOptions")
     .bottom-buttons
       el-button(type="primary", size="small", @click="submitForm") 保存
       el-button(type="gray", size="small", @click="cancel") 取消
@@ -35,9 +35,13 @@ import {
 import {
   merge
 } from 'lodash'
+import moment from 'moment'
 
 export default {
   methods: {
+    handlePayDate(value) {
+      this.accountDeposit.payDate = value ? moment(value).format('YYYY-MM-DD') : ''
+    },
     submitForm() {
       this.$refs.accountDepositForm.validate((valid) => {
         if (valid) {
@@ -55,6 +59,7 @@ export default {
         loadingMaskTarget: '.account-deposit-form'
       }).then(res => {
         const data = res.data
+        console.log(data)
         this.operationStatus(data)
       })
     },
@@ -131,6 +136,11 @@ export default {
           trigger: 'change'
         }],
         fundDirection: [{
+          required: true,
+          message: '必填项',
+          trigger: 'change'
+        }],
+        payDate: [{
           required: true,
           message: '必填项',
           trigger: 'change'

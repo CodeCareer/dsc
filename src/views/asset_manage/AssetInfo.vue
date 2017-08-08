@@ -12,6 +12,7 @@
     .table-container
       el-table(:data='assetInfo', style='width: 100%')
         el-table-column(prop='assetBaseInfo.alipayAccount', label='账户名称', width='220')
+        el-table-column(prop='assetBaseInfo.outerAssetOrderNo', label='外部资产订单编号', width='220')
         el-table-column(prop='assetBaseInfo.assetFrom', label='账户类型', width='80')
           template(scope="scope")
             span {{scope.row.assetBaseInfo.assetFrom | statusFormat}}
@@ -122,7 +123,9 @@ export default {
     detail(rows) {
       this.$router.push({
         name: 'assetInfoForm',
-        params: rows
+        params: {
+          outerAssetOrderNo: rows.assetBaseInfo.outerAssetOrderNo
+        }
       })
     }
   },

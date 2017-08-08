@@ -77,7 +77,7 @@ export default [{
         }]
       }
     }, {
-      path: 'asste_info/:productCode',
+      path: 'asste_info/:outerAssetOrderNo',
       name: 'assetInfoForm',
       component: resolve => require(['@/views/asset_manage/AssetInfoForm.vue'], resolve),
       meta: {

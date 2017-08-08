@@ -119,8 +119,11 @@ export default {
   methods: {
     parseInt: window.parseInt,
     _fetchData() {
-      repayPlan.post(pruneParams(this.filter), {
-        loadingMaskTarget: '.reapy-plan'
+      repayPlan.get({
+        loadingMaskTarget: '.reapy-plan',
+        params: {
+          ...pruneParams(this.filter)
+        }
       }).then(res => {
         const data = res.data.data
         this.repayPlan = data.rows

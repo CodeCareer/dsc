@@ -174,7 +174,8 @@ export const factRepay = {
 }
 
 export const repayPlan = {
-  post: (data, config) => http.post(APIS.repayPlan, data, config)
+  post: (data, config) => http.post(APIS.repayPlan, data, config),
+  get: (config) => http.get(APIS.repayPlan, config)
 }
 
 export const riskZr = {
