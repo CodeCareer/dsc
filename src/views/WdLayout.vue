@@ -119,7 +119,7 @@ export default {
         index: '2',
         icon: 'icon-assets',
         menus: [{
-          name: '全部信息',
+          name: '资产信息',
           index: '2-1',
           route: {
             name: 'assetInfo'
