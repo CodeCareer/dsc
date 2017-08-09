@@ -59,7 +59,6 @@ http.interceptors.response.use(res => {
 })
 
 export const APIS = {
-  session: '/session',
   productsRelease: '/productManage/pageProductInfo', //产品发行管理
   productsAudit: '/productManage/auditManually', //产品发行审核
   accountDepositManage: '/fundManage/listAccountFundDetail', //账户入金查询
