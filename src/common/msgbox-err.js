@@ -24,19 +24,24 @@ export default function msgboxErr(message, code = 'UNKNOWN') {
 const showNextMsg = function() {
   if (msgQueue.length > 0) {
     const currentMsg = msgQueue[0]
-    if (preMsg.code === currentMsg.code) { // 多层保护
-      preMsg = msgQueue.shift()
-      currentMsg.resolve(showNextMsg())
-    }
-    msgBoxLock = true
-    MessageBox({
-      message: currentMsg.message,
-      title: '提示',
-      type: 'error'
-    }).then(() => {
+
+    try {
+      if (preMsg.code === currentMsg.code) { // 多层保护
+        preMsg = msgQueue.shift()
+        currentMsg.resolve(showNextMsg())
+      }
+      msgBoxLock = true
+      MessageBox({
+        message: currentMsg.message,
+        title: '提示',
+        type: 'error'
+      }).then(() => {
+        msgBoxLock = false
+        preMsg = msgQueue.shift()
+        currentMsg.resolve(showNextMsg())
+      })
+    } catch (e) {
       msgBoxLock = false
-      preMsg = msgQueue.shift()
-      currentMsg.resolve(showNextMsg())
-    })
+    }
   }
 }
