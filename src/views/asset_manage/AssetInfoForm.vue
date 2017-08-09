@@ -36,7 +36,7 @@
                   td {{assetBaseInfo.buyBackStatus | statusFormat}}
                 tr
                   th 身份证反面照片路径：
-                  td {{assetBaseInfo.certBackPicPath}}
+                  td(v-html='assetBaseInfo.certBackPicPath | download')
                 tr
                   th 身份证正面照片路径：
                   td {{assetBaseInfo.certFrontPicPath}}
@@ -366,6 +366,9 @@ export default {
     statusFormat(value) {
       const status = find(statusList, s => s.value === value)
       return status ? status.name : '未知状态'
+    },
+    download(value) {
+      return '<a download="附件" href="www.baidu.com">下载附件</a>'
     }
   },
   methods: {
