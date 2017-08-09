@@ -30,13 +30,13 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api/thirdPartyData/': {
-        target: 'http://192.168.221.8:8080',
-        changeOrigin: true,
-        pathRewrite: function(path, req) {
-          return path.replace('/api/', '/')
-        }
-      },
+      // '/api/thirdPartyData/': {
+      //   target: 'http://192.168.221.8:8080',
+      //   changeOrigin: true,
+      //   pathRewrite: function(path, req) {
+      //     return path.replace('/api/', '/')
+      //   }
+      // },
       // '/api/thirdPartyData/vehicleManage/': {
       //   target: 'http://172.20.10.2:8080',
       //   changeOrigin: true,
@@ -55,7 +55,6 @@ module.exports = {
         target: 'http://apidoc.wjs-dev.com/mockjsdata/61',
         changeOrigin: true,
         onProxyRes: function(proxyRes, req, res) {
-          console.log(res, req, proxyRes)
           proxyRes.headers['x-auth-token'] = 'adfa-adsfaf-asf'
           delete proxyRes.headers['set-cookie'] // 删除Rap上的cookie设置因为会影响到/api/usermanage的cookie设置
         },

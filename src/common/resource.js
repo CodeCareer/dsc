@@ -47,9 +47,9 @@ http.interceptors.response.use(res => {
   } else if (data.resultCode === 'BIZ_EXCEPTION') {
     msgBoxErr(data.message || '业务异常', data.resultCode)
   } else if (data.resultCode === 'FAILED') {
-    msgBoxErr(data.message || '业务异常', data.resultCode)
+    msgBoxErr(data.message || '访问失败', data.resultCode)
   } else {
-    msgBoxErr(data.message || '业务异常', 'UNKNOWN')
+    msgBoxErr(data.message || '未知错误', 'UNKNOWN')
   }
   return Promise.reject(data.message)
 }, err => {
