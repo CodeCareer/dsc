@@ -8,7 +8,7 @@
           el-option(v-for="t in accountTypes", :key="t.name", :value="t.value", :label="t.name")
         el-select(v-model="filter.checkingStatus", placeholder="对账状态", @change="search")
           el-option(v-for="t in checkingTypes", :key="t.name", :value="t.value", :label="t.name")
-        el-date-picker(placeholder='入金日期', type='date', format='yyyy-MM-dd', :value='filter.depositDate', @input="handleDepositDate", :picker-options="pickerOptions")
+        el-date-picker(placeholder='入金日期', type='date', format='yyyy-MM-dd', :value='date.depositDate', @input="handleDepositDate", :picker-options="pickerOptions")
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='fundDepositData', style='width: 100%')
@@ -98,7 +98,8 @@ export default {
   },
   methods: {
     handleDepositDate(value) {
-      this.filter.depositDate = value ? moment(value).format('YYYY-MM-DD') : ''
+      this.filter.depositDate = value ? moment(value).format('YYYYMMDD') : ''
+      this.date.depositDate = value ? moment(value).format('YYYY-MM-DD') : ''
       this.search()
     },
     parseInt: window.parseInt,
@@ -106,7 +107,7 @@ export default {
       fundDeposit.post(pruneParams(this.filter), {
         loadingMaskTarget: '.fund-deposit-detail'
       }).then(res => {
-        const data = res.data[0].data
+        const data = res.data.data
         this.fundDepositData = data.rows
         this.page.total = data.total
       })
@@ -136,6 +137,9 @@ export default {
       pickerOptions: '',
       fixed: window.innerWidth - 180 - 12 * 2 > 1150 ? false : 'right', // 180 左侧菜单宽度，12 section的padding
       fundDepositData: [],
+      date: {
+        depositDate: ''
+      },
       filter: {
         accountType: '',
         checkingStatus: '',

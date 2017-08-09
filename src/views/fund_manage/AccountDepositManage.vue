@@ -8,7 +8,7 @@
             i.iconfont.icon-add
             | 新增
       .filters
-        el-date-picker(placeholder='入金日期', format='yyyy-MM-dd', type='date', :value='filter.payDate', @input="handlePayDate", :picker-options="pickerOptions")
+        el-date-picker(placeholder='入金日期', format='yyyy-MM-dd', type='date', :value='date.payDate', @input="handlePayDate", :picker-options="pickerOptions")
         el-select(v-model="filter.accountType", placeholder="账户类型" @change="search")
           el-option(v-for="t in assetTypes", :key="t.name", :value="t.value", :label="t.name")
         el-button(size="small", type="primary", @click="clearFilter")  清除
@@ -122,7 +122,8 @@ export default {
   },
   methods: {
     handlePayDate(value) {
-      this.filter.payDate = value ? moment(value).format('YYYY-MM-DD') : ''
+      this.filter.payDate = value ? moment(value).format('YYYYMMDD') : ''
+      this.date.payDate = value ? moment(value).format('YYYY-MM-DD') : ''
       this.search()
     },
     parseInt: window.parseInt,
@@ -207,6 +208,9 @@ export default {
       pickerOptions: '',
       fixed: window.innerWidth - 180 - 12 * 2 > 1150 ? false : 'right', // 180 左侧菜单宽度，12 section的padding
       accountDeposit: [],
+      date: {
+        payDate: ''
+      },
       filter: {
         accountType: '',
         payDate: '',

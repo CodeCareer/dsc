@@ -18,7 +18,7 @@
                 el-select(v-model="accountDeposit.fundDirection", placeholder="请选择资金方向")
                   el-option(v-for="t in fundDirectionTypes", :key="t.name", :value="t.value", :label="t.name")
               el-form-item(label="支付日期：", prop="payDate")
-                el-date-picker(placeholder='请选择支付日期', type='date', :value='accountDeposit.payDate', @input="handlePayDate" :picker-options="pickerOptions")
+                el-date-picker(placeholder='请选择支付日期', type='date', :value='date.payDate', @input="handlePayDate" :picker-options="pickerOptions")
     .bottom-buttons
       el-button(type="primary", size="small", @click="submitForm") 保存
       el-button(type="gray", size="small", @click="cancel") 取消
@@ -32,15 +32,13 @@ import {
   accountDepositEdit,
   accountDepositAdd
 } from '@/common/resource.js'
-import {
-  merge
-} from 'lodash'
 import moment from 'moment'
 
 export default {
   methods: {
     handlePayDate(value) {
-      this.accountDeposit.payDate = value ? moment(value).format('YYYY-MM-DD') : ''
+      this.accountDeposit.payDate = value ? moment(value).format('YYYYMMDD') : ''
+      this.date.payDate = value ? moment(value).format('YYYY-MM-DD') : ''
     },
     submitForm() {
       this.$refs.accountDepositForm.validate((valid) => {
@@ -59,7 +57,6 @@ export default {
         loadingMaskTarget: '.account-deposit-form'
       }).then(res => {
         const data = res.data
-        console.log(data)
         this.operationStatus(data)
       })
     },
@@ -96,7 +93,12 @@ export default {
   },
   mounted() {
     if (this.$route.params.id !== 'add') {
-      merge(this.accountDeposit, this.$route.params)
+      this.accountDeposit.factPayAmount = this.$route.params.factPayAmount
+      this.accountDeposit.fundAccountId = this.$route.params.fundAccountId
+      this.accountDeposit.fundDirection = this.$route.params.fundDirection
+      this.accountDeposit.id = this.$route.params.id
+      this.accountDeposit.payDate = this.$route.params.payDate ? moment(this.$route.params.payDate).format('YYYYMMDD') : ''
+      this.date.payDate = this.$route.params.payDate ? moment(this.$route.params.payDate).format('YYYY-MM-DD') : ''
       this.title = '编辑账户入金'
       this.fundAccountIdStatus = true
       updateCrumb.$emit('update-crumbs', [{
@@ -145,6 +147,9 @@ export default {
           message: '必填项',
           trigger: 'change'
         }]
+      },
+      date: {
+        payDate: ''
       },
       accountDeposit: {
         factPayAmount: '',

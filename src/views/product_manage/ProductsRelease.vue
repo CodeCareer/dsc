@@ -5,10 +5,10 @@
         h3 筛选条件
       .filters
         .filter-line 
-          el-date-picker(placeholder='上架日期下限', format='yyyy-MM-dd', type='date', :value='filter.carriageDateLower', @input="handleCarriageDateLower", :picker-options="pickerOptions")
-          el-date-picker(placeholder='上架日期上限', format='yyyy-MM-dd', type='date', :value='filter.carriageDateUpper', @input="handleCarriageDateUpper", :picker-options="pickerOptions")
-          el-date-picker(placeholder='起息日下限', format='yyyy-MM-dd', type='date', :value='filter.valueDateLower', @input="handleValueDateLower", :picker-options="pickerOptions")
-          el-date-picker(placeholder='起息日上限', format='yyyy-MM-dd', type='date', :value='filter.valueDateUpper', @input="handleValueDateUpper", :picker-options="pickerOptions")
+          el-date-picker(placeholder='上架日期下限', format='yyyy-MM-dd', type='date', :value='date.carriageDateLower', @input="handleCarriageDateLower", :picker-options="pickerOptions")
+          el-date-picker(placeholder='上架日期上限', format='yyyy-MM-dd', type='date', :value='date.carriageDateUpper', @input="handleCarriageDateUpper", :picker-options="pickerOptions")
+          el-date-picker(placeholder='起息日下限', format='yyyy-MM-dd', type='date', :value='date.valueDateLower', @input="handleValueDateLower", :picker-options="pickerOptions")
+          el-date-picker(placeholder='起息日上限', format='yyyy-MM-dd', type='date', :value='date.valueDateUpper', @input="handleValueDateUpper", :picker-options="pickerOptions")
         .filter-line
           el-input(placeholder='产品名称', icon='search', @keyup.native.13="search", v-model='filter.productName')
           el-select(v-model="filter.assetFrom", placeholder="资产来源", @change="search")
@@ -87,19 +87,23 @@ export default {
   mixins: [tableListMixins],
   methods: {
     handleValueDateUpper(value) {
-      this.filter.valueDateUpper = value ? moment(value).format('YYYY-MM-DD') : ''
+      this.filter.valueDateUpper = value ? moment(value).format('YYYYMMDD') : ''
+      this.date.valueDateUpper = value ? moment(value).format('YYYY-MM-DD') : ''
       this.search()
     },
     handleValueDateLower(value) {
-      this.filter.valueDateLower = value ? moment(value).format('YYYY-MM-DD') : ''
+      this.filter.valueDateLower = value ? moment(value).format('YYYYMMDD') : ''
+      this.date.valueDateLower = value ? moment(value).format('YYYY-MM-DD') : ''
       this.search()
     },
     handleCarriageDateUpper(value) {
-      this.filter.carriageDateUpper = value ? moment(value).format('YYYY-MM-DD') : ''
+      this.filter.carriageDateUpper = value ? moment(value).format('YYYYMMDD') : ''
+      this.date.carriageDateUpper = value ? moment(value).format('YYYY-MM-DD') : ''
       this.search()
     },
     handleCarriageDateLower(value) {
-      this.filter.carriageDateLower = value ? moment(value).format('YYYY-MM-DD') : ''
+      this.filter.carriageDateLower = value ? moment(value).format('YYYYMMDD') : ''
+      this.date.carriageDateLower = value ? moment(value).format('YYYY-MM-DD') : ''
       this.search()
     },
     parseInt: window.parseInt,
@@ -137,6 +141,12 @@ export default {
       pickerOptions: '',
       fixed: window.innerWidth - 180 - 12 * 2 > 1150 ? false : 'right', // 180 左侧菜单宽度，12 section的padding
       productsRelease: [],
+      date: {
+        carriageDateLower: '',
+        carriageDateUpper: '',
+        valueDateLower: '',
+        valueDateUpper: ''
+      },
       filter: {
         carriageDateLower: '',
         carriageDateUpper: '',
