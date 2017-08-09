@@ -292,7 +292,7 @@ export default [{
       meta: {
         title: '微贷系统-基础车型信息管理',
         crumbs: [{
-          name: '基础数据管理',
+          name: '三方数据管理',
           to: { name: 'carInfo' }
         }, {
           name: '基础车型信息',
@@ -306,7 +306,7 @@ export default [{
       meta: {
         title: '微贷系统-基础车型信息管理',
         crumbs: [{
-          name: '基础数据管理',
+          name: '三方数据管理',
           to: { name: 'carInfo' }
         }, {
           name: '基础车型信息',
@@ -324,7 +324,7 @@ export default [{
       meta: {
         title: '微贷系统-车型匹配管理',
         crumbs: [{
-          name: '基础数据管理',
+          name: '三方数据管理',
           to: { name: 'carInfo' }
         }, {
           name: '车型匹配管理',
@@ -338,7 +338,7 @@ export default [{
       meta: {
         title: '微贷系统-GPS数据查询',
         crumbs: [{
-          name: '基础数据管理',
+          name: '三方数据管理',
           to: { name: 'carInfo' }
         }, {
           name: 'GPS数据查询',

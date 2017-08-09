@@ -200,7 +200,7 @@ export default {
           hidden: !this.$permit(['riskWarn'])
         }]
       }, {
-        name: '基础数据',
+        name: '三方数据',
         index: '5',
         icon: 'icon-data',
         menus: [{

@@ -47,8 +47,7 @@ export default {
       res.data.token = res.headers['x-auth-token']
       return res.data
     })
-    console.log(data.token)
-    await dispatch('updateToken', data.token || 'no-token')
+    if (data.token) await dispatch('updateToken', data.token || '')
     await dispatch('updateUser', data.data)
     await dispatch('getOrgId', { params: { orgName: ORG_NAME } })
     // await dispatch('getPermissions')

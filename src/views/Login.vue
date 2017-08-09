@@ -10,7 +10,7 @@
         el-input(placeholder='请输入您的用户名', v-model="user.username")
       el-form-item(prop="password")
         el-input(placeholder="请输入您的密码", v-model="user.password", type="password")
-      el-form-item(prop="v_code")
+      //- el-form-item(prop="v_code")
         el-input(placeholder="请输入验证码", v-model="user.v_code", type="string")
           template(slot='append')
             img(:src='capthaUrl', style="height:20px;", @click="refreshCaptha()")
@@ -45,8 +45,8 @@ export default {
             } : {
               path: decodeURIComponent(redirect)
             })
-          }).catch(err => {
-            this.$message.error(err || '用户名或密码错误')
+          }).catch(() => {
+            // this.$message.error(err || '用户名或密码错误')
             this.refreshCaptha()
           })
         }
@@ -63,8 +63,8 @@ export default {
       capthaUrl: `/api/usermanage/v1/captcha.png?t=${Math.random()}`,
       user: {
         username: '',
-        password: '',
-        v_code: ''
+        password: ''
+        // v_code: ''
       },
       rules: {
         username: [{

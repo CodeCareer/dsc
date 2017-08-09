@@ -40,7 +40,6 @@ import {
   roleUpdateEable,
   roles,
   role
-  // http
 } from '@/common/resource_auth.js'
 import {
   pruneParams
@@ -166,7 +165,6 @@ export default {
 
   mounted() {
     merge(this.filter, this.$route.query)
-    // http.get('/usermanage/v1/permission/list').then(res => console.log(res.data))
     this._fetchData()
   },
 

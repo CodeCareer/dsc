@@ -46,11 +46,14 @@ http.interceptors.response.use(res => {
     }
   } else if (data.resultCode === 'BIZ_EXCEPTION') {
     msgBoxErr(data.message || '业务异常', data.resultCode)
+  } else if (data.resultCode === 'FAILED') {
+    msgBoxErr(data.message || '业务异常', data.resultCode)
   } else {
     msgBoxErr(data.message || '业务异常', 'UNKNOWN')
   }
   return Promise.reject(data.message)
 }, err => {
+  if (loadingInstance) loadingInstance.close()
   msgBoxErr(err.message.indexOf('timeout') > -1 ? '请求超时' : '抱歉，服务器忙！', 'SERVER')
   return Promise.reject(err)
 })
@@ -174,8 +177,7 @@ export const factRepay = {
 }
 
 export const repayPlan = {
-  post: (data, config) => http.post(APIS.repayPlan, data, config),
-  get: (config) => http.get(APIS.repayPlan, config)
+  post: (data, config) => http.post(APIS.repayPlan, data, config)
 }
 
 export const riskZr = {

@@ -17,12 +17,12 @@
       el-table(:data='accountList', style='width: 100%')
         el-table-column(prop='userName', label='用户名称', width='150')
         el-table-column(prop='nickname', label='用户昵称', width='150')
-        el-table-column(prop='phoneNumber', label='手机号', width='150')
+        el-table-column(prop='phoneNumber', label='手机号')
         el-table-column(prop='email', label='邮箱', width='150')
         el-table-column(prop='roles', label='角色', width='120')
           template(scope="scope")
             span {{scope.row.roles | rolesStringify}}
-        el-table-column(prop='lastLoginTime', label='上次登录时间', width='200')
+        //- el-table-column(prop='lastLoginTime', label='上次登录时间', width='200')
           template(scope="scope")
             span {{scope.row.lastLoginTime | moment('YYYY-MM-DD HH:mm:ss')}}
         el-table-column(prop='enabled', label='状态', width='120')
