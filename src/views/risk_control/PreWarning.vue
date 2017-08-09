@@ -14,16 +14,16 @@
         .risk-form(v-for="risk in riskWarnDatas")
           el-form(ref="riskForm",:rules="rules",:model="riskzrForm",label-width="80px")
             el-form-item(label="模板类型：")
-              span.font-content {{risk.type}}
+              span.font-content {{risk.type | filterTem}}
             el-form-item(label="模板名称：")
               span.font-content {{risk.name}}
             el-form-item(label="风控规则：")
               .risk-row(v-for="(rule, indexr) in risk.riskRules")
                 el-row
                   el-col.risk-col(:span="8")
-                    span.risk-also(v-if='indexr !== 0 && risk.type === "WARNING"') 并且
-                    span.risk-also(v-if='indexr !== 0 && risk.type === "ACCESS"') 或者
-                    el-checkbox(:label="rule.name",v-model="rule.status",true-label="ENABLED",false-label="DISABLED")
+                    //- span.risk-also(v-if='indexr !== 0 && risk.type === "WARNING"') 并且
+                    //- span.risk-also(v-if='indexr !== 0 && risk.type === "ACCESS"') 或者
+                    el-checkbox(:label="rule.name",v-model="rule.status",true-label="ENABLED",false-label="DISABLED",:disabled="!rule.editing")
                   el-col(:span="14")
                     .risk-filter(v-for="(detail, indexd) in rule.details")
                       //- NUMERIC
@@ -31,8 +31,8 @@
                         el-form-item.risk-verify
                           el-select.input-width(v-model="detail.operator",:disabled="!rule.editing" placeholder="选择")
                             el-option(v-for="operator in operators",:key="operator.value",:value="operator.value",:label="operator.label")
-                        el-form-item.risk-verify
-                          el-input.input-width(:placeholder="rule.name",:disabled="!rule.editing",v-model="detail.numericTarget")
+                        el-form-item.risk-verify(prop="numeric")
+                          el-input.input-width(placeholder="请输入",:disabled="!rule.editing",v-model.number="detail.numbericTarget")
                         .el-buttons
                           .risk-edit(v-if="indexd === 0")
                             el-button(size="small", type="primary",@click="ruleEdit(rule)",v-if="!rule.editing && $permit('riskEdit')") 编辑
@@ -95,12 +95,21 @@ export default{
         type: ''
       },
       riskDetails: {
-        booleanTarget: 0,
-        numericTarget: 20,
-        operator: 'greateEqual',
-        stringTarget: '测试内容r42v'
+        booleanTarget: '',
+        numericTarget: null,
+        operator: '',
+        stringTarget: ''
       },
-      rules: {},
+      rules: {
+        numbericTarget: [{
+          message: '值不能为空',
+          trigger: 'blur'
+        }, {
+          type: 'number',
+          message: '必须是数字值',
+          tirgger: 'blur'
+        }]
+      },
       operators: [{
         value: 'EQUAL',
         label: '='
@@ -142,34 +151,27 @@ export default{
   },
   methods: {
     riskWarnGet() {
-      const loadingInstance = this.$loading({
-        target: '.risk-rule'
-      })
       riskQuery.get({
         params: {
           ...pruneParams(this.filter)
-        }
+        },
+        loadingMaskTarget: '.risk-rule'
       }).then((res) => {
         const data = res.data
-
-        each(data.riskRuleTemplates, v => {
+        each(data.data, v => {
           each(v.riskRules, r => {
-            // this.backupRule[r.id] =
             r.editing = false // 编辑状态
             each(r.details, d => {
               d.booleanTarget = +d.booleanTarget
-              return d
             })
           })
         })
-        this.riskWarnDatas = data.riskRuleTemplates
-        loadingInstance.close()
+        this.riskWarnDatas = data.data
       })
     },
 
     ruleEdit(rule) {
       rule.editing = true
-      rule.status = 'ENABLED'
       this.backupRule[rule.id] = cloneDeep(rule.details)
     },
 
@@ -180,7 +182,7 @@ export default{
         type: 'info'
       }).then(() => {
         rule.editing = false
-        rule.status = 'DISABLED'
+        // rule.status = 'DISABLED'
         rule.details = this.backupRule[rule.id]
         Message({
           type: 'success',
@@ -195,19 +197,24 @@ export default{
     },
 
     ruleSubmit(rule) {
-      // merge(this.riskzrForm, cloneDeep(rule))
-      const loadingInstance = this.$loading({
-        target: '.risk-rule'
-      })
+      const ruleClone = cloneDeep(rule)
+      ruleClone.details = JSON.stringify(ruleClone.details)
+      // debugger
       riskEdit.post({
-        ...pruneParams(rule)
+        ...pruneParams(ruleClone)
       }, {pathParams: {
-        riskRuleId: rule.id
-      }}).then((res) => {
-        loadingInstance.close()
+        riskRuleId: rule.id,
+        loadingMaskTarget: '.risk-rule'
+      }}).then(res => {
         Message({
           type: 'success',
           message: '保存成功'
+        })
+        rule.editing = false
+      }).catch(res => {
+        Message({
+          type: 'error',
+          message: '保存失败'
         })
       })
     },

@@ -178,19 +178,19 @@ export default {
         index: '4',
         icon: 'icon-dunpai',
         menus: [{
-          name: '准入校验结果',
-          index: '4-1',
-          route: {
-            name: 'accessControl'
-          },
-          hidden: !this.$permit(['riskZr'])
-        }, {
           name: '风险规则模板',
           index: '4-2',
           route: {
             name: 'preWarning'
           },
           hidden: !this.$permit(['riskQuery'])
+        }, {
+          name: '准入校验结果',
+          index: '4-1',
+          route: {
+            name: 'accessControl'
+          },
+          hidden: !this.$permit(['riskZr'])
         }, {
           name: '风险预警监控',
           index: '4-3',

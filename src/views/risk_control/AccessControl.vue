@@ -14,14 +14,14 @@
     .risk-table.table-container
       el-table(:data="riskDatas")
         el-table-column(prop="assetFrom",label="资产方")
-        el-table-column(prop="riskRuleId",label="规则ID")
+        //- el-table-column(prop="riskRuleId",label="规则ID",width="300")
         el-table-column(prop="name",label="规则名")
         el-table-column(prop="subjectId",label="对象ID")
         el-table-column(prop="status",label="当前状态")
         el-table-column(label="时间")
           template(scope="scope")
             span {{scope.row.updatedAt | moment}}
-        el-table-column(prop="description",label="详情")
+        el-table-column(prop="description",label="详情",width="300")
       el-pagination(@size-change="sizeChange",@current-change="currentChange",:current-page="parseInt(filter.page)",:page-sizes="page.sizes",:page-size="parseInt(filter.pageSize)",layout="total, sizes, prev, pager, next, jumper",:total="parseInt(page.total)")
 
 </template>
@@ -53,28 +53,25 @@ export default{
         sizes: [10, 20, 30, 40]
       },
       options: [{
-        value: '通过',
+        value: 'PASS',
         label: '通过'
       }, {
-        value: '未通过',
+        value: 'FAIL',
         label: '未通过'
       }]
     }
   },
   methods: {
     risktemGet () {
-      const loadingInstance = this.$loading({
-        target: '.risk-zr'
-      })
       riskZr.get({
         params: {
           ...pruneParams(this.filter)
-        }
+        },
+        loadingMaskTarget: '.risk-zr'
       }).then((res) => {
-        const data = res.data
+        const data = res.data.data
         this.riskDatas = data.rows
         this.page.total = data.total
-        loadingInstance.close()
       }).catch((res) => {
       })
     },

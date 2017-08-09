@@ -69,5 +69,9 @@ export default {
       }
       return date ? moment(date).format(format) : '-'
     })
+
+    Vue.filter('filterTem', (value) => {
+      return value === 'ACCESS' ? '准入模板' : '预警模板'
+    })
   }
 }
