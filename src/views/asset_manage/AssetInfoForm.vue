@@ -36,10 +36,10 @@
                   td {{assetBaseInfo.buyBackStatus | statusFormat}}
                 tr
                   th 身份证反面照片路径：
-                  td(v-html='assetBaseInfo.certBackPicPath | download')
+                  td(v-html='$options.filters.download(assetBaseInfo.certBackPicPath)')
                 tr
                   th 身份证正面照片路径：
-                  td {{assetBaseInfo.certFrontPicPath}}
+                  td(v-html='$options.filters.download(assetBaseInfo.certFrontPicPath)')
                 tr
                   th 证件号码：
                   td {{assetBaseInfo.certNo}}
@@ -48,7 +48,7 @@
                   td {{assetBaseInfo.certType}}
                 tr
                   th 合同协议路径：
-                  td {{assetBaseInfo.contractFilesPath}}
+                  td(v-html='$options.filters.download(assetBaseInfo.contractFilesPath)')
                 tr
                   th 推送状态：
                   td {{assetBaseInfo.pushStatus | statusFormat}}
@@ -86,13 +86,13 @@
                   td {{assetCarBackUpInfo.assetId}}
                 tr
                   th 车辆行驶证路径：
-                  td {{assetCarBackUpInfo.carDrivingPermitCertPath}}
+                  td(v-html='$options.filters.download(assetCarBackUpInfo.carDrivingPermitCertPath)')
                 tr
                   th 车辆登记证路径：
-                  td {{assetCarBackUpInfo.carRegisterCertPath}}
+                  td(v-html='$options.filters.download(assetCarBackUpInfo.carRegisterCertPath)')
                 tr
                   th 驾驶证照片路径：
-                  td {{assetCarBackUpInfo.drivingLicencePicPath}}
+                  td(v-html='$options.filters.download(assetCarBackUpInfo.drivingLicencePicPath)')
             el-col(:span="8")
               table
                 tr
@@ -111,7 +111,7 @@
               table        
                 tr
                   th 提车确认单文件路径：
-                  td {{assetCarBackUpInfo.pickUpFilePath}}
+                  td(v-html='$options.filters.download(assetCarBackUpInfo.pickUpFilePath)')
                 tr
                   th 购置税：
                   td {{assetCarBackUpInfo.purchasTax | ktCurrency}}
@@ -251,6 +251,8 @@
         el-table-column(prop='insuranceNo', label='保单号', width='220')
         el-table-column(prop='insuranceOrgName', label='保险公司名称', width='220')
         el-table-column(prop='insurancePicPath', label='保单图片路径', width='220')
+           template(scope="scope")
+            span(v-html='$options.filters.download(scope.row.insurancePicPath)')
         el-table-column(prop='insuranceType', label='保险类型', width='220')
           template(scope="scope")
             span {{scope.row.insuranceType | statusFormat}}
@@ -368,7 +370,7 @@ export default {
       return status ? status.name : '未知状态'
     },
     download(value) {
-      return '<a download="附件" href="www.baidu.com">下载附件</a>'
+      return '<a download="附件" class="color-blue" href="' + process.env.API_HOST + 'common/download?filePath=' + value + '">下载附件</a>'
     }
   },
   methods: {
