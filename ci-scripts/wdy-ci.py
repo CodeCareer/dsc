@@ -20,10 +20,10 @@ archiveBasePath=''
 _CONFIG_PRODUCT_WDY_URL_PREFIX='https://kefeng-static.wjs.com/'
 _CONFIG_DEV_WDY_URL_PREFIX='https://kefeng-static.wjs-test.com/'
 
-_CONFIG_PRODUCT_WDY_API_URL_PREFIX='https://kefeng-openapi.wjs.com/'
-_CONFIG_DEV_TRUNK_WDY_API_URL_PREFIX='https://kefeng-openapi.trunk.wjs-test.com/'
-_CONFIG_DEV_ONLINE_WDY_API_URL_PREFIX='https://kefeng-openapi.online.wjs-test.com/'
-_CONFIG_DEV_OPER_WDY_API_URL_PREFIX='https://kefeng-openapi.oper.wjs-test.com/'
+_CONFIG_PRODUCT_WDY_API_URL_PREFIX='https://kf-wdy.wjs.com/wdy'
+_CONFIG_DEV_TRUNK_WDY_API_URL_PREFIX='http://kf-wdy.trunk.wjs-test.com/wdy'
+_CONFIG_DEV_ONLINE_WDY_API_URL_PREFIX='https://kf-wdy.online.wjs-test.com/wdy'
+_CONFIG_DEV_OPER_WDY_API_URL_PREFIX='https://kf-wdy.oper.wjs-test.com/wdy'
 
 
 _CONFIG_DEV_TRUNK_CONTEXT='trunk'
