@@ -7,7 +7,7 @@ const APIS = {
   ...API_2
 }
 
-const STOP_PERMIT = false // 是否关闭权限校验
+const STOP_PERMIT = true // 是否关闭权限校验
 
 export default {
   install(Vue, options) {
