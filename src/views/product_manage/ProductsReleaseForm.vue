@@ -67,8 +67,9 @@
                   th 备注：
                   td  {{product.remark}}
     .bottom-buttons
-      el-button(type="primary", size="small", @click="audit") 审核
-      el-button(type="gray", size="small", @click="cancel") 取消
+      el-button(type="primary", size="small", @click="audit('PASSED')") 通过
+      el-button(type="gray", size="small", @click="audit('DENIED')") 驳回
+      el-button(size="small", @click="cancel") 取消
 </template>
 
 <script>
@@ -87,16 +88,17 @@ import {
 export default {
   mixins: [tableListMixins],
   methods: {
-    audit() {
-      this.$confirm('确定审核通过吗？', '提示', {
+    audit(data) {
+      const confirmMsg = data === 'PASSED' ? '确定审核通过吗？' : '确定审核驳回吗？'
+      this.$confirm(confirmMsg, '提示', {
         type: 'warning'
       }).then(() => {
-        this.productsAudit()
+        this.productsAudit(data)
       })
     },
 
-    productsAudit() {
-      productsAudit.post({id: this.$route.params.id}, {
+    productsAudit(data) {
+      productsAudit.post({id: this.$route.params.id, auditResult: data}, {
         loadingMaskTarget: '.products-release'
       }).then(res => {
         const data = res.data
