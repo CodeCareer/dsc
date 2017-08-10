@@ -97,8 +97,8 @@ export default {
       this.accountDeposit.fundAccountId = this.$route.params.fundAccountId
       this.accountDeposit.fundDirection = this.$route.params.fundDirection
       this.accountDeposit.id = this.$route.params.id
-      this.accountDeposit.payDate = this.$route.params.payDate ? moment(this.$route.params.payDate).format('YYYYMMDD') : ''
-      this.date.payDate = this.$route.params.payDate ? moment(this.$route.params.payDate).format('YYYY-MM-DD') : ''
+      this.accountDeposit.payDate = this.$route.params.payDate
+      this.date.payDate = moment(this.$route.params.payDate, 'YYYYMMDD').format('YYYY-MM-DD')
       this.title = '编辑账户入金'
       this.fundAccountIdStatus = true
       updateCrumb.$emit('update-crumbs', [{

@@ -32,13 +32,13 @@
             span {{scope.row.factPayAmount | ktCurrency}}
         el-table-column(prop='payDate', label='支付日期', width='100')
           template(scope="scope")
-            span {{scope.row.payDate | moment('YYYY-MM-DD')}}
+            span {{scope.row.payDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
         el-table-column(prop='payWithStartDate', label='支付款对应开始日期', width='140')
           template(scope="scope")
-            span {{scope.row.payWithStartDate | moment('YYYY-MM-DD')}}
+            span {{scope.row.payWithStartDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
         el-table-column(prop='payWithEndDate', label='支付款对应结束日期', width='140')
           template(scope="scope")
-            span {{scope.row.payWithEndDate | moment('YYYY-MM-DD')}}
+            span {{scope.row.payWithEndDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
         el-table-column(prop='checkingStatus', label='对账状态', width='80')
           template(scope="scope")
             span(:class="scope.row.checkingStatus | statusClass") {{scope.row.checkingStatus | statusFormat}}

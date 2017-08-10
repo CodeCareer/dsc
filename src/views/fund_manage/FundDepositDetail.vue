@@ -26,7 +26,7 @@
             span {{scope.row.depositAmout | ktCurrency}}
         el-table-column(prop='depositDate', label='入金日期', width='120')
           template(scope="scope")
-            span {{scope.row.depositDate | moment('YYYY-MM-DD')}}
+            span {{scope.row.depositDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
         el-table-column(prop='depositType', label='入金类型', width='80')
           template(scope="scope")
             span {{scope.row.depositType | statusFormat}}

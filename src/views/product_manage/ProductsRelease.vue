@@ -25,20 +25,20 @@
             span {{scope.row.profitYearRate | ktPercent}}
         el-table-column(prop='carriageDate', label='上架日期', width='120')
           template(scope="scope")
-            span {{scope.row.carriageDate | moment('YYYY-MM-DD')}}
+            span {{scope.row.carriageDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
         el-table-column(prop='underDate', label='下架日期', width='220')
           template(scope="scope")
-            span {{scope.row.underDate | moment('YYYY-MM-DD')}}
+            span {{scope.row.underDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
         el-table-column(prop='valueDate', label='起息日期', width='220')
           template(scope="scope")
-            span {{scope.row.valueDate | moment('YYYY-MM-DD')}}
+            span {{scope.row.valueDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
         el-table-column(prop='term', label='期限', width='220')
         el-table-column(prop='requestAmount', label='申请融资金额', width='220')
           template(scope="scope")
             span {{scope.row.requestAmount | ktCurrency}}
         el-table-column(prop='dueDate', label='到期日', width='220')
           template(scope="scope")
-            span {{scope.row.dueDate | moment('YYYY-MM-DD')}}
+            span {{scope.row.dueDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
         el-table-column(prop='factCollectAmount', label='实际募集金额', width='220')
           template(scope="scope")
             span {{scope.row.factCollectAmount | ktCurrency}}
@@ -47,13 +47,13 @@
             span {{scope.row.dueTotalInterest | ktCurrency}}
         el-table-column(prop='factDueDate', label='实际到期日期', width='220')
           template(scope="scope")
-            span {{scope.row.factDueDate | moment('YYYY-MM-DD')}}
+            span {{scope.row.factDueDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
         el-table-column(prop='factRedeemAmount', label='实际兑付给投资人总金额', width='220')
           template(scope="scope")
             span {{scope.row.factRedeemAmount | ktCurrency}}
         el-table-column(prop='minPreDueDate', label='最早可提前还款日期', width='220')
           template(scope="scope")
-            span {{scope.row.minPreDueDate | moment('YYYY-MM-DD')}}
+            span {{scope.row.minPreDueDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
         el-table-column(prop='redeemAmount', label='到期应对付总金额', width='220')
           template(scope="scope")
             span {{scope.row.requestAmount | ktCurrency}}
