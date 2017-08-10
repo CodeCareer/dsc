@@ -24,7 +24,7 @@
                     //- span.risk-also(v-if='indexr !== 0 && risk.type === "WARNING"') 并且
                     //- span.risk-also(v-if='indexr !== 0 && risk.type === "ACCESS"') 或者
                     el-checkbox(:label="rule.name",v-model="rule.status",true-label="ENABLED",false-label="DISABLED",:disabled="!rule.editing")
-                  el-col(:span="14")
+                  el-col(:span="16")
                     .risk-filter(v-for="(detail, indexd) in rule.details")
                       //- NUMERIC
                       .risk-num(v-if="rule.inputType ==='NUMERIC'")
@@ -32,8 +32,9 @@
                           el-select.input-width(v-model="detail.operator",:disabled="!rule.editing" placeholder="选择")
                             el-option(v-for="operator in operators",:key="operator.value",:value="operator.value",:label="operator.label")
                         el-form-item.risk-verify(prop="numeric")
-                          el-input.input-width(placeholder="请输入",:disabled="!rule.editing",v-model.number="detail.numbericTarget")
-                        .el-buttons
+                          el-input.input-width(placeholder="请输入",:disabled="!rule.editing",v-model.number="detail.numbericTarget",@change="riskChange(rule)")
+                          .warn-verify(v-if="detail.messageWarn") {{detail.message}}
+                        .el-risk-buttons
                           .risk-edit(v-if="indexd === 0")
                             el-button(size="small", type="primary",@click="ruleEdit(rule)",v-if="!rule.editing && $permit('riskEdit')") 编辑
                           .risk-a-d(v-if="indexd !== 0")
@@ -48,12 +49,12 @@
                         el-form-item.risk-verify
                           el-select.input-width(v-model="detail.booleanTarget",placeholder="选择",:disabled="!rule.editing")
                             el-option(v-for="(bool,indexb) in riskBools",:key="bool.value",:value="bool.value",:label="bool.label")
-                        .el-buttons
+                        .el-risk-buttons
                           .risk-edit(v-if="indexd === 0")
                             el-button(size="small", type="primary",@click="ruleEdit(rule)",v-if="!rule.editing && $permit('riskEdit')") 编辑
                           .risk-a-d(v-if="indexd !== 0")
                             //- el-button(size="small", type="primary",@click="detailAdd(rule)") 并且
-                            el-button(v-if="rule.editing", size="small", type="primary",@click="detailDelete(rule, detail)") 删除
+                            el-button(v-if="rule.editing", size="small", type="primary",@click="detailDelete(rule, indexd)") 删除
                           .el-buttons-n(v-if="rule.editing && indexd === 0")
                             el-button(size="small", type="primary",@click="detailAdd(rule)") 并且
                             el-button(size="small", type="primary",@click="ruleSubmit(rule)") 保存
@@ -74,11 +75,13 @@ import {
 } from 'element-ui'
 import {
   each,
+  every,
   merge,
-  cloneDeep
+  cloneDeep,
+  isNumber
   // remove
 } from 'lodash'
-export default{
+export default {
   data() {
     return {
       backupRule: {},
@@ -95,9 +98,9 @@ export default{
         type: ''
       },
       riskDetails: {
-        booleanTarget: '',
+        booleanTarget: 1,
         numericTarget: null,
-        operator: '',
+        operator: 'EQUAL',
         stringTarget: ''
       },
       rules: {
@@ -127,7 +130,7 @@ export default{
         label: '>='
       }, {
         value: 'LESS_EQUAL',
-        label: '=<'
+        label: '<='
       }],
       riskBools: [{
         value: 1,
@@ -163,6 +166,8 @@ export default{
             r.editing = false // 编辑状态
             each(r.details, d => {
               d.booleanTarget = +d.booleanTarget
+              d.message = '' // 编辑状态
+              d.messageWarn = false // 编辑状态
             })
           })
         })
@@ -197,15 +202,33 @@ export default{
     },
 
     ruleSubmit(rule) {
+      if (rule.inputType === 'NUMERIC') {
+        each(rule.details, (v, k) => {
+          if (v.numbericTarget === null || v.numbericTarget === '') {
+            v.message = '值不能为空'
+            v.messageWarn = true
+          } else if (!isNumber(v.numbericTarget)) {
+            v.message = '必须是数字'
+            v.messageWarn = true
+          } else {
+            v.message = ''
+            v.messageWarn = false
+          }
+        })
+        rule.valid = every(rule.details, d => !d.messageWarn)
+        if (!rule.valid) return
+      }
+
       const ruleClone = cloneDeep(rule)
       ruleClone.details = JSON.stringify(ruleClone.details)
-      // debugger
       riskEdit.post({
         ...pruneParams(ruleClone)
-      }, {pathParams: {
-        riskRuleId: rule.id,
+      }, {
+        pathParams: {
+          riskRuleId: rule.id
+        },
         loadingMaskTarget: '.risk-rule'
-      }}).then(res => {
+      }).then(res => {
         Message({
           type: 'success',
           message: '保存成功'
@@ -216,6 +239,22 @@ export default{
           type: 'error',
           message: '保存失败'
         })
+      })
+      console.log(rule.details)
+    },
+
+    riskChange(rule) {
+      each(rule.details, (v, k) => {
+        if (v.numbericTarget === null || v.numbericTarget === '') {
+          v.message = '值不能为空'
+          v.messageWarn = true
+        } else if (!isNumber(v.numbericTarget)) {
+          v.message = '必须是数字'
+          v.messageWarn = true
+        } else {
+          v.message = ''
+          v.messageWarn = false
+        }
       })
     },
 
@@ -239,69 +278,91 @@ export default{
     }
   },
   mounted() {
-    this.$router.push({
-      name: this.$route.name,
-      query: pruneParams(this.filter)
-    })
     this.riskWarnGet()
   }
 }
 </script>
 <style lang="scss">
-  .risk-form{
-    margin-bottom:30px;
-  }
-  .risk-rule-tem{
-    height: 40px;
-    line-height: 40px;
-    background: #f3f6f8;
-    padding-left: 15px;
-    overflow: hidden;
-    border-radius: 4px;
-  }
-  .risk-rule-content{
-    margin-top:30px;
-    border:1px solid #f3f6f8;
-    border-radius: 4px;
-    overflow: hidden;
-    padding:15px;
-  }
-  .el-form-item__content{
-    line-height: 34px;
-    font-size:14px;
-  }
-  .risk-filter{
-    margin-bottom: 10px;
-    overflow: hidden;
-  }
-  .input-width{
-    float:left;
-    width:120px!important;
-    margin-right:10px;
-  }
-  .el-buttons{
-    float:left;
-    margin-left:20px;
-    margin-top:-2px;
-  }
-  .el-buttons-n{
-    // margin-left:10px;
-    display: inline-block;
-  }
-  .risk-row{
-    margin-bottom:10px;
-    // overflow: hidden;
-  }
-  .risk-verify,.risk-a-d,.risk-edit{
-    float:left;
-    margin-right:10px;
-  }
-  .risk-col{
-    position: relative;
-  }
-  .risk-also{
-    position: absolute;
-    left:-40px;
-    z-index:99;
-  }
+.risk-form {
+  margin-bottom: 30px;
+}
+
+.risk-rule-tem {
+  height: 40px;
+  line-height: 40px;
+  background: #f3f6f8;
+  padding-left: 15px;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.risk-rule-content {
+  margin-top: 30px;
+  border: 1px solid #f3f6f8;
+  border-radius: 4px;
+  overflow: hidden;
+  padding: 15px;
+}
+
+.el-form-item__content {
+  line-height: 34px;
+  font-size: 14px;
+}
+
+.risk-filter {
+  margin-bottom: 20px; // overflow: hidden;
+}
+
+.input-width {
+  // float:left;
+  width: 120px!important;
+  margin-right: 10px;
+}
+
+.el-risk-buttons {
+  // float:left;
+  display: inline-block;
+  vertical-align: 0;
+  margin-left: 10px; // margin-left:20px;
+  // margin-top:-2px;
+} // .el-buttons-n{
+//   margin-left:10px;
+//   vertical-align: middle;
+//   display: inline-block;
+// }
+.risk-row {
+  // margin-bottom:10px;
+  // overflow: hidden;
+}
+
+.el-buttons-n,
+.risk-a-d,
+.risk-edit {
+  // float:left;
+  display: inline-block;
+  vertical-align: 0;
+}
+
+.risk-verify {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.risk-col {
+  position: relative;
+}
+
+.risk-also {
+  position: absolute;
+  left: -40px;
+  z-index: 99;
+}
+
+.warn-verify {
+  position: absolute;
+  top: 28px;
+  left: 0;
+  color: red;
+  font-size: 13px;
+}
 </style>

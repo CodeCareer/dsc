@@ -65,6 +65,10 @@ body {
   .el-tag--primary {
     color: $primary-color;
   }
+  .el-select-dropdown {
+    min-width: 200px;
+  }
+
   .el-select-dropdown.is-multiple .el-select-dropdown__item.selected {
     color: $primary-color;
   }

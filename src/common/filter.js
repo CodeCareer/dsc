@@ -70,8 +70,12 @@ export default {
       return date ? moment(date).format(format) : '-'
     })
 
-    Vue.filter('filterTem', (value) => {
+    Vue.filter('filterTem', value => {
       return value === 'ACCESS' ? '准入模板' : '预警模板'
+    })
+
+    Vue.filter('riskState', value => {
+      return value === 'PASS' ? '通过' : '未通过'
     })
   }
 }

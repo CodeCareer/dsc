@@ -18,6 +18,8 @@
         el-table-column(prop="name",label="规则名")
         el-table-column(prop="subjectId",label="对象ID")
         el-table-column(prop="status",label="当前状态")
+          template(scope="scope")
+            span {{scope.row.status | riskState}}
         el-table-column(label="时间")
           template(scope="scope")
             span {{scope.row.updatedAt | moment}}
@@ -108,10 +110,6 @@ export default{
     }
   },
   mounted () {
-    this.$router.push({
-      name: this.$router.name,
-      query: pruneParams(this.filter)
-    })
     this.risktemGet()
   }
 }

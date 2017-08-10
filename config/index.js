@@ -53,7 +53,7 @@ module.exports = {
       // },
       '/api': {
         target: 'http://apidoc.wjs-dev.com/mockjsdata/61',
-        // target: 'http://192.168.221.8:8980',
+        // target: 'http://10.132.1.115:8980',
         changeOrigin: true,
         onProxyRes: function(proxyRes, req, res) {
           proxyRes.headers['x-auth-token'] = 'adfa-adsfaf-asf'
