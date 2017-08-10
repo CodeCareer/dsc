@@ -65,7 +65,7 @@ export default {
 
     Vue.filter('moment', (date, format = 'YYYY-MM-DD h:mm:ss', inputFormat) => {
       if (inputFormat) {
-        date ? moment(date, inputFormat).format(format) : '-'
+        return date ? moment(date, inputFormat).format(format) : '-'
       }
       return date ? moment(date).format(format) : '-'
     })
