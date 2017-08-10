@@ -2,7 +2,7 @@
   .wd-content
     n-progress(parent=".wd-content")
     header
-      img.logo(src="../assets/images/logo.svg")
+      .logo 微贷云
       .user-info.fr
         span
           i.iconfont.icon-user.icon-color
@@ -25,8 +25,7 @@
           el-breadcrumb-item(v-for="crumb in crumbs", :to="crumb.to", :key="crumb.name") {{crumb.name}}
         router-view.body-container
         footer
-          p(style="margin-bottom: 10px;") 联系电话：010-84554188   京ICP备150220058号-1
-          p ©2016 开通金融信息服务（北京）有限公司
+          p ©2017 杭州科峰信息服务有限公司
 </template>
 
 <script>
@@ -314,9 +313,12 @@ $menu-height: 50px;
       }
     }
     .logo {
-      height: 25px;
+      height: 60px;
       color: #fff;
-      margin: 18px 0 0 15px;
+      width:100px;
+      margin:0 0 0 30px;
+      font-size:26px;
+      display: inline-block;
     }
     .user-info {
       span {

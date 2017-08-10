@@ -2,7 +2,7 @@
 .login-page
   header
     .inner
-      img.logo(src='../assets/images/logo.svg')
+      .logo 微贷云
   .login-warpper(@keyup.13="submitForm()")
     h2 登录
     el-form.login-form(ref="user", :model="user", :rules="rules")
@@ -17,8 +17,7 @@
       el-form-item
         el-button.input(type="submit",@click="submitForm") 立即登录
   footer
-    p(style="margin-top: 10px;") 联系电话：010-84554188   京ICP备150220058号-1
-    p ©2016 开通金融信息服务（北京）有限公司
+    p ©2017 杭州科峰信息服务有限公司
 
 </template>
 
@@ -117,6 +116,7 @@ export default {
     .logo {
       height: 35px;
       margin-top: 12px;
+      font-size: 26px;
     }
   }
   footer {
