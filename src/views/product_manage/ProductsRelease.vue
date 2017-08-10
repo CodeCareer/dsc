@@ -19,7 +19,11 @@
         el-table-column(prop='productName', fixed="left", label='产品名称', width='220')
         el-table-column(prop='productCode', fixed="left", label='产品代码', width='220')
         el-table-column(prop='assetFrom', fixed="left", label='资产来源', width='100')
+          template(scope="scope")
+            span {{scope.row.assetFrom | statusFormat}}
         el-table-column(prop='productStatus', label='产品状态', width='220')
+          template(scope="scope")
+            span {{scope.row.productStatus | statusFormat}}
         el-table-column(prop='profitYearRate', label='发行利率', width='220')
           template(scope="scope")
             span {{scope.row.profitYearRate | ktPercent}}
@@ -67,7 +71,8 @@
 
 <script>
 import {
-  merge
+  merge,
+  find
 } from 'lodash'
 
 import {
@@ -83,8 +88,53 @@ import {
 } from '@/common/mixins.js'
 import moment from 'moment'
 
+const statusList = [{
+  name: '大搜车',
+  value: 'DSC'
+}, {
+  name: '花生',
+  value: 'HUASHENG'
+}, {
+  name: '待审核',
+  value: 'WAITING_AUDIT'
+}, {
+  name: '自动审核失败，待确认',
+  value: 'AUTO_AUDIT_FAIL_WAIT_CONFIRMED'
+}, {
+  name: '审核成功，待募集',
+  value: 'WAITING_COLLECT'
+}, {
+  name: '审核失败',
+  value: 'AUDIT_FAIL'
+}, {
+  name: '募集中',
+  value: 'COLLECTING'
+}, {
+  name: '已成立',
+  value: 'DURATION'
+}, {
+  name: '募集失败',
+  value: 'COLLECT_FAIL'
+}, {
+  name: '已回款',
+  value: 'FINISHED'
+}]
+
 export default {
   mixins: [tableListMixins],
+  filters: {
+    statusClass(value) {
+      const classMap = {
+        'AUDIT_FAILED': 'color-red',
+        'WAIT_INTO_POOL': 'color-green'
+      }
+      return classMap[value] || ''
+    },
+    statusFormat(value) {
+      const status = find(statusList, s => s.value === value)
+      return status ? status.name : '未知状态'
+    }
+  },
   methods: {
     handleValueDateUpper(value) {
       this.filter.valueDateUpper = value ? moment(value).format('YYYYMMDD') : ''

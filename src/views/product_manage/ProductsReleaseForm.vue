@@ -16,24 +16,24 @@
                   td {{product.productCode}}
                 tr
                   th 资产来源：
-                  td {{product.assetFrom}}
+                  td {{product.assetFrom | statusFormat}}
                 tr
                   th 产品状态：
-                  td {{product.productStatus}}
+                  td {{product.productStatus | statusFormat}}
                 tr
                   th 发行利率：
                   td {{product.profitYearRate | ktPercent}}
                 tr
                   th 上架日期：
-                  td {{product.carriageDate}}
+                  td {{product.carriageDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
             el-col(:span="8")
               table
                 tr
                   th 下架日期：
-                  td {{product.underDate}}
+                  td {{product.underDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
                 tr
                   th 起息日期：
-                  td {{product.valueDate}}
+                  td {{product.valueDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
                 tr
                   th 期限：
                   td {{product.term}}
@@ -42,7 +42,7 @@
                   td {{product.requestAmount}}
                 tr
                   th 到期日：
-                  td {{product.dueDate}}
+                  td {{product.dueDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
                 tr
                   th 实际募集金额：
                   td {{product.factCollectAmount}}
@@ -53,13 +53,13 @@
                   td {{product.dueTotalInterest}}
                 tr
                   th 实际到期日期：
-                  td {{product.factDueDate}}
+                  td {{product.factDueDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
                 tr
                   th 实际兑付给投资人总金额：
                   td {{product.factRedeemAmount}}
                 tr
                   th 最早可提前还款日期：
-                  td {{product.minPreDueDate}}
+                  td {{product.minPreDueDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
                 tr
                   th 到期应对付总金额：
                   td {{product.redeemAmount}}
@@ -74,6 +74,10 @@
 
 <script>
 import {
+  find
+} from 'lodash'
+
+import {
   updateCrumb
 } from '@/common/crosser.js'
 
@@ -85,8 +89,53 @@ import {
   tableListMixins
 } from '@/common/mixins.js'
 
+const statusList = [{
+  name: '大搜车',
+  value: 'DSC'
+}, {
+  name: '花生',
+  value: 'HUASHENG'
+}, {
+  name: '待审核',
+  value: 'WAITING_AUDIT'
+}, {
+  name: '自动审核失败，待确认',
+  value: 'AUTO_AUDIT_FAIL_WAIT_CONFIRMED'
+}, {
+  name: '审核成功，待募集',
+  value: 'WAITING_COLLECT'
+}, {
+  name: '审核失败',
+  value: 'AUDIT_FAIL'
+}, {
+  name: '募集中',
+  value: 'COLLECTING'
+}, {
+  name: '已成立',
+  value: 'DURATION'
+}, {
+  name: '募集失败',
+  value: 'COLLECT_FAIL'
+}, {
+  name: '已回款',
+  value: 'FINISHED'
+}]
+
 export default {
   mixins: [tableListMixins],
+  filters: {
+    statusClass(value) {
+      const classMap = {
+        'AUDIT_FAILED': 'color-red',
+        'WAIT_INTO_POOL': 'color-green'
+      }
+      return classMap[value] || ''
+    },
+    statusFormat(value) {
+      const status = find(statusList, s => s.value === value)
+      return status ? status.name : '未知状态'
+    }
+  },
   methods: {
     audit(data) {
       const confirmMsg = data === 'PASSED' ? '确定审核通过吗？' : '确定审核驳回吗？'
