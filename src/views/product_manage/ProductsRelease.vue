@@ -13,6 +13,8 @@
           el-input(placeholder='产品名称', icon='search', @keyup.native.13="search", v-model='filter.productName')
           el-select(v-model="filter.assetFrom", placeholder="资产来源", @change="search")
             el-option(v-for="t in assetTypes", :key="t.name", :value="t.value", :label="t.name")
+          el-select(v-model="filter.productStatus", placeholder="产品状态", @change="search")
+            el-option(v-for="t in productStatusTypes", :key="t.name", :value="t.value", :label="t.name")
           el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='productsRelease', style='width: 100%')
@@ -64,8 +66,8 @@
         el-table-column(prop='remark', label='备注', width='220')
         el-table-column(label='操作', fixed="right", width='60')
           template(scope="scope")
-            .operations
-              i.iconfont.icon-edit(@click="audit(scope.row)")
+            .operations(v-if="scope.row.productStatus === 'AUTO_AUDIT_FAIL_WAIT_CONFIRMED'")
+              i.iconfont.icon-shenhe(@click="audit(scope.row)")
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
@@ -204,6 +206,7 @@ export default {
         valueDateUpper: '',
         assetFrom: '',
         productName: '',
+        productStatus: '',
         page: 1,
         limit: 10
       },
@@ -213,6 +216,31 @@ export default {
       }, {
         name: '大搜车',
         value: 'DSC'
+      }],
+      productStatusTypes: [{
+        name: '待审核',
+        value: 'WAITING_AUDIT'
+      }, {
+        name: '自动审核失败，待确认',
+        value: 'AUTO_AUDIT_FAIL_WAIT_CONFIRMED'
+      }, {
+        name: '审核成功，待募集',
+        value: 'WAITING_COLLECT'
+      }, {
+        name: '审核失败',
+        value: 'AUDIT_FAIL'
+      }, {
+        name: '募集中',
+        value: 'COLLECTING'
+      }, {
+        name: '已成立',
+        value: 'DURATION'
+      }, {
+        name: '募集失败',
+        value: 'COLLECT_FAIL'
+      }, {
+        name: '已回款',
+        value: 'FINISHED'
       }]
     }
   }
