@@ -29,6 +29,7 @@ import {
   updateCrumb
 } from '@/common/crosser.js'
 import {
+  // fundAccountManage,
   accountDepositEdit,
   accountDepositAdd
 } from '@/common/resource.js'
@@ -76,6 +77,16 @@ export default {
       }).then(() => {
         this.$router.back()
       })
+    },
+
+    _fetchData() {
+      // fundAccountManage.post(pruneParams(this.filter), {
+      //   loadingMaskTarget: '.fund-account-manage'
+      // }).then(res => {
+      //   const data = res.data.data
+      //   this.fundAccount = data.rows
+      //   this.page.total = data.total
+      // })
     },
 
     operationStatus(data) {
