@@ -10,7 +10,7 @@ let loadingInstance
 export const http = axios.create({
   baseURL: process.env.API_HOST + '/api/',
   // withCredentials: process.env.NODE_ENV === 'production',
-  timeout: 10000,
+  timeout: 20000,
   transformRequest: [data => {
     if (data) {
       return qs.stringify(data)

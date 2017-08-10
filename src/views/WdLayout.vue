@@ -392,9 +392,10 @@ $menu-height: 50px;
     .el-submenu .el-menu-item {
       font-size: 13px;
       color: #818992;
+      min-width: auto;
       height: $menu-height - 5px;
       line-height: $menu-height - 5px;
-      padding: 0 10px 0 45px!important;
+      padding: 0 10px 0 42px!important;
       background: #37404c;
       &.is-active {
         color: white;
