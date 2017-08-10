@@ -9,6 +9,7 @@
           el-option(v-for="asset in riskAssetFroms",:key="asset.value",:value="asset.value",:label="asset.label")
         el-select(v-model="filter.type",filterable,placeholder="模板类型",@change="search",)
           el-option(v-for="type in riskTypes",:key="type.value",:value="type.value",:label="type.label")
+        el-button(size="small", type="primary",@click="clearFilter")  清除
     .risk-rule-content
       .risk-rule-form
         .risk-form(v-for="risk in riskWarnDatas")
@@ -173,6 +174,14 @@ export default {
         })
         this.riskWarnDatas = data.data
       })
+    },
+    clearFilter() {
+      each(this.filter, (v, k) => {
+        if (k !== 'page' && k !== 'pageSize') {
+          this.filter[k] = ''
+        }
+      })
+      this.search()
     },
 
     ruleEdit(rule) {
