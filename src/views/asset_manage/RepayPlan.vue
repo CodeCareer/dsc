@@ -18,7 +18,7 @@
             span {{scope.row.benefitType | statusFormat}}
         el-table-column(prop='faceRepayDate', label='实际还款日期', width='120')
           template(scope="scope")
-            span {{scope.row.faceRepayDate | moment('YYYY-MM-DD')}}
+            span {{scope.row.faceRepayDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
         el-table-column(prop='factBenefit', label='实际优惠金额', width='220')
           template(scope="scope")
             span {{scope.row.factBenefit | ktCurrency}}
@@ -41,7 +41,7 @@
             span {{scope.row.repayAmount | ktCurrency}}
         el-table-column(prop='repayDate', label='应还款日', width='120')
           template(scope="scope")
-            span {{scope.row.repayDate | moment('YYYY-MM-DD')}}
+            span {{scope.row.repayDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
         el-table-column(prop='repayInterest', label='应还款利息', width='220')
           template(scope="scope")
             span {{scope.row.repayInterest | ktCurrency}}

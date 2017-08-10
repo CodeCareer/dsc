@@ -14,7 +14,7 @@
             span {{scope.row.buyBackAmout | ktCurrency}}
         el-table-column(prop='buyBackDate', label='回购日期')
           template(scope="scope")
-            span {{scope.row.buyBackDate | moment('YYYY-MM-DD')}}
+            span {{scope.row.buyBackDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
         el-table-column(prop='buyBackReason', label='回购原因')
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>

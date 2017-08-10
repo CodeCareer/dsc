@@ -65,7 +65,7 @@
                   td {{assetBaseInfo.name}}
                 tr
                   th 下单时间戳：
-                  td {{assetBaseInfo.orderDateTime | moment('YYYY-MM-DD')}}
+                  td {{assetBaseInfo.orderDateTime | moment('YYYY-MM-DD', 'YYYYMMDD')}}
                 tr
                   th 外部资产订单编号：
                   td {{assetBaseInfo.outerAssetOrderNo}}
@@ -191,7 +191,7 @@
                   td {{assetCarCoreInfo.outerCarTypeCode}}
                 tr
                   th 提车日期：
-                  td {{assetCarCoreInfo.pickUpDate | moment('YYYY-MM-DD')}}
+                  td {{assetCarCoreInfo.pickUpDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
                 tr
                   th 车牌号：
                   td {{assetCarCoreInfo.plateNumber}}
@@ -217,10 +217,10 @@
                   td {{assetCarCoreInfo.seriesName}}
                 tr
                   th 租约结束日期：
-                  td {{assetCarCoreInfo.tenancyEndDate | moment('YYYY-MM-DD')}}
+                  td {{assetCarCoreInfo.tenancyEndDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
                 tr
                   th 备租约起始日期：
-                  td {{assetCarCoreInfo.tenancyStartDate | moment('YYYY-MM-DD')}}
+                  td {{assetCarCoreInfo.tenancyStartDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
                 tr
                   th 租期：
                   td {{assetCarCoreInfo.tenancyTerm}}
@@ -370,7 +370,7 @@ export default {
       return status ? status.name : '未知状态'
     },
     download(value) {
-      return '<a download="附件" class="color-blue" href="' + process.env.API_HOST + 'common/download?filePath=' + value + '">下载附件</a>'
+      return '<a download="附件" class="color-blue" href="' + process.env.API_HOST + '/common/download?filePath=' + value + '">下载附件</a>'
     }
   },
   methods: {
