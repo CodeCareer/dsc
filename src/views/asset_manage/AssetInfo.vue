@@ -11,23 +11,22 @@
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='assetInfo', style='width: 100%')
-        el-table-column(prop='assetBaseInfo.alipayAccount', label='账户名称', width='220')
-        el-table-column(prop='assetBaseInfo.outerAssetOrderNo', label='外部资产订单编号', width='220')
-        el-table-column(prop='assetBaseInfo.assetFrom', label='账户类型', width='80')
+        el-table-column(prop='assetBaseInfo.alipayAccount', label='账户名称')
+        el-table-column(prop='assetBaseInfo.outerAssetOrderNo', label='外部资产订单编号')
+        el-table-column(prop='assetBaseInfo.assetFrom', label='账户类型')
           template(scope="scope")
             span {{scope.row.assetBaseInfo.assetFrom | statusFormat}}
-        el-table-column(prop='assetBaseInfo.productCode', label='产品代码', width='220')
-        el-table-column(prop='assetBaseInfo.assetStatus', label='资产状态', width='220')
+        el-table-column(prop='assetBaseInfo.productCode', label='产品代码')
+        el-table-column(prop='assetBaseInfo.assetStatus', label='资产状态')
           template(scope="scope")
             span {{scope.row.assetBaseInfo.assetStatus | statusFormat}}
-        el-table-column(prop='assetBaseInfo.buyBackStatus', label='回购状态', width='220')
+        el-table-column(prop='assetBaseInfo.buyBackStatus', label='回购状态')
           template(scope="scope")
             span {{scope.row.assetBaseInfo.buyBackStatus | statusFormat}}
-        el-table-column(prop='assetBaseInfo.phoneNum', label='电话号码', width='220')
-        el-table-column(prop='assetBaseInfo.pushStatus', label='推送状态', width='220')
+        el-table-column(prop='assetBaseInfo.pushStatus', label='推送状态')
           template(scope="scope")
             span {{scope.row.assetBaseInfo.pushStatus | statusFormat}}
-        el-table-column(label='操作', width='60')
+        el-table-column(label='操作')
           template(scope="scope")
             .operations
               i.iconfont.icon-details(@click="detail(scope.row)")
