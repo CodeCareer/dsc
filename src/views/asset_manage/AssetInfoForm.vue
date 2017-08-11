@@ -65,7 +65,7 @@
                   td {{assetBaseInfo.name}}
                 tr
                   th 下单时间戳：
-                  td {{assetBaseInfo.orderDateTime | moment('YYYY-MM-DD', 'YYYYMMDD')}}
+                  td {{assetBaseInfo.orderDateTime | moment('YYYY-MM-DD')}}
                 tr
                   th 外部资产订单编号：
                   td {{assetBaseInfo.outerAssetOrderNo}}
