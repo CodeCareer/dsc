@@ -12,6 +12,9 @@ export const tableListMixins = {
           this.filter[k] = ''
         }
       })
+      each(this.date, (v, k) => {
+        this.date[k] = ''
+      })
       this.search()
     },
 
