@@ -9,27 +9,27 @@
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='factRepay', style='width: 100%')
-        el-table-column(prop='assetId', label='资产ID', width='220')
-        el-table-column(prop='dealStatus', label='处理状态', width='220')
+        el-table-column(prop='assetId', label='资产ID')
+        el-table-column(prop='dealStatus', label='处理状态')
           template(scope="scope")
             span(:class="scope.row.dealStatus | statusClass") {{scope.row.dealStatus | statusFormat}}
-        el-table-column(prop='faceRepayDate', label='实际还款日期', width='120')
+        el-table-column(prop='faceRepayDate', label='实际还款日期')
           template(scope="scope")
             span {{scope.row.faceRepayDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
-        el-table-column(prop='factBenefit', label='实际优惠金额', width='220')
+        el-table-column(prop='factBenefit', label='实际优惠金额')
           template(scope="scope")
             span {{scope.row.factBenefit | ktCurrency}}
-        el-table-column(prop='factRepayAmount', label='实际还款金额', width='220')
+        el-table-column(prop='factRepayAmount', label='实际还款金额')
           template(scope="scope")
             span {{scope.row.factRepayAmount | ktCurrency}}
-        el-table-column(prop='payChannel', label='支付渠道', width='80')
+        el-table-column(prop='payChannel', label='支付渠道')
           template(scope="scope")
             span {{scope.row.payChannel | statusFormat}}
-        el-table-column(prop='payNo', label='支付流水号', width='220')
-        el-table-column(prop='penaltyInterst', label='罚息', width='220')
+        el-table-column(prop='payNo', label='支付流水号')
+        el-table-column(prop='penaltyInterst', label='罚息')
           template(scope="scope")
             span {{scope.row.penaltyInterst | ktCurrency}}
-        el-table-column(prop='termNo', label='期数', width='80')
+        el-table-column(prop='termNo', label='期数')
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
