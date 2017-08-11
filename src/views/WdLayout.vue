@@ -111,7 +111,8 @@ export default {
           route: {
             name: 'productsRelease'
           },
-          hidden: !this.$permit(['productsRelease'])
+          hidden: !this.$permit(['productsRelease']),
+          activeIncludes: ['productsRelease', 'productsReleaseForm']
         }]
       }, {
         name: '资产管理',
@@ -123,7 +124,8 @@ export default {
           route: {
             name: 'assetInfo'
           },
-          hidden: !this.$permit(['assetInfo'])
+          hidden: !this.$permit(['assetInfo']),
+          activeIncludes: ['assetInfo', 'assetInfoForm']
         }, {
           name: '回购记录',
           index: '2-2',
@@ -156,14 +158,16 @@ export default {
           route: {
             name: 'fundAccountManage'
           },
-          hidden: !this.$permit(['fundAccountManage'])
+          hidden: !this.$permit(['fundAccountManage']),
+          activeIncludes: ['fundAccountManage', 'fundAccountForm']
         }, {
           name: '账户入金管理',
           index: '3-3',
           route: {
             name: 'accountDepositManage'
           },
-          hidden: !this.$permit(['accountDepositManage'])
+          hidden: !this.$permit(['accountDepositManage']),
+          activeIncludes: ['accountDepositManage', 'accountDepositForm']
         }, {
           name: '入金明细信息',
           index: '3-2',
