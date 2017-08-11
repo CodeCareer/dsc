@@ -44,7 +44,7 @@
           template(scope="scope")
             span(:class="scope.row.checkingStatus | statusClass") {{scope.row.checkingStatus | statusFormat}}
         el-table-column(prop='unpassReason', label='对账不通过原因', width='220')
-        el-table-column(label='操作', width='120')
+        el-table-column(label='操作', fixed="right", width='120')
           template(scope="scope")
             .operations
               i.iconfont.icon-edit(@click="edit(scope.row)")
