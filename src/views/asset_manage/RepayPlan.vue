@@ -16,9 +16,9 @@
         el-table-column(prop='benefitType', label='优惠方式', width='80')
           template(scope="scope")
             span {{scope.row.benefitType | statusFormat}}
-        el-table-column(prop='faceRepayDate', label='实际还款日期', width='110')
+        el-table-column(prop='factRepayDate', label='实际还款日期', width='110')
           template(scope="scope")
-            span {{scope.row.faceRepayDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
+            span {{scope.row.factRepayDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
         el-table-column(prop='factBenefit', label='实际优惠金额', width='110')
           template(scope="scope")
             span {{scope.row.factBenefit | ktCurrency}}

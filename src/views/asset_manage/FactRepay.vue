@@ -13,9 +13,9 @@
         el-table-column(prop='dealStatus', label='处理状态')
           template(scope="scope")
             span(:class="scope.row.dealStatus | statusClass") {{scope.row.dealStatus | statusFormat}}
-        el-table-column(prop='faceRepayDate', label='实际还款日期')
+        el-table-column(prop='factRepayDate', label='实际还款日期')
           template(scope="scope")
-            span {{scope.row.faceRepayDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
+            span {{scope.row.factRepayDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
         el-table-column(prop='factBenefit', label='实际优惠金额')
           template(scope="scope")
             span {{scope.row.factBenefit | ktCurrency}}
