@@ -66,10 +66,10 @@
                 tr
                   th 备注：
                   td  {{product.remark}}
-    .bottom-buttons
-      el-button(type="primary", size="small", @click="audit('PASSED')") 通过
-      el-button(type="gray", size="small", @click="audit('DENIED')") 驳回
-      el-button(size="small", @click="cancel") 取消
+    .bottom-buttons 
+      el-button(v-if="product.productStatus === 'AUTO_AUDIT_FAIL_WAIT_CONFIRMED'", type="primary", size="small", @click="audit('PASSED')") 通过
+      el-button(v-if="product.productStatus === 'AUTO_AUDIT_FAIL_WAIT_CONFIRMED'", type="gray", size="small", @click="audit('DENIED')") 驳回
+      el-button(size="small", @click="cancel") 返回
 </template>
 
 <script>
