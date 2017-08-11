@@ -28,7 +28,7 @@
         el-table-column(prop='nameInstalmentsAmount', label='名义月供金额', width='220')
           template(scope="scope")
             span {{scope.row.nameInstalmentsAmount | ktCurrency}}
-        el-table-column(prop='overdueDays', label='逾期天数', width='80')
+        el-table-column(prop='maxOverdueDays', label='逾期天数', width='80')
         el-table-column(prop='payChannel', label='支付渠道', width='80')
           template(scope="scope")
             span {{scope.row.payChannel | statusFormat}}
