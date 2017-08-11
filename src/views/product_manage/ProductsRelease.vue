@@ -18,49 +18,49 @@
           el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='productsRelease', style='width: 100%')
-        el-table-column(prop='productName', fixed="left", label='产品名称', width='220')
-        el-table-column(prop='productCode', fixed="left", label='产品代码', width='220')
-        el-table-column(prop='assetFrom', fixed="left", label='资产来源', width='100')
+        el-table-column(prop='productName', label='产品名称', width='220')
+        el-table-column(prop='productCode', label='产品代码', width='150')
+        el-table-column(prop='assetFrom', label='资产来源', width='100')
           template(scope="scope")
             span {{scope.row.assetFrom | statusFormat}}
-        el-table-column(prop='productStatus', label='产品状态', width='220')
+        el-table-column(prop='productStatus', label='产品状态', width='110')
           template(scope="scope")
             span {{scope.row.productStatus | statusFormat}}
-        el-table-column(prop='profitYearRate', label='发行利率', width='220')
+        el-table-column(prop='profitYearRate', label='发行利率', width='80')
           template(scope="scope")
             span {{scope.row.profitYearRate | ktPercent}}
-        el-table-column(prop='carriageDate', label='上架日期', width='120')
+        el-table-column(prop='carriageDate', label='上架日期', width='100')
           template(scope="scope")
             span {{scope.row.carriageDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
-        el-table-column(prop='underDate', label='下架日期', width='220')
+        el-table-column(prop='underDate', label='下架日期', width='100')
           template(scope="scope")
             span {{scope.row.underDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
-        el-table-column(prop='valueDate', label='起息日期', width='220')
+        el-table-column(prop='valueDate', label='起息日期', width='100')
           template(scope="scope")
             span {{scope.row.valueDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
-        el-table-column(prop='term', label='期限', width='220')
-        el-table-column(prop='requestAmount', label='申请融资金额', width='220')
+        el-table-column(prop='term', label='期限', width='80')
+        el-table-column(prop='requestAmount', label='申请融资金额', width='110')
           template(scope="scope")
             span {{scope.row.requestAmount | ktCurrency}}
-        el-table-column(prop='dueDate', label='到期日', width='220')
+        el-table-column(prop='dueDate', label='到期日', width='100')
           template(scope="scope")
             span {{scope.row.dueDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
-        el-table-column(prop='factCollectAmount', label='实际募集金额', width='220')
+        el-table-column(prop='factCollectAmount', label='实际募集金额', width='110')
           template(scope="scope")
             span {{scope.row.factCollectAmount | ktCurrency}}
-        el-table-column(prop='dueTotalInterest', label='到期应付总收益', width='220')
+        el-table-column(prop='dueTotalInterest', label='到期应付总收益', width='120')
           template(scope="scope")
             span {{scope.row.dueTotalInterest | ktCurrency}}
-        el-table-column(prop='factDueDate', label='实际到期日期', width='220')
+        el-table-column(prop='factDueDate', label='实际到期日期', width='110')
           template(scope="scope")
             span {{scope.row.factDueDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
-        el-table-column(prop='factRedeemAmount', label='实际兑付给投资人总金额', width='220')
+        el-table-column(prop='factRedeemAmount', label='实际兑付给投资人总金额', width='170')
           template(scope="scope")
             span {{scope.row.factRedeemAmount | ktCurrency}}
-        el-table-column(prop='minPreDueDate', label='最早可提前还款日期', width='220')
+        el-table-column(prop='minPreDueDate', label='最早可提前还款日期', width='140')
           template(scope="scope")
             span {{scope.row.minPreDueDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
-        el-table-column(prop='redeemAmount', label='到期应对付总金额', width='220')
+        el-table-column(prop='redeemAmount', label='到期应对付总金额', width='140')
           template(scope="scope")
             span {{scope.row.requestAmount | ktCurrency}}
         el-table-column(prop='remark', label='备注', width='220')
@@ -100,10 +100,10 @@ const statusList = [{
   name: '待审核',
   value: 'WAITING_AUDIT'
 }, {
-  name: '自动审核失败，待确认',
+  name: '自动审核失败',
   value: 'AUTO_AUDIT_FAIL_WAIT_CONFIRMED'
 }, {
-  name: '审核成功，待募集',
+  name: '审核成功',
   value: 'WAITING_COLLECT'
 }, {
   name: '审核失败',
@@ -221,10 +221,10 @@ export default {
         name: '待审核',
         value: 'WAITING_AUDIT'
       }, {
-        name: '自动审核失败，待确认',
+        name: '自动审核失败',
         value: 'AUTO_AUDIT_FAIL_WAIT_CONFIRMED'
       }, {
-        name: '审核成功，待募集',
+        name: '审核成功',
         value: 'WAITING_COLLECT'
       }, {
         name: '审核失败',
