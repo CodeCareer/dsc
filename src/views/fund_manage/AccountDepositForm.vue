@@ -9,7 +9,8 @@
           el-col(:span="12", :offset="6")
             .form-inner.center
               el-form-item(label="资金账户：", prop="fundAccountId")
-                el-input(type="text", placeholder="请输入资金账户ID", :disabled="fundAccountIdStatus", v-model="accountDeposit.fundAccountId")
+                el-select(v-model="accountDeposit.fundAccountId", placeholder="资金账户", :disabled="fundAccountIdStatus")
+                  el-option(v-for="t in fundAccountIdTypes", :key="t.name", :value="t.value", :label="t.name")
               el-form-item(label="支付金额：", prop="factPayAmount")
                 el-input(type="text", placeholder="请输入实际支付金额", v-model="accountDeposit.factPayAmount")
                   template(slot="prepend") ¥
@@ -29,10 +30,13 @@ import {
   updateCrumb
 } from '@/common/crosser.js'
 import {
-  // fundAccountManage,
+  fundAccountManage,
   accountDepositEdit,
   accountDepositAdd
 } from '@/common/resource.js'
+import {
+  pruneParams
+} from '@/common/util.js'
 import moment from 'moment'
 
 export default {
@@ -80,13 +84,17 @@ export default {
     },
 
     _fetchData() {
-      // fundAccountManage.post(pruneParams(this.filter), {
-      //   loadingMaskTarget: '.fund-account-manage'
-      // }).then(res => {
-      //   const data = res.data.data
-      //   this.fundAccount = data.rows
-      //   this.page.total = data.total
-      // })
+      fundAccountManage.post(pruneParams(this.filter), {
+        loadingMaskTarget: '.account-deposit-form'
+      }).then(res => {
+        const data = res.data.data.rows
+        for (var i in data) {
+          this.fundAccountIdTypes.push({
+            name: data[i].accountName,
+            value: data[i].id
+          })
+        }
+      })
     },
 
     operationStatus(data) {
@@ -106,6 +114,7 @@ export default {
     if (this.$route.params.id !== 'add') {
       this.accountDeposit.factPayAmount = this.$route.params.factPayAmount
       this.accountDeposit.fundAccountId = this.$route.params.fundAccountId
+      this.fundAccountIdTypes = [{name: this.$route.params.accountName, value: this.$route.params.fundAccountId}]
       this.accountDeposit.fundDirection = this.$route.params.fundDirection
       this.accountDeposit.id = this.$route.params.id
       this.accountDeposit.payDate = this.$route.params.payDate
@@ -121,6 +130,7 @@ export default {
         id: 'accountDepositForm',
         name: '新增账户入金'
       }])
+      this._fetchData()
     }
   },
 
@@ -136,6 +146,13 @@ export default {
         name: '流出',
         value: 'OUT'
       }],
+      fundAccountIdTypes: [],
+      filter: {
+        accountType: '',
+        accountName: '',
+        page: 1,
+        limit: 10
+      },
       rules: {
         factPayAmount: [{
           required: true,
