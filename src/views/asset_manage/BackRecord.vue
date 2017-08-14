@@ -4,7 +4,7 @@
       .box-header
         h3 筛选条件
       .filters
-        el-input(placeholder='资产ID', icon='search', @keyup.native.13='search', v-model='filter.assetId')
+        el-input(placeholder='资产ID', icon='search', @keyup.native.13='search', v-model.trim='filter.assetId')
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='backRecord', style='width: 100%')

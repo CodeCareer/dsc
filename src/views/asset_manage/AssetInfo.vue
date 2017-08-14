@@ -4,7 +4,7 @@
       .box-header
         h3 筛选条件
       .filters
-        el-input(placeholder='外部资产订单编号', icon='search', @keyup.native.13='search', v-model='filter.outerAssetOrderNo')
+        el-input(placeholder='外部资产订单编号', icon='search', @keyup.native.13='search', v-model.trim='filter.outerAssetOrderNo')
         el-select(v-model="filter.assetFrom", placeholder="资产来源", @change="search")
           el-option(v-for="t in assetFroms", :key="t.name", :value="t.value", :label="t.name")
         el-input(placeholder='产品代码', icon='search', @keyup.native.13='search', v-model='filter.productCode')

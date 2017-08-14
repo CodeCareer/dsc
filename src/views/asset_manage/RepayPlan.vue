@@ -4,8 +4,8 @@
       .box-header
         h3 筛选条件
       .filters
-        el-input(placeholder='资产ID', icon='search', @keyup.native.13='search', v-model='filter.assetId')
-        el-input(placeholder='期数', icon='search', @keyup.native.13='search', v-model='filter.termNo')
+        el-input(placeholder='资产ID', icon='search', @keyup.native.13='search', v-model.trim='filter.assetId')
+        el-input(placeholder='期数', icon='search', @keyup.native.13='search', v-model.trim='filter.termNo')
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='repayPlan', style='width: 100%')
