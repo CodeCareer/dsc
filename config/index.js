@@ -1,5 +1,6 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 var path = require('path')
+var https = require('https')
 
 module.exports = {
   build: {
@@ -52,8 +53,10 @@ module.exports = {
       //   }
       // },
       '/api': {
-        target: 'http://apidoc.wjs-dev.com/mockjsdata/61',
-        // target: 'http://10.132.1.115:8980',
+        // target: 'http://apidoc.wjs-dev.com/mockjsdata/61',
+        target: 'https://kf-wdy.trunk.wjs-test.com/wdy',
+        secure: false,
+        agent: https.globalAgent,
         changeOrigin: true,
         onProxyRes: function(proxyRes, req, res) {
           proxyRes.headers['x-auth-token'] = 'adfa-adsfaf-asf'

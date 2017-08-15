@@ -60,7 +60,7 @@ http.interceptors.response.use(res => {
   } else {
     msgBoxErr(data.message || '请求失败！', data.code)
   }
-  return Promise.reject(data.message)
+  return Promise.reject(new Error(data.message))
 }, err => {
   if (loadingInstance) loadingInstance.close()
   msgBoxErr(err.message.indexOf('timeout') > -1 ? '请求超时' : '抱歉，服务器忙！', 'SERVER')

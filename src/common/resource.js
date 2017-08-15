@@ -42,17 +42,17 @@ http.interceptors.response.use(res => {
     if (res.config.skipAuth) {
       store.dispatch('logout', true)
     } else {
-      msgBoxErr(data.message || '无访问权限！', data.resultCode)
+      msgBoxErr(data.resultMsg || '无访问权限！', data.resultCode)
       store.dispatch('logout')
     }
   } else if (data.resultCode === 'BIZ_EXCEPTION') {
-    msgBoxErr(data.message || '业务异常', data.resultCode)
+    msgBoxErr(data.resultMsg || '业务异常', data.resultCode)
   } else if (data.resultCode === 'FAILED') {
-    msgBoxErr(data.message || '访问失败', data.resultCode)
+    msgBoxErr(data.resultMsg || '访问失败', data.resultCode)
   } else {
-    msgBoxErr(data.message || '未知错误', 'UNKNOWN')
+    msgBoxErr(data.resultMsg || '未知错误', 'UNKNOWN')
   }
-  return Promise.reject(data.message)
+  return Promise.reject(new Error(data.resultMsg))
 }, err => {
   if (loadingInstance) loadingInstance.close()
   msgBoxErr(err.message.indexOf('timeout') > -1 ? '请求超时' : '抱歉，服务器忙！', 'SERVER')

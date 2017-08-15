@@ -15,6 +15,7 @@
         .filter-line
           el-select(placeholder="状态", v-model="filter.status", @change="search")
             el-option(v-for="o in statusList", :value="o.value", :label="o.name", :key="o.value")
+          el-button(size="small", type="primary", @click="search")  搜索
           el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='carMatchs', style='width: 100%')

@@ -1,6 +1,7 @@
 import { APIS as API_1 } from '@/common/resource.js'
 import { APIS as API_2 } from '@/common/resource_auth.js'
 import { some, isString, every } from 'lodash'
+import { pruneParams } from '@/common/util.js'
 
 const APIS = {
   ...API_1,
@@ -14,6 +15,7 @@ export default {
     // 权限控制
     Vue.mixin({
       methods: {
+        pruneParams,
         $permit(permit) { // String<apiName> or Array[]<apiName>
           if (STOP_PERMIT) return true
 

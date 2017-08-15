@@ -43,15 +43,15 @@ export default {
     submitForm() {
       this.$refs.carInfoForm.validate((valid) => {
         if (valid) {
-          carInfo[this.car.id ? 'put' : 'post'](this.car, {
+          carInfo[this.car.id ? 'put' : 'post'](this.pruneParams(this.car), {
             loadingMaskTarget: '.car-info-form'
           }).then(res => {
             this.$message.success('保存成功！')
             this.$router.push({
               name: 'carInfo'
             })
-          }).catch(err => {
-            this.$message.error(err.msg)
+          }).catch(() => {
+            // this.$message.error(err.message)
           })
         }
       })
@@ -69,6 +69,7 @@ export default {
   mounted() {
     if (this.$route.params.id !== 'add') {
       const id = this.$route.params.id
+      this.title = '编辑基础车型'
 
       carInfo.get({
         pathParams: {
@@ -80,7 +81,6 @@ export default {
         delete this.car.dataSource
         delete this.car.updateTime
         this.car.guidePrice += ''
-        this.title = '编辑基础车型'
       })
 
       updateCrumb.$emit('update-crumbs', [{

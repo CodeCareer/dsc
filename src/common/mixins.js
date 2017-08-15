@@ -18,7 +18,8 @@ export const tableListMixins = {
       this.search()
     },
 
-    search() {
+    search(savedPage) {
+      if (!savedPage) this.filter.page = 1 // 重置到第一个页面
       this.$router.push({
         name: this.$route.name,
         query: pruneParams(this.filter)
@@ -27,18 +28,18 @@ export const tableListMixins = {
 
     pageChange(val) {
       this.filter.page = val
-      this.search()
+      this.search(true)
     },
 
     pageSizeChange(val) {
       this.filter.limit = val
-      this.search()
+      this.search(true)
     }
   },
   data() {
     return {
       page: {
-        total: 1000,
+        total: 0,
         sizes: [10, 20, 30, 50]
       }
     }

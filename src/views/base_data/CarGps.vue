@@ -8,6 +8,7 @@
         el-input(placeholder='SIM码', icon='search', @keyup.native.13='search', v-model='filter.simNo')
         el-date-picker(placeholder='起始时间', format='yyyy-MM-dd', type='date', :value="filter.gpsTimeStart", @input="handleStartDate", :picker-options="pickerOptions")
         el-date-picker(placeholder='起始时间', format='yyyy-MM-dd', type='date', :value='filter.gpsTimeEnd', @input="handleEndDate", :picker-options="pickerOptions")
+        el-button(size="small", type="primary", @click="search")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='carGps', style='width: 100%')

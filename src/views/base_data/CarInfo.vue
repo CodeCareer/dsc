@@ -11,6 +11,7 @@
         el-input(placeholder='品牌', icon='search', @keyup.native.13='search', v-model='filter.brandName')
         el-input(placeholder='车系', icon='search', @keyup.native.13='search', v-model='filter.seriesName')
         el-input(placeholder='车型', icon='search', @keyup.native.13='search', v-model='filter.modelName')
+        el-button(size="small", type="primary", @click="search")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='carInfos', style='width: 100%')
