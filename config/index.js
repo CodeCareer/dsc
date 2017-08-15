@@ -9,7 +9,7 @@ module.exports = {
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
     //${tag-begin-assetsPublicPath}
-    assetsPublicPath: 'http://cdn.wjs.com/1.2.1/resources/',
+    assetsPublicPath: '/',
     //${tag-end-assetsPublicPath}
     productionSourceMap: true,
     // Gzip off by default as many popular static hosts such as
@@ -31,13 +31,13 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      // '/api/thirdPartyData/': {
-      //   target: 'http://192.168.221.8:8080',
-      //   changeOrigin: true,
-      //   pathRewrite: function(path, req) {
-      //     return path.replace('/api/', '/')
-      //   }
-      // },
+      '/api/thirdPartyData/': {
+        target: 'http://10.132.1.218:8080',
+        changeOrigin: true,
+        pathRewrite: function(path, req) {
+          return path.replace('/api/', '/')
+        }
+      },
       // '/api/thirdPartyData/vehicleManage/': {
       //   target: 'http://172.20.10.2:8080',
       //   changeOrigin: true,

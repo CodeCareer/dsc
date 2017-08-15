@@ -1,14 +1,14 @@
 <template lang="pug">
-  el-dialog(title='账户信息', v-model='carListVisible', size="large", @open="onCarListOpen")
+  el-dialog(title='车型信息', v-model='carListVisible', size="large", @open="onCarListOpen")
     .car-list-dialog
       .box
         .box-header
           h3 筛选条件
         .filters
-          el-input(placeholder='品牌', icon='search', @keyup.native.13='search', v-model='filter.brandName')
-          el-input(placeholder='车系', icon='search', @keyup.native.13='search', v-model='filter.seriesName')
-          el-input(placeholder='车型', icon='search', @keyup.native.13='search', v-model='filter.modelName')
-          el-button(size="small", type="primary", @click="search")  搜索
+          el-input(placeholder='品牌', icon='search', @keyup.native.13='search()', v-model='filter.brandName')
+          el-input(placeholder='车系', icon='search', @keyup.native.13='search()', v-model='filter.seriesName')
+          el-input(placeholder='车型', icon='search', @keyup.native.13='search()', v-model='filter.modelName')
+          el-button(size="small", type="primary", @click="search()")  搜索
           el-button(size="small", type="primary", @click="clearFilter")  清除
       .table-container
         el-table(:data='carList', highlight-current-row, ref="carsTable", @current-change="checkCar", max-height="200")
@@ -41,9 +41,6 @@ import {
   tableListMixins
 } from '@/common/mixins.js'
 import {
-  pruneParams
-} from '@/common/util.js'
-import {
   map,
   find
 } from 'lodash'
@@ -54,11 +51,13 @@ export default {
     _fetchData() {
       carInfos.get({
         params: {
-          ...pruneParams(this.filter)
+          ...this.pruneParams(this.filter)
         },
         loadingMaskTarget: '.car-list-dialog'
       }).then(res => {
-        this.carInfos = res.data.data.rows
+        const data = res.data.data
+        this.page.total = data.total
+        this.carInfos = data.rows
         this.checkedCar = find(this.carInfos, c => c.id === this.carMatch.baseId) || {}
       })
     },
@@ -82,6 +81,15 @@ export default {
     },
 
     submit() {
+      if (!this.checkedCar.id) {
+        this.$confirm(`您没有选择基础车型, 点击确认关闭?`, '提示', {
+          type: 'warning'
+        }).then(() => {
+          this.carListVisible = false
+        }).catch(() => {})
+        return
+      }
+
       carMatch.put({
         id: this.carMatch.id,
         baseId: this.checkedCar.id

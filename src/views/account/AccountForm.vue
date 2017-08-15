@@ -29,9 +29,6 @@ import {
   updateCrumb
 } from '@/common/crosser.js'
 import {
-  pruneParams
-} from '@/common/util.js'
-import {
   account,
   roles
 } from '@/common/resource_auth.js'
@@ -45,7 +42,7 @@ export default {
     submitForm() {
       this.$refs.accountForm.validate((valid) => {
         if (valid) {
-          account[this.account.id ? 'put' : 'post'](pruneParams(this.account), {
+          account[this.account.id ? 'put' : 'post'](this.pruneParams(this.account), {
             loadingMaskTarget: '.account-form'
           }).then(res => {
             this.$message.success('保存成功！')

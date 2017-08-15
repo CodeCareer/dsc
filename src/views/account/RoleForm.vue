@@ -24,9 +24,6 @@ import {
   updateCrumb
 } from '@/common/crosser.js'
 import {
-  pruneParams
-} from '@/common/util.js'
-import {
   role
 } from '@/common/resource_auth.js'
 import {
@@ -38,7 +35,7 @@ export default {
     submitForm() {
       this.$refs.roleForm.validate((valid) => {
         if (valid) {
-          role[this.role.id ? 'put' : 'post'](pruneParams(this.role), {
+          role[this.role.id ? 'put' : 'post'](this.pruneParams(this.role), {
             loadingMaskTarget: '.role-form'
           }).then(res => {
             this.$message.success('保存成功！')

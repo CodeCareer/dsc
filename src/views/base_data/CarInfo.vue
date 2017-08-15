@@ -8,16 +8,16 @@
             i.iconfont.icon-add
             | 新增
       .filters
-        el-input(placeholder='品牌', icon='search', @keyup.native.13='search', v-model='filter.brandName')
-        el-input(placeholder='车系', icon='search', @keyup.native.13='search', v-model='filter.seriesName')
-        el-input(placeholder='车型', icon='search', @keyup.native.13='search', v-model='filter.modelName')
-        el-button(size="small", type="primary", @click="search")  搜索
+        el-input(placeholder='品牌', icon='search', @keyup.native.13='search()', v-model='filter.brandName')
+        el-input(placeholder='车系', icon='search', @keyup.native.13='search()', v-model='filter.seriesName')
+        el-input(placeholder='车型', icon='search', @keyup.native.13='search()', v-model='filter.modelName')
+        el-button(size="small", type="primary", @click="search()")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='carInfos', style='width: 100%')
         el-table-column(prop='brandName', label='品牌', width='200')
         el-table-column(prop='seriesName', label='车系', width='200')
-        el-table-column(prop='modelName', label='车型', width='200')
+        el-table-column(prop='modelName', label='车型', min-width='260')
         el-table-column(prop='year', label='年份', width='120')
         el-table-column(prop='dataSource', label='信息来源', width='200')
         el-table-column(prop='guidePrice', label='厂商指导价', width='120')
@@ -48,9 +48,6 @@ import {
   carInfos
 } from '@/common/resource.js'
 import {
-  pruneParams
-} from '@/common/util.js'
-import {
   tableListMixins
 } from '@/common/mixins.js'
 
@@ -79,7 +76,7 @@ export default {
       carInfos.get({
         loadingMaskTarget: '.car-info',
         params: {
-          ...pruneParams(this.filter)
+          ...this.pruneParams(this.filter)
         }
       }).then(res => {
         const data = res.data.data

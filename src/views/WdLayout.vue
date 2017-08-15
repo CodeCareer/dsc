@@ -67,6 +67,7 @@ export default {
   watch: {
     '$route' (to, from) {
       this.breadcrumbRefresh()
+      this.getActive(this.menus)
     }
   },
 
@@ -82,6 +83,8 @@ export default {
       })
     })
 
+    this.getActive(this.menus)
+
     window.addEventListener('resize', e => {
       this.containerStyles.minHeight = `${window.innerHeight - headerH}px`
     })
@@ -96,7 +99,7 @@ export default {
   },
 
   data() {
-    const _self = this
+    // const _self = this
     const data = {
       defaultOpeneds: [],
       defaultActive: '',
@@ -263,24 +266,7 @@ export default {
       }
     }
 
-    function getActive(menus) {
-      every(menus, v => {
-        if (v.route && (v.route.name === _self.$route.name || includes(v.activeIncludes || [], _self.$route.name))) {
-          data.defaultActive = v.index
-          if (~v.index.indexOf('-')) {
-            data.defaultOpeneds = [v.index.split('-')[0]]
-          } else {
-            data.defaultOpeneds = [v.index]
-          }
-          return false
-        } else if (v.menus) {
-          getActive(v.menus)
-        }
-        return true
-      })
-    }
-
-    getActive(data.menus)
+    // this.getActive(data.menus)
 
     return data
   },
@@ -290,7 +276,23 @@ export default {
     breadcrumbRefresh() {
       this.crumbs = this.$route.meta.crumbs
     },
-    ...mapActions(['logout'])
+    ...mapActions(['logout']),
+    getActive(menus) {
+      every(menus, v => {
+        if (v.route && (v.route.name === this.$route.name || includes(v.activeIncludes || [], this.$route.name))) {
+          this.defaultActive = v.index
+          if (~v.index.indexOf('-')) {
+            this.defaultOpeneds = [v.index.split('-')[0]]
+          } else {
+            this.defaultOpeneds = [v.index]
+          }
+          return false
+        } else if (v.menus) {
+          this.getActive(v.menus)
+        }
+        return true
+      })
+    }
   }
 }
 </script>
@@ -319,9 +321,9 @@ $menu-height: 50px;
     .logo {
       height: 60px;
       color: #fff;
-      width:100px;
-      margin:0 0 0 30px;
-      font-size:26px;
+      width: 100px;
+      margin: 0 0 0 30px;
+      font-size: 26px;
       display: inline-block;
     }
     .user-info {
@@ -372,7 +374,7 @@ $menu-height: 50px;
       }
     }
     .el-submenu__title,
-    .el-submenu ~ .el-menu-item {
+    .el-submenu~.el-menu-item {
       font-size: 15px;
       color: #818992;
       height: $menu-height;

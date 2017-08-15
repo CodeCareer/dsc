@@ -16,7 +16,7 @@ if ENV['stage'].nil?
 end
 
 # set :common_repository, 'git@github.kaitongamc.com:Kaitong/kt-frontend-common.git'
-set :repository, 'git@gitlab.ktjr.com:front/kt-baton-x.git'
+set :repository, 'git@gitlab.ktjr.com:front/wdy-frontend.git'
 # set :branch, 'master'
 
 load File.expand_path("../deploy/#{ENV['stage']}.rb", __FILE__)
@@ -81,6 +81,7 @@ task :deploy => :environment do
     # Put things that will set up an empty directory into a fully set-up
     # instance of your project.
     invoke :'git:clone'
+    invoke :'npm:install'
     # invoke :'common_project:clone'
     # invoke :'deploy:link_shared_paths'
     # invoke :'bower:install'
@@ -113,6 +114,13 @@ namespace :grunt do
 
   task :build => :environment do
     queue! %[grunt build]
+  end
+end
+
+namespace :npm do
+  task :install => :environment do
+    queue! %[npm install]
+    queue! %[npm run build]
   end
 end
 

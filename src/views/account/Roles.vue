@@ -42,9 +42,6 @@ import {
   role
 } from '@/common/resource_auth.js'
 import {
-  pruneParams
-} from '@/common/util.js'
-import {
   tableListMixins
 } from '@/common/mixins.js'
 import RoleAuthorityDialog from '@/views/account/RoleAuthorityDialog.vue'
@@ -147,7 +144,7 @@ export default {
       roles.get({
         loadingMaskTarget: '.role-list',
         params: {
-          ...pruneParams(this.filter)
+          ...this.pruneParams(this.filter)
         }
       }).then(res => {
         const data = res.data.data

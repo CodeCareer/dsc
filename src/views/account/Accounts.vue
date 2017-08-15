@@ -51,9 +51,6 @@ import {
   roles
 } from '@/common/resource_auth.js'
 import {
-  pruneParams
-} from '@/common/util.js'
-import {
   tableListMixins
 } from '@/common/mixins.js'
 
@@ -151,7 +148,7 @@ export default {
       accounts.get({
         loadingMaskTarget: '.account-list',
         params: {
-          ...pruneParams(this.filter)
+          ...this.pruneParams(this.filter)
         }
       }).then(res => {
         const data = res.data.data

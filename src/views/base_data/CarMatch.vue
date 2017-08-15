@@ -8,25 +8,26 @@
           | 新增
       .filters
         .filter-line
-          el-input(placeholder='资产来源', icon='search', @keyup.native.13="search", v-model='filter.assetFrom')
-          el-input(placeholder='品牌', icon='search', @keyup.native.13="search", v-model='filter.brandName')
-          el-input(placeholder='车系', icon='search', @keyup.native.13="search", v-model='filter.seriesName')
-          el-input(placeholder='车型', icon='search', @keyup.native.13="search", v-model='filter.modelName')
+          el-input(placeholder='资产来源', icon='search', @keyup.native.13="search()", v-model='filter.assetFrom')
+          el-input(placeholder='品牌', icon='search', @keyup.native.13="search()", v-model='filter.brandName')
+          el-input(placeholder='车系', icon='search', @keyup.native.13="search()", v-model='filter.seriesName')
+          el-input(placeholder='车型', icon='search', @keyup.native.13="search()", v-model='filter.modelName')
         .filter-line
-          el-select(placeholder="状态", v-model="filter.status", @change="search")
+          el-select(placeholder="状态", v-model="filter.status", @change="search()")
             el-option(v-for="o in statusList", :value="o.value", :label="o.name", :key="o.value")
-          el-button(size="small", type="primary", @click="search")  搜索
+          el-button(size="small", type="primary", @click="search()")  搜索
           el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='carMatchs', style='width: 100%')
         el-table-column(prop='assetFrom', label='资产来源')
         el-table-column(prop='brandName', label='品牌', width='200')
         el-table-column(prop='seriesName', label='车系', width='200')
-        el-table-column(prop='modelName', label='车型', width='200')
+        el-table-column(prop='modelName', label='车型', min-width='260')
+        el-table-column(prop='modelName', label='匹配信息', width='200')
         el-table-column(prop='status', label='状态', width='150')
           template(scope="scope")
             span(:class="scope.row.status | statusClass") {{scope.row.status | statusFormat}}
-        el-table-column(label='手动匹配', width="80")
+        el-table-column(label='手动匹配', width="80", :fixed="fixed")
           template(scope="scope")
             .operations
               i.iconfont.icon-pipei(title="手动关联匹配车型信息", @click="editCarMatch(scope.row)", v-if="$permit('carMatchUpdate')")
@@ -121,7 +122,7 @@ export default {
 
   data() {
     return {
-      // fixed: window.innerWidth - 180 - 12 * 2 > 1150 ? false : 'right', // 180 左侧菜单宽度，12 section的padding
+      fixed: window.innerWidth - 180 - 12 * 2 > 1150 ? false : 'right', // 180 左侧菜单宽度，12 section的padding
       carMatchs: [],
       statusList,
       activeCarMatch: null,
