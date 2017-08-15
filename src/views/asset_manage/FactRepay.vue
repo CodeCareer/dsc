@@ -9,7 +9,7 @@
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='factRepay', style='width: 100%')
-        el-table-column(prop='assetId', label='资产ID')
+        el-table-column(prop='assetId', label='资产ID', width="250")
         el-table-column(prop='dealStatus', label='处理状态')
           template(scope="scope")
             span(:class="scope.row.dealStatus | statusClass") {{scope.row.dealStatus | statusFormat}}

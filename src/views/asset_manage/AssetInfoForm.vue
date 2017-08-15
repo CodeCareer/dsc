@@ -73,7 +73,7 @@
                   th 电话号码：
                   td  {{assetBaseInfo.phoneNum}}
 
-  .box.mt20
+  .box.mt20(v-if="assetCarBackUpInfo")
     .box-header
       | 资产车贷备用信息
     .box-content
@@ -122,7 +122,7 @@
                   th 二手车处置费：
                   td {{assetCarBackUpInfo.secondHandHandleFee | ktCurrency}}
 
-  .box.mt20
+  .box.mt20(v-if="assetCarCoreInfo")
     .box-header
       | 资产核心车贷信息
     .box-content
@@ -242,21 +242,21 @@
       | 资产保险信息
     .table-container
       el-table(:data='assetInsuranceInfoList', style='width: 100%')
-        el-table-column(prop='insurantName', label='被保险人名称', width='220')
-        el-table-column(prop='assetId', label='资产ID', width='220')
-        el-table-column(prop='id', label='uuid', width='220')
-        el-table-column(prop='insuranceFee', label='保费', width='220')
+        el-table-column(prop='insurantName', label='被保险人名称', width='120')
+        el-table-column(prop='assetId', label='资产ID', width='250')
+        el-table-column(prop='id', label='uuid', width='250')
+        el-table-column(prop='insuranceFee', label='保费', width='100')
           template(scope="scope")
             span {{scope.row.insuranceFee | ktCurrency}}
-        el-table-column(prop='insuranceNo', label='保单号', width='220')
-        el-table-column(prop='insuranceOrgName', label='保险公司名称', width='220')
-        el-table-column(prop='insurancePicPath', label='保单图片路径', width='220')
+        el-table-column(prop='insuranceNo', label='保单号', width='80')
+        el-table-column(prop='insuranceOrgName', label='保险公司名称', width='150')
+        el-table-column(prop='insurancePicPath', label='保单图片路径', width='120')
            template(scope="scope")
             span(v-html='$options.filters.download(scope.row.insurancePicPath)')
-        el-table-column(prop='insuranceType', label='保险类型', width='220')
+        el-table-column(prop='insuranceType', label='保险类型', width='100')
           template(scope="scope")
             span {{scope.row.insuranceType | statusFormat}}
-        el-table-column(prop='insurantCode', label='被保险人社会统一信用代码', width='220')
+        el-table-column(prop='insurantCode', label='被保险人社会统一信用代码', width='200')
 </template>
 
 <script>
