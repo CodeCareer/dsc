@@ -49,6 +49,8 @@ http.interceptors.response.use(res => {
     msgBoxErr(data.resultMsg || '业务异常', data.resultCode)
   } else if (data.resultCode === 'FAILED') {
     msgBoxErr(data.resultMsg || '访问失败', data.resultCode)
+  } else if (data.resultCode === 'SYSTEM_BUSY') {
+    msgBoxErr(data.resultMsg || '系统繁忙', data.resultCode)
   } else {
     msgBoxErr(data.resultMsg || '未知错误', 'UNKNOWN')
   }

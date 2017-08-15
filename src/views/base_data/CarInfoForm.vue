@@ -14,6 +14,8 @@
                 el-input(type="text", placeholder="请输入汽车车系", v-model="car.seriesName")
               el-form-item(label="车型：", prop="modelName")
                 el-input(type="text", placeholder="请输入汽车车型", v-model="car.modelName")
+              //- el-form-item(label="唯一标示：", prop="serialNumber")
+                el-input(type="text", placeholder="请输入唯一标示", v-model="car.serialNumber")
               el-form-item(label="厂商指导价：", prop="guidePrice", ref="guidePrice")
                 el-input(type="text", placeholder="请输入指导价", v-model="car.guidePrice")
                   template(slot="prepend") ¥
@@ -137,6 +139,7 @@ export default {
         id: null,
         brandName: null,
         seriesName: null,
+        // serialNumber: null,
         modelName: null,
         year: null,
         guidePrice: null,

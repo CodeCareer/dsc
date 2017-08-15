@@ -20,6 +20,8 @@
         el-table-column(prop='longitude', label='经度', width='200')
         el-table-column(prop='latitude', label='维度', width='200')
         el-table-column(prop='alarmInfo', label='报警信息', width='200')
+          template(scope="scope")
+            span {{scope.row.alarmInfo | ktNull}}
         el-table-column(prop='direct', label='行驶方向', width='200')
         el-table-column(prop='plate', label='车牌号', width='120')
         el-table-column(prop='terminalType', label='终端类型', width='200')
