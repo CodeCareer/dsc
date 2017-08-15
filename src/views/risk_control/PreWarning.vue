@@ -13,7 +13,7 @@
     .risk-rule-content
       .risk-rule-form
         .risk-form(v-for="risk in riskWarnDatas")
-          el-form(ref="riskForm",:rules="rules",:model="riskzrForm",label-width="80px")
+          el-form(ref="riskForm",:model="riskzrForm",label-width="100px")
             el-form-item(label="模板类型：")
               span.font-content {{risk.type | filterTem}}
             el-form-item(label="模板名称：")
@@ -104,16 +104,16 @@ export default {
         operator: 'EQUAL',
         stringTarget: ''
       },
-      rules: {
-        numbericTarget: [{
-          message: '值不能为空',
-          trigger: 'blur'
-        }, {
-          type: 'number',
-          message: '必须是数字值',
-          tirgger: 'blur'
-        }]
-      },
+      // rules: {
+      //   numbericTarget: [{
+      //     message: '值不能为空',
+      //     trigger: 'blur'
+      //   }, {
+      //     type: 'number',
+      //     message: '必须是数字值',
+      //     tirgger: 'blur'
+      //   }]
+      // },
       operators: [{
         value: 'EQUAL',
         label: '='

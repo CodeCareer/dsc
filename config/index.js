@@ -53,7 +53,6 @@ module.exports = {
       //   }
       // },
       '/api': {
-        // target: 'http://apidoc.wjs-dev.com/mockjsdata/61',
         target: 'https://kf-wdy.trunk.wjs-test.com/wdy',
         secure: false,
         agent: https.globalAgent,

@@ -13,17 +13,24 @@
           el-button(size="small", type="primary",@click="clearFilter")  清除
     .risk-table.table-container
       el-table(:data="riskDatas")
-        el-table-column(prop="assetFrom",label="资产方")
-        //- el-table-column(prop="riskRuleId",label="规则ID",width="300")
-        el-table-column(prop="name",label="规则名")
-        el-table-column(prop="subjectId",label="对象ID")
-        el-table-column(prop="status",label="当前状态")
+        el-table-column(label="资产方")
+          template(scope="scope")
+            span {{scope.row.assetFrom | ktNull}}
+        el-table-column(label="规则名",width="250")
+          template(scope="scope")
+            span {{scope.row.name | ktNull}}
+        el-table-column(label="对象ID",width="250")
+          template(scope="scope")
+            span {{scope.row.subjectId | ktNull}}
+        el-table-column(label="当前状态")
           template(scope="scope")
             span {{scope.row.status | riskState}}
-        el-table-column(label="时间")
+        el-table-column(label="时间",width="150")
           template(scope="scope")
             span {{scope.row.updatedAt | moment}}
-        el-table-column(prop="description",label="详情",width="300")
+        el-table-column(label="详情",width="500")
+          template(scope="scope")
+            span {{scope.row.description | ktNull}}
       el-pagination(@size-change="sizeChange",@current-change="currentChange",:current-page="parseInt(filter.page)",:page-sizes="page.sizes",:page-size="parseInt(filter.pageSize)",layout="total, sizes, prev, pager, next, jumper",:total="parseInt(page.total)")
 
 </template>
@@ -74,7 +81,6 @@ export default{
         const data = res.data.data
         this.riskDatas = data.rows
         this.page.total = data.total
-      }).catch((res) => {
       })
     },
 
@@ -115,7 +121,7 @@ export default{
 }
 </script>
 
-<style lang="scss">
+<style lang="scss",scope="scope">
   .icon-edit-delete{
     i{
       display: inline-block;

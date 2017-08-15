@@ -77,5 +77,17 @@ export default {
     Vue.filter('riskState', value => {
       return value === 'PASS' ? '通过' : '未通过'
     })
+
+    Vue.filter('riskWarn', value => {
+      if (value === 'NEW') {
+        return '新预警'
+      } else if (value === 'IGNORED') {
+        return '已忽略'
+      } else if (value === 'NOTIFIED') {
+        return '已通知'
+      } else {
+        return '已处理'
+      }
+    })
   }
 }
