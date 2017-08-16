@@ -89,6 +89,7 @@ import {
   tableListMixins
 } from '@/common/mixins.js'
 import moment from 'moment'
+import Vue from 'vue'
 
 const statusList = [{
   name: '大搜车',
@@ -185,6 +186,11 @@ export default {
 
   mounted() {
     this.filter = merge(this.filter, this.$route.query)
+    const {carriageDateLower, carriageDateUpper, valueDateLower, valueDateUpper} = this.$route.query
+    this.date.carriageDateLower = carriageDateLower ? Vue.filter('moment')(carriageDateLower, 'YYYY-MM-DD') : ''
+    this.date.carriageDateUpper = carriageDateUpper ? Vue.filter('moment')(carriageDateUpper, 'YYYY-MM-DD') : ''
+    this.date.valueDateLower = valueDateLower ? Vue.filter('moment')(valueDateLower, 'YYYY-MM-DD') : ''
+    this.date.valueDateUpper = valueDateUpper ? Vue.filter('moment')(valueDateUpper, 'YYYY-MM-DD') : ''
     this._fetchData()
   },
 
