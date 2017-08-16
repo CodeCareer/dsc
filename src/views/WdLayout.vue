@@ -177,7 +177,8 @@ export default {
           route: {
             name: 'fundDepositDetail'
           },
-          hidden: !this.$permit(['fundDepositDetail'])
+          hidden: !this.$permit(['fundDepositDetail']),
+          activeIncludes: ['fundDepositDetail', 'fundDepositDetailForm']
         }]
       }, {
         name: '风控管理',
