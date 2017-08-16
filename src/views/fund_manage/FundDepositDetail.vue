@@ -9,6 +9,7 @@
         el-select(v-model="filter.checkingStatus", placeholder="对账状态", @change="search")
           el-option(v-for="t in checkingTypes", :key="t.name", :value="t.value", :label="t.name")
         el-date-picker(placeholder='入金日期', type='date', format='yyyy-MM-dd', :value='date.depositDate', @input="handleDepositDate", :picker-options="pickerOptions")
+        el-button(size="small", type="primary", @click="search")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='fundDepositData', style='width: 100%')

@@ -15,6 +15,7 @@
             el-option(v-for="t in assetTypes", :key="t.name", :value="t.value", :label="t.name")
           el-select(v-model="filter.productStatus", placeholder="产品状态", @change="search")
             el-option(v-for="t in productStatusTypes", :key="t.name", :value="t.value", :label="t.name")
+          el-button(size="small", type="primary", @click="search")  搜索
           el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='productsRelease', style='width: 100%')

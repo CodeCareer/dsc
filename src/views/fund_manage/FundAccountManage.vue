@@ -11,6 +11,7 @@
         el-input(placeholder='账户名称', icon='search', @keyup.native.13="search", v-model.trim='filter.accountName')
         el-select(v-model="filter.accountType", placeholder="账户类型", @change="search")
           el-option(v-for="t in assetTypes", :key="t.name", :value="t.value", :label="t.name")
+        el-button(size="small", type="primary", @click="search")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='fundAccount', style='width: 100%')

@@ -11,6 +11,7 @@
         el-date-picker(placeholder='入金日期', format='yyyy-MM-dd', type='date', :value='date.payDate', @input="handlePayDate", :picker-options="pickerOptions")
         el-select(v-model="filter.accountType", placeholder="账户类型" @change="search")
           el-option(v-for="t in assetTypes", :key="t.name", :value="t.value", :label="t.name")
+        el-button(size="small", type="primary", @click="search")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='accountDeposit', style='width: 100%')
