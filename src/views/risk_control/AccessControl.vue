@@ -28,7 +28,7 @@
         el-table-column(label="时间",width="150")
           template(scope="scope")
             span {{scope.row.updatedAt | moment}}
-        el-table-column(label="详情",width="500")
+        el-table-column(label="详情",width="300")
           template(scope="scope")
             span {{scope.row.description | ktNull}}
       el-pagination(@size-change="sizeChange",@current-change="currentChange",:current-page="parseInt(filter.page)",:page-sizes="page.sizes",:page-size="parseInt(filter.pageSize)",layout="total, sizes, prev, pager, next, jumper",:total="parseInt(page.total)")
@@ -72,15 +72,12 @@ export default{
   },
   methods: {
     risktemGet () {
-      debugger
       riskZr.get({
         params: {
           ...pruneParams(this.filter)
         },
         loadingMaskTarget: '.risk-zr'
       }).then((res) => {
-        debugger
-        console.log(res)
         const data = res.data.data
         this.riskDatas = data.rows
         this.page.total = data.total
@@ -125,20 +122,27 @@ export default{
 </script>
 
 <style lang="scss",scope="scope">
-  .icon-edit-delete{
-    i{
-      display: inline-block;
-      font-size:13px;
-      padding-right:10px;
-      text-align: center;
-    }
-    .icon-delete:hover{
-      cursor:pointer;
-      color:#538cc0
-    }
-    .el-table-column{
+  // .icon-edit-delete{
+  //   i{
+  //     display: inline-block;
+  //     font-size:13px;
+  //     padding-right:10px;
+  //     text-align: center;
+  //   }
+  //   .icon-delete:hover{
+  //     cursor:pointer;
+  //     color:#538cc0
+  //   }
+  //   .el-table-column{
+  //     .cell{
+  //       white-space:normal;
+  //     }
+  //   }
+  // }
+  .risk-table{
+    .el-table{
       .cell{
-        white-space:normal;
+        white-space: normal!important;
       }
     }
   }

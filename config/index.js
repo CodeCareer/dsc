@@ -53,15 +53,9 @@ module.exports = {
       //   }
       // },
       '/api': {
-<<<<<<< Updated upstream
-        // target: 'http://apidoc.wjs-dev.com/mockjsdata/61',
         target: 'https://kf-wdy.trunk.wjs-test.com/wdy',
         secure: false,
         agent: https.globalAgent,
-=======
-        target: 'http://apidoc.wjs-dev.com/mockjsdata/61',
-        // target: 'http://10.132.1.72:8080',
->>>>>>> Stashed changes
         changeOrigin: true,
         onProxyRes: function(proxyRes, req, res) {
           proxyRes.headers['x-auth-token'] = 'adfa-adsfaf-asf'

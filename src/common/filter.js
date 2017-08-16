@@ -71,11 +71,23 @@ export default {
     })
 
     Vue.filter('filterTem', value => {
-      return value === 'ACCESS' ? '准入模板' : '预警模板'
+      if (value === 'ACCESS') {
+        return '准入模板'
+      } else if (value === 'WARNING') {
+        return '预警模板'
+      } else {
+        return '-'
+      }
     })
 
     Vue.filter('riskState', value => {
-      return value === 'PASS' ? '通过' : '未通过'
+      if (value === 'PASS') {
+        return '通过'
+      } else if (value === 'FAIL') {
+        return '未通过'
+      } else {
+        return '-'
+      }
     })
 
     Vue.filter('riskWarn', value => {
@@ -85,8 +97,10 @@ export default {
         return '已忽略'
       } else if (value === 'NOTIFIED') {
         return '已通知'
-      } else {
+      } else if (value === 'PROCESSED') {
         return '已处理'
+      } else {
+        return '-'
       }
     })
   }

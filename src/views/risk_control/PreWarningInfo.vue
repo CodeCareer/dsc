@@ -31,7 +31,7 @@
         el-table-column(label="预警更新时间",width="150")
           template(scope="scope")
             span {{scope.row.updatedAt | moment}}
-        el-table-column(label="详情",width="500")
+        el-table-column(label="详情",width="300")
           template(scope="scope")
             span {{scope.row.description | ktNull}}
       el-pagination(@size-change="sizeChange",@current-change="currentChange",:current-page="parseInt(filter.page)",:page-sizes="page.sizes",:page-size="parseInt(filter.pageSize)",layout="total, sizes, prev, pager, next, jumper",:total="parseInt(page.total)")
@@ -87,7 +87,6 @@ export default {
         },
         loadingMaskTarget: '.risk-zr'
       }).then((res) => {
-        debugger
         const data = res.data.data
         this.riskDatas = data.rows
         this.page.total = data.total
@@ -132,16 +131,23 @@ export default {
 </script>
 
 <style lang="scss">
-.icon-edit-delete {
-  i {
-    display: inline-block;
-    font-size: 13px;
-    padding-right: 10px;
-    text-align: center;
+// .icon-edit-delete {
+//   i {
+//     display: inline-block;
+//     font-size: 13px;
+//     padding-right: 10px;
+//     text-align: center;
+//   }
+//   .icon-delete:hover {
+//     cursor: pointer;
+//     color: #538cc0
+//   }
+// }
+.risk-table{
+    .el-table{
+      .cell{
+        white-space: normal!important;
+      }
+    }
   }
-  .icon-delete:hover {
-    cursor: pointer;
-    color: #538cc0
-  }
-}
 </style>
