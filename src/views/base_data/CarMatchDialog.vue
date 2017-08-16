@@ -11,12 +11,12 @@
           el-button(size="small", type="primary", @click="search()")  搜索
           el-button(size="small", type="primary", @click="clearFilter")  清除
       .table-container
-        el-table(:data='carList', highlight-current-row, ref="carsTable", @current-change="checkCar", max-height="200")
+        el-table.no-wrap-cell(:data='carList', highlight-current-row, ref="carsTable", @current-change="checkCar", max-height="200")
           el-table-column(type='index', width='65', label='选择')
             template(scope="scope")
               el-checkbox.circle.mini(v-model="scope.row.checked")
-          el-table-column(prop='brandName', label='品牌')
-          el-table-column(prop='seriesName', label='车系')
+          el-table-column(prop='brandName', label='品牌', width="120")
+          el-table-column(prop='seriesName', label='车系', width="120")
           el-table-column(prop='modelName', label='车型')
           el-table-column(prop='guidePrice', label='厂商指导价')
             template(scope="scope")

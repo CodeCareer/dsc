@@ -14,10 +14,10 @@
         el-button(size="small", type="primary", @click="search()")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
-      el-table(:data='carInfos', style='width: 100%')
-        el-table-column(prop='brandName', label='品牌', width='200')
-        el-table-column(prop='seriesName', label='车系', width='200')
-        el-table-column(prop='modelName', label='车型', min-width='260')
+      el-table.no-wrap-cell(:data='carInfos', style='width: 100%')
+        el-table-column(prop='brandName', label='品牌', width='120')
+        el-table-column(prop='seriesName', label='车系', width='120')
+        el-table-column(prop='modelName', label='车型', min-width='240')
         //- el-table-column(prop='serialNumber', label='唯一标示', min-width='200')
           template(scope="scope")
             span {{scope.row.serialNumber | ktNull}}

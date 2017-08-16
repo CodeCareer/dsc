@@ -18,11 +18,11 @@
           el-button(size="small", type="primary", @click="search()")  搜索
           el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
-      el-table(:data='carMatchs', style='width: 100%')
+      el-table.no-wrap-cell(:data='carMatchs', style='width: 100%')
         el-table-column(prop='assetFrom', label='资产来源')
         el-table-column(prop='brandName', label='品牌', width='120')
         el-table-column(prop='seriesName', label='车系', width='120')
-        el-table-column(prop='modelName', label='车型', min-width='260')
+        el-table-column(prop='modelName', label='车型', min-width='240')
         el-table-column(prop='modelName', label='匹配信息', width='200')
         el-table-column(prop='status', label='状态', width='150')
           template(scope="scope")

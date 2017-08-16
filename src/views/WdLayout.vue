@@ -16,7 +16,7 @@
               template(slot='title')
                 i.iconfont.icon-color(:class="menu.icon")
                 | {{menu.name}}
-              el-menu-item( v-for="item in menu.menus", :index='item.index', :route="item.route", :key="item.index") {{item.name}}
+              el-menu-item(v-for="item in menu.menus", :index='item.index', :route="item.route", :key="item.index") {{item.name}}
             el-menu-item(v-else, :index='menu.index', :route="menu.route", v-show="!menu.hidden")
               i.iconfont.icon-color(:class="menu.icon")
               | {{menu.name}}
@@ -211,7 +211,7 @@ export default {
         index: '5',
         icon: 'icon-data',
         menus: [{
-          name: '车型信息',
+          name: '基础车型',
           index: '5-1',
           route: {
             name: 'carInfo'

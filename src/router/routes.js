@@ -313,7 +313,7 @@ export default [{
           name: '三方数据',
           to: { name: 'carInfo' }
         }, {
-          name: '车型信息',
+          name: '基础车型',
           to: { name: 'carInfo' }
         }]
       }
@@ -327,7 +327,7 @@ export default [{
           name: '三方数据',
           to: { name: 'carInfo' }
         }, {
-          name: '车型信息',
+          name: '基础车型',
           to: { name: 'carInfo' }
         }, {
           id: 'carInfoForm',

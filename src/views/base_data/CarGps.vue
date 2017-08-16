@@ -11,7 +11,7 @@
         el-button(size="small", type="primary", @click="search()")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
-      el-table(:data='carGps', style='width: 100%')
+      el-table.no-wrap-cell(:data='carGps', style='width: 100%')
         el-table-column(prop='acc', label='ACC', width='200')
           template(scope="scope")
             span {{scope.row.acc | accLocal}}
