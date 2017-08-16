@@ -295,7 +295,7 @@ export default [{
           name: '三方数据',
           to: { name: 'carInfo' }
         }, {
-          name: '基础车型',
+          name: '车型信息',
           to: { name: 'carInfo' }
         }]
       }

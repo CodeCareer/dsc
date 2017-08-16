@@ -63,7 +63,11 @@ export default {
     },
 
     search(savedPage) {
-      if (!savedPage) this.filter.page = 1 // 重置到第一个页面
+      // 重置到第一个页面
+      if (!savedPage && this.filter.page !== 1) {
+        this.filter.page = 1
+        return
+      }
       this._fetchData()
     },
 

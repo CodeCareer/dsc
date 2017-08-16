@@ -1,7 +1,8 @@
-import { each } from 'lodash'
+import { each, keys } from 'lodash'
 import {
   pruneParams
 } from '@/common/util.js'
+import moment from 'moment'
 
 export const tableListMixins = {
   methods: {
@@ -26,6 +27,12 @@ export const tableListMixins = {
       })
     },
 
+    dateSearch(value, key) {
+      this.filter[key] = value ? moment(value).format('YYYYMMDD') : ''
+      this.date[key] = value ? moment(value).format('YYYY-MM-DD') : ''
+      this.search()
+    },
+
     pageChange(val) {
       this.filter.page = val
       this.search(true)
@@ -36,6 +43,14 @@ export const tableListMixins = {
       this.search(true)
     }
   },
+
+  mounted() {
+    const query = this.$route.query
+    each(keys(this.date), d => {
+      this.date[d] = query[d] ? moment(d, 'YYYYMMDD').format('YYYY-MM-DD') : ''
+    })
+  },
+
   data() {
     return {
       page: {

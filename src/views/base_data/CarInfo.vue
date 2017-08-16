@@ -18,11 +18,11 @@
         el-table-column(prop='brandName', label='品牌', width='200')
         el-table-column(prop='seriesName', label='车系', width='200')
         el-table-column(prop='modelName', label='车型', min-width='260')
-        el-table-column(prop='serialNumber', label='唯一标示', min-width='200')
+        //- el-table-column(prop='serialNumber', label='唯一标示', min-width='200')
           template(scope="scope")
             span {{scope.row.serialNumber | ktNull}}
         el-table-column(prop='year', label='年份', width='120')
-        el-table-column(prop='dataSource', label='信息来源', width='200')
+        el-table-column(prop='dataSource', label='信息来源', width='120')
         el-table-column(prop='guidePrice', label='厂商指导价', width='120')
           template(scope="scope")
             span {{scope.row.guidePrice | ktCurrency}}
