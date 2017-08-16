@@ -19,9 +19,6 @@
         el-table-column(label="预警名称",width="180")
           template(scope="scope")
             span {{scope.row.name | ktNull}}
-        //- el-table-column(label="ID")
-        //-   template(scope="scope")
-        //-     span {{scope.row.id | ktNull}}
         el-table-column(label="预警对象ID",width="250")
           template(scope="scope")
             span {{scope.row.subjectId | ktNull}}
@@ -90,6 +87,7 @@ export default {
         },
         loadingMaskTarget: '.risk-zr'
       }).then((res) => {
+        debugger
         const data = res.data.data
         this.riskDatas = data.rows
         this.page.total = data.total

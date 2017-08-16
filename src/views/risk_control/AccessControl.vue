@@ -72,12 +72,15 @@ export default{
   },
   methods: {
     risktemGet () {
+      debugger
       riskZr.get({
         params: {
           ...pruneParams(this.filter)
         },
         loadingMaskTarget: '.risk-zr'
       }).then((res) => {
+        debugger
+        console.log(res)
         const data = res.data.data
         this.riskDatas = data.rows
         this.page.total = data.total
@@ -132,6 +135,11 @@ export default{
     .icon-delete:hover{
       cursor:pointer;
       color:#538cc0
+    }
+    .el-table-column{
+      .cell{
+        white-space:normal;
+      }
     }
   }
 </style>
