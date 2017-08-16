@@ -8,6 +8,7 @@
         el-select(v-model="filter.assetFrom", placeholder="资产来源", @change="search")
           el-option(v-for="t in assetFroms", :key="t.name", :value="t.value", :label="t.name")
         el-input(placeholder='产品代码', icon='search', @keyup.native.13='search', v-model='filter.productCode')
+        el-button(size="small", type="primary", @click="search")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='assetInfo', style='width: 100%')

@@ -160,6 +160,24 @@ export default [{
         }]
       }
     }, {
+      path: 'fund_deposit_detail_form/:assetId',
+      name: 'fundDepositDetailForm',
+      component: resolve => require(['@/views/fund_manage/fundDepositDetailForm.vue'], resolve),
+      meta: {
+        title: '微贷系统-入金明细信息详情',
+        crumbs: [{
+          name: '资金管理',
+          to: { name: 'fundDepositDetail' }
+        }, {
+          name: '入金明细信息',
+          to: { name: 'fundDepositDetail' }
+        }, {
+          id: 'fundDepositDetailForm',
+          name: '入金明细信息详情',
+          to: { name: 'fundDepositDetailForm' }
+        }]
+      }
+    }, {
       path: 'account_deposit_manage',
       name: 'accountDepositManage',
       component: resolve => require(['@/views/fund_manage/AccountDepositManage.vue'], resolve),

@@ -11,11 +11,12 @@
         el-date-picker(placeholder='入金日期', format='yyyy-MM-dd', type='date', :value='date.payDate', @input="handlePayDate", :picker-options="pickerOptions")
         el-select(v-model="filter.accountType", placeholder="账户类型" @change="search")
           el-option(v-for="t in assetTypes", :key="t.name", :value="t.value", :label="t.name")
+        el-button(size="small", type="primary", @click="search")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='accountDeposit', style='width: 100%')
         el-table-column(prop='accountName', label='账户名称', width='220')
-        el-table-column(prop='fundAccountId', label='资金账户id', width='220')
+        el-table-column(prop='fundAccountId', label='资金账户id', width='280')
         el-table-column(prop='accountType', label='账户类型', width='80')
           template(scope="scope")
             span {{scope.row.accountType | statusFormat}}
@@ -65,6 +66,7 @@ import {
   accountDepositAudit
 } from '@/common/resource.js'
 import moment from 'moment'
+import Vue from 'vue'
 
 import {
   pruneParams
@@ -201,6 +203,8 @@ export default {
 
   mounted() {
     this.filter = merge(this.filter, this.$route.query)
+    const { payDate } = this.$route.query
+    this.date.payDate = payDate ? Vue.filter('moment')(payDate, 'YYYY-MM-DD') : ''
     this._fetchData()
   },
 
