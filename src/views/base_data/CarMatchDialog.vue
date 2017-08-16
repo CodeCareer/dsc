@@ -62,7 +62,8 @@ export default {
       })
     },
 
-    search() {
+    search(savedPage) {
+      if (!savedPage) this.filter.page = 1 // 重置到第一个页面
       this._fetchData()
     },
 
