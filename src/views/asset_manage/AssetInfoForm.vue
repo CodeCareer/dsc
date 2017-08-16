@@ -45,7 +45,7 @@
                   td {{assetBaseInfo.certNo}}
                 tr
                   th 证件类型：
-                  td {{assetBaseInfo.certType}}
+                  td {{assetBaseInfo.certType | statusFormat}}
                 tr
                   th 合同协议路径：
                   td(v-html='$options.filters.download(assetBaseInfo.contractFilesPath)')
@@ -353,6 +353,9 @@ const statusList = [{
 }, {
   name: '车辆交强险',
   value: 'CAR_COMPULSORY'
+}, {
+  name: '身份证',
+  value: '1'
 }]
 
 export default {
