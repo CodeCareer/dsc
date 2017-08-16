@@ -9,7 +9,7 @@
           el-select(v-model="filter.status",filterable,placeholder="状态",@change="search",)
             el-option(v-for="option in options",:key="option.value",:value="option.value",:label="option.label")
           el-input(placeholder='对象ID', icon='search', @keyup.native.13="search", v-model='filter.subjectId')
-          el-button(size="small", type="primary",@click="search") 查找
+          el-button(size="small", type="primary",@click="search") 搜索
           el-button(size="small", type="primary",@click="clearFilter")  清除
     .risk-table.table-container
       el-table(:data="riskDatas")
