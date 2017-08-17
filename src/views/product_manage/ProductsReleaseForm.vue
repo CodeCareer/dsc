@@ -88,7 +88,8 @@ import {
 } from '@/common/crosser.js'
 
 import {
-  productsAudit
+  productsAudit,
+  productsRelease
 } from '@/common/resource.js'
 
 import {
@@ -158,10 +159,18 @@ export default {
 
     productsAudit(data) {
       productsAudit.post({id: this.$route.params.id, auditResult: data, remark: this.product.remark}, {
-        loadingMaskTarget: '.products-release'
+        loadingMaskTarget: '.products-release-form'
       }).then(res => {
         const data = res.data
         this.operationStatus(data)
+      })
+    },
+
+    _fetchData() {
+      productsRelease.post({ id: this.$route.params.id }, {
+        loadingMaskTarget: '.products-release-form'
+      }).then(res => {
+        this.product = res.data.data.rows[0]
       })
     },
 
@@ -188,7 +197,7 @@ export default {
       id: 'productsReleaseForm',
       name: name
     }])
-    this.product = this.$route.params
+    this._fetchData()
   },
   data() {
     return {
