@@ -33,7 +33,7 @@
                           el-select.input-width(v-model="detail.operator",:disabled="!rule.editing" placeholder="选择")
                             el-option(v-for="operator in operators",:key="operator.value",:value="operator.value",:label="operator.label")
                         el-form-item.risk-verify(prop="numeric")
-                          el-input.input-width(placeholder="请输入",:disabled="!rule.editing",v-model="detail.numbericTarget",@change="riskChange(rule)")
+                          el-input.input-width(placeholder="请输入",:disabled="!rule.editing",v-model="detail.numbericTarget",@change="riskChange(rule, detail, indexd)")
                           .warn-verify(v-if="detail.messageWarn") {{detail.message}}
                         .el-risk-buttons
                           .risk-edit(v-if="indexd === 0")
@@ -43,7 +43,7 @@
                             el-button(v-if="rule.editing", size="small", type="primary",@click="detailDelete(rule, indexd)") 删除
                           .el-buttons-n(v-if="rule.editing && indexd === 0")
                             el-button(size="small", type="primary",@click="detailAdd(rule)") 并且
-                            el-button(size="small", type="primary",@click="ruleSubmit(rule)") 保存
+                            el-button(size="small", type="primary",@click="ruleSubmit(rule, detail, indexd)") 保存
                             el-button(size="small", type="primary",@click="ruleCancel(rule)") 取消
                       //- BOOLEAN
                       .risk-bool(v-if="rule.inputType === 'BOOLEAN'")
@@ -78,8 +78,8 @@ import {
   each,
   every,
   merge,
-  cloneDeep,
-  isNumber
+  cloneDeep
+  // isNumber
   // remove
 } from 'lodash'
 export default {
@@ -186,7 +186,7 @@ export default {
 
     ruleEdit(rule) {
       rule.editing = true
-      this.backupRule[rule.id] = cloneDeep(rule.details)
+      this.backupRule[rule.id] = cloneDeep(rule)
     },
 
     ruleCancel(rule) {
@@ -196,8 +196,8 @@ export default {
         type: 'info'
       }).then(() => {
         rule.editing = false
-        // rule.status = 'DISABLED'
-        rule.details = this.backupRule[rule.id]
+        rule.status = this.backupRule[rule.id].status
+        rule.details = this.backupRule[rule.id].details
         Message({
           type: 'success',
           message: '取消成功！'
@@ -210,13 +210,13 @@ export default {
       })
     },
 
-    ruleSubmit(rule) {
+    ruleSubmit(rule, detail, indexd) {
       if (rule.inputType === 'NUMERIC') {
         each(rule.details, (v, k) => {
           if (v.numbericTarget === null || v.numbericTarget === '') {
             v.message = '值不能为空'
             v.messageWarn = true
-          } else if (!isNumber(v.numbericTarget)) {
+          } else if (!Number(v.numbericTarget)) {
             v.message = '必须是数字'
             v.messageWarn = true
           } else {
@@ -252,19 +252,18 @@ export default {
       console.log(rule.details)
     },
 
-    riskChange(rule) {
-      each(rule.details, (v, k) => {
-        if (v.numbericTarget === null || v.numbericTarget === '') {
-          v.message = '值不能为空'
-          v.messageWarn = true
-        } else if (!isNumber(v.numbericTarget)) {
-          v.message = '必须是数字'
-          v.messageWarn = true
-        } else {
-          v.message = ''
-          v.messageWarn = false
-        }
-      })
+    riskChange(rule, detail, indexd) {
+      if (detail.numbericTarget === null || detail.numbericTarget === '') {
+        detail.message = '值不能为空'
+        detail.messageWarn = true
+      } else if (!Number(detail.numbericTarget)) {
+        detail.message = '必须是数字'
+        detail.messageWarn = true
+      } else {
+        detail.message = ''
+        detail.messageWarn = false
+      }
+      rule.details.splice(indexd, 1, merge({}, detail)) //新增到details里的对象添加的属性不能被vue识别
     },
 
     detailAdd(rule) {

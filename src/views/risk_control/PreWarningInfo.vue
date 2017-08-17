@@ -31,7 +31,7 @@
         el-table-column(label="预警更新时间",width="150")
           template(scope="scope")
             span {{scope.row.updatedAt | moment}}
-        el-table-column(label="详情",width="300")
+        el-table-column(label="详情",width="500")
           template(scope="scope")
             span {{scope.row.description | ktNull}}
       el-pagination(@size-change="sizeChange",@current-change="currentChange",:current-page="parseInt(filter.page)",:page-sizes="page.sizes",:page-size="parseInt(filter.pageSize)",layout="total, sizes, prev, pager, next, jumper",:total="parseInt(page.total)")
