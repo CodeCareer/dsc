@@ -1,5 +1,5 @@
 <template lang="pug">
-  el-dialog(title='车型信息', v-model='carListVisible', size="large", @open="onCarListOpen")
+  el-dialog(title='基础车型', v-model='carListVisible', size="large", @open="onCarListOpen")
     .car-list-dialog
       .box
         .box-header

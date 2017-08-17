@@ -30,7 +30,7 @@
         el-table-column(label='手动匹配', width="80", :fixed="fixed")
           template(scope="scope")
             .operations
-              i.iconfont.icon-pipei(title="手动关联匹配车型信息", @click="editCarMatch(scope.row)", v-if="$permit('carMatchUpdate')")
+              i.iconfont.icon-pipei(title="手动关联匹配基础车型", @click="editCarMatch(scope.row)", v-if="$permit('carMatchUpdate')")
               //- i.iconfont.icon-delete(@click.stop="deleteCarMatch(scope.row)")
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
     car-match-dialog(ref="carMatchDialog", @dialog-close="updateRow")
