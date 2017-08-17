@@ -33,7 +33,7 @@
                           el-select.input-width(v-model="detail.operator",:disabled="!rule.editing" placeholder="选择")
                             el-option(v-for="operator in operators",:key="operator.value",:value="operator.value",:label="operator.label")
                         el-form-item.risk-verify(prop="numeric")
-                          el-input.input-width(placeholder="请输入",:disabled="!rule.editing",v-model.number="detail.numbericTarget",@change="riskChange(rule)")
+                          el-input.input-width(placeholder="请输入",:disabled="!rule.editing",v-model="detail.numbericTarget",@change="riskChange(rule)")
                           .warn-verify(v-if="detail.messageWarn") {{detail.message}}
                         .el-risk-buttons
                           .risk-edit(v-if="indexd === 0")
