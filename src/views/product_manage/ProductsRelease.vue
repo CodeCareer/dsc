@@ -185,7 +185,7 @@ export default {
     }
   },
 
-  mounted() {
+  created() {
     this.filter = merge(this.filter, this.$route.query)
     const {carriageDateLower, carriageDateUpper, valueDateLower, valueDateUpper} = this.$route.query
     this.date.carriageDateLower = carriageDateLower ? Vue.filter('moment')(carriageDateLower, 'YYYY-MM-DD') : ''

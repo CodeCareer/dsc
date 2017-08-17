@@ -71,8 +71,9 @@ export default {
     }
   },
 
-  mounted() {
+  created() {
     // 更新面包屑中的占位符
+    this.breadcrumbRefresh()
     updateCrumb.$on('update-crumbs', crumbs => {
       each(crumbs, cr => {
         let co = find(this.crumbs, c => c.id === cr.id)
@@ -88,10 +89,6 @@ export default {
     window.addEventListener('resize', e => {
       this.containerStyles.minHeight = `${window.innerHeight - headerH}px`
     })
-  },
-
-  created() {
-    this.breadcrumbRefresh()
   },
 
   computed: {

@@ -73,7 +73,7 @@ export default {
     }
   },
 
-  mounted() {
+  created() {
     account.get({
       params: {
         id: this.user.id

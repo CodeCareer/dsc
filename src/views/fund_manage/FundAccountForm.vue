@@ -85,7 +85,7 @@ export default {
       }
     }
   },
-  mounted() {
+  created() {
     if (this.$route.params.id !== 'add') {
       merge(this.fundAccount, this.$route.params)
       this.title = '编辑资金账户'

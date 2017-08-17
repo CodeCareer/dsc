@@ -127,7 +127,7 @@ export default {
       this.risktemGet()
     }
   },
-  mounted() {
+  created() {
     this.risktemGet()
   }
 }

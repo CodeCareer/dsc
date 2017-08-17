@@ -6,7 +6,7 @@
 import { http } from '@/common/resource_auth.js'
 
 export default {
-  mounted() {
+  created() {
     http.get('/usermanage/v1/group/list').then(res => console.log(res.data))
   }
 }

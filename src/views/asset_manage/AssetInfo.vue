@@ -138,7 +138,7 @@ export default {
     }
   },
 
-  mounted() {
+  created() {
     this.filter = merge(this.filter, this.$route.query)
     this._fetchData()
   },

@@ -389,7 +389,7 @@ export default {
       })
     }
   },
-  mounted() {
+  created() {
     this._fetchData()
   },
   data() {

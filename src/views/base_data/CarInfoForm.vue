@@ -68,7 +68,7 @@ export default {
     }
   },
 
-  mounted() {
+  created() {
     if (this.$route.params.id !== 'add') {
       const id = this.$route.params.id
       this.title = '编辑基础车型'

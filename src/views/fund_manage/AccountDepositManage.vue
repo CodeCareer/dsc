@@ -201,7 +201,7 @@ export default {
     }
   },
 
-  mounted() {
+  created() {
     this.filter = merge(this.filter, this.$route.query)
     const { payDate } = this.$route.query
     this.date.payDate = payDate ? Vue.filter('moment')(payDate, 'YYYY-MM-DD') : ''

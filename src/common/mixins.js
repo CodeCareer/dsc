@@ -44,7 +44,7 @@ export const tableListMixins = {
     }
   },
 
-  mounted() {
+  created() {
     const query = this.$route.query
     each(keys(this.date), d => {
       this.date[d] = query[d] ? moment(d, 'YYYYMMDD').format('YYYY-MM-DD') : ''

@@ -99,7 +99,7 @@ export default {
       this.$router.back()
     }
   },
-  mounted() {
+  created() {
     this.fundDepositData = this.$route.params
   },
   data() {

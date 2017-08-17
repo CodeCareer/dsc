@@ -191,7 +191,7 @@ export default {
       this.$router.back()
     }
   },
-  mounted() {
+  created() {
     const name = this.$route.params.productName
     updateCrumb.$emit('update-crumbs', [{
       id: 'productsReleaseForm',
