@@ -17,16 +17,16 @@
       el-table(:data='accountDeposit', style='width: 100%')
         el-table-column(prop='accountName', label='账户名称', width='220')
         el-table-column(prop='fundAccountId', label='资金账户id', width='280')
-        el-table-column(prop='accountType', label='账户类型', width='80')
+        el-table-column(prop='accountType', label='账户类型', width='100')
           template(scope="scope")
             span {{scope.row.accountType | statusFormat}}
         el-table-column(prop='createDateTime', label='创建时间', width='100')
           template(scope="scope")
             span {{scope.row.createDateTime | moment('YYYY-MM-DD')}}
-        el-table-column(prop='auditStatus', label='审核状态', width='80')
+        el-table-column(prop='auditStatus', label='审核状态', width='100')
           template(scope="scope")
             span(:class="scope.row.auditStatus | statusClass") {{scope.row.auditStatus | statusFormat}}
-        el-table-column(prop='fundDirection', label='资金方向', width='80')
+        el-table-column(prop='fundDirection', label='资金方向', width='100')
           template(scope="scope")
             span {{scope.row.fundDirection | statusFormat}}
         el-table-column(prop='factPayAmount', label='实际支付金额', width='140')
@@ -41,7 +41,7 @@
         el-table-column(prop='payWithEndDate', label='支付款对应结束日期', width='140')
           template(scope="scope")
             span {{scope.row.payWithEndDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
-        el-table-column(prop='checkingStatus', label='对账状态', width='80')
+        el-table-column(prop='checkingStatus', label='对账状态', width='100')
           template(scope="scope")
             span(:class="scope.row.checkingStatus | statusClass") {{scope.row.checkingStatus | statusFormat}}
         el-table-column(prop='unpassReason', label='对账不通过原因', width='220')

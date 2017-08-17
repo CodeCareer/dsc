@@ -27,7 +27,7 @@
         el-table-column(prop='productStatus', label='产品状态', width='110')
           template(scope="scope")
             span {{scope.row.productStatus | statusFormat}}
-        el-table-column(prop='profitYearRate', label='发行利率', width='80')
+        el-table-column(prop='profitYearRate', label='发行利率', width='100')
           template(scope="scope")
             span {{scope.row.profitYearRate | ktPercent}}
         el-table-column(prop='carriageDate', label='上架日期', width='100')
@@ -39,7 +39,7 @@
         el-table-column(prop='valueDate', label='起息日期', width='100')
           template(scope="scope")
             span {{scope.row.valueDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
-        el-table-column(prop='term', label='期限', width='80')
+        el-table-column(prop='term', label='期限', width='100')
         el-table-column(prop='requestAmount', label='申请融资金额', width='110')
           template(scope="scope")
             span {{scope.row.requestAmount | ktCurrency}}

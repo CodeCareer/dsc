@@ -248,7 +248,7 @@
         el-table-column(prop='insuranceFee', label='保费', width='100')
           template(scope="scope")
             span {{scope.row.insuranceFee | ktCurrency}}
-        el-table-column(prop='insuranceNo', label='保单号', width='80')
+        el-table-column(prop='insuranceNo', label='保单号', width='100')
         el-table-column(prop='insuranceOrgName', label='保险公司名称', width='150')
         el-table-column(prop='insurancePicPath', label='保单图片路径', width='120')
            template(scope="scope")
