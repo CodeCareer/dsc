@@ -14,7 +14,7 @@
     .table-container
       el-table(:data='fundDepositData', style='width: 100%')
         el-table-column(prop='accountName', label='账户名称', width='220')
-        el-table-column(prop='accountType', label='账户类型', width='80')
+        el-table-column(prop='accountType', label='账户类型', width='100')
           template(scope="scope")
             span {{scope.row.accountType | statusFormat}}
         el-table-column(prop='assetId', label='资产ID', width='280')
@@ -32,7 +32,7 @@
           template(scope="scope")
             span {{scope.row.depositType | statusFormat}}
         el-table-column(prop='termNo', label='月供期数')
-        el-table-column(label='操作', fixed="right", width='80')
+        el-table-column(label='操作', fixed="right", width='100')
           template(scope="scope")
             .operations
               i.iconfont.icon-details(@click="detail(scope.row)")

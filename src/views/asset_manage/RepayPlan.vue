@@ -14,7 +14,7 @@
         el-table-column(prop='benefit', label='优惠金额', width='100')
           template(scope="scope")
             span {{scope.row.benefit | ktCurrency}}
-        el-table-column(prop='benefitType', label='优惠方式', width='80')
+        el-table-column(prop='benefitType', label='优惠方式', width='100')
           template(scope="scope")
             span {{scope.row.benefitType | statusFormat}}
         el-table-column(prop='factRepayDate', label='实际还款日期', width='110')
@@ -29,8 +29,8 @@
         el-table-column(prop='nameInstalmentsAmount', label='名义月供金额', width='110')
           template(scope="scope")
             span {{scope.row.nameInstalmentsAmount | ktCurrency}}
-        el-table-column(prop='maxOverdueDays', label='逾期天数', width='80')
-        el-table-column(prop='payChannel', label='支付渠道', width='80')
+        el-table-column(prop='maxOverdueDays', label='逾期天数', width='100')
+        el-table-column(prop='payChannel', label='支付渠道', width='100')
           template(scope="scope")
             span {{scope.row.payChannel | statusFormat}}
         el-table-column(prop='payNo', label='支付流水号', width='120')
