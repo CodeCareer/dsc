@@ -146,7 +146,8 @@ export default {
           route: {
             name: 'repayPlan'
           },
-          hidden: !this.$permit(['repayPlan'])
+          hidden: !this.$permit(['repayPlan']),
+          activeIncludes: ['repayPlan', 'repayPlanDetail']
         }]
       }, {
         name: '资金管理',

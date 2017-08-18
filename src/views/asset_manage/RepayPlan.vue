@@ -52,6 +52,10 @@
         el-table-column(prop='repayStatus', label='还款状态', width='100')
           template(scope="scope")
             span(:class="scope.row.repayStatus | statusClass") {{scope.row.repayStatus | statusFormat}}
+        el-table-column(label='操作', fixed="right", width="80")
+          template(scope="scope")
+            .operations
+              i.iconfont.icon-details(@click="detail(scope.row)")
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
@@ -126,6 +130,14 @@ export default {
         const data = res.data.data
         this.repayPlan = data.rows
         this.page.total = data.total
+      })
+    },
+    detail(rows) {
+      this.$router.push({
+        name: 'repayPlanDetail',
+        params: {
+          id: rows.id
+        }
       })
     }
   },

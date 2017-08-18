@@ -135,6 +135,23 @@ export default [{
           to: { name: 'repayPlan' }
         }]
       }
+    }, {
+      path: 'repay_plan/:id',
+      name: 'repayPlanDetail',
+      component: resolve => require(['@/views/asset_manage/RepayPlanDetail.vue'], resolve),
+      meta: {
+        title: '微贷系统-资产还款计划详情',
+        crumbs: [{
+          name: '资产管理',
+          to: { name: 'assetInfo' }
+        }, {
+          name: '还款计划',
+          to: { name: 'repayPlan' }
+        }, {
+          name: '还款计划详情',
+          to: { name: 'repayPlanDetail' }
+        }]
+      }
     }]
   }, {
     path: 'fund_manage',
