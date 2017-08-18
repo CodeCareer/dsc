@@ -25,10 +25,10 @@
         el-table-column(prop='dataSource', label='信息来源', width='120')
         el-table-column(prop='guidePrice', label='厂商指导价', width='120')
           template(scope="scope")
-            span {{scope.row.guidePrice | ktCurrency}}
+            span {{scope.row.guidePrice | ktCurrency | ktNull}}
         el-table-column(prop='marketPrice', label='市场参考价', width='120')
           template(scope="scope")
-            span {{scope.row.guidePrice | ktCurrency}}
+            span {{scope.row.marketPrice | ktCurrency | ktNull}}
         el-table-column(prop='residualValue', label='残值金额', width='120')
           template(scope="scope")
             span {{scope.row.residualValue | ktCurrency | ktNull}}

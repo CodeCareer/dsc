@@ -5,25 +5,28 @@
         h3 筛选条件
       .filters
         el-input(placeholder='VIN码', icon='search', @keyup.native.13='search()', v-model='filter.vinCode')
-        el-input(placeholder='SIM码', icon='search', @keyup.native.13='search()', v-model='filter.simNo')
+        //- el-input(placeholder='SIM码', icon='search', @keyup.native.13='search()', v-model='filter.simNo')
+        el-select(placeholder="状态", v-model="filter.vehicleStatus", @change="search()")
+          el-option(v-for="o in statusList", :value="o.value", :label="o.name", :key="o.value")
         el-date-picker(placeholder='起始时间', format='yyyy-MM-dd', type='date', :value="date.gpsTimeStart", @input="dateSearch($event, 'gpsTimeStart')", :picker-options="pickerOptions")
         el-date-picker(placeholder='结束时间', format='yyyy-MM-dd', type='date', :value='date.gpsTimeEnd', @input="dateSearch($event, 'gpsTimeEnd')", :picker-options="pickerOptions")
         el-button(size="small", type="primary", @click="search()")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table.no-wrap-cell(:data='carGps', style='width: 100%')
+        el-table-column(prop='vinCode', label='VIN码', width='200')
         el-table-column(prop='acc', label='ACC', width='200')
           template(scope="scope")
             span {{scope.row.acc | accLocal}}
-        el-table-column(prop='vinCode', label='VIN码', width='200')
-        el-table-column(prop='simNo', label='SIM码', width='200')
+        //- el-table-column(prop='simNo', label='SIM码', width='200')
         el-table-column(prop='longitude', label='经度', width='200')
         el-table-column(prop='latitude', label='维度', width='200')
         el-table-column(prop='alarmInfo', label='报警信息', width='200')
           template(scope="scope")
-            span {{scope.row.alarmInfo | ktNull}}
+            span {{scope.row.alarmInfo | ktNull('-')}}
         el-table-column(prop='direct', label='行驶方向', width='200')
         el-table-column(prop='plate', label='车牌号', width='120')
+        el-table-column(prop='terminalNo', label='终端号', width='200')
         el-table-column(prop='terminalType', label='终端类型', width='200')
         el-table-column(prop='lastPower', label='剩余电量', width='120')
           template(scope="scope")
@@ -48,7 +51,8 @@
 
 <script>
 import {
-  merge
+  merge,
+  find
 } from 'lodash'
 import {
   carGps
@@ -60,6 +64,23 @@ import {
   tableListMixins
 } from '@/common/mixins.js'
 import Vue from 'vue'
+
+const statusList = [{
+  name: '全部',
+  value: '_all_'
+}, {
+  name: '未上线',
+  value: '0'
+}, {
+  name: '行驶',
+  value: '1'
+}, {
+  name: '停车',
+  value: '2'
+}, {
+  name: '离线',
+  value: '3'
+}]
 
 export default {
   mixins: [tableListMixins],
@@ -90,13 +111,8 @@ export default {
     },
 
     vehicleStatusLocal(value) {
-      const map = {
-        0: '未上线',
-        1: '行驶',
-        2: '停车',
-        3: '离线'
-      }
-      return map[value] || '未知状态'
+      const status = find(statusList, s => s.value === value)
+      return status ? status.name : '未知状态'
     },
 
     vehicleStatusClass(value) {
@@ -145,9 +161,11 @@ export default {
         gpsTimeEnd: '',
         gpsTimeStart: ''
       },
+      statusList,
       filter: {
         vinCode: '',
-        simNo: '',
+        // simNo: '',
+        vehicleStatus: '',
         gpsTimeStart: '',
         gpsTimeEnd: '',
         page: 1,

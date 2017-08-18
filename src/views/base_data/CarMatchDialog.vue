@@ -20,10 +20,10 @@
           el-table-column(prop='modelName', label='车型')
           el-table-column(prop='guidePrice', label='厂商指导价')
             template(scope="scope")
-              span {{scope.row.guidePrice | ktCurrency}}
+              span {{scope.row.guidePrice | ktCurrency | ktNull}}
           el-table-column(prop='residualValue', label='残值金额')
             template(scope="scope")
-              span {{scope.row.residualValue | ktCurrency}}
+              span {{scope.row.residualValue | ktCurrency | ktNull}}
           el-table-column(prop='updateTime', label='数据更新日期')
             template(scope="scope")
               span {{scope.row.updateTime | moment('YYYY-MM-DD HH:mm:ss')}}

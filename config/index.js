@@ -31,20 +31,20 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      // '/api/thirdPartyData/': {
-      //   target: 'http://10.132.1.218:8080',
-      //   changeOrigin: true,
-      //   pathRewrite: function(path, req) {
-      //     return path.replace('/api/', '/')
-      //   }
-      // },
-      // '/api/thirdPartyData/gpsManage/': {
-      //   target: 'http://10.132.1.115:8080',
-      //   changeOrigin: true,
-      //   pathRewrite: function(path, req) {
-      //     return path.replace('/api/', '/')
-      //   }
-      // },
+      '/api/thirdPartyData/vehicleManage': {
+        target: 'http://10.132.1.218:8080',
+        changeOrigin: true,
+        pathRewrite: function(path, req) {
+          return path.replace('/api/', '/')
+        }
+      },
+      '/api/thirdPartyData/gpsManage/': {
+        target: 'http://10.132.1.115:8080',
+        changeOrigin: true,
+        pathRewrite: function(path, req) {
+          return path.replace('/api/', '/')
+        }
+      },
       // '/api/api/usermanage/': {
       //   target: 'http://192.168.221.9:9090',
       //   changeOrigin: true,

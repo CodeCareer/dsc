@@ -6,7 +6,7 @@
 
 ``` bash
 # install dependencies
-recommand: npm(>5.0) version or npm i yarn -g & yarn install
+recommand: npm(>5.0) install or npm i yarn -g & yarn install
 fallback: npm(<4.0) install
 
 # serve with hot reload at localhost:8080

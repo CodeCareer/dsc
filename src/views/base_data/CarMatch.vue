@@ -24,9 +24,11 @@
         el-table-column(prop='seriesName', label='车系', width='120')
         el-table-column(prop='modelName', label='车型', min-width='240')
         el-table-column(prop='modelName', label='匹配信息', width='200')
+          template(scope="scope")
+            span {{scope.row.carInfo | matchStringify}}
         el-table-column(prop='status', label='状态', width='150')
           template(scope="scope")
-            span(:class="scope.row.status | statusClass") {{scope.row.status | statusFormat}}
+            span(:class="scope.row.status | statusClass") {{scope.row.status | statusLocal}}
         el-table-column(label='手动匹配', width="80", :fixed="fixed")
           template(scope="scope")
             .operations
@@ -39,7 +41,8 @@
 <script>
 import {
   merge,
-  find
+  find,
+  isObject
 } from 'lodash'
 import {
   pruneParams
@@ -51,6 +54,7 @@ import {
   tableListMixins
 } from '@/common/mixins.js'
 import CarMatchDialog from '@/views/base_data/CarMatchDialog.vue'
+import Vue from 'vue'
 
 const statusList = [{
   name: '全部',
@@ -70,6 +74,12 @@ export default {
   },
 
   filters: {
+    matchStringify(value) {
+      if (isObject(value)) {
+        return `${value.brandName}-${value.seriesName}-${value.modelName}-厂商指导价${Vue.filter('ktCurrency')(value.guidePrice)}`
+      }
+      return value || '-'
+    },
     statusClass(value) {
       const classMap = {
         'MATCH_SUCCESS': 'color-green',
@@ -77,7 +87,7 @@ export default {
       }
       return classMap[value] || ''
     },
-    statusFormat(value) {
+    statusLocal(value) {
       const status = find(statusList, s => s.value === value)
       return status ? status.name : '未知状态'
     }
