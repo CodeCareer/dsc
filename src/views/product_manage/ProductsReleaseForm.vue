@@ -5,67 +5,73 @@
       | {{title}}
     .box-content
       .box-section
-        el-row(:gutter="20")
-            el-col(:span="8")
-              table
-                tr
-                  th 产品名称：
-                  td {{product.productName}}
-                tr
-                  th 产品代码：
-                  td {{product.productCode}}
-                tr
-                  th 资产来源：
-                  td {{product.assetFrom | statusFormat}}
-                tr
-                  th 产品状态：
-                  td {{product.productStatus | statusFormat}}
-                tr
-                  th 发行利率：
-                  td {{product.profitYearRate | ktPercent}}
-                tr
-                  th 上架日期：
-                  td {{product.carriageDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
-            el-col(:span="8")
-              table
-                tr
-                  th 下架日期：
-                  td {{product.underDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
-                tr
-                  th 起息日期：
-                  td {{product.valueDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
-                tr
-                  th 期限：
-                  td {{product.term}}
-                tr
-                  th 申请融资金额：
-                  td {{product.requestAmount}}
-                tr
-                  th 到期日：
-                  td {{product.dueDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
-                tr
-                  th 实际募集金额：
-                  td {{product.factCollectAmount}}
-            el-col(:span="8")
-              table        
-                tr
-                  th 到期应付总收益：
-                  td {{product.dueTotalInterest}}
-                tr
-                  th 实际到期日期：
-                  td {{product.factDueDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
-                tr
-                  th 实际兑付给投资人总金额：
-                  td {{product.factRedeemAmount}}
-                tr
-                  th 最早可提前还款日期：
-                  td {{product.minPreDueDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
-                tr
-                  th 到期应对付总金额：
-                  td {{product.redeemAmount}}
-                tr
-                  th 备注：
-                  td  {{product.remark}}
+        el-form(:model="product", :rules="rules", ref="productForm")
+          el-row(:gutter="20")
+              el-col(:span="8")
+                table
+                  tr
+                    th 产品名称：
+                    td {{product.productName}}
+                  tr
+                    th 产品代码：
+                    td {{product.productCode}}
+                  tr
+                    th 资产来源：
+                    td {{product.assetFrom | statusFormat}}
+                  tr
+                    th 产品状态：
+                    td {{product.productStatus | statusFormat}}
+                  tr
+                    th 发行利率：
+                    td {{product.profitYearRate | ktPercent}}
+                  tr
+                    th 上架日期：
+                    td {{product.carriageDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
+              el-col(:span="8")
+                table
+                  tr
+                    th 下架日期：
+                    td {{product.underDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
+                  tr
+                    th 起息日期：
+                    td {{product.valueDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
+                  tr
+                    th 期限：
+                    td {{product.term}}
+                  tr
+                    th 申请融资金额：
+                    td {{product.requestAmount}}
+                  tr
+                    th 到期日：
+                    td {{product.dueDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
+                  tr(v-if="product.productStatus === 'AUTO_AUDIT_FAIL_WAIT_CONFIRMED'") 
+                    th 
+                    td
+                      el-form-item(label="备注：", prop="remark")
+                        el-input(type="textarea", placeholder="请输入备注", :autosize="{ minRows: 2, maxRows: 4}" :maxlength="500", v-model="product.remark")
+                  tr(v-else) 
+                    th 备注：
+                    td {{product.remark}}
+              el-col(:span="8")
+                table     
+                  tr
+                    th 实际募集金额：
+                    td {{product.factCollectAmount}}   
+                  tr
+                    th 到期应对付总金额：
+                    td {{product.redeemAmount}}
+                  tr
+                    th 到期应付总收益：
+                    td {{product.dueTotalInterest}}
+                  tr
+                    th 实际到期日期：
+                    td {{product.factDueDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
+                  tr
+                    th 实际兑付给投资人总金额：
+                    td {{product.factRedeemAmount}}
+                  tr
+                    th 最早可提前还款日期：
+                    td {{product.minPreDueDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
     .bottom-buttons 
       el-button(v-if="product.productStatus === 'AUTO_AUDIT_FAIL_WAIT_CONFIRMED'", type="primary", size="small", @click="audit('PASSED')") 通过
       el-button(v-if="product.productStatus === 'AUTO_AUDIT_FAIL_WAIT_CONFIRMED'", type="gray", size="small", @click="audit('DENIED')") 驳回
@@ -82,7 +88,8 @@ import {
 } from '@/common/crosser.js'
 
 import {
-  productsAudit
+  productsAudit,
+  productsRelease
 } from '@/common/resource.js'
 
 import {
@@ -138,20 +145,32 @@ export default {
   },
   methods: {
     audit(data) {
-      const confirmMsg = data === 'PASSED' ? '确定审核通过吗？' : '确定审核驳回吗？'
-      this.$confirm(confirmMsg, '提示', {
-        type: 'warning'
-      }).then(() => {
-        this.productsAudit(data)
+      this.$refs.productForm.validate((valid) => {
+        if (valid) {
+          const confirmMsg = data === 'PASSED' ? '确定审核通过吗？' : '确定审核驳回吗？'
+          this.$confirm(confirmMsg, '提示', {
+            type: 'warning'
+          }).then(() => {
+            this.productsAudit(data)
+          })
+        }
       })
     },
 
     productsAudit(data) {
-      productsAudit.post({id: this.$route.params.id, auditResult: data}, {
-        loadingMaskTarget: '.products-release'
+      productsAudit.post({id: this.$route.params.id, auditResult: data, remark: this.product.remark}, {
+        loadingMaskTarget: '.products-release-form'
       }).then(res => {
         const data = res.data
         this.operationStatus(data)
+      })
+    },
+
+    _fetchData() {
+      productsRelease.post({ id: this.$route.params.id }, {
+        loadingMaskTarget: '.products-release-form'
+      }).then(res => {
+        this.product = res.data.data.rows[0]
       })
     },
 
@@ -172,13 +191,13 @@ export default {
       this.$router.back()
     }
   },
-  mounted() {
+  created() {
     const name = this.$route.params.productName
     updateCrumb.$emit('update-crumbs', [{
       id: 'productsReleaseForm',
       name: name
     }])
-    this.product = this.$route.params
+    this._fetchData()
   },
   data() {
     return {
@@ -186,7 +205,14 @@ export default {
       loadingInstance: {
         close() {}
       },
-      product: {}
+      product: {},
+      rules: {
+        remark: [{
+          required: true,
+          message: '必填项',
+          trigger: 'change'
+        }]
+      }
     }
   }
 }
@@ -203,6 +229,15 @@ export default {
     .el-col {
       th{
         width: 180px;
+      }
+      td{
+        .el-form-item{
+              position: relative;
+              left: -52px;
+        }
+        .el-form-item__content{
+          display: inline-block;
+        }
       }
     }
   }

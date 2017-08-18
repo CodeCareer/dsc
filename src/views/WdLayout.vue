@@ -16,7 +16,7 @@
               template(slot='title')
                 i.iconfont.icon-color(:class="menu.icon")
                 | {{menu.name}}
-              el-menu-item( v-for="item in menu.menus", :index='item.index', :route="item.route", :key="item.index") {{item.name}}
+              el-menu-item(v-for="item in menu.menus", :index='item.index', :route="item.route", :key="item.index") {{item.name}}
             el-menu-item(v-else, :index='menu.index', :route="menu.route", v-show="!menu.hidden")
               i.iconfont.icon-color(:class="menu.icon")
               | {{menu.name}}
@@ -71,8 +71,9 @@ export default {
     }
   },
 
-  mounted() {
+  created() {
     // 更新面包屑中的占位符
+    this.breadcrumbRefresh()
     updateCrumb.$on('update-crumbs', crumbs => {
       each(crumbs, cr => {
         let co = find(this.crumbs, c => c.id === cr.id)
@@ -88,10 +89,6 @@ export default {
     window.addEventListener('resize', e => {
       this.containerStyles.minHeight = `${window.innerHeight - headerH}px`
     })
-  },
-
-  created() {
-    this.breadcrumbRefresh()
   },
 
   computed: {
@@ -177,7 +174,8 @@ export default {
           route: {
             name: 'fundDepositDetail'
           },
-          hidden: !this.$permit(['fundDepositDetail'])
+          hidden: !this.$permit(['fundDepositDetail']),
+          activeIncludes: ['fundDepositDetail', 'fundDepositDetailForm']
         }]
       }, {
         name: '风控管理',
@@ -210,7 +208,7 @@ export default {
         index: '5',
         icon: 'icon-data',
         menus: [{
-          name: '车型信息',
+          name: '基础车型',
           index: '5-1',
           route: {
             name: 'carInfo'

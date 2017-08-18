@@ -6,12 +6,12 @@
       .filters
         el-input(placeholder='VIN码', icon='search', @keyup.native.13='search()', v-model='filter.vinCode')
         el-input(placeholder='SIM码', icon='search', @keyup.native.13='search()', v-model='filter.simNo')
-        el-date-picker(placeholder='起始时间', format='yyyy-MM-dd', type='date', :value="filter.gpsTimeStart", @input="handleStartDate", :picker-options="pickerOptions")
-        el-date-picker(placeholder='起始时间', format='yyyy-MM-dd', type='date', :value='filter.gpsTimeEnd', @input="handleEndDate", :picker-options="pickerOptions")
+        el-date-picker(placeholder='起始时间', format='yyyy-MM-dd', type='date', :value="date.gpsTimeStart", @input="dateSearch($event, 'gpsTimeStart')", :picker-options="pickerOptions")
+        el-date-picker(placeholder='结束时间', format='yyyy-MM-dd', type='date', :value='date.gpsTimeEnd', @input="dateSearch($event, 'gpsTimeEnd')", :picker-options="pickerOptions")
         el-button(size="small", type="primary", @click="search()")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
-      el-table(:data='carGps', style='width: 100%')
+      el-table.no-wrap-cell(:data='carGps', style='width: 100%')
         el-table-column(prop='acc', label='ACC', width='200')
           template(scope="scope")
             span {{scope.row.acc | accLocal}}
@@ -59,7 +59,6 @@ import {
 import {
   tableListMixins
 } from '@/common/mixins.js'
-import moment from 'moment'
 import Vue from 'vue'
 
 export default {
@@ -112,16 +111,6 @@ export default {
   },
 
   methods: {
-    handleStartDate(value) {
-      this.filter.gpsTimeStart = value ? moment(value).format('YYYY-MM-DD') : ''
-      this.search()
-    },
-
-    handleEndDate(value) {
-      this.filter.gpsTimeEnd = value ? moment(value).format('YYYY-MM-DD') : ''
-      this.search()
-    },
-
     _fetchData() {
       carGps.get({
         loadingMaskTarget: '.car-gps',
@@ -142,7 +131,7 @@ export default {
     }
   },
 
-  mounted() {
+  created() {
     merge(this.filter, this.$route.query)
     this._fetchData()
   },
@@ -152,6 +141,10 @@ export default {
       fixed: window.innerWidth - 180 - 12 * 2 > 1150 ? false : 'right', // 180 左侧菜单宽度，12 section的padding
       pickerOptions: {},
       carGps: [],
+      date: {
+        gpsTimeEnd: '',
+        gpsTimeStart: ''
+      },
       filter: {
         vinCode: '',
         simNo: '',

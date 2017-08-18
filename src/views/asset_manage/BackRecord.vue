@@ -5,6 +5,7 @@
         h3 筛选条件
       .filters
         el-input(placeholder='资产ID', icon='search', @keyup.native.13='search', v-model.trim='filter.assetId')
+        el-button(size="small", type="primary", @click="search")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='backRecord', style='width: 100%')
@@ -57,7 +58,7 @@ export default {
     }
   },
 
-  mounted() {
+  created() {
     this.filter = merge(this.filter, this.$route.query)
     this._fetchData()
   },

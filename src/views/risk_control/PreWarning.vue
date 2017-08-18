@@ -285,7 +285,7 @@ export default {
       this.riskWarnGet()
     }
   },
-  mounted() {
+  created() {
     this.riskWarnGet()
   }
 }

@@ -45,7 +45,7 @@
                   td {{assetBaseInfo.certNo}}
                 tr
                   th 证件类型：
-                  td {{assetBaseInfo.certType}}
+                  td {{assetBaseInfo.certType | statusFormat}}
                 tr
                   th 合同协议路径：
                   td(v-html='$options.filters.download(assetBaseInfo.contractFilesPath)')
@@ -248,7 +248,7 @@
         el-table-column(prop='insuranceFee', label='保费', width='100')
           template(scope="scope")
             span {{scope.row.insuranceFee | ktCurrency}}
-        el-table-column(prop='insuranceNo', label='保单号', width='80')
+        el-table-column(prop='insuranceNo', label='保单号', width='100')
         el-table-column(prop='insuranceOrgName', label='保险公司名称', width='150')
         el-table-column(prop='insurancePicPath', label='保单图片路径', width='120')
            template(scope="scope")
@@ -353,6 +353,9 @@ const statusList = [{
 }, {
   name: '车辆交强险',
   value: 'CAR_COMPULSORY'
+}, {
+  name: '身份证',
+  value: '1'
 }]
 
 export default {
@@ -386,7 +389,7 @@ export default {
       })
     }
   },
-  mounted() {
+  created() {
     this._fetchData()
   },
   data() {

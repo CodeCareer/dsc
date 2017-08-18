@@ -7,7 +7,10 @@
         el-input(placeholder='外部资产订单编号', icon='search', @keyup.native.13='search', v-model.trim='filter.outerAssetOrderNo')
         el-select(v-model="filter.assetFrom", placeholder="资产来源", @change="search")
           el-option(v-for="t in assetFroms", :key="t.name", :value="t.value", :label="t.name")
-        el-input(placeholder='产品代码', icon='search', @keyup.native.13='search', v-model='filter.productCode')
+        el-input(placeholder='产品代码', icon='search', @keyup.native.13='search', v-model.trim='filter.productCode')
+        el-select(v-model="filter.assetStatus", placeholder="资产状态", @change="search")
+          el-option(v-for="t in assetTypes", :key="t.name", :value="t.value", :label="t.name")
+        el-button(size="small", type="primary", @click="search")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='assetInfo', style='width: 100%')
@@ -135,7 +138,7 @@ export default {
     }
   },
 
-  mounted() {
+  created() {
     this.filter = merge(this.filter, this.$route.query)
     this._fetchData()
   },
@@ -149,6 +152,7 @@ export default {
         assetFrom: '',
         outerAssetOrderNo: '',
         productCode: '',
+        assetStatus: '',
         page: 1,
         limit: 10
       },
@@ -158,6 +162,25 @@ export default {
       }, {
         name: '大搜车',
         value: 'DSC'
+      }],
+      assetTypes: [{
+        name: '待审核',
+        value: 'WAIT_ADUIT'
+      }, {
+        name: '审核失败',
+        value: 'AUDIT_FAILED'
+      }, {
+        name: '审核成功，待入池',
+        value: 'WAIT_INTO_POOL'
+      }, {
+        name: '已入池',
+        value: 'HAVE_IN_POOL'
+      }, {
+        name: '已出池',
+        value: 'HAVE_OUT_POOL'
+      }, {
+        name: '募集失败',
+        value: 'COLLECT_FAILED'
       }]
     }
   }

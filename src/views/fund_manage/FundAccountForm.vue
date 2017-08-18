@@ -9,12 +9,12 @@
           el-col(:span="12", :offset="6")
             .form-inner.center
               el-form-item(label="账户名称：", prop="accountName")
-                el-input(type="text", placeholder="请输入账户名称", v-model="fundAccount.accountName")
+                el-input(type="text", placeholder="请输入账户名称", :maxlength="64",  v-model="fundAccount.accountName")
               el-form-item(label="账户类型：", prop="accountType")
                 el-select(v-model="fundAccount.accountType", placeholder="请选择账户类型")
                   el-option(v-for="t in accountTypes", :key="t.name", :value="t.value", :label="t.name")
               el-form-item(label="备注：", prop="remark")
-                el-input(type="textarea", placeholder="请输入备注", v-model="fundAccount.remark")
+                el-input(type="textarea", placeholder="请输入备注", :maxlength="500", :autosize="{ minRows: 2, maxRows: 4}", v-model="fundAccount.remark")
     .bottom-buttons
       el-button(type="primary", size="small", @click="submitForm") 保存
       el-button(type="gray", size="small", @click="cancel") 取消
@@ -85,7 +85,7 @@ export default {
       }
     }
   },
-  mounted() {
+  created() {
     if (this.$route.params.id !== 'add') {
       merge(this.fundAccount, this.$route.params)
       this.title = '编辑资金账户'

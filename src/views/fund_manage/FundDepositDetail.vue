@@ -9,16 +9,17 @@
         el-select(v-model="filter.checkingStatus", placeholder="对账状态", @change="search")
           el-option(v-for="t in checkingTypes", :key="t.name", :value="t.value", :label="t.name")
         el-date-picker(placeholder='入金日期', type='date', format='yyyy-MM-dd', :value='date.depositDate', @input="handleDepositDate", :picker-options="pickerOptions")
+        el-button(size="small", type="primary", @click="search")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='fundDepositData', style='width: 100%')
         el-table-column(prop='accountName', label='账户名称', width='220')
-        el-table-column(prop='accountType', label='账户类型', width='80')
+        el-table-column(prop='accountType', label='账户类型', width='100')
           template(scope="scope")
             span {{scope.row.accountType | statusFormat}}
-        el-table-column(prop='assetId', label='资产ID', width='220')
-        el-table-column(prop='fundAccountId', label='资金账户ID', width='220')
-        el-table-column(prop='checkingStatus', label='对账状态', width='80')
+        el-table-column(prop='assetId', label='资产ID', width='280')
+        el-table-column(prop='fundAccountId', label='资金账户ID', width='280')
+        el-table-column(prop='checkingStatus', label='对账状态')
           template(scope="scope")
             span(:class="scope.row.checkingStatus | statusClass") {{scope.row.checkingStatus | statusFormat}}
         el-table-column(prop='depositAmout', label='入金金额', width='220')
@@ -27,11 +28,14 @@
         el-table-column(prop='depositDate', label='入金日期', width='120')
           template(scope="scope")
             span {{scope.row.depositDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
-        el-table-column(prop='depositType', label='入金类型', width='80')
+        el-table-column(prop='depositType', label='入金类型')
           template(scope="scope")
             span {{scope.row.depositType | statusFormat}}
-        
-        el-table-column(prop='termNo', label='	月供期数', width='80')
+        el-table-column(prop='termNo', label='月供期数')
+        el-table-column(label='操作', fixed="right", width='100')
+          template(scope="scope")
+            .operations
+              i.iconfont.icon-details(@click="detail(scope.row)")
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
@@ -53,6 +57,7 @@ import {
   tableListMixins
 } from '@/common/mixins.js'
 import moment from 'moment'
+import Vue from 'vue'
 
 const statusList = [{
   name: '月供',
@@ -113,9 +118,9 @@ export default {
       })
     },
 
-    audit(rows) {
+    detail(rows) {
       this.$router.push({
-        name: 'productsReleaseForm',
+        name: 'fundDepositDetailForm',
         params: rows
       })
     }
@@ -127,8 +132,10 @@ export default {
     }
   },
 
-  mounted() {
+  created() {
     this.filter = merge(this.filter, this.$route.query)
+    const { depositDate } = this.$route.query
+    this.date.depositDate = depositDate ? Vue.filter('moment')(depositDate, 'YYYY-MM-DD') : ''
     this._fetchData()
   },
 

@@ -18,11 +18,11 @@
           el-button(size="small", type="primary", @click="search()")  搜索
           el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
-      el-table(:data='carMatchs', style='width: 100%')
+      el-table.no-wrap-cell(:data='carMatchs', style='width: 100%')
         el-table-column(prop='assetFrom', label='资产来源')
-        el-table-column(prop='brandName', label='品牌', width='200')
-        el-table-column(prop='seriesName', label='车系', width='200')
-        el-table-column(prop='modelName', label='车型', min-width='260')
+        el-table-column(prop='brandName', label='品牌', width='120')
+        el-table-column(prop='seriesName', label='车系', width='120')
+        el-table-column(prop='modelName', label='车型', min-width='240')
         el-table-column(prop='modelName', label='匹配信息', width='200')
         el-table-column(prop='status', label='状态', width='150')
           template(scope="scope")
@@ -30,7 +30,7 @@
         el-table-column(label='手动匹配', width="80", :fixed="fixed")
           template(scope="scope")
             .operations
-              i.iconfont.icon-pipei(title="手动关联匹配车型信息", @click="editCarMatch(scope.row)", v-if="$permit('carMatchUpdate')")
+              i.iconfont.icon-pipei(title="手动关联匹配基础车型", @click="editCarMatch(scope.row)", v-if="$permit('carMatchUpdate')")
               //- i.iconfont.icon-delete(@click.stop="deleteCarMatch(scope.row)")
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
     car-match-dialog(ref="carMatchDialog", @dialog-close="updateRow")
@@ -115,7 +115,7 @@ export default {
     }
   },
 
-  mounted() {
+  created() {
     merge(this.filter, this.$route.query)
     this._fetchData()
   },

@@ -110,7 +110,7 @@ export default {
       }
     }
   },
-  mounted() {
+  created() {
     if (this.$route.params.id !== 'add') {
       this.accountDeposit.factPayAmount = this.$route.params.factPayAmount
       this.accountDeposit.fundAccountId = this.$route.params.fundAccountId

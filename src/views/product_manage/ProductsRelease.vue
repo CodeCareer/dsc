@@ -15,6 +15,7 @@
             el-option(v-for="t in assetTypes", :key="t.name", :value="t.value", :label="t.name")
           el-select(v-model="filter.productStatus", placeholder="产品状态", @change="search")
             el-option(v-for="t in productStatusTypes", :key="t.name", :value="t.value", :label="t.name")
+          el-button(size="small", type="primary", @click="search")  搜索
           el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='productsRelease', style='width: 100%')
@@ -26,7 +27,7 @@
         el-table-column(prop='productStatus', label='产品状态', width='110')
           template(scope="scope")
             span {{scope.row.productStatus | statusFormat}}
-        el-table-column(prop='profitYearRate', label='发行利率', width='80')
+        el-table-column(prop='profitYearRate', label='发行利率', width='100')
           template(scope="scope")
             span {{scope.row.profitYearRate | ktPercent}}
         el-table-column(prop='carriageDate', label='上架日期', width='100')
@@ -38,7 +39,7 @@
         el-table-column(prop='valueDate', label='起息日期', width='100')
           template(scope="scope")
             span {{scope.row.valueDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
-        el-table-column(prop='term', label='期限', width='80')
+        el-table-column(prop='term', label='期限', width='100')
         el-table-column(prop='requestAmount', label='申请融资金额', width='110')
           template(scope="scope")
             span {{scope.row.requestAmount | ktCurrency}}
@@ -89,6 +90,7 @@ import {
   tableListMixins
 } from '@/common/mixins.js'
 import moment from 'moment'
+import Vue from 'vue'
 
 const statusList = [{
   name: '大搜车',
@@ -183,8 +185,13 @@ export default {
     }
   },
 
-  mounted() {
+  created() {
     this.filter = merge(this.filter, this.$route.query)
+    const {carriageDateLower, carriageDateUpper, valueDateLower, valueDateUpper} = this.$route.query
+    this.date.carriageDateLower = carriageDateLower ? Vue.filter('moment')(carriageDateLower, 'YYYY-MM-DD') : ''
+    this.date.carriageDateUpper = carriageDateUpper ? Vue.filter('moment')(carriageDateUpper, 'YYYY-MM-DD') : ''
+    this.date.valueDateLower = valueDateLower ? Vue.filter('moment')(valueDateLower, 'YYYY-MM-DD') : ''
+    this.date.valueDateUpper = valueDateUpper ? Vue.filter('moment')(valueDateUpper, 'YYYY-MM-DD') : ''
     this._fetchData()
   },
 
