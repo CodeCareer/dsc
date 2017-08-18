@@ -48,6 +48,7 @@ import {
 import {
   each
 } from 'lodash'
+
 export default {
   data() {
     return {
@@ -79,6 +80,7 @@ export default {
       }]
     }
   },
+
   methods: {
     risktemGet() {
       riskWarn.get({
@@ -143,11 +145,11 @@ export default {
 //     color: #538cc0
 //   }
 // }
-.risk-table{
-    .el-table{
-      .cell{
-        white-space: normal!important;
-      }
+.risk-table {
+  .el-table {
+    .cell {
+      white-space: normal!important;
     }
   }
+}
 </style>
