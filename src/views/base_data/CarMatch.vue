@@ -111,6 +111,7 @@ export default {
       if (!checkedCar.id) return
       this.activeCarMatch.baseId = checkedCar.id
       this.activeCarMatch.status = 'MATCH_SUCCESS'
+      this.activeCarMatch.carInfo = checkedCar
     },
 
     editCarMatch(value) {

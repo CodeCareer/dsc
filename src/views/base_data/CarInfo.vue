@@ -23,6 +23,8 @@
             span {{scope.row.serialNumber | ktNull}}
         el-table-column(prop='year', label='年份', width='120')
         el-table-column(prop='dataSource', label='信息来源', width='120')
+          template(scope="scope")
+            span {{scope.row.dataSource | dataSourceLocal}}
         el-table-column(prop='guidePrice', label='厂商指导价', width='120')
           template(scope="scope")
             span {{scope.row.guidePrice | ktCurrency | ktNull}}
@@ -56,6 +58,16 @@ import {
 
 export default {
   mixins: [tableListMixins],
+  filters: {
+    dataSourceLocal(value) {
+      const map = {
+        'autohome': '汽车之家',
+        'manual_add': '手动添加'
+      }
+      return map[value] || '来源不详'
+    }
+  },
+
   methods: {
     addCarInfo() {
       this.$router.push({

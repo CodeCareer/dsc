@@ -41,8 +41,8 @@ import {
   tableListMixins
 } from '@/common/mixins.js'
 import {
-  map,
-  find
+  map
+  // find
 } from 'lodash'
 
 export default {
@@ -58,7 +58,7 @@ export default {
         const data = res.data.data
         this.page.total = data.total
         this.carInfos = data.rows
-        this.checkedCar = find(this.carInfos, c => c.id === this.carMatch.baseId) || {}
+        // this.checkedCar = find(this.carInfos, c => c.id === this.carMatch.baseId) || {}
       })
     },
 
@@ -74,6 +74,7 @@ export default {
     open(activeCarMatch) {
       this.carListVisible = true
       this.carMatch = activeCarMatch
+      this.checkedCar = activeCarMatch.carInfo || {}
     },
 
     onCarListOpen() {
