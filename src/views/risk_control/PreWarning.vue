@@ -318,35 +318,23 @@ export default {
 }
 
 .risk-filter {
-  margin-bottom: 20px; // overflow: hidden;
+  margin-bottom: 20px;
 }
 
 .input-width {
-  // float:left;
   width: 120px!important;
   margin-right: 10px;
 }
 
 .el-risk-buttons {
-  // float:left;
   display: inline-block;
   vertical-align: 0;
-  margin-left: 10px; // margin-left:20px;
-  // margin-top:-2px;
-} // .el-buttons-n{
-//   margin-left:10px;
-//   vertical-align: middle;
-//   display: inline-block;
-// }
-.risk-row {
-  // margin-bottom:10px;
-  // overflow: hidden;
+  margin-left: 10px;
 }
 
 .el-buttons-n,
 .risk-a-d,
 .risk-edit {
-  // float:left;
   display: inline-block;
   vertical-align: 0;
 }
