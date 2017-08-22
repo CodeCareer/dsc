@@ -12,7 +12,7 @@
           el-button(size="small", type="primary",@click="search") 搜索
           el-button(size="small", type="primary",@click="clearFilter")  清除
     .risk-table.table-container
-      el-table(:data="riskDatas")
+      el-table.no-wrap-cell(:data="riskDatas")
         el-table-column(label="资产方")
           template(scope="scope")
             span {{scope.row.assetFrom | ktNull}}
@@ -46,7 +46,8 @@ import {
   pruneParams
 } from '@/common/util.js'
 import {
-  each
+  each,
+  merge
 } from 'lodash'
 
 export default {
@@ -127,29 +128,11 @@ export default {
     }
   },
   created() {
+    this.filter = merge(this.filter, this.$route.query)
     this.risktemGet()
   }
 }
 </script>
 
 <style lang="scss">
-// .icon-edit-delete {
-//   i {
-//     display: inline-block;
-//     font-size: 13px;
-//     padding-right: 10px;
-//     text-align: center;
-//   }
-//   .icon-delete:hover {
-//     cursor: pointer;
-//     color: #538cc0
-//   }
-// }
-.risk-table {
-  .el-table {
-    .cell {
-      white-space: normal!important;
-    }
-  }
-}
 </style>
