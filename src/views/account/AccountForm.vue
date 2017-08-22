@@ -42,15 +42,14 @@ export default {
     submitForm() {
       this.$refs.accountForm.validate((valid) => {
         if (valid) {
-          account[this.account.id ? 'put' : 'post'](this.pruneParams(this.account), {
+          account[this.account.id ? 'put' : 'post']({}, {
+            params: this.pruneParams(this.account),
             loadingMaskTarget: '.account-form'
           }).then(res => {
             this.$message.success('保存成功！')
             this.$router.push({
               name: 'accounts'
             })
-          }).catch(err => {
-            this.$message.error(err.msg)
           })
         }
       })
@@ -111,6 +110,11 @@ export default {
         name: [{
           required: true,
           message: '必填项',
+          trigger: 'change'
+        }, {
+          min: 6,
+          max: 32,
+          message: '长度在 6 到 32 个字符',
           trigger: 'change'
         }],
         nickname: [{

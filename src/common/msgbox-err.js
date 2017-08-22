@@ -34,6 +34,10 @@ const showNextMsg = function() {
         msgQueue.shift()
         msgBoxLock = false
         currentMsg.resolve(showNextMsg())
+      }).catch(() => {
+        msgQueue.shift()
+        msgBoxLock = false
+        currentMsg.resolve(showNextMsg())
       })
     } catch (e) {
       msgBoxLock = false

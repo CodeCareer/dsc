@@ -2,7 +2,7 @@ import { router } from '@/router'
 import { session, orgId, permissionByRoleId } from '@/common/resource_auth.js'
 import { flattenDeep, map } from 'lodash'
 
-const ORG_NAME = 'ABCD' // 机构名称
+const ORG_NAME = 'WJS' // 机构名称
 let logoutLock = false // 锁定退出逻辑，避免多次登出造成redirect不正确
 
 export default {
@@ -50,7 +50,7 @@ export default {
     if (data.token) await dispatch('updateToken', data.token || '')
     await dispatch('updateUser', data.data)
     await dispatch('getOrgId', { params: { orgName: ORG_NAME } })
-    // await dispatch('getPermissions')
+    await dispatch('getPermissions')
     return data
   },
 

@@ -27,20 +27,20 @@ router.beforeEach((to, from, next) => {
   if (to.name === 'login' && document.querySelector(nprogress.settings.parent)) nprogress.remove()
   else if (document.querySelector(nprogress.settings.parent)) nprogress.start()
 
-  // let user = store.getters.user
-  // let token = store.getters.token
-  // let permissions = store.getters.permissions
+  let user = store.getters.user
+  let token = store.getters.token
+  let permissions = store.getters.permissions
 
-  // if (!to.meta.skipAuth && (!token || !user.name)) {
-  //   next({
-  //     name: 'login',
-  //     query: {
-  //       redirect: to.name !== 'login' ? to.fullPath : ''
-  //     }
-  //   })
-  // } else if (!to.meta.skipAuth && !permissions.length) {
-  //   store.dispatch('getPermissions').then(() => next())
-  // }
+  if (!to.meta.skipAuth && (!token || !user.name)) {
+    next({
+      name: 'login',
+      query: {
+        redirect: to.name !== 'login' ? to.fullPath : ''
+      }
+    })
+  } else if (!to.meta.skipAuth && !permissions.length) {
+    store.dispatch('getPermissions').then(() => next())
+  }
   next()
 })
 

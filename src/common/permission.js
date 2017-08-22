@@ -8,7 +8,7 @@ const APIS = {
   ...API_2
 }
 
-const STOP_PERMIT = true // 是否关闭权限校验
+const STOP_PERMIT = false // 是否关闭权限校验
 
 export default {
   install(Vue, options) {
@@ -25,10 +25,11 @@ export default {
           }
 
           return every(permit, pp => {
-            const ppUrl = '/api' + APIS[pp]
+            if (!APIS[pp]) return true
+            const ppUrl = APIS[pp].replace(/:[^/]*/g, '*')
             return some(permissions, ps => {
-              return ~ppUrl.indexOf(ps.url) && ps.check
-            }) || every(permissions, ps => !~ppUrl.indexOf(ps.url))
+              return ~ps.url.indexOf(ppUrl) && ps.check
+            }) || every(permissions, ps => !~ps.url.indexOf(ppUrl))
           })
         }
       }
