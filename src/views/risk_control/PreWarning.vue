@@ -213,16 +213,19 @@ export default {
     ruleSubmit(rule, detail, indexd) {
       if (rule.inputType === 'NUMERIC') {
         each(rule.details, (v, k) => {
-          if (v.numbericTarget === null || v.numbericTarget === '') {
+          if (v.numbericTarget === null || v.numbericTarget === '' || v.numbericTarget === undefined) {
+            debugger
             v.message = '值不能为空'
             v.messageWarn = true
           } else if (!Number(v.numbericTarget)) {
+            debugger
             v.message = '必须是数字'
             v.messageWarn = true
           } else {
             v.message = ''
             v.messageWarn = false
           }
+          if (!v.id) rule.details.splice(indexd, 1, merge({}, detail))
         })
         rule.valid = every(rule.details, d => !d.messageWarn)
         if (!rule.valid) return
@@ -249,7 +252,6 @@ export default {
           message: '保存失败'
         })
       })
-      console.log(rule.details)
     },
 
     riskChange(rule, detail, indexd) {
@@ -286,6 +288,7 @@ export default {
     }
   },
   created() {
+    this.filter = merge(this.filter, this.$route.query)
     this.riskWarnGet()
   }
 }
