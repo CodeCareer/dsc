@@ -19,7 +19,7 @@
         el-table-column(prop='enabled', label='状态', width='120')
           template(scope="scope")
             span(:class="scope.row.enabled | statusClass") {{scope.row.enabled | statusFormat}}
-        el-table-column(label='操作', width="120")
+        el-table-column(label='操作', width="120", v-if="$permit(['roleUpdateEable', 'roleUpdate', 'roleAddPermission'])")
           template(scope="scope")
             .operations
               i.iconfont.icon-qiyong(v-if="!scope.row.enabled && $permit('roleUpdateEable')", title="启用角色", @click="startRole(scope.row)")

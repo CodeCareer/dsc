@@ -10,6 +10,8 @@
         el-input(placeholder='请输入您的用户名', v-model="user.username")
       el-form-item(prop="password")
         el-input(placeholder="请输入您的密码", v-model="user.password", type="password")
+      el-form-item(prop="d_code")
+        el-input(placeholder="请输入动态口令", v-model="user.d_code", type="d_code")
       //- el-form-item(prop="v_code")
         el-input(placeholder="请输入验证码", v-model="user.v_code", type="string")
           template(slot='append')
@@ -62,7 +64,8 @@ export default {
       capthaUrl: `/api/usermanage/v1/captcha.png?t=${Math.random()}`,
       user: {
         username: '',
-        password: ''
+        password: '',
+        d_code: ''
         // v_code: ''
       },
       rules: {
@@ -76,9 +79,13 @@ export default {
           message: '请输入密码',
           trigger: 'blur'
         }],
-        v_code: [{
+        d_code: [{
           required: true,
-          message: '请输入验证码',
+          message: '请输入动态口令',
+          trigger: 'blur'
+        }, {
+          pattern: /^\d+$/,
+          message: '请正确填写动态口令',
           trigger: 'blur'
         }]
       }

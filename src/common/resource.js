@@ -36,6 +36,12 @@ http.interceptors.response.use(res => {
   if (loadingInstance) loadingInstance.close()
   const data = res.data
 
+  // 兼容统一的权限控制代码
+  if (!data.resultCode && data.code === 401) {
+    data.resultCode = 'INVALID_LOGIN'
+    data.resultMsg = data.message
+  }
+
   if (data.resultCode === 'SUCCESS') {
     return res
   } else if (data.resultCode === 'INVALID_LOGIN') {

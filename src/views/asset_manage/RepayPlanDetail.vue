@@ -32,6 +32,9 @@
                   th 名义月供金额：
                   td {{repayPlan.nameInstalmentsAmount | ktCurrency}}
                 tr
+                  th 期数：
+                  td {{repayPlan.termNo}}
+                tr
                   th 逾期天数：
                   td {{repayPlan.maxOverdueDays}}
                 tr

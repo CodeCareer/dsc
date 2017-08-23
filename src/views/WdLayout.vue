@@ -16,7 +16,7 @@
               template(slot='title')
                 i.iconfont.icon-color(:class="menu.icon")
                 | {{menu.name}}
-              el-menu-item(v-for="item in menu.menus", :index='item.index', :route="item.route", :key="item.index") {{item.name}}
+              el-menu-item(v-for="item in menu.menus", :index='item.index', :route="item.route", :key="item.index", v-show="!item.hidden") {{item.name}}
             el-menu-item(v-else, :index='menu.index', :route="menu.route", v-show="!menu.hidden")
               i.iconfont.icon-color(:class="menu.icon")
               | {{menu.name}}
@@ -96,7 +96,6 @@ export default {
   },
 
   data() {
-    // const _self = this
     const data = {
       defaultOpeneds: [],
       defaultActive: '',
@@ -105,6 +104,7 @@ export default {
         name: '产品管理',
         index: '1',
         icon: 'icon-layers',
+        hidden: !this.$permit(['productsRelease']),
         menus: [{
           name: '产品发行管理',
           index: '1-2',
@@ -118,6 +118,7 @@ export default {
         name: '资产管理',
         index: '2',
         icon: 'icon-assets',
+        hidden: !this.$permit(['assetInfo', 'backRecord', 'backRecord', 'repayPlan']),
         menus: [{
           name: '资产信息',
           index: '2-1',
@@ -139,7 +140,7 @@ export default {
           route: {
             name: 'factRepay'
           },
-          hidden: !this.$permit(['factRepay'])
+          hidden: !this.$permit(['backRecord'])
         }, {
           name: '还款计划',
           index: '2-4',
@@ -153,6 +154,7 @@ export default {
         name: '资金管理',
         index: '3',
         icon: 'icon-money',
+        hidden: !this.$permit(['fundAccountManage', 'accountDepositManage', 'fundDepositDetail']),
         menus: [{
           name: '资金账户管理',
           index: '3-1',
@@ -182,6 +184,7 @@ export default {
         name: '风控管理',
         index: '4',
         icon: 'icon-dunpai',
+        hidden: !this.$permit(['riskQuery', 'riskZr', 'riskWarn']),
         menus: [{
           name: '风险规则模板',
           index: '4-2',
@@ -208,6 +211,7 @@ export default {
         name: '三方数据',
         index: '5',
         icon: 'icon-data',
+        hidden: !this.$permit(['carInfoList', 'carMatchList', 'carGpsList']),
         menus: [{
           name: '基础车型',
           index: '5-1',
@@ -235,6 +239,7 @@ export default {
         name: '用户管理',
         index: '6',
         icon: 'icon-users',
+        hidden: !this.$permit(['accountList', 'roleList', 'accountDetail']),
         menus: [{
           name: '用户列表',
           index: '6-1',

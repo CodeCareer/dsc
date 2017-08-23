@@ -35,15 +35,14 @@ export default {
     submitForm() {
       this.$refs.roleForm.validate((valid) => {
         if (valid) {
-          role[this.role.id ? 'put' : 'post'](this.pruneParams(this.role), {
+          role[this.role.id ? 'put' : 'post']({}, {
+            params: this.pruneParams(this.role),
             loadingMaskTarget: '.role-form'
           }).then(res => {
             this.$message.success('保存成功！')
             this.$router.push({
               name: 'roles'
             })
-          }).catch(err => {
-            this.$message.error(err.msg)
           })
         }
       })

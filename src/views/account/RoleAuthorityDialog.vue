@@ -102,6 +102,12 @@ export default {
 .authority-table {
   width: 100%;
   font-size: 12px;
+  .el-checkbox {
+    margin-right: 15px;
+  }
+  .el-checkbox+.el-checkbox {
+    margin-left: 0;
+  }
   &.bd {
     border: 1px solid $border-color;
   }
@@ -130,10 +136,8 @@ export default {
     padding: 12px 10px;
   }
   th {
-    color: #54637a;
-    // font-weight: normal;
-    max-width: 160px;
-    // padding-left: 20px;
+    color: #54637a; // font-weight: normal;
+    max-width: 160px; // padding-left: 20px;
     text-align: left;
     .el-checkbox {
       color: #54637a;
