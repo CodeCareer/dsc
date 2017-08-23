@@ -47,10 +47,13 @@ export default {
       res.data.token = res.headers['x-auth-token']
       return res.data
     })
+
     if (data.token) await dispatch('updateToken', data.token || '')
     await dispatch('updateUser', data.data)
     await dispatch('getOrgId', { params: { orgName: ORG_NAME } })
-    await dispatch('getPermissions')
+    if (!process.env.STOP_PERMIT) {
+      await dispatch('getPermissions')
+    }
     return data
   },
 

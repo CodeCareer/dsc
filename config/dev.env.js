@@ -3,5 +3,7 @@ var prodEnv = require('./prod.env')
 
 module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
-  API_HOST: '"/api"'
+  STOP_PERMIT: 'true',
+  API_HOST: '"https://kf-wdy.trunk.wjs-test.com/wdy"'
+  // API_HOST: '"/api"'
 })

@@ -84,7 +84,7 @@ export default {
           message: '请输入动态口令',
           trigger: 'blur'
         }, {
-          pattern: /^\d+$/,
+          pattern: /^\d{6}$/,
           message: '请正确填写动态口令',
           trigger: 'blur'
         }]

@@ -30,8 +30,10 @@ router.beforeEach((to, from, next) => {
   let user = store.getters.user
   let token = store.getters.token
   let permissions = store.getters.permissions
-
-  if (!to.meta.skipAuth && (!token || !user.name)) {
+  console.log(process.env.STOP_PERMIT)
+  if (process.env.STOP_PERMIT) {
+    next()
+  } else if (!to.meta.skipAuth && (!token || !user.name)) {
     next({
       name: 'login',
       query: {
@@ -40,8 +42,9 @@ router.beforeEach((to, from, next) => {
     })
   } else if (!to.meta.skipAuth && !permissions.length) {
     store.dispatch('getPermissions').then(() => next())
+  } else {
+    next()
   }
-  next()
 })
 
 router.afterEach(to => {

@@ -8,8 +8,6 @@ const APIS = {
   ...API_2
 }
 
-const STOP_PERMIT = false // 是否关闭权限校验
-
 export default {
   install(Vue, options) {
     // 权限控制
@@ -17,7 +15,7 @@ export default {
       methods: {
         pruneParams,
         $permit(permit) { // String<apiName> or Array[]<apiName>
-          if (STOP_PERMIT) return true
+          if (process.env.STOP_PERMIT) return true
 
           const permissions = this.$store.state.permissions
           if (isString(permit)) {
