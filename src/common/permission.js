@@ -2,6 +2,7 @@ import { APIS as API_1 } from '@/common/resource.js'
 import { APIS as API_2 } from '@/common/resource_auth.js'
 import { some, isString, every } from 'lodash'
 import { pruneParams } from '@/common/util.js'
+import { updateCrumb } from '@/common/crosser.js'
 
 const APIS = {
   ...API_1,
@@ -14,6 +15,7 @@ export default {
     Vue.mixin({
       methods: {
         pruneParams,
+        updateCrumb,
         $permit(permit) { // String<apiName> or Array[]<apiName>
           if (process.env.STOP_PERMIT) return true
 

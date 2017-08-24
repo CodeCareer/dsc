@@ -44,19 +44,19 @@
                   tr
                     th 到期日：
                     td {{product.dueDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
-                  tr(v-if="product.productStatus === 'AUTO_AUDIT_FAIL_WAIT_CONFIRMED'") 
-                    th 
+                  tr(v-if="product.productStatus === 'AUTO_AUDIT_FAIL_WAIT_CONFIRMED'")
+                    th
                     td
                       el-form-item(label="备注：", prop="remark")
                         el-input(type="textarea", placeholder="请输入备注", :autosize="{ minRows: 2, maxRows: 4}" :maxlength="500", v-model="product.remark")
-                  tr(v-else) 
+                  tr(v-else)
                     th 备注：
                     td {{product.remark}}
               el-col(:span="8")
-                table     
+                table
                   tr
                     th 实际募集金额：
-                    td {{product.factCollectAmount}}   
+                    td {{product.factCollectAmount}}
                   tr
                     th 到期应对付总金额：
                     td {{product.redeemAmount}}
@@ -72,7 +72,7 @@
                   tr
                     th 最早可提前还款日期：
                     td {{product.minPreDueDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
-    .bottom-buttons 
+    .bottom-buttons
       el-button(v-if="product.productStatus === 'AUTO_AUDIT_FAIL_WAIT_CONFIRMED'", type="primary", size="small", @click="audit('PASSED')") 通过
       el-button(v-if="product.productStatus === 'AUTO_AUDIT_FAIL_WAIT_CONFIRMED'", type="gray", size="small", @click="audit('DENIED')") 驳回
       el-button(size="small", @click="cancel") 返回
@@ -82,10 +82,6 @@
 import {
   find
 } from 'lodash'
-
-import {
-  updateCrumb
-} from '@/common/crosser.js'
 
 import {
   productsAudit,
@@ -193,7 +189,7 @@ export default {
   },
   created() {
     const name = this.$route.params.productName
-    updateCrumb.$emit('update-crumbs', [{
+    this.updateCrumb.$emit('update-crumbs', [{
       id: 'productsReleaseForm',
       name: name
     }])
@@ -242,5 +238,5 @@ export default {
     }
   }
 }
-  
+
 </style>

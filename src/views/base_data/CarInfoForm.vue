@@ -31,9 +31,6 @@
 
 <script>
 import {
-  updateCrumb
-} from '@/common/crosser.js'
-import {
   carInfo
 } from '@/common/resource.js'
 import {
@@ -85,7 +82,7 @@ export default {
         this.car.guidePrice += ''
       })
 
-      updateCrumb.$emit('update-crumbs', [{
+      this.updateCrumb.$emit('update-crumbs', [{
         id: 'carInfoForm',
         name: '编辑基础车型'
       }])

@@ -30,7 +30,6 @@ router.beforeEach((to, from, next) => {
   let user = store.getters.user
   let token = store.getters.token
   let permissions = store.getters.permissions
-  console.log(process.env.STOP_PERMIT)
   if (process.env.STOP_PERMIT) {
     next()
   } else if (!to.meta.skipAuth && (!token || !user.name)) {

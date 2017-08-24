@@ -26,9 +26,6 @@
 
 <script>
 import {
-  updateCrumb
-} from '@/common/crosser.js'
-import {
   account,
   roles
 } from '@/common/resource_auth.js'
@@ -80,7 +77,7 @@ export default {
         delete this.account.roles
         this.title = `编辑用户-${this.account.nickname}`
 
-        updateCrumb.$emit('update-crumbs', [{
+        this.updateCrumb.$emit('update-crumbs', [{
           id: 'accountForm',
           name: `编辑用户-${this.account.nickname}`
         }])

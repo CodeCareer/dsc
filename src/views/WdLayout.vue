@@ -45,9 +45,6 @@ import {
 } from 'lodash'
 import NProgress from '@/components/NProgress.vue'
 import {
-  updateCrumb
-} from '@/common/crosser.js'
-import {
   mapGetters,
   mapActions
 } from 'vuex'
@@ -74,7 +71,7 @@ export default {
   created() {
     // 更新面包屑中的占位符
     this.breadcrumbRefresh()
-    updateCrumb.$on('update-crumbs', crumbs => {
+    this.updateCrumb.$on('update-crumbs', crumbs => {
       each(crumbs, cr => {
         let co = find(this.crumbs, c => c.id === cr.id)
         if (co) {

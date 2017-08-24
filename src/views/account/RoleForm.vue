@@ -21,9 +21,6 @@
 
 <script>
 import {
-  updateCrumb
-} from '@/common/crosser.js'
-import {
   role
 } from '@/common/resource_auth.js'
 import {
@@ -72,7 +69,7 @@ export default {
         this.role.nickname = this.role.roleNickname
         this.title = `编辑角色-${this.role.nickname}`
 
-        updateCrumb.$emit('update-crumbs', [{
+        this.updateCrumb.$emit('update-crumbs', [{
           id: 'roleForm',
           name: `编辑角色-${this.role.nickname}`
         }])

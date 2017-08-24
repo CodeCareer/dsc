@@ -22,9 +22,6 @@
 
 <script>
 import {
-  updateCrumb
-} from '@/common/crosser.js'
-import {
   fundAccountEdit,
   fundAccountAdd
 } from '@/common/resource.js'
@@ -90,12 +87,12 @@ export default {
       merge(this.fundAccount, this.$route.params)
       this.title = '编辑资金账户'
       this.fundAccountIdStatus = true
-      updateCrumb.$emit('update-crumbs', [{
+      this.updateCrumb.$emit('update-crumbs', [{
         id: 'fundAccountForm',
         name: '编辑资金账户'
       }])
     } else {
-      updateCrumb.$emit('update-crumbs', [{
+      this.updateCrumb.$emit('update-crumbs', [{
         id: 'fundAccountForm',
         name: '新增资金账户'
       }])

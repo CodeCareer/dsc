@@ -27,9 +27,6 @@
 
 <script>
 import {
-  updateCrumb
-} from '@/common/crosser.js'
-import {
   fundAccountManage,
   accountDepositEdit,
   accountDepositAdd
@@ -121,12 +118,12 @@ export default {
       this.date.payDate = moment(this.$route.params.payDate, 'YYYYMMDD').format('YYYY-MM-DD')
       this.title = '编辑账户入金'
       this.fundAccountIdStatus = true
-      updateCrumb.$emit('update-crumbs', [{
+      this.updateCrumb.$emit('update-crumbs', [{
         id: 'accountDepositForm',
         name: '编辑账户入金'
       }])
     } else {
-      updateCrumb.$emit('update-crumbs', [{
+      this.updateCrumb.$emit('update-crumbs', [{
         id: 'accountDepositForm',
         name: '新增账户入金'
       }])

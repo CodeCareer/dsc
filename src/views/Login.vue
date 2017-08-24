@@ -38,6 +38,7 @@ export default {
           this.login({
             user: this.user,
             config: {
+              // params: { ...this.user },
               loadingMaskTarget: '.login-form'
             }
           }).then(res => {
@@ -47,7 +48,6 @@ export default {
               path: decodeURIComponent(redirect)
             })
           }).catch(() => {
-            // this.$message.error(err || '用户名或密码错误')
             this.refreshCaptha()
           })
         }
