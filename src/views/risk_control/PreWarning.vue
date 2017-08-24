@@ -214,11 +214,9 @@ export default {
       if (rule.inputType === 'NUMERIC') {
         each(rule.details, (v, k) => {
           if (v.numbericTarget === null || v.numbericTarget === '' || v.numbericTarget === undefined) {
-            debugger
             v.message = '值不能为空'
             v.messageWarn = true
           } else if (!Number(v.numbericTarget)) {
-            debugger
             v.message = '必须是数字'
             v.messageWarn = true
           } else {
