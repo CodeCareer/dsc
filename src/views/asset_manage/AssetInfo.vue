@@ -56,7 +56,7 @@ import {
 
 const statusList = [{
   name: '待审核',
-  value: 'WAIT_ADUIT'
+  value: 'WAIT_AUDIT'
 }, {
   name: '审核失败',
   value: 'AUDIT_FAILED'
@@ -165,7 +165,7 @@ export default {
       }],
       assetTypes: [{
         name: '待审核',
-        value: 'WAIT_ADUIT'
+        value: 'WAIT_AUDIT'
       }, {
         name: '审核失败',
         value: 'AUDIT_FAILED'

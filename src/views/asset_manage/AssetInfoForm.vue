@@ -286,7 +286,7 @@ const statusList = [{
   value: 'TMALL'
 }, {
   name: '待审核',
-  value: 'WAIT_ADUIT'
+  value: 'WAIT_AUDIT'
 }, {
   name: '审核失败',
   value: 'AUDIT_FAILED'
