@@ -12,10 +12,10 @@ const APIS = {
 export default {
   install(Vue, options) {
     // 权限控制
+    Vue.prototype.updateCrumb = updateCrumb
     Vue.mixin({
       methods: {
         pruneParams,
-        updateCrumb,
         $permit(permit) { // String<apiName> or Array[]<apiName>
           if (process.env.STOP_PERMIT) return true
 
