@@ -21,7 +21,7 @@
                   template(slot="prepend") ¥
                   template(slot="append") 元
               el-form-item(label="年份：", prop="year")
-                el-input(type="text", placeholder="请输入汽车车型", v-model="car.year")
+                el-input(type="text", placeholder="请输入汽车年份", v-model="car.year")
               el-form-item(label="残值金额：", prop="residualValue")
                 el-input(type="text", placeholder="请输入残值金额", v-model="car.residualValue")
     .bottom-buttons
@@ -85,6 +85,11 @@ export default {
       this.updateCrumb.$emit('update-crumbs', [{
         id: 'carInfoForm',
         name: '编辑基础车型'
+      }])
+    } else {
+      this.updateCrumb.$emit('update-crumbs', [{
+        id: 'carInfoForm',
+        name: '新增基础车型'
       }])
     }
   },

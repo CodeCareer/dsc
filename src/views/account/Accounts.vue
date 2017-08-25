@@ -8,11 +8,12 @@
             i.iconfont.icon-add
             | 新增
       .filters
-        el-select(placeholder="角色", v-model="filter.roleId", @change="search")
+        el-select(placeholder="角色", v-model="filter.roleId", @change="search()")
           el-option(v-for="o in roleList", :value="o.value", :label="o.name", :key="o.value")
-        el-select(placeholder="状态", v-model="filter.enabled", @change="search")
+        el-select(placeholder="状态", v-model="filter.enabled", @change="search()")
           el-option(v-for="o in statusList", :value="o.value", :label="o.name", :key="o.value")
         el-button(size="small", type="primary", @click="clearFilter")  清除
+        el-button(size="small", type="primary", @click="search()")  搜索
     .table-container
       el-table(:data='accountList', style='width: 100%')
         el-table-column(prop='userName', label='用户名称', width='150')
@@ -148,6 +149,7 @@ export default {
       accounts.get({
         loadingMaskTarget: '.account-list',
         params: {
+          orgId: this.$store.getters.orgId,
           ...this.pruneParams(this.filter)
         }
       }).then(res => {
@@ -194,7 +196,6 @@ export default {
       roleList: [],
       statusList,
       filter: {
-        orgId: this.$store.getters.orgId, // 需要提供
         roleId: '_all_',
         enabled: '_all_',
         page: 1,

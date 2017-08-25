@@ -8,8 +8,9 @@
             i.iconfont.icon-add
             | 新增
       .filters
-        el-select(placeholder="状态", v-model="filter.enabled", @change="search")
+        el-select(placeholder="状态", v-model="filter.enabled", @change="search()")
           el-option(v-for="o in statusList", :value="o.value", :label="o.name", :key="o.value")
+        el-button(size="small", type="primary", @click="search()")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table(:data='roleList', style='width: 100%')
@@ -144,6 +145,7 @@ export default {
       roles.get({
         loadingMaskTarget: '.role-list',
         params: {
+          orgId: this.$store.getters.orgId,
           ...this.pruneParams(this.filter)
         }
       }).then(res => {
@@ -171,7 +173,6 @@ export default {
       roleList: [],
       statusList,
       filter: {
-        orgId: this.$store.getters.orgId, // 需要提供
         // roleId: '_all_',
         enabled: '_all_',
         page: 1,
