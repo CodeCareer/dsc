@@ -153,6 +153,19 @@ export default {
       }]
     }
   },
+
+  filters: {
+    filterTem(value) {
+      if (value === 'ACCESS') {
+        return '准入模板'
+      } else if (value === 'WARNING') {
+        return '预警模板'
+      } else {
+        return '-'
+      }
+    }
+  },
+
   methods: {
     riskWarnGet() {
       riskQuery.get({

@@ -69,39 +69,5 @@ export default {
       }
       return date ? moment(date).format(format) : '-'
     })
-
-    Vue.filter('filterTem', value => {
-      if (value === 'ACCESS') {
-        return '准入模板'
-      } else if (value === 'WARNING') {
-        return '预警模板'
-      } else {
-        return '-'
-      }
-    })
-
-    Vue.filter('riskState', value => {
-      if (value === 'PASS') {
-        return '通过'
-      } else if (value === 'FAIL') {
-        return '未通过'
-      } else {
-        return '-'
-      }
-    })
-
-    Vue.filter('riskWarn', value => {
-      if (value === 'NEW') {
-        return '新预警'
-      } else if (value === 'IGNORED') {
-        return '已忽略'
-      } else if (value === 'NOTIFIED') {
-        return '已通知'
-      } else if (value === 'PROCESSED') {
-        return '已处理'
-      } else {
-        return '-'
-      }
-    })
   }
 }

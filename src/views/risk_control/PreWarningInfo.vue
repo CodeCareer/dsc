@@ -82,6 +82,22 @@ export default {
     }
   },
 
+  filters: {
+    riskWarn(value) {
+      if (value === 'NEW') {
+        return '新预警'
+      } else if (value === 'IGNORED') {
+        return '已忽略'
+      } else if (value === 'NOTIFIED') {
+        return '已通知'
+      } else if (value === 'PROCESSED') {
+        return '已处理'
+      } else {
+        return '-'
+      }
+    }
+  },
+
   methods: {
     risktemGet() {
       riskWarn.get({
