@@ -28,7 +28,7 @@
               i.iconfont.icon-edit(v-if="$permit('roleUpdate')", title="修改角色", @click.stop="editRole(scope.row)")
               //- i.iconfont.icon-delete(v-if="$permit('roleDelete')", title="删除角色", @click.stop="deleteRole(scope.row)")
               i.iconfont.icon-quanxian(v-if="$permit('roleAddPermission')", title="权限设置", @click.stop="editAuthority(scope.row)")
-      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.size)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
+      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.pageSize)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
     role-authority-dialog(ref="authorityDialog")
 </template>
 
@@ -85,6 +85,11 @@ export default {
           id: 'add'
         }
       })
+    },
+
+    pageSizeChange(val) {
+      this.filter.pageSize = val
+      this.search(true)
     },
 
     editRole(role) {
@@ -176,7 +181,7 @@ export default {
         // roleId: '_all_',
         enabled: '_all_',
         page: 1,
-        size: 10
+        pageSize: 10
       }
     }
   }

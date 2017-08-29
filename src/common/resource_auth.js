@@ -73,7 +73,7 @@ export const APIS = {
   orgId: '/usermanage/v1/org/selectOrgByName', // 获取机构id
   accountUpdateEable: '/usermanage/v1/user/update/enabled', // 账户启用暂停
   accountUpdatePwd: '/usermanage/v1/user/update/pwd', // 修改用户密码
-  accountList: '/usermanage/v1/user/list', // 用户列表
+  accountList: '/usermanage/v1/user/listExt', // 用户列表
   accountDetail: '/usermanage/v1/user/detailExt', // 用户详情
   accountUpdate: '/usermanage/v1/user/update', // 编辑保存用户
   accountAdd: '/usermanage/v1/user/create', // 添加用户

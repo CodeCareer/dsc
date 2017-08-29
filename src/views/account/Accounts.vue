@@ -36,7 +36,7 @@
               i.iconfont.icon-tingyong(v-if="scope.row.enabled && $permit('accountUpdateEable')", title="停用用户", @click.stop="stopAccount(scope.row)")
               i.iconfont.icon-edit(v-if="$permit('accountUpdate')", title="修改用户", @click.stop="editAccount(scope.row)")
               //- i.iconfont.icon-delete(v-if="$permit('accountDelete')", title="删除用户", @click.stop="deleteAccount(scope.row)")
-      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.size)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
+      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.pageSize)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
 <script>
@@ -93,6 +93,11 @@ export default {
           id: 'add'
         }
       })
+    },
+
+    pageSizeChange(val) {
+      this.filter.pageSize = val
+      this.search(true)
     },
 
     editAccount(account) {
@@ -199,7 +204,7 @@ export default {
         roleId: '_all_',
         enabled: '_all_',
         page: 1,
-        size: 10
+        pageSize: 10
       }
     }
   }

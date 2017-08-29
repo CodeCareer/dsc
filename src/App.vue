@@ -5,7 +5,7 @@
 
 <style lang="scss">
 @import './assets/scss/_vars.scss';
-@import url('//at.alicdn.com/t/font_j2qad9md5hppsyvi.css');
+@import url('//at.alicdn.com/t/font_368107_ud6czeazdyqzolxr.css');
 @import './assets/scss/base.scss';
 @import './assets/scss/common.scss';
 @import './assets/scss/form.scss';

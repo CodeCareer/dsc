@@ -12,6 +12,11 @@
                 el-input(:disabled='!!account.id', type="text", placeholder="请输入用户名称", v-model="account.name")
               el-form-item(label="用户昵称：", prop="nickname")
                 el-input(type="text", placeholder="请输入用户昵称", v-model="account.nickname")
+              el-form-item(label="密码：", prop="nickname")
+                el-input(:type="showPassword ? 'text': 'password'", placeholder="请设置密码", v-model="account.password")
+                  template(slot="append")
+                    a(@click="showPassword = !showPassword")
+                      i.iconfont.icon-xianshimima
               el-form-item(label="手机号：", prop="phoneNumber")
                 el-input(type="text", placeholder="请输入手机号", v-model="account.phoneNumber")
               el-form-item(label="联系邮箱：", prop="email")
@@ -103,6 +108,7 @@ export default {
     return {
       title: '新增用户',
       roleList: [],
+      showPassword: false,
       rules: {
         name: [{
           required: true,
@@ -117,6 +123,15 @@ export default {
         nickname: [{
           required: true,
           message: '必填项',
+          trigger: 'change'
+        }],
+        password: [{
+          required: true,
+          message: '必填项',
+          trigger: 'change'
+        }, {
+          pattern: /^[_0-9a-zA-Z]{6,}$/,
+          message: '密码最少设置六位数字或字母',
           trigger: 'change'
         }],
         phoneNumber: [{
