@@ -97,7 +97,7 @@ export default {
       factRepay.post(pruneParams(this.filter), {
         loadingMaskTarget: '.fact-repay'
       }).then(res => {
-        const data = res.data.data.pageData
+        const data = res.data.data
         this.factRepay = data.rows
         this.page.total = data.total
       })
