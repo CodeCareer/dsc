@@ -24,7 +24,7 @@
             span {{scope.row.subjectId | ktNull}}
         el-table-column(label="当前状态")
           template(scope="scope")
-            span {{scope.row.status | riskState}}
+            span(:class='scope.row.status | stateColor') {{scope.row.status | riskState}}
         el-table-column(label="时间",width="150")
           template(scope="scope")
             span {{scope.row.updatedAt | moment}}
@@ -71,6 +71,27 @@ export default{
       }]
     }
   },
+
+  filters: {
+    stateColor(value) {
+      const state = {
+        PASS: 'color-green',
+        FAIL: 'color-red'
+      }
+      return state[value] || '-'
+    },
+
+    riskState(value) {
+      if (value === 'PASS') {
+        return '通过'
+      } else if (value === 'FAIL') {
+        return '未通过'
+      } else {
+        return '-'
+      }
+    }
+  },
+
   methods: {
     risktemGet () {
       riskZr.get({
