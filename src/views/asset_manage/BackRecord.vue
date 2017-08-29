@@ -8,7 +8,7 @@
         el-button(size="small", type="primary", @click="search")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
-      el-table(:data='backRecord', style='width: 100%')
+      el-table.no-wrap-cell(:data='backRecord', style='width: 100%')
         el-table-column(prop='assetId', label='资产ID')
         el-table-column(prop='buyBackAmout', label='回购金额')
           template(scope="scope")

@@ -9,7 +9,7 @@
         el-button(size="small", type="primary", @click="search")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
-      el-table(:data='repayPlan', style='width: 100%')
+      el-table.no-wrap-cell(:data='repayPlan', style='width: 100%')
         el-table-column(prop='assetId', label='资产ID', width='280')
         el-table-column(prop='benefit', label='优惠金额', width='100')
           template(scope="scope")

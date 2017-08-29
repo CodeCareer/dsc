@@ -14,7 +14,7 @@
         el-button(size="small", type="primary", @click="search")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
-      el-table(:data='fundAccount', style='width: 100%')
+      el-table.no-wrap-cell(:data='fundAccount', style='width: 100%')
         el-table-column(prop='id', label='ID')
         el-table-column(prop='accountName', label='账户名称')
         el-table-column(prop='accountType', label='账户类型', width='100')

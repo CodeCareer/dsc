@@ -13,7 +13,7 @@
         el-button(size="small", type="primary", @click="search")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
-      el-table(:data='assetInfo', style='width: 100%')
+      el-table.no-wrap-cell(:data='assetInfo', style='width: 100%')
         el-table-column(prop='assetBaseInfo.alipayAccount', label='账户名称')
         el-table-column(prop='assetBaseInfo.outerAssetOrderNo', label='外部资产订单编号')
         el-table-column(prop='assetBaseInfo.assetFrom', label='账户类型')

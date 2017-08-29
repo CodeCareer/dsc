@@ -18,7 +18,7 @@
           el-button(size="small", type="primary", @click="search")  搜索
           el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
-      el-table(:data='productsRelease', style='width: 100%')
+      el-table.no-wrap-cell(:data='productsRelease', style='width: 100%')
         el-table-column(prop='productName', label='产品名称', width='220')
         el-table-column(prop='productCode', label='产品代码', width='150')
         el-table-column(prop='assetFrom', label='资产来源', width='100')
