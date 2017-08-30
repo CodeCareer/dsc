@@ -123,7 +123,7 @@ export default {
           sums[index] = '当页合计'
           return
         }
-        if (index === 1 || index === 2 || index === 5 || index === 8 || index === 6) {
+        if (index === 1 || index === 2 || index === 5 || index === 7 || index === 6) {
           return
         }
         const values = data.map(item => Number(item[column.property]))
