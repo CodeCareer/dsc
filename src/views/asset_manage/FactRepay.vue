@@ -169,6 +169,8 @@ export default {
         factRepayDateUpper: ''
       },
       filter: {
+        factRepayDateLower: '',
+        factRepayDateUpper: '',
         assetId: '',
         page: 1,
         limit: 10
