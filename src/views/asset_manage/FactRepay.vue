@@ -9,28 +9,28 @@
         el-button(size="small", type="primary", @click="search")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
-      el-table(:data='factRepay', style='width: 100%')
+      el-table.no-wrap-cell(:data='factRepay', style='width: 100%', :summary-method="getSummaries", show-summary)
         el-table-column(prop='assetId', label='资产ID', width="250")
-        el-table-column(prop='dealStatus', label='处理状态')
-          template(scope="scope")
-            span(:class="scope.row.dealStatus | statusClass") {{scope.row.dealStatus | statusFormat}}
+        el-table-column(prop='termNo', label='期数')
         el-table-column(prop='factRepayDate', label='实际还款日期')
           template(scope="scope")
             span {{scope.row.factRepayDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
-        el-table-column(prop='factBenefit', label='实际优惠金额')
-          template(scope="scope")
-            span {{scope.row.factBenefit | ktCurrency}}
         el-table-column(prop='factRepayAmount', label='实际还款金额')
           template(scope="scope")
             span {{scope.row.factRepayAmount | ktCurrency}}
+        el-table-column(prop='penaltyInterst', label='罚息')
+          template(scope="scope")
+            span {{scope.row.penaltyInterst | ktCurrency}}
+        el-table-column(prop='dealStatus', label='处理状态')
+          template(scope="scope")
+            span(:class="scope.row.dealStatus | statusClass") {{scope.row.dealStatus | statusFormat}}
         el-table-column(prop='payChannel', label='支付渠道')
           template(scope="scope")
             span {{scope.row.payChannel | statusFormat}}
         el-table-column(prop='payNo', label='支付流水号')
-        el-table-column(prop='penaltyInterst', label='罚息')
+        el-table-column(prop='factBenefit', label='实际优惠金额')
           template(scope="scope")
-            span {{scope.row.penaltyInterst | ktCurrency}}
-        el-table-column(prop='termNo', label='期数')
+            span {{scope.row.factBenefit | ktCurrency}}
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
@@ -51,6 +51,7 @@ import {
 import {
   tableListMixins
 } from '@/common/mixins.js'
+import Vue from 'vue'
 
 const statusList = [{
   name: '待处理',
@@ -100,6 +101,34 @@ export default {
         this.factRepay = data.rows
         this.page.total = data.total
       })
+    },
+    getSummaries(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '当页合计'
+          return
+        }
+        if (index === 1 || index === 2 || index === 5 || index === 8 || index === 6) {
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return prev + curr
+            } else {
+              return prev
+            }
+          }, 0)
+          sums[index] = Vue.filter('ktCurrency')(sums[index])
+        } else {
+          sums[index] = 'N/A'
+        }
+      })
+      return sums
     }
   },
 

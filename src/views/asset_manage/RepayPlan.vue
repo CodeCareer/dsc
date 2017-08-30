@@ -9,50 +9,50 @@
         el-button(size="small", type="primary", @click="search")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
-      el-table(:data='repayPlan', style='width: 100%')
+      el-table.no-wrap-cell(:data='repayPlan', style='width: 100%')
         el-table-column(prop='assetId', label='资产ID', width='280')
-        el-table-column(prop='benefit', label='优惠金额', width='100')
+        el-table-column(prop='termNo', label='期数', width='100')
+        el-table-column(prop='repayDate', label='应还款日期', width='110')
           template(scope="scope")
-            span {{scope.row.benefit | ktCurrency}}
-        el-table-column(prop='benefitType', label='优惠方式', width='100')
-          template(scope="scope")
-            span {{scope.row.benefitType | statusFormat}}
-        el-table-column(prop='factRepayDate', label='实际还款日期', width='110')
-          template(scope="scope")
-            span {{scope.row.factRepayDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
-        el-table-column(prop='factBenefit', label='实际优惠金额', width='110')
-          template(scope="scope")
-            span {{scope.row.factBenefit | ktCurrency}}
-        el-table-column(prop='factRepayAmount', label='实际还款金额', width='110')
-          template(scope="scope")
-            span {{scope.row.factRepayAmount | ktCurrency}}
+            span {{scope.row.repayDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
         el-table-column(prop='nameInstalmentsAmount', label='名义月供金额', width='110')
           template(scope="scope")
             span {{scope.row.nameInstalmentsAmount | ktCurrency}}
-        el-table-column(prop='termNo', label='期数', width='100')
+        el-table-column(prop='repayAmount', label='应还款金额', width='110')
+          template(scope="scope")
+            span {{scope.row.repayAmount | ktCurrency}}
+        el-table-column(prop='repayStatus', label='还款状态', width='100')
+          template(scope="scope")
+            span(:class="scope.row.repayStatus | statusClass") {{scope.row.repayStatus | statusFormat}}
+        el-table-column(prop='factRepayDate', label='实际还款日期', width='110')
+          template(scope="scope")
+            span {{scope.row.factRepayDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
+        el-table-column(prop='factRepayAmount', label='实际还款金额', width='110')
+          template(scope="scope")
+            span {{scope.row.factRepayAmount | ktCurrency}}
+        el-table-column(prop='factBenefit', label='实际优惠金额', width='110')
+          template(scope="scope")
+            span {{scope.row.factBenefit | ktCurrency}}
+        el-table-column(prop='penaltyInterst', label='罚息', width='100')
+          template(scope="scope")
+            span {{scope.row.penaltyInterst | ktCurrency}}
         el-table-column(prop='maxOverdueDays', label='逾期天数', width='100')
         el-table-column(prop='payChannel', label='支付渠道', width='100')
           template(scope="scope")
             span {{scope.row.payChannel | statusFormat}}
         el-table-column(prop='payNo', label='支付流水号', width='120')
-        el-table-column(prop='penaltyInterst', label='罚息', width='100')
+        el-table-column(prop='benefitType', label='优惠方式', width='100')
           template(scope="scope")
-            span {{scope.row.penaltyInterst | ktCurrency}}
-        el-table-column(prop='repayAmount', label='应还款金额', width='110')
+            span {{scope.row.benefitType | statusFormat}}
+        el-table-column(prop='benefit', label='优惠金额', width='100')
           template(scope="scope")
-            span {{scope.row.repayAmount | ktCurrency}}
-        el-table-column(prop='repayDate', label='应还款日', width='110')
-          template(scope="scope")
-            span {{scope.row.repayDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
+            span {{scope.row.benefit | ktCurrency}}
         el-table-column(prop='repayInterest', label='应还款利息', width='110')
           template(scope="scope")
             span {{scope.row.repayInterest | ktCurrency}}
         el-table-column(prop='repayPrincipal', label='应还款本金', width='110')
           template(scope="scope")
             span {{scope.row.repayPrincipal | ktCurrency}}
-        el-table-column(prop='repayStatus', label='还款状态', width='100')
-          template(scope="scope")
-            span(:class="scope.row.repayStatus | statusClass") {{scope.row.repayStatus | statusFormat}}
         el-table-column(label='操作', fixed="right", width="80")
           template(scope="scope")
             .operations
