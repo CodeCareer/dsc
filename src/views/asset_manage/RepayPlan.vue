@@ -191,6 +191,7 @@ export default {
 
   data() {
     return {
+      pickerOptions: '',
       fixed: window.innerWidth - 180 - 12 * 2 > 1150 ? false : 'right', // 180 左侧菜单宽度，12 section的padding
       repayPlan: [],
       date: {
