@@ -6,6 +6,8 @@
       .filters
         el-input(placeholder='资产ID', icon='search', @keyup.native.13='search', v-model.trim='filter.assetId')
         el-input(placeholder='期数', icon='search', @keyup.native.13='search', v-model.trim='filter.termNo')
+        el-date-picker(placeholder='实际还款日期下限', format='yyyy-MM-dd', type='date', :value='date.factRepayDateLower', @input="handleFactRepayDateLower", :picker-options="pickerOptions")
+        el-date-picker(placeholder='实际还款日期上限', format='yyyy-MM-dd', type='date', :value='date.factRepayDateUpper', @input="handleFactRepayDateUpper", :picker-options="pickerOptions")
         el-button(size="small", type="primary", @click="search")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
@@ -51,6 +53,7 @@ import {
 import {
   tableListMixins
 } from '@/common/mixins.js'
+import moment from 'moment'
 import Vue from 'vue'
 
 const statusList = [{
@@ -102,6 +105,16 @@ export default {
         this.page.total = data.total
       })
     },
+    handleFactRepayDateLower(value) {
+      this.filter.factRepayDateLower = value ? moment(value).format('YYYYMMDD') : ''
+      this.date.factRepayDateLower = value ? moment(value).format('YYYY-MM-DD') : ''
+      this.search()
+    },
+    handleFactRepayDateUpper(value) {
+      this.filter.factRepayDateUpper = value ? moment(value).format('YYYYMMDD') : ''
+      this.date.factRepayDateUpper = value ? moment(value).format('YYYY-MM-DD') : ''
+      this.search()
+    },
     getSummaries(param) {
       const { columns, data } = param
       const sums = []
@@ -140,13 +153,21 @@ export default {
 
   created() {
     this.filter = merge(this.filter, this.$route.query)
+    const {factRepayDateLower, factRepayDateUpper} = this.$route.query
+    this.date.factRepayDateLower = factRepayDateLower ? Vue.filter('moment')(factRepayDateLower, 'YYYY-MM-DD') : ''
+    this.date.factRepayDateUpper = factRepayDateUpper ? Vue.filter('moment')(factRepayDateUpper, 'YYYY-MM-DD') : ''
     this._fetchData()
   },
 
   data() {
     return {
+      pickerOptions: '',
       fixed: window.innerWidth - 180 - 12 * 2 > 1150 ? false : 'right', // 180 左侧菜单宽度，12 section的padding
       factRepay: [],
+      date: {
+        factRepayDateLower: '',
+        factRepayDateUpper: ''
+      },
       filter: {
         assetId: '',
         page: 1,
