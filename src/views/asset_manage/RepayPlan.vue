@@ -4,10 +4,16 @@
       .box-header
         h3 筛选条件
       .filters
-        el-input(placeholder='资产ID', icon='search', @keyup.native.13='search', v-model.trim='filter.assetId')
-        el-input(placeholder='期数', icon='search', @keyup.native.13='search', v-model.trim='filter.termNo')
-        el-button(size="small", type="primary", @click="search")  搜索
-        el-button(size="small", type="primary", @click="clearFilter")  清除
+        .filter-line 
+          el-input(placeholder='资产ID', icon='search', @keyup.native.13='search', v-model.trim='filter.assetId')
+          el-input(placeholder='期数', icon='search', @keyup.native.13='search', v-model.trim='filter.termNo')
+          el-date-picker(placeholder='实际还款日期下限', format='yyyy-MM-dd', type='date', :value='date.factRepayDateLower', @input="handleFactRepayDateLower", :picker-options="pickerOptions")
+          el-date-picker(placeholder='实际还款日期上限', format='yyyy-MM-dd', type='date', :value='date.factRepayDateUpper', @input="handleFactRepayDateUpper", :picker-options="pickerOptions")
+        .filter-line
+          el-date-picker(placeholder='应还款日期下限', format='yyyy-MM-dd', type='date', :value='date.repayDateLower', @input="handleRepayDateLower", :picker-options="pickerOptions")
+          el-date-picker(placeholder='应还款日期上限', format='yyyy-MM-dd', type='date', :value='date.repayDateUpper', @input="handleRepayDateUpper", :picker-options="pickerOptions")
+          el-button(size="small", type="primary", @click="search")  搜索
+          el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table.no-wrap-cell(:data='repayPlan', style='width: 100%')
         el-table-column(prop='assetId', label='资产ID', width='280')
@@ -78,6 +84,10 @@ import {
   tableListMixins
 } from '@/common/mixins.js'
 
+import moment from 'moment'
+
+import Vue from 'vue'
+
 const statusList = [{
   name: '抵扣',
   value: 'DEDUCT'
@@ -123,6 +133,26 @@ export default {
     }
   },
   methods: {
+    handleRepayDateUpper(value) {
+      this.filter.repayDateUpper = value ? moment(value).format('YYYYMMDD') : ''
+      this.date.repayDateUpper = value ? moment(value).format('YYYY-MM-DD') : ''
+      this.search()
+    },
+    handleRepayDateLower(value) {
+      this.filter.repayDateLower = value ? moment(value).format('YYYYMMDD') : ''
+      this.date.repayDateLower = value ? moment(value).format('YYYY-MM-DD') : ''
+      this.search()
+    },
+    handleFactRepayDateUpper(value) {
+      this.filter.factRepayDateUpper = value ? moment(value).format('YYYYMMDD') : ''
+      this.date.factRepayDateUpper = value ? moment(value).format('YYYY-MM-DD') : ''
+      this.search()
+    },
+    handleFactRepayDateLower(value) {
+      this.filter.factRepayDateLower = value ? moment(value).format('YYYYMMDD') : ''
+      this.date.factRepayDateLower = value ? moment(value).format('YYYY-MM-DD') : ''
+      this.search()
+    },
     parseInt: window.parseInt,
     _fetchData() {
       repayPlan.post(pruneParams(this.filter), {
@@ -151,14 +181,30 @@ export default {
 
   created() {
     this.filter = merge(this.filter, this.$route.query)
+    const {factRepayDateLower, factRepayDateUpper, repayDateLower, repayDateUpper} = this.$route.query
+    this.date.factRepayDateLower = factRepayDateLower ? Vue.filter('moment')(factRepayDateLower, 'YYYY-MM-DD') : ''
+    this.date.factRepayDateUpper = factRepayDateUpper ? Vue.filter('moment')(factRepayDateUpper, 'YYYY-MM-DD') : ''
+    this.date.repayDateLower = repayDateLower ? Vue.filter('moment')(repayDateLower, 'YYYY-MM-DD') : ''
+    this.date.repayDateUpper = repayDateUpper ? Vue.filter('moment')(repayDateUpper, 'YYYY-MM-DD') : ''
     this._fetchData()
   },
 
   data() {
     return {
+      pickerOptions: '',
       fixed: window.innerWidth - 180 - 12 * 2 > 1150 ? false : 'right', // 180 左侧菜单宽度，12 section的padding
       repayPlan: [],
+      date: {
+        factRepayDateLower: '',
+        factRepayDateUpper: '',
+        repayDateLower: '',
+        repayDateUpper: ''
+      },
       filter: {
+        factRepayDateLower: '',
+        factRepayDateUpper: '',
+        repayDateLower: '',
+        repayDateUpper: '',
         assetId: '',
         page: 1,
         limit: 10

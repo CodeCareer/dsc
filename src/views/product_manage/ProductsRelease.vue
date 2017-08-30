@@ -63,12 +63,13 @@
             span {{scope.row.minPreDueDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
         el-table-column(prop='redeemAmount', label='到期应对付总金额', width='140')
           template(scope="scope")
-            span {{scope.row.requestAmount | ktCurrency}}
+            span {{scope.row.redeemAmount | ktCurrency}}
         el-table-column(prop='remark', label='备注', width='220')
         el-table-column(label='操作', fixed="right", width='60')
           template(scope="scope")
             .operations
-              i.iconfont.icon-shenhe(@click="audit(scope.row)")
+              i.iconfont.icon-shenhe(v-if="scope.row.productStatus === 'AUTO_AUDIT_FAIL_WAIT_CONFIRMED' && $permit('productsAudit')", @click="audit(scope.row)")
+              i.iconfont.icon-details(v-else, @click="audit(scope.row)")
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
