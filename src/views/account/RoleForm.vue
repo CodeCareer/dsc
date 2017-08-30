@@ -15,7 +15,7 @@
               el-form-item(label="备注：", prop="note")
                 el-input(type="textarea", placeholder="请输入备注信息", v-model="role.note")
     .bottom-buttons
-      el-button(type="primary", size="small",v-if="$permit(['roleAdd', 'roleUpdate'])", @click="submitForm") 保存
+      el-button(type="primary", size="small", v-if="$permit(['roleAdd', 'roleUpdate'])", @click="submitForm") 保存
       el-button(type="gray", size="small", @click="cancel") 取消
 </template>
 
@@ -90,6 +90,10 @@ export default {
         name: [{
           required: true,
           message: '必填项',
+          trigger: 'change'
+        }, {
+          pattern: /^[_0-9a-zA-Z]{6,20}$/,
+          message: '最少三位字母和数字的组合',
           trigger: 'change'
         }],
         nickname: [{

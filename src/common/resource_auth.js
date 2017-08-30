@@ -23,9 +23,9 @@ http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 http.interceptors.request.use(config => {
   config.headers.common['x-auth-token'] = store.getters.token
   config.url = urlMatcher(config.url, config.pathParams)
-  if (config.params && config.params.page) {
-    config.params.page = config.params.page - 1
-  }
+  // if (config.params && config.params.page) {
+  //   config.params.page = config.params.page - 1
+  // }
 
   if (config.loadingMaskTarget) {
     loadingInstance = Loading.service({

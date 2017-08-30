@@ -40,6 +40,8 @@ import {
   startsWith,
   each,
   every,
+  merge,
+  cloneDeep,
   includes,
   find
 } from 'lodash'
@@ -48,6 +50,7 @@ import {
   mapGetters,
   mapActions
 } from 'vuex'
+import routes from '@/router/routes.js'
 
 const headerH = 60 // header高度
 
@@ -93,175 +96,204 @@ export default {
   },
 
   data() {
+    const mainRoute = find(routes, r => r.name === 'wd')
+    const menus = []
+    // 构造路由数据
+    each(mainRoute.children, (c1, i1) => {
+      if (c1.meta.menu) {
+        const menu = merge(cloneDeep(c1.meta.menu), {
+          index: i1 + '',
+          hidden: !this.$permit(c1.meta.permit),
+          menus: []
+        })
+
+        if (c1.children) {
+          each(c1.children, (c2, i2) => {
+            if (c2.meta.menu) {
+              menu.menus.push(merge(cloneDeep(c2.meta.menu), {
+                index: `${i1}-${i2}`,
+                route: {
+                  name: c2.name
+                },
+                hidden: !this.$permit(c2.meta.permit)
+              }))
+            }
+          })
+        }
+        menus.push(menu)
+      }
+    })
+
     const data = {
       defaultOpeneds: [],
       defaultActive: '',
       crumbs: [],
-      menus: [{
-        name: '产品管理',
-        index: '1',
-        icon: 'icon-layers',
-        hidden: !this.$permit(['productsRelease']),
-        menus: [{
-          name: '产品发行管理',
-          index: '1-2',
-          route: {
-            name: 'productsRelease'
-          },
-          hidden: !this.$permit(['productsRelease']),
-          activeIncludes: ['productsRelease', 'productsReleaseForm']
-        }]
-      }, {
-        name: '资产管理',
-        index: '2',
-        icon: 'icon-assets',
-        hidden: !this.$permit(['assetInfo', 'backRecord', 'backRecord', 'repayPlan']),
-        menus: [{
-          name: '资产信息',
-          index: '2-1',
-          route: {
-            name: 'assetInfo'
-          },
-          hidden: !this.$permit(['assetInfo']),
-          activeIncludes: ['assetInfo', 'assetInfoForm']
-        }, {
-          name: '回购记录',
-          index: '2-2',
-          route: {
-            name: 'backRecord'
-          },
-          hidden: !this.$permit(['backRecord'])
-        }, {
-          name: '实际还款',
-          index: '2-3',
-          route: {
-            name: 'factRepay'
-          },
-          hidden: !this.$permit(['backRecord'])
-        }, {
-          name: '还款计划',
-          index: '2-4',
-          route: {
-            name: 'repayPlan'
-          },
-          hidden: !this.$permit(['repayPlan']),
-          activeIncludes: ['repayPlan', 'repayPlanDetail']
-        }]
-      }, {
-        name: '资金管理',
-        index: '3',
-        icon: 'icon-money',
-        hidden: !this.$permit(['fundAccountManage', 'accountDepositManage', 'fundDepositDetail']),
-        menus: [{
-          name: '资金账户管理',
-          index: '3-1',
-          route: {
-            name: 'fundAccountManage'
-          },
-          hidden: !this.$permit(['fundAccountManage']),
-          activeIncludes: ['fundAccountManage', 'fundAccountForm']
-        }, {
-          name: '账户入金管理',
-          index: '3-3',
-          route: {
-            name: 'accountDepositManage'
-          },
-          hidden: !this.$permit(['accountDepositManage']),
-          activeIncludes: ['accountDepositManage', 'accountDepositForm']
-        }, {
-          name: '入金明细信息',
-          index: '3-2',
-          route: {
-            name: 'fundDepositDetail'
-          },
-          hidden: !this.$permit(['fundDepositDetail']),
-          activeIncludes: ['fundDepositDetail', 'fundDepositDetailForm']
-        }]
-      }, {
-        name: '风控管理',
-        index: '4',
-        icon: 'icon-dunpai',
-        hidden: !this.$permit(['riskQuery', 'riskZr', 'riskWarn']),
-        menus: [{
-          name: '风险规则模板',
-          index: '4-2',
-          route: {
-            name: 'preWarning'
-          },
-          hidden: !this.$permit(['riskQuery'])
-        }, {
-          name: '准入校验结果',
-          index: '4-1',
-          route: {
-            name: 'accessControl'
-          },
-          hidden: !this.$permit(['riskZr'])
-        }, {
-          name: '风险预警监控',
-          index: '4-3',
-          route: {
-            name: 'preWarningInfo'
-          },
-          hidden: !this.$permit(['riskWarn'])
-        }]
-      }, {
-        name: '三方数据',
-        index: '5',
-        icon: 'icon-data',
-        hidden: !this.$permit(['carInfoList', 'carMatchList', 'carGpsList']),
-        menus: [{
-          name: '基础车型',
-          index: '5-1',
-          route: {
-            name: 'carInfo'
-          },
-          hidden: !this.$permit(['carInfoList']),
-          activeIncludes: ['carInfo', 'carInfoForm']
-        }, {
-          name: '车型匹配',
-          index: '5-2',
-          route: {
-            name: 'carMatch'
-          },
-          hidden: !this.$permit(['carMatchList'])
-        }, {
-          name: 'GPS数据',
-          index: '5-3',
-          route: {
-            name: 'carGps'
-          },
-          hidden: !this.$permit(['carGpsList'])
-        }]
-      }, {
-        name: '用户管理',
-        index: '6',
-        icon: 'icon-users',
-        hidden: !this.$permit(['accountList', 'roleList', 'accountDetail']),
-        menus: [{
-          name: '用户列表',
-          index: '6-1',
-          route: {
-            name: 'accounts'
-          },
-          hidden: !this.$permit(['accountList']),
-          activeIncludes: ['accounts', 'accountForm']
-        }, {
-          name: '角色列表',
-          index: '6-2',
-          route: {
-            name: 'roles'
-          },
-          hidden: !this.$permit(['roleList']),
-          activeIncludes: ['roles', 'roleForm']
-        }, {
-          name: '个人设置',
-          index: '6-3',
-          route: {
-            name: 'settings'
-          },
-          hidden: !this.$permit(['accountDetail'])
-        }]
-      }],
+      menus,
+      // menus: [{
+      //   name: '产品管理',
+      //   index: '1',
+      //   icon: 'icon-layers',
+      //   hidden: !this.$permit(['productsRelease']),
+      //   menus: [{
+      //     name: '产品发行管理',
+      //     index: '1-2',
+      //     route: {
+      //       name: 'productsRelease'
+      //     },
+      //     hidden: !this.$permit(['productsRelease']),
+      //     activeIncludes: ['productsRelease', 'productsReleaseForm']
+      //   }]
+      // }, {
+      //   name: '资产管理',
+      //   index: '2',
+      //   icon: 'icon-assets',
+      //   hidden: !this.$permit(['assetInfo', 'backRecord', 'backRecord', 'repayPlan']),
+      //   menus: [{
+      //     name: '资产信息',
+      //     index: '2-1',
+      //     route: {
+      //       name: 'assetInfo'
+      //     },
+      //     hidden: !this.$permit(['assetInfo']),
+      //     activeIncludes: ['assetInfo', 'assetInfoForm']
+      //   }, {
+      //     name: '回购记录',
+      //     index: '2-2',
+      //     route: {
+      //       name: 'backRecord'
+      //     },
+      //     hidden: !this.$permit(['backRecord'])
+      //   }, {
+      //     name: '实际还款',
+      //     index: '2-3',
+      //     route: {
+      //       name: 'factRepay'
+      //     },
+      //     hidden: !this.$permit(['backRecord'])
+      //   }, {
+      //     name: '还款计划',
+      //     index: '2-4',
+      //     route: {
+      //       name: 'repayPlan'
+      //     },
+      //     hidden: !this.$permit(['repayPlan']),
+      //     activeIncludes: ['repayPlan', 'repayPlanDetail']
+      //   }]
+      // }, {
+      //   name: '资金管理',
+      //   index: '3',
+      //   icon: 'icon-money',
+      //   hidden: !this.$permit(['fundAccountManage', 'accountDepositManage', 'fundDeposit']),
+      //   menus: [{
+      //     name: '资金账户管理',
+      //     index: '3-1',
+      //     route: {
+      //       name: 'fundAccountManage'
+      //     },
+      //     hidden: !this.$permit(['fundAccountManage']),
+      //     activeIncludes: ['fundAccountManage', 'fundAccountForm']
+      //   }, {
+      //     name: '账户入金管理',
+      //     index: '3-3',
+      //     route: {
+      //       name: 'accountDepositManage'
+      //     },
+      //     hidden: !this.$permit(['accountDepositManage']),
+      //     activeIncludes: ['accountDepositManage', 'accountDepositForm']
+      //   }, {
+      //     name: '入金明细信息',
+      //     index: '3-2',
+      //     route: {
+      //       name: 'fundDepositDetail'
+      //     },
+      //     hidden: !this.$permit(['fundDeposit']),
+      //     activeIncludes: ['fundDepositDetail', 'fundDepositDetailForm']
+      //   }]
+      // }, {
+      //   name: '风控管理',
+      //   index: '4',
+      //   icon: 'icon-dunpai',
+      //   hidden: !this.$permit(['riskQuery', 'riskZr', 'riskWarn']),
+      //   menus: [{
+      //     name: '风险规则模板',
+      //     index: '4-2',
+      //     route: {
+      //       name: 'preWarning'
+      //     },
+      //     hidden: !this.$permit(['riskQuery'])
+      //   }, {
+      //     name: '准入校验结果',
+      //     index: '4-1',
+      //     route: {
+      //       name: 'accessControl'
+      //     },
+      //     hidden: !this.$permit(['riskZr'])
+      //   }, {
+      //     name: '风险预警监控',
+      //     index: '4-3',
+      //     route: {
+      //       name: 'preWarningInfo'
+      //     },
+      //     hidden: !this.$permit(['riskWarn'])
+      //   }]
+      // }, {
+      //   name: '三方数据',
+      //   index: '5',
+      //   icon: 'icon-data',
+      //   hidden: !this.$permit(['carInfoList', 'carMatchList', 'carGpsList']),
+      //   menus: [{
+      //     name: '基础车型',
+      //     index: '5-1',
+      //     route: {
+      //       name: 'carInfo'
+      //     },
+      //     hidden: !this.$permit(['carInfoList']),
+      //     activeIncludes: ['carInfo', 'carInfoForm']
+      //   }, {
+      //     name: '车型匹配',
+      //     index: '5-2',
+      //     route: {
+      //       name: 'carMatch'
+      //     },
+      //     hidden: !this.$permit(['carMatchList'])
+      //   }, {
+      //     name: 'GPS数据',
+      //     index: '5-3',
+      //     route: {
+      //       name: 'carGps'
+      //     },
+      //     hidden: !this.$permit(['carGpsList'])
+      //   }]
+      // }, {
+      //   name: '用户管理',
+      //   index: '6',
+      //   icon: 'icon-users',
+      //   hidden: !this.$permit(['accountList', 'roleList', 'accountDetail']),
+      //   menus: [{
+      //     name: '用户列表',
+      //     index: '6-1',
+      //     route: {
+      //       name: 'accounts'
+      //     },
+      //     hidden: !this.$permit(['accountList']),
+      //     activeIncludes: ['accounts', 'accountForm']
+      //   }, {
+      //     name: '角色列表',
+      //     index: '6-2',
+      //     route: {
+      //       name: 'roles'
+      //     },
+      //     hidden: !this.$permit(['roleList']),
+      //     activeIncludes: ['roles', 'roleForm']
+      //   }, {
+      //     name: '个人设置',
+      //     index: '6-3',
+      //     route: {
+      //       name: 'settings'
+      //     },
+      //     hidden: !this.$permit(['accountDetail'])
+      //   }]
+      // }],
       containerStyles: {
         minHeight: (window.innerHeight - 60) + 'px'
       }

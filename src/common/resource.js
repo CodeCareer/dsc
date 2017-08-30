@@ -37,9 +37,14 @@ http.interceptors.response.use(res => {
   const data = res.data
 
   // 兼容统一的权限控制代码
-  if (!data.resultCode && data.code === 401) {
-    data.resultCode = 'INVALID_LOGIN'
-    data.resultMsg = data.message
+  if (!data.resultCode) {
+    if (data.code === 401) {
+      data.resultCode = 'INVALID_LOGIN'
+      data.resultMsg = data.message
+    } else if (data.code === 403) {
+      data.resultCode = 'BIZ_EXCEPTION'
+      data.resultMsg = data.message
+    }
   }
 
   if (data.resultCode === 'SUCCESS') {
@@ -75,7 +80,7 @@ export const APIS = {
   accountDepositEdit: '/fundManage/editAccountFundDetail', //账户入金编辑
   accountDepositAudit: '/fundManage/auditAccountFundDetail', //账户入金审核
   accountDepositAdd: '/fundManage/addAccountFundDetail', //账户入金新增
-  fundDeposit: '/fundManage/listCapitalDetail', //账户入金新增
+  fundDeposit: '/fundManage/listCapitalDetail', //账户入金明细
   fundAccountManage: '/fundManage/listAccountInfo', //资金账户查询
   fundAccountEdit: '/fundManage/editAccountInfo', //资金账户编辑
   fundAccountAdd: '/fundManage/addAccountInfo', //资金账户新增

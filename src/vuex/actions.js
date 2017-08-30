@@ -1,6 +1,11 @@
 import { router } from '@/router'
-import { session, orgId, permissionByRoleId } from '@/common/resource_auth.js'
-import { flattenDeep, map } from 'lodash'
+import { APIS as API_1 } from '@/common/resource.js'
+import { session, orgId, permissionByRoleId, APIS as API_2 } from '@/common/resource_auth.js'
+import { flattenDeep, map, each, findKey } from 'lodash'
+const APIS = {
+  ...API_1,
+  ...API_2
+}
 
 const ORG_NAME = 'WJS' // 机构名称
 let logoutLock = false // 锁定退出逻辑，避免多次登出造成redirect不正确
@@ -23,6 +28,12 @@ export default {
   async getPermissions({ dispatch, state }) {
     const data = await permissionByRoleId.get({ params: { roleId: state.user.roles ? state.user.roles[0].id : '' } }).then(res => res.data)
     const ps = flattenDeep(map(data.data, p => p.functions))
+
+    // 添加apiname 到 permission
+    each(ps, p => {
+      p.apiName = findKey(APIS, val => ~p.url.indexOf(val.replace(/:[^/]*/g, '*')))
+    })
+
     await dispatch('updatePermissions', ps)
   },
 

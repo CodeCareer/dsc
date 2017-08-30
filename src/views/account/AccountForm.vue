@@ -12,7 +12,7 @@
                 el-input(:disabled='!!account.id', type="text", placeholder="请输入用户名称", v-model="account.name")
               el-form-item(label="用户昵称：", prop="nickname")
                 el-input(type="text", placeholder="请输入用户昵称", v-model="account.nickname")
-              el-form-item(label="密码：", prop="nickname")
+              el-form-item(label="密码：", prop="nickname", v-if="$route.params.id === 'add'")
                 el-input(:type="showPassword ? 'text': 'password'", placeholder="请设置密码", v-model="account.password")
                   template(slot="append")
                     a(@click="showPassword = !showPassword")
@@ -96,7 +96,9 @@ export default {
 
     roles.get({
       params: {
-        orgId: this.$store.getters.orgId
+        orgId: this.$store.getters.orgId,
+        page: 1,
+        size: 1000
       }
     }).then(res => {
       const roles = map(res.data.data.content, v => {
@@ -110,7 +112,7 @@ export default {
   },
 
   data() {
-    return {
+    const data = {
       title: '新增用户',
       roleList: [],
       showPassword: false,
@@ -120,9 +122,8 @@ export default {
           message: '必填项',
           trigger: 'change'
         }, {
-          min: 6,
-          max: 32,
-          message: '长度在 6 到 32 个字符',
+          pattern: /^[_0-9a-zA-Z]{6,20}$/,
+          message: '最少三位字母和数字的组合',
           trigger: 'change'
         }],
         nickname: [{
@@ -174,6 +175,12 @@ export default {
         phoneNumber: null
       }
     }
+
+    if (this.$route.params.id !== 'add') {
+      delete data.rules.password
+      delete data.account.password
+    }
+    return data
   }
 }
 </script>

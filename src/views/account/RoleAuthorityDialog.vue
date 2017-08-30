@@ -11,7 +11,7 @@
                 el-checkbox-group(v-model="module.checkedList", @change="handleCheckChange(module)")
                   el-checkbox.circle.mini(v-for="o in module.functions", :label="o.id", :key="o.id") {{o.name}}
       .dialog-footer(slot="footer")
-        el-button(type="primary", size="small", @click='roleSave') 确定
+        el-button(type="primary", size="small", @click='roleSave', v-if="$permit(['roleAddPermission'])") 确定
         el-button(type='gray', size="small", @click='dialogVisible = false') 取消
 </template>
 

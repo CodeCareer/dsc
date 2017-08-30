@@ -15,18 +15,18 @@
     .table-container
       el-table.no-wrap-cell(:data='carGps', style='width: 100%')
         el-table-column(prop='vinCode', label='VIN码', width='200')
-        el-table-column(prop='acc', label='ACC', width='200')
+        el-table-column(prop='acc', label='ACC', width='120')
           template(scope="scope")
             span {{scope.row.acc | accLocal}}
         //- el-table-column(prop='simNo', label='SIM码', width='200')
-        el-table-column(prop='longitude', label='经度', width='200')
-        el-table-column(prop='latitude', label='维度', width='200')
+        el-table-column(prop='longitude', label='经度', width='150')
+        el-table-column(prop='latitude', label='维度', width='150')
         el-table-column(prop='alarmInfo', label='报警信息', width='200')
           template(scope="scope")
             span {{scope.row.alarmInfo | ktNull('-')}}
-        el-table-column(prop='direct', label='行驶方向', width='200')
+        el-table-column(prop='direct', label='行驶方向', width='120')
         el-table-column(prop='plate', label='车牌号', width='120')
-        el-table-column(prop='terminalNo', label='终端号', width='200')
+        el-table-column(prop='terminalNo', label='终端号', width='120')
         el-table-column(prop='terminalType', label='终端类型', width='200')
         el-table-column(prop='lastPower', label='剩余电量', width='120')
           template(scope="scope")

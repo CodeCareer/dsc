@@ -37,7 +37,7 @@
       el-form-item(prop="cfpwd", label='确认新密码：')
         el-input(type="password", v-model='user.cfpwd', auto-complete='off', placeholder='请再次输入新密码')
     .dialog-footer(slot="footer")
-      el-button(type="primary", size="small", @click='submitPassword') 确定
+      el-button(type="primary", size="small", v-if="$permit(['accountUpdatePwd'])", @click='submitPassword') 确定
       el-button(type='gray', size="small", @click='passwordDialogVisible = false') 取消
 </template>
 
