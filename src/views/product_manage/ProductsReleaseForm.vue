@@ -76,8 +76,8 @@
                     th 最早可提前还款日期：
                     td {{product.minPreDueDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
     .bottom-buttons
-      el-button(v-if="product.productStatus === 'AUTO_AUDIT_FAIL_WAIT_CONFIRMED'", type="primary", size="small", @click="audit('PASSED')") 通过
-      el-button(v-if="product.productStatus === 'AUTO_AUDIT_FAIL_WAIT_CONFIRMED'", type="gray", size="small", @click="audit('DENIED')") 驳回
+      el-button(v-if="product.productStatus === 'AUTO_AUDIT_FAIL_WAIT_CONFIRMED' && $permit('productsAudit')", type="primary", size="small", @click="audit('PASSED')") 通过
+      el-button(v-if="product.productStatus === 'AUTO_AUDIT_FAIL_WAIT_CONFIRMED' && $permit('productsAudit')", type="gray", size="small", @click="audit('DENIED')") 驳回
       el-button(size="small", @click="cancel") 返回
 </template>
 
