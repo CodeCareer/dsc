@@ -7,9 +7,12 @@ export default {
       return h('router-view')
     }
   },
-  permit: ['productsRelease', 'productsAudit'],
   meta: {
-    menu: { icon: 'icon-layers', name: '产品管理' }
+    permit: ['productsRelease', 'productsAudit'],
+    menu: {
+      icon: 'icon-layers',
+      name: '产品管理'
+    }
   },
   children: [{
     path: 'products_release',
