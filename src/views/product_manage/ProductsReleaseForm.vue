@@ -3,6 +3,9 @@
   .box
     .box-header
       | {{title}}
+      .buttons
+        el-button(type="primary", size="small", @click="assetInfo(product.productCode)")
+          | 查看资产
     .box-content
       .box-section
         el-form(:model="product", :rules="rules", ref="productForm")
@@ -150,6 +153,13 @@ export default {
             this.productsAudit(data)
           })
         }
+      })
+    },
+
+    assetInfo(productCode) {
+      this.$router.push({
+        name: 'assetInfo',
+        query: {productCode: productCode}
       })
     },
 
