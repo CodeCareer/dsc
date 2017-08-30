@@ -63,7 +63,7 @@
             span {{scope.row.minPreDueDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
         el-table-column(prop='redeemAmount', label='到期应对付总金额', width='140')
           template(scope="scope")
-            span {{scope.row.requestAmount | ktCurrency}}
+            span {{scope.row.redeemAmount | ktCurrency}}
         el-table-column(prop='remark', label='备注', width='220')
         el-table-column(label='操作', fixed="right", width='60')
           template(scope="scope")
