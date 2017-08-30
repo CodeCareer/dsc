@@ -25,7 +25,7 @@
             .operations
               i.iconfont.icon-qiyong(v-if="!scope.row.enabled && $permit('roleUpdateEable')", title="启用角色", @click="startRole(scope.row)")
               i.iconfont.icon-tingyong(v-if="scope.row.enabled && $permit('roleUpdateEable')", title="停用角色", @click.stop="stopRole(scope.row)")
-              i.iconfont.icon-edit(v-if="$permit('roleUpdate')", title="修改角色", @click.stop="editRole(scope.row)")
+              i.iconfont.icon-edit(v-if="$permit('roleDetail')", title="修改角色", @click.stop="editRole(scope.row)")
               //- i.iconfont.icon-delete(v-if="$permit('roleDelete')", title="删除角色", @click.stop="deleteRole(scope.row)")
               i.iconfont.icon-quanxian(v-if="$permit('roleAddPermission')", title="权限设置", @click.stop="editAuthority(scope.row)")
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.pageSize)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
@@ -179,7 +179,7 @@ export default {
       statusList,
       filter: {
         // roleId: '_all_',
-        enabled: '_all_',
+        enabled: '',
         page: 1,
         pageSize: 10
       }

@@ -15,7 +15,7 @@
               el-form-item(label="备注：", prop="note")
                 el-input(type="textarea", placeholder="请输入备注信息", v-model="role.note")
     .bottom-buttons
-      el-button(type="primary", size="small", @click="submitForm") 保存
+      el-button(type="primary", size="small",v-if="$permit(['roleAdd', 'roleUpdate'])", @click="submitForm") 保存
       el-button(type="gray", size="small", @click="cancel") 取消
 </template>
 
@@ -74,6 +74,11 @@ export default {
           name: `编辑角色-${this.role.nickname}`
         }])
       })
+    } else {
+      this.updateCrumb.$emit('update-crumbs', [{
+        id: 'roleForm',
+        name: '新增角色'
+      }])
     }
   },
 

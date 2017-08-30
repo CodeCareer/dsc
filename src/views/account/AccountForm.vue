@@ -25,7 +25,7 @@
                 el-select(placeholder="角色", v-model="account.roleId")
                   el-option(v-for="o in roleList", :value="o.value", :label="o.name", :key="o.value")
     .bottom-buttons
-      el-button(type="primary", size="small", @click="submitForm") 保存
+      el-button(type="primary", size="small", v-if="$permit(['accountAdd', 'accountUpdate'])", @click="submitForm") 保存
       el-button(type="gray", size="small", @click="cancel") 取消
 </template>
 
@@ -87,6 +87,11 @@ export default {
           name: `编辑用户-${this.account.nickname}`
         }])
       })
+    } else {
+      this.updateCrumb.$emit('update-crumbs', [{
+        id: 'accountForm',
+        name: '新增用户'
+      }])
     }
 
     roles.get({

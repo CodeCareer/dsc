@@ -34,7 +34,7 @@
             .operations
               i.iconfont.icon-qiyong(v-if="!scope.row.enabled && $permit('accountUpdateEable')", title="启用用户", @click="startAccount(scope.row)")
               i.iconfont.icon-tingyong(v-if="scope.row.enabled && $permit('accountUpdateEable')", title="停用用户", @click.stop="stopAccount(scope.row)")
-              i.iconfont.icon-edit(v-if="$permit('accountUpdate')", title="修改用户", @click.stop="editAccount(scope.row)")
+              i.iconfont.icon-edit(v-if="$permit('accountDetail')", title="修改用户", @click.stop="editAccount(scope.row)")
               //- i.iconfont.icon-delete(v-if="$permit('accountDelete')", title="删除用户", @click.stop="deleteAccount(scope.row)")
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.pageSize)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
@@ -201,8 +201,8 @@ export default {
       roleList: [],
       statusList,
       filter: {
-        roleId: '_all_',
-        enabled: '_all_',
+        roleId: '',
+        enabled: '',
         page: 1,
         pageSize: 10
       }

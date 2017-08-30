@@ -25,7 +25,7 @@
               el-form-item(label="残值金额：", prop="residualValue")
                 el-input(type="text", placeholder="请输入残值金额", v-model="car.residualValue")
     .bottom-buttons
-      el-button(type="primary", size="small", @click="submitForm") 保存
+      el-button(type="primary", size="small", v-if="$permit(['carInfoUpdate', 'carInfoAdd'])", @click="submitForm") 保存
       el-button(type="gray", size="small", @click="cancel") 取消
 </template>
 
