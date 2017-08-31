@@ -4,14 +4,17 @@
       .box-header
         h3 筛选条件
       .filters
-        el-input(placeholder='外部资产订单编号', icon='search', @keyup.native.13='search', v-model.trim='filter.outerAssetOrderNo')
-        el-select(v-model="filter.assetFrom", placeholder="资产来源", @change="search")
-          el-option(v-for="t in assetFroms", :key="t.name", :value="t.value", :label="t.name")
-        el-input(placeholder='产品代码', icon='search', @keyup.native.13='search', v-model.trim='filter.productCode')
-        el-select(v-model="filter.assetStatus", placeholder="资产状态", @change="search")
-          el-option(v-for="t in assetTypes", :key="t.name", :value="t.value", :label="t.name")
-        el-button(size="small", type="primary", @click="search")  搜索
-        el-button(size="small", type="primary", @click="clearFilter")  清除
+        .filter-line 
+          el-input(placeholder='资产ID', icon='search', @keyup.native.13='search', v-model.trim='filter.assetId')
+          el-input(placeholder='外部资产订单编号', icon='search', @keyup.native.13='search', v-model.trim='filter.outerAssetOrderNo')
+          el-select(v-model="filter.assetFrom", placeholder="资产来源", @change="search")
+            el-option(v-for="t in assetFroms", :key="t.name", :value="t.value", :label="t.name")
+        .filter-line 
+          el-input(placeholder='产品代码', icon='search', @keyup.native.13='search', v-model.trim='filter.productCode')
+          el-select(v-model="filter.assetStatus", placeholder="资产状态", @change="search")
+            el-option(v-for="t in assetTypes", :key="t.name", :value="t.value", :label="t.name")
+          el-button(size="small", type="primary", @click="search")  搜索
+          el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table.no-wrap-cell(:data='assetInfo', style='width: 100%')
         el-table-column(prop='assetBaseInfo.assetFrom', label='资产来源')
@@ -142,7 +145,7 @@ export default {
       this.$router.push({
         name: 'assetInfoForm',
         params: {
-          outerAssetOrderNo: rows.assetBaseInfo.outerAssetOrderNo
+          assetId: rows.assetBaseInfo.id
         }
       })
     },
@@ -172,6 +175,7 @@ export default {
       fixed: window.innerWidth - 180 - 12 * 2 > 1150 ? false : 'right', // 180 左侧菜单宽度，12 section的padding
       assetInfo: [],
       filter: {
+        assetId: '',
         assetFrom: '',
         outerAssetOrderNo: '',
         productCode: '',
