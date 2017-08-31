@@ -3,13 +3,13 @@ import routes from '@/router/routes.js'
 import Vue from 'vue'
 import App from '@/App.vue'
 import store from '@/vuex/store'
-import { find, intersection, map, filter } from 'lodash'
+import { find, intersection, flattenDeep, map, filter } from 'lodash'
 const nprogress = require('@/vendor/nprogress').NProgress
 import { MessageBox } from 'element-ui'
 
 Vue.use(VueRouter)
 
-let router = new VueRouter({
+const router = new VueRouter({
   base: __dirname,
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
@@ -73,7 +73,8 @@ function getPermitRoute(to) {
       resolve(null)
     } else {
       const mainRoutes = find(routes, r => r.name === 'wd')
-      const firstRoute = find(mainRoutes.children, child => intersection(child.meta.permit, permitApis).length)
+      const flattenRoutes = flattenDeep(map(mainRoutes.children, child => child.children))
+      const firstRoute = find(flattenRoutes, r => intersection(r.meta.permit, permitApis).length)
 
       if (firstRoute) {
         resolve({
