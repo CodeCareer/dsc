@@ -122,8 +122,8 @@ export default {
           message: '必填项',
           trigger: 'change'
         }, {
-          pattern: /^[_0-9a-zA-Z]{6,20}$/,
-          message: '最少三位字母和数字的组合',
+          pattern: /^[_0-9a-zA-Z]{3,20}$/,
+          message: '最少3位字母和数字的组合',
           trigger: 'change'
         }],
         nickname: [{
