@@ -5,6 +5,7 @@ import App from '@/App.vue'
 import store from '@/vuex/store'
 import { find, intersection, map, filter } from 'lodash'
 const nprogress = require('@/vendor/nprogress').NProgress
+import { MessageBox } from 'element-ui'
 
 Vue.use(VueRouter)
 
@@ -31,7 +32,7 @@ router.beforeEach((to, from, next) => {
   const user = store.getters.user
   const token = store.getters.token
   const permissions = store.getters.permissions
-  if (process.env.STOP_PERMIT) {
+  if (process.env.STOP_PERMIT || to.meta.skipAuth) {
     next()
   } else if (!to.meta.skipAuth && (!token || !user.name)) {
     next({
@@ -42,22 +43,10 @@ router.beforeEach((to, from, next) => {
     })
   } else if (!to.meta.skipAuth && !permissions.length) {
     store.dispatch('getPermissions').then(() => {
-      getPermitRoute(to).then(newRoute => {
-        if (!newRoute) {
-          next()
-        } else {
-          next(newRoute)
-        }
-      })
+      getPermitRoute(to).then(newRoute => newRoute ? next(newRoute) : next())
     })
   } else {
-    getPermitRoute(to).then(newRoute => {
-      if (!newRoute) {
-        next()
-      } else {
-        next(newRoute)
-      }
-    })
+    getPermitRoute(to).then(newRoute => newRoute ? next(newRoute) : next())
   }
 })
 
@@ -91,6 +80,12 @@ function getPermitRoute(to) {
           name: firstRoute.name
         })
       } else {
+        MessageBox({
+          message: '您没有任何权限！',
+          title: '提示',
+          type: 'error'
+        })
+
         resolve({
           name: 'login',
           query: {

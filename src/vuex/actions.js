@@ -31,7 +31,7 @@ export default {
 
     // 添加apiname 到 permission
     each(ps, p => {
-      p.apiName = findKey(APIS, val => ~p.url.indexOf(val.replace(/:[^/]*/g, '*')))
+      p.apiName = findKey(APIS, val => p.url.replace(/^\/api/, '') === val.replace(/:[^/]*/g, '*'))
     })
 
     await dispatch('updatePermissions', ps)
