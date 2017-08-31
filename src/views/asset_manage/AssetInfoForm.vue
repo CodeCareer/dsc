@@ -3,6 +3,9 @@
   .box
     .box-header
       | 资产基础信息
+      .buttons
+        el-button(type="primary", size="small", @click="accessControl(assetBaseInfo.id)")
+          | 准入校验结果
     .box-content
       .box-section
         el-row(:gutter="20")
@@ -38,7 +41,7 @@
             el-col(:span="8")
               table
                 tr
-                  th uuid：
+                  th 资产ID：
                   td {{assetBaseInfo.id}}
                 tr
                   th 证件类型：
@@ -393,7 +396,7 @@ export default {
   },
   methods: {
     _fetchData() {
-      assetInfo.post({ outerAssetOrderNo: this.$route.params.outerAssetOrderNo }, {
+      assetInfo.post({ assetId: this.$route.params.assetId }, {
         loadingMaskTarget: '.asset-info-form'
       }).then(res => {
         const data = res.data.data.rows[0]
@@ -401,6 +404,12 @@ export default {
         this.assetCarBackUpInfo = data.assetCarBackUpInfo
         this.assetCarCoreInfo = data.assetCarCoreInfo
         this.assetInsuranceInfoList = data.assetInsuranceInfoList
+      })
+    },
+    accessControl(id) {
+      this.$router.push({
+        name: 'accessControl',
+        query: {subjectId: id}
       })
     }
   },
