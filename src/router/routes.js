@@ -12,7 +12,7 @@ export default [{
   path: '/login',
   name: 'login',
   component: resolve => require(['@/views/Login.vue'], resolve),
-  meta: { title: '微贷系统-登录', skipAuth: true }
+  meta: { title: '车DAS系统-登录', skipAuth: true }
 }, {
   path: '/wd',
   name: 'wd',

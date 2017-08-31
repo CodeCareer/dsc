@@ -30,7 +30,7 @@ export default {
     name: 'fundAccountManage',
     component: resolve => require(['@/views/fund_manage/FundAccountManage.vue'], resolve),
     meta: {
-      title: '微贷系统-资金账户管理',
+      title: '车DAS系统-资金账户管理',
       permit: ['fundAccountManage', 'fundAccountEdit', 'fundAccountAdd', 'fundAccountDelete'],
       menu: {
         name: '资金账户管理',
@@ -49,7 +49,7 @@ export default {
     name: 'fundAccountForm',
     component: resolve => require(['@/views/fund_manage/FundAccountForm.vue'], resolve),
     meta: {
-      title: '微贷系统-资金账户管理',
+      title: '车DAS系统-资金账户管理',
       permit: ['fundAccountAdd', 'fundAccountEdit'],
       crumbs: [{
         name: '资金管理',
@@ -68,7 +68,7 @@ export default {
     name: 'accountDepositManage',
     component: resolve => require(['@/views/fund_manage/AccountDepositManage.vue'], resolve),
     meta: {
-      title: '微贷系统-账户入金管理',
+      title: '车DAS系统-账户入金管理',
       permit: [
         'accountDepositManage', 'accountDepositDelete',
         'accountDepositEdit', 'accountDepositAudit',
@@ -91,7 +91,7 @@ export default {
     name: 'accountDepositForm',
     component: resolve => require(['@/views/fund_manage/AccountDepositForm.vue'], resolve),
     meta: {
-      title: '微贷系统-账户入金管理',
+      title: '车DAS系统-账户入金管理',
       permit: ['accountDepositEdit', 'accountDepositAdd'],
       crumbs: [{
         name: '资金管理',
@@ -110,7 +110,7 @@ export default {
     name: 'fundDepositDetail',
     component: resolve => require(['@/views/fund_manage/FundDepositDetail.vue'], resolve),
     meta: {
-      title: '微贷系统-入金明细信息',
+      title: '车DAS系统-入金明细信息',
       permit: ['fundDeposit'],
       menu: {
         name: '入金明细信息',
@@ -129,7 +129,7 @@ export default {
     name: 'fundDepositDetailForm',
     component: resolve => require(['@/views/fund_manage/fundDepositDetailForm.vue'], resolve),
     meta: {
-      title: '微贷系统-入金明细信息详情',
+      title: '车DAS系统-入金明细信息详情',
       permit: ['fundDeposit'],
       crumbs: [{
         name: '资金管理',

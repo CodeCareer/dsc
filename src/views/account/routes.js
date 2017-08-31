@@ -24,7 +24,7 @@ export default {
     name: 'accounts',
     component: resolve => require(['@/views/account/Accounts.vue'], resolve),
     meta: {
-      title: '微贷系统-用户列表',
+      title: '车DAS系统-用户列表',
       permit: [
         'accountList', 'accountUpdateEable', 'accountUpdate',
         'accountDetail', 'accountAdd', 'accountDelete'
@@ -46,7 +46,7 @@ export default {
     name: 'accountForm',
     component: resolve => require(['@/views/account/AccountForm.vue'], resolve),
     meta: {
-      title: '微贷系统-用户管理',
+      title: '车DAS系统-用户管理',
       permit: ['accountUpdate', 'accountDetail', 'accountAdd'],
       crumbs: [{
         name: '用户管理',
@@ -65,7 +65,7 @@ export default {
     name: 'roles',
     component: resolve => require(['@/views/account/Roles.vue'], resolve),
     meta: {
-      title: '微贷系统-角色列表',
+      title: '车DAS系统-角色列表',
       permit: [
         'roleUpdateEable', 'roleDetail', 'roleUpdate',
         'roleAdd', 'roleDelete', 'roleList'
@@ -87,7 +87,7 @@ export default {
     name: 'roleForm',
     component: resolve => require(['@/views/account/RoleForm.vue'], resolve),
     meta: {
-      title: '微贷系统-用户管理',
+      title: '车DAS系统-用户管理',
       permit: ['roleDetail', 'roleUpdate', 'roleAdd'],
       crumbs: [{
         name: '用户管理',
@@ -106,7 +106,7 @@ export default {
     name: 'permissions',
     component: resolve => require(['@/views/account/Permissions.vue'], resolve),
     meta: {
-      title: '微贷系统-角色列表',
+      title: '车DAS系统-角色列表',
       crumbs: [{
         name: '用户管理',
         to: { name: 'accountList' }
@@ -120,7 +120,7 @@ export default {
     name: 'permissionForm',
     component: resolve => require(['@/views/account/PermissionForm.vue'], resolve),
     meta: {
-      title: '微贷系统-用户管理',
+      title: '车DAS系统-用户管理',
       crumbs: [{
         name: '用户管理',
         to: { name: 'accounts' }
@@ -138,7 +138,7 @@ export default {
     name: 'settings',
     component: resolve => require(['@/views/account/Settings.vue'], resolve),
     meta: {
-      title: '微贷系统-个人设置',
+      title: '车DAS系统-个人设置',
       permit: ['accountDetail', 'accountUpdatePwd'],
       menu: {
         name: '个人设置'

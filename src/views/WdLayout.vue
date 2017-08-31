@@ -2,7 +2,7 @@
   .wd-content
     n-progress(parent=".wd-content")
     header
-      .logo 微贷云
+      .logo 3TAN-DAS车贷资产管理系统
       .user-info.fr
         span
           i.iconfont.icon-user.icon-color
@@ -191,7 +191,7 @@ $menu-height: 50px;
     .logo {
       height: 60px;
       color: #fff;
-      width: 100px;
+      width: 400px;
       margin: 0 0 0 30px;
       font-size: 26px;
       display: inline-block;

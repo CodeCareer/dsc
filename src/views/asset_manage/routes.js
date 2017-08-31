@@ -19,7 +19,7 @@ export default {
     name: 'assetInfo',
     component: resolve => require(['@/views/asset_manage/AssetInfo.vue'], resolve),
     meta: {
-      title: '微贷系统-资产全部信息',
+      title: '车DAS系统-资产全部信息',
       permit: ['assetInfo'],
       menu: {
         name: '资产信息',
@@ -38,7 +38,7 @@ export default {
     name: 'assetInfoForm',
     component: resolve => require(['@/views/asset_manage/AssetInfoForm.vue'], resolve),
     meta: {
-      title: '微贷系统-资产全部信息',
+      title: '车DAS系统-资产全部信息',
       permit: ['assetInfo'],
       crumbs: [{
         name: '资产管理',
@@ -56,7 +56,7 @@ export default {
     name: 'backRecord',
     component: resolve => require(['@/views/asset_manage/BackRecord.vue'], resolve),
     meta: {
-      title: '微贷系统-资产回购记录',
+      title: '车DAS系统-资产回购记录',
       permit: ['backRecord'],
       menu: {
         name: '回购记录'
@@ -74,7 +74,7 @@ export default {
     name: 'factRepay',
     component: resolve => require(['@/views/asset_manage/FactRepay.vue'], resolve),
     meta: {
-      title: '微贷系统-资产实际还款',
+      title: '车DAS系统-资产实际还款',
       permit: ['factRepay'],
       menu: {
         name: '实际还款'
@@ -92,7 +92,7 @@ export default {
     name: 'repayPlan',
     component: resolve => require(['@/views/asset_manage/RepayPlan.vue'], resolve),
     meta: {
-      title: '微贷系统-资产还款计划',
+      title: '车DAS系统-资产还款计划',
       permit: ['repayPlan'],
       menu: {
         name: '还款计划',
@@ -111,7 +111,7 @@ export default {
     name: 'repayPlanDetail',
     component: resolve => require(['@/views/asset_manage/RepayPlanDetail.vue'], resolve),
     meta: {
-      title: '微贷系统-资产还款计划详情',
+      title: '车DAS系统-资产还款计划详情',
       permit: ['repayPlan'],
       crumbs: [{
         name: '资产管理',

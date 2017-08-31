@@ -19,7 +19,7 @@ export default {
     name: 'preWarning',
     component: resolve => require(['@/views/risk_control/PreWarning.vue'], resolve),
     meta: {
-      title: '微贷系统-风险规则模板',
+      title: '车DAS系统-风险规则模板',
       permit: ['riskEdit', 'riskQuery'],
       menu: {
         name: '风险规则模板'
@@ -37,7 +37,7 @@ export default {
     name: 'accessControl',
     component: resolve => require(['@/views/risk_control/AccessControl.vue'], resolve),
     meta: {
-      title: '微贷系统-准入校验结果',
+      title: '车DAS系统-准入校验结果',
       permit: ['riskZr'],
       menu: {
         name: '准入校验结果'
@@ -55,7 +55,7 @@ export default {
     name: 'preWarningInfo',
     component: resolve => require(['@/views/risk_control/PreWarningInfo.vue'], resolve),
     meta: {
-      title: '微贷系统-风险预警监控',
+      title: '车DAS系统-风险预警监控',
       permit: ['riskWarn'],
       menu: {
         name: '风险预警监控'

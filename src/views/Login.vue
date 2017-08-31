@@ -2,7 +2,7 @@
 .login-page
   header
     .inner
-      .logo 微贷云
+      .logo 3TAN-DAS车贷资产管理系统
   .login-warpper(@keyup.13="submitForm()")
     h2 登录
     el-form.login-form(ref="user", :model="user", :rules="rules")

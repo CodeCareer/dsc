@@ -19,7 +19,7 @@ export default {
     name: 'productsRelease',
     component: resolve => require(['@/views/product_manage/ProductsRelease.vue'], resolve),
     meta: {
-      title: '微贷系统-产品发行管理',
+      title: '车DAS系统-产品发行管理',
       permit: ['productsRelease', 'productsAudit'],
       menu: {
         name: '产品发行管理',
@@ -38,7 +38,7 @@ export default {
     name: 'productsReleaseForm',
     component: resolve => require(['@/views/product_manage/ProductsReleaseForm.vue'], resolve),
     meta: {
-      title: '微贷系统-产品发行审核',
+      title: '车DAS系统-产品发行审核',
       permit: ['productsRelease'],
       crumbs: [{
         name: '产品管理',
