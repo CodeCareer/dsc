@@ -83,7 +83,7 @@ export default {
   },
 
   data() {
-    return {
+    const data = {
       title: '新增角色',
       roleList: [],
       rules: {
@@ -110,6 +110,9 @@ export default {
         note: null
       }
     }
+
+    if (this.$route.params.id !== 'add') delete data.rules.name
+    return data
   }
 }
 </script>

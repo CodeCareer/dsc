@@ -177,6 +177,7 @@ export default {
     }
 
     if (this.$route.params.id !== 'add') {
+      delete data.rules.name
       delete data.rules.password
       delete data.account.password
     }
