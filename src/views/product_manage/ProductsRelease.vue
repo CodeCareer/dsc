@@ -5,16 +5,18 @@
         h3 筛选条件
       .filters
         .filter-line 
-          el-date-picker(placeholder='上架日期下限', format='yyyy-MM-dd', type='date', :value='date.carriageDateLower', @input="handleCarriageDateLower", :picker-options="pickerOptions")
-          el-date-picker(placeholder='上架日期上限', format='yyyy-MM-dd', type='date', :value='date.carriageDateUpper', @input="handleCarriageDateUpper", :picker-options="pickerOptions")
-          el-date-picker(placeholder='起息日下限', format='yyyy-MM-dd', type='date', :value='date.valueDateLower', @input="handleValueDateLower", :picker-options="pickerOptions")
-          el-date-picker(placeholder='起息日上限', format='yyyy-MM-dd', type='date', :value='date.valueDateUpper', @input="handleValueDateUpper", :picker-options="pickerOptions")
-        .filter-line
           el-input(placeholder='产品名称', icon='search', @keyup.native.13="search", v-model.trim='filter.productName')
+          el-input(placeholder='产品代码', icon='search', @keyup.native.13="search", v-model.trim='filter.productCode')
           el-select(v-model="filter.assetFrom", placeholder="资产来源", @change="search")
             el-option(v-for="t in assetTypes", :key="t.name", :value="t.value", :label="t.name")
           el-select(v-model="filter.productStatus", placeholder="产品状态", @change="search")
             el-option(v-for="t in productStatusTypes", :key="t.name", :value="t.value", :label="t.name")
+         
+        .filter-line
+          el-date-picker(placeholder='上架日期下限', format='yyyy-MM-dd', type='date', :value='date.carriageDateLower', @input="handleCarriageDateLower", :picker-options="pickerOptions")
+          el-date-picker(placeholder='上架日期上限', format='yyyy-MM-dd', type='date', :value='date.carriageDateUpper', @input="handleCarriageDateUpper", :picker-options="pickerOptions")
+          el-date-picker(placeholder='起息日下限', format='yyyy-MM-dd', type='date', :value='date.valueDateLower', @input="handleValueDateLower", :picker-options="pickerOptions")
+          el-date-picker(placeholder='起息日上限', format='yyyy-MM-dd', type='date', :value='date.valueDateUpper', @input="handleValueDateUpper", :picker-options="pickerOptions")
           el-button(size="small", type="primary", @click="search")  搜索
           el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
@@ -214,6 +216,7 @@ export default {
         valueDateUpper: '',
         assetFrom: '',
         productName: '',
+        productCode: '',
         productStatus: '',
         page: 1,
         limit: 10
