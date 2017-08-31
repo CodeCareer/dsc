@@ -135,10 +135,10 @@ export default {
       }],
       riskBools: [{
         value: 1,
-        label: '为真'
+        label: '是'
       }, {
         value: 0,
-        label: '为假'
+        label: '否'
       }],
       riskAssetFroms: [{
         value: 'DSC',
