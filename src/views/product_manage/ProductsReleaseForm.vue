@@ -61,7 +61,7 @@
                     th 实际募集金额：
                     td {{product.factCollectAmount}}
                   tr
-                    th 到期应对付总金额：
+                    th 到期应兑付总金额：
                     td {{product.redeemAmount}}
                   tr
                     th 到期应付总收益：

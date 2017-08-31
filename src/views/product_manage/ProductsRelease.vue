@@ -63,7 +63,7 @@
         el-table-column(prop='minPreDueDate', label='最早可提前还款日期', width='140')
           template(scope="scope")
             span {{scope.row.minPreDueDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
-        el-table-column(prop='redeemAmount', label='到期应对付总金额', width='140')
+        el-table-column(prop='redeemAmount', label='到期应兑付总金额', width='140')
           template(scope="scope")
             span {{scope.row.redeemAmount | ktCurrency}}
         el-table-column(prop='remark', label='备注', width='220')
