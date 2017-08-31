@@ -290,6 +290,8 @@ import {
   tableListMixins
 } from '@/common/mixins.js'
 
+import store from '@/vuex/store.js'
+
 const statusList = [{
   name: '花生',
   value: 'HUASHENG'
@@ -391,7 +393,7 @@ export default {
       return status ? status.name : '未知状态'
     },
     download(value) {
-      return '<a download="附件" class="color-blue" href="' + process.env.API_HOST + '/common/download?filePath=' + value + '">下载附件</a>'
+      return '<a download="附件" class="color-blue" href="' + process.env.API_HOST + '/common/download?filePath=' + value + '&token=' + store.getters.token + '">下载附件</a>'
     }
   },
   methods: {
