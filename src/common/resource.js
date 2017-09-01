@@ -100,7 +100,8 @@ export const APIS = {
   carInfoUpdate: '/thirdPartyData/vehicleManage/vehicles/update', // 车辆信息
   carGpsList: '/thirdPartyData/gpsManage/geos', // 车辆GPS信息列表获取接口
   carMatchList: '/thirdPartyData/vehicleManage/vehicleMatchs/list', // 车辆匹配信息管理
-  carMatchUpdate: '/thirdPartyData/vehicleManage/vehicleMatchs/update' // 车辆匹配信息管理
+  carMatchUpdate: '/thirdPartyData/vehicleManage/vehicleMatchs/update', // 车辆匹配信息管理
+  downLoad: '/common/download' // 下载文件
 }
 
 export const session = {
@@ -180,6 +181,10 @@ export const fundAccountDelete = {
 
 export const assetInfo = {
   post: (data, config) => http.post(APIS.assetInfo, data, config)
+}
+
+export const downLoad = {
+  post: (data, config) => http.post(APIS.downLoad, data, config)
 }
 
 export const backRecord = {
