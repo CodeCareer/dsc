@@ -42,7 +42,6 @@ export default {
               loadingMaskTarget: '.login-form'
             }
           }).then(res => {
-            console.log(res)
             this.$router.push(!redirect ? {
               name: 'productsRelease'
             } : {
