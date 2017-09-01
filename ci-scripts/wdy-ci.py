@@ -17,7 +17,7 @@ env=''
 archiveBasePath=''
 
 #Server URL
-_CONFIG_PRODUCT_WDY_URL_PREFIX='https://kefeng-static.wjs.com/'
+_CONFIG_PRODUCT_WDY_URL_PREFIX='https://kf-static.wjs.com/'
 _CONFIG_DEV_WDY_URL_PREFIX='https://kefeng-static.wjs-test.com/'
 
 _CONFIG_PRODUCT_WDY_API_URL_PREFIX='https://kf-wdy.wjs.com/wdy'
