@@ -25,8 +25,8 @@ export default {
     commit('updatePermissions', ps)
   },
 
-  async getPermissions({ dispatch, state }) {
-    const data = await permissionByRoleId.get({ params: { roleId: state.user.roles ? state.user.roles[0].id : '' } }).then(res => res.data)
+  async getPermissions({ dispatch, state }, params = {}) {
+    const data = await permissionByRoleId.get({ params: { roleId: state.user.roles ? state.user.roles[0].id : '' }, ...params }).then(res => res.data)
     const ps = flattenDeep(map(data.data, p => p.functions))
 
     // 添加apiname 到 permission
@@ -35,6 +35,7 @@ export default {
     })
 
     await dispatch('updatePermissions', ps)
+    return data
   },
 
   async getUser({ dispatch }) {
@@ -61,9 +62,9 @@ export default {
 
     if (data.token) await dispatch('updateToken', data.token || '')
     await dispatch('updateUser', data.data)
-    await dispatch('getOrgId', { params: { orgName: ORG_NAME } })
+    await dispatch('getOrgId', { params: { orgName: ORG_NAME }, loadingMaskTarget: '.login-form' })
     if (!process.env.STOP_PERMIT) {
-      await dispatch('getPermissions')
+      await dispatch('getPermissions', { loadingMaskTarget: '.login-form' })
     }
     return data
   },

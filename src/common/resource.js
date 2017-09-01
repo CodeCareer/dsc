@@ -65,7 +65,8 @@ http.interceptors.response.use(res => {
   } else {
     msgBoxErr(data.resultMsg || '未知错误', 'UNKNOWN')
   }
-  return Promise.reject(new Error(data.resultMsg))
+  return res
+  // return Promise.reject(data)
 }, err => {
   if (loadingInstance) loadingInstance.close()
   msgBoxErr(err.message.indexOf('timeout') > -1 ? '请求超时' : '抱歉，服务器忙！', 'SERVER')

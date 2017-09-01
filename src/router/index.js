@@ -42,8 +42,10 @@ router.beforeEach((to, from, next) => {
       }
     })
   } else if (!to.meta.skipAuth && !permissions.length) {
-    store.dispatch('getPermissions').then(() => {
-      getPermitRoute(to).then(newRoute => newRoute ? next(newRoute) : next())
+    store.dispatch('getPermissions').then((data) => {
+      if (data.code === 200) {
+        getPermitRoute(to).then(newRoute => newRoute ? next(newRoute) : next())
+      }
     })
   } else {
     getPermitRoute(to).then(newRoute => newRoute ? next(newRoute) : next())
