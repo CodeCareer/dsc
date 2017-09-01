@@ -1,12 +1,10 @@
 <template lang="pug">
   span
-    a.color-blue.download(v-for="item in filePath", v-on:click="downloadAttachment(item)", href="javascript:;") 下载附件 
+    a.color-blue.download(v-for="item in filePath", :href="href(item)") 下载附件 
 </template>
 
 <script>
-import {
-  downLoad
-} from '@/common/resource.js'
+import store from '@/vuex/store.js'
 
 export default {
   name: 'down-load',
@@ -14,12 +12,8 @@ export default {
     filePath: Array
   },
   methods: {
-    downloadAttachment(path) {
-      downLoad.post({ filePath: path }, {
-        loadingMaskTarget: '.asset-info-form'
-      }).then(res => {
-        console.log(res.data)
-      })
+    href(value) {
+      return process.env.API_HOST + '/common/download?filePath=' + value + '&token=' + store.getters.token
     }
   }
 }
