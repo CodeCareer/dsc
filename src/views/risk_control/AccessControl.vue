@@ -27,7 +27,7 @@
             span(:class='scope.row.status | stateColor') {{scope.row.status | riskState}}
         el-table-column(label="时间",width="150")
           template(scope="scope")
-            span {{scope.row.updatedAt | moment}}
+            span {{scope.row.updatedAt | moment('YYYY-MM-DD HH:mm:ss')}}
         el-table-column(label="详情",width="500")
           template(scope="scope")
             span {{scope.row.description | ktNull}}

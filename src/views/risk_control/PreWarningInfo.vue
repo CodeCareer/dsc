@@ -27,10 +27,10 @@
             span {{scope.row.status | riskWarn}}
         el-table-column(label="预警创建时间",width="150")
           template(scope="scope")
-            span {{scope.row.createdAt | moment}}
+            span {{scope.row.createdAt | moment('YYYY-MM-DD HH:mm:ss')}}
         el-table-column(label="预警更新时间",width="150")
           template(scope="scope")
-            span {{scope.row.updatedAt | moment}}
+            span {{scope.row.updatedAt | moment('YYYY-MM-DD HH:mm:ss')}}
         el-table-column(label="详情",width="500")
           template(scope="scope")
             span {{scope.row.description | ktNull}}
