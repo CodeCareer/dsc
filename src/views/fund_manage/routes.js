@@ -9,11 +9,6 @@ export default {
   },
   meta: {
     permit: [
-      'accountDepositManage',
-      'accountDepositDelete',
-      'accountDepositEdit',
-      'accountDepositAudit',
-      'accountDepositAdd',
       'fundDeposit',
       'fundAccountManage',
       'fundAccountEdit',
@@ -61,48 +56,6 @@ export default {
         id: 'fundAccountForm',
         name: '新增资金账户',
         to: { name: 'fundAccountForm' }
-      }]
-    }
-  }, {
-    path: 'account_deposit_manage',
-    name: 'accountDepositManage',
-    component: resolve => require(['@/views/fund_manage/AccountDepositManage.vue'], resolve),
-    meta: {
-      title: '车DAS系统-账户入金管理',
-      permit: [
-        'accountDepositManage', 'accountDepositDelete',
-        'accountDepositEdit', 'accountDepositAudit',
-        'accountDepositAdd'
-      ],
-      menu: {
-        name: '账户入金管理',
-        activeIncludes: ['accountDepositManage', 'accountDepositForm']
-      },
-      crumbs: [{
-        name: '资金管理',
-        to: { name: 'fundAccountManage' }
-      }, {
-        name: '账户入金管理',
-        to: { name: 'accountDepositManage' }
-      }]
-    }
-  }, {
-    path: 'account_deposit/:id',
-    name: 'accountDepositForm',
-    component: resolve => require(['@/views/fund_manage/AccountDepositForm.vue'], resolve),
-    meta: {
-      title: '车DAS系统-账户入金管理',
-      permit: ['accountDepositEdit', 'accountDepositAdd'],
-      crumbs: [{
-        name: '资金管理',
-        to: { name: 'fundAccountManage' }
-      }, {
-        name: '账户入金管理',
-        to: { name: 'accountDepositManage' }
-      }, {
-        id: 'accountDepositForm',
-        name: '新增账户入金',
-        to: { name: 'accountDepositForm' }
       }]
     }
   }, {
