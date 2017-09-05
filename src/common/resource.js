@@ -80,6 +80,7 @@ export const APIS = {
   accountDepositDelete: '/fundManage/deleteAccountFundDetail', //账户入金删除
   accountDepositAudit: '/fundManage/auditAccountFundDetail', //账户入金审核
   fundDeposit: '/fundManage/listCapitalDetail', //账户入金明细
+  fundAccountManage: '/fundManage/listAccountInfo', //资金账户查询
   fundAccountEdit: '/fundManage/editAccountInfo', //资金账户编辑
   fundAccountAdd: '/fundManage/addAccountInfo', //资金账户新增
   fundAccountDelete: '/fundManage/deleteAccountInfo', //资金账户删除
@@ -150,6 +151,10 @@ export const accountDepositAudit = {
 
 export const fundDeposit = {
   post: (data, config) => http.post(APIS.fundDeposit, data, config)
+}
+
+export const fundAccountManage = {
+  post: (data, config) => http.post(APIS.fundAccountManage, data, config)
 }
 
 export const fundAccountEdit = {
