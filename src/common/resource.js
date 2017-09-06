@@ -79,7 +79,9 @@ export const APIS = {
   accountDepositManage: '/fundManage/listAccountFundDetail', //账户入金查询
   accountDepositDelete: '/fundManage/deleteAccountFundDetail', //账户入金删除
   accountDepositAudit: '/fundManage/auditAccountFundDetail', //账户入金审核
-  fundDeposit: '/fundManage/listCapitalDetail', //账户入金明细
+  fundDeposit: '/fundManage/listFundDepositDetail', //账户入金明细
+  fundAutoCheckUp: '/fundManage/autoCheckUpAccount', //账户入金明细自动对账
+  fundManualCheckUp: '/fundManage/manualCheckUpAccount', //账户入金明细手动对账
   fundAccountManage: '/fundManage/listAccountInfo', //资金账户查询
   fundAccountEdit: '/fundManage/editAccountInfo', //资金账户编辑
   fundAccountAdd: '/fundManage/addAccountInfo', //资金账户新增
@@ -151,6 +153,14 @@ export const accountDepositAudit = {
 
 export const fundDeposit = {
   post: (data, config) => http.post(APIS.fundDeposit, data, config)
+}
+
+export const fundAutoCheckUp = {
+  get: config => http.get(APIS.fundAutoCheckUp, config)
+}
+
+export const fundManualCheckUp = {
+  get: config => http.get(APIS.fundManualCheckUp, config)
 }
 
 export const fundAccountManage = {

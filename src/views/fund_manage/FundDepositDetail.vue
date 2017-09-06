@@ -3,25 +3,38 @@
     .box
       .box-header
         h3 筛选条件
+        .buttons
+          el-button(type="primary", size="small", @click="autoCheckUp()")  自动对账
       .filters
-        el-select(v-model="filter.accountType", placeholder="账户类型", @change="search")
-          el-option(v-for="t in accountTypes", :key="t.name", :value="t.value", :label="t.name")
+        el-input(placeholder='资产ID', icon='search', @keyup.native.13="search", v-model.trim='filter.assetId')
+        el-input(placeholder='资金账户ID', icon='search', @keyup.native.13="search", v-model.trim='filter.fundAccountId')
+        el-select(v-model="filter.depositType", placeholder="入金类型", @change="search")
+          el-option(v-for="t in depositTypes", :key="t.name", :value="t.value", :label="t.name")
+         
+        .filter-line
         el-select(v-model="filter.checkingStatus", placeholder="对账状态", @change="search")
           el-option(v-for="t in checkingTypes", :key="t.name", :value="t.value", :label="t.name")
-        el-date-picker(placeholder='入金日期', type='date', format='yyyy-MM-dd', :value='date.depositDate', @input="handleDepositDate", :picker-options="pickerOptions")
+        el-date-picker(placeholder='入金日期下限', type='date', format='yyyy-MM-dd', :value='date.depositDateLower', @input="handleDepositDateLower", :picker-options="pickerOptions")
+        el-date-picker(placeholder='入金日期上限', type='date', format='yyyy-MM-dd', :value='date.depositDateUpper', @input="handleDepositDateUpper", :picker-options="pickerOptions")
         el-button(size="small", type="primary", @click="search")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table.no-wrap-cell(:data='fundDepositData', style='width: 100%')
-        el-table-column(prop='accountName', label='账户名称', width='220')
-        el-table-column(prop='accountType', label='账户类型', width='100')
+        el-table-column(prop='id', label='id', width='120')
+        el-table-column(prop='accountSymbol', label='账户标记', width='100')
           template(scope="scope")
-            span {{scope.row.accountType | statusFormat}}
+            span {{scope.row.accountSymbol | statusFormat}}
         el-table-column(prop='assetId', label='资产ID', width='280')
         el-table-column(prop='fundAccountId', label='资金账户ID', width='280')
         el-table-column(prop='checkingStatus', label='对账状态')
           template(scope="scope")
             span(:class="scope.row.checkingStatus | statusClass") {{scope.row.checkingStatus | statusFormat}}
+        el-table-column(prop='createDateTime', label='创建时间', width='120')
+          template(scope="scope")
+            span {{scope.row.createDateTime | moment('YYYY-MM-DD', 'YYYYMMDD')}}
+        el-table-column(prop='createType', label='创建类型', width='100')
+          template(scope="scope")
+            span {{scope.row.createType | statusFormat}}
         el-table-column(prop='depositAmout', label='入金金额', width='220')
           template(scope="scope")
             span {{scope.row.depositAmout | ktCurrency}}
@@ -35,7 +48,8 @@
         el-table-column(label='操作', fixed="right", width='100')
           template(scope="scope")
             .operations
-              i.iconfont.icon-details(@click="detail(scope.row)")
+              i.iconfont.icon-check(v-if="scope.row.checkingStatus === 'WAIT_CHECKING'", @click="manualCheckUp(scope.row)")
+              i.iconfont.icon-details(v-else, @click="detail(scope.row)")
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
@@ -46,7 +60,8 @@ import {
 } from 'lodash'
 
 import {
-  fundDeposit
+  fundDeposit,
+  fundAutoCheckUp
 } from '@/common/resource.js'
 
 import {
@@ -83,6 +98,24 @@ const statusList = [{
 }, {
   name: '对账不通过',
   value: 'UNPASS'
+}, {
+  name: '中金捷翊',
+  value: 'ZHONGJIN_JIEYU'
+}, {
+  name: '中金捷众',
+  value: 'ZHONGJIN_JIEZHONG'
+}, {
+  name: '银联',
+  value: 'UNIPAY'
+}, {
+  name: '线下',
+  value: 'OFF_LINE'
+}, {
+  name: '系统创建',
+  value: 'SYSTEM_CREATE'
+}, {
+  name: '外部系统通知创建',
+  value: 'OUTER_SYSTEM_NOTIFY'
 }]
 
 export default {
@@ -102,9 +135,14 @@ export default {
     }
   },
   methods: {
-    handleDepositDate(value) {
-      this.filter.depositDate = value ? moment(value).format('YYYYMMDD') : ''
-      this.date.depositDate = value ? moment(value).format('YYYY-MM-DD') : ''
+    handleDepositDateLower(value) {
+      this.filter.depositDateLower = value ? moment(value).format('YYYYMMDD') : ''
+      this.date.depositDateLower = value ? moment(value).format('YYYY-MM-DD') : ''
+      this.search()
+    },
+    handleDepositDateUpper(value) {
+      this.filter.depositDateUpper = value ? moment(value).format('YYYYMMDD') : ''
+      this.date.depositDateUpper = value ? moment(value).format('YYYY-MM-DD') : ''
       this.search()
     },
     parseInt: window.parseInt,
@@ -123,6 +161,41 @@ export default {
         name: 'fundDepositDetailForm',
         params: rows
       })
+    },
+
+    autoCheckUp() {
+      fundAutoCheckUp.get().then(res => {
+        const data = res.data
+        this.operationStatus(data)
+      })
+    },
+
+    manualCheckUp(rows) {
+      this.$router.push({
+        name: 'fundDepositDetailForm',
+        params: rows
+      })
+      // fundManualCheckUp.get({
+      //   params: {
+      //     checkingStatus: rows.checkingStatus,
+      //     id: rows.id
+      //   }
+      // }).then(res => {
+      //   const data = res.data
+      //   this.operationStatus(data)
+      // })
+    },
+
+    operationStatus(data) {
+      if (data.resultCode === 'SUCCESS') {
+        this.$message.success({
+          message: data.resultMsg || '成功！'
+        })
+      } else {
+        this.$message.error({
+          message: data.resultMsg || '失败！'
+        })
+      }
     }
   },
 
@@ -145,22 +218,20 @@ export default {
       fixed: window.innerWidth - 180 - 12 * 2 > 1150 ? false : 'right', // 180 左侧菜单宽度，12 section的padding
       fundDepositData: [],
       date: {
-        depositDate: ''
+        depositDate: '',
+        depositDateLower: '',
+        depositDateUpper: ''
       },
       filter: {
-        accountType: '',
+        fundAccountId: '',
+        assetId: '',
         checkingStatus: '',
-        depositDate: '',
+        depositDateLower: '',
+        depositDateUpper: '',
+        depositType: '',
         page: 1,
         limit: 10
       },
-      accountTypes: [{
-        name: '花生',
-        value: 'HUASHENG'
-      }, {
-        name: '大搜车',
-        value: 'DSC'
-      }],
       checkingTypes: [{
         name: '待对账',
         value: 'WAIT_CHECKING'
@@ -170,6 +241,28 @@ export default {
       }, {
         name: '对账不通过',
         value: 'UNPASS'
+      }],
+      depositTypes: [{
+        name: '月供',
+        value: 'NSTALMENT'
+      }, {
+        name: '尾款',
+        value: 'REST'
+      }, {
+        name: '回购款',
+        value: 'BUY_BACK'
+      }, {
+        name: '月供转付',
+        value: 'INSTALMENT_REMITTANCE'
+      }, {
+        name: '月供垫付',
+        value: 'INSTALMENT_ADVANCE'
+      }, {
+        name: '差额补足',
+        value: 'MAKE_UP_THE_BALANCE'
+      }, {
+        name: '产品提前还款',
+        value: 'PREPAYMENT'
       }]
     }
   }
