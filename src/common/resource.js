@@ -86,6 +86,11 @@ export const APIS = {
   fundAccountEdit: '/fundManage/editAccountInfo', //资金账户编辑
   fundAccountAdd: '/fundManage/addAccountInfo', //资金账户新增
   fundAccountDelete: '/fundManage/deleteAccountInfo', //资金账户删除
+  fundAccountSerial: '/fundManage/listFundAccountSerial', //查询资金账户流水
+  fundAccountSerialAdd: '/fundManage/addFundAccountSerial', //资金账户流水新增
+  fundAccountSerialDelete: '/fundManage/delFundAccountSerial', //资金账户流水删除
+  fundAccountSerialUpload: '/fundManage/uploadFundAccountSerial', //资金账户流水导入
+  dictsUpholdFundAccount: '/fundManage/dictsUpholdFundAccount', //需要维护账户流水的资金账户数据字典
   assetInfo: '/assetManage/listAllAssetInfo', //资产的全部信息
   backRecord: '/assetManage/listBuyBackRecord', // 查询回购记录
   factRepay: '/assetManage/listFactRepayInfo', // 查询实际还款
@@ -129,6 +134,10 @@ export const carMatchs = {
 
 export const carMatch = {
   put: (data, config) => http.post(APIS.carMatchUpdate, data, config)
+}
+
+export const dictsUpholdFundAccount = {
+  post: (data, config) => http.post(APIS.dictsUpholdFundAccount, data, config)
 }
 
 export const productsRelease = {
@@ -177,6 +186,22 @@ export const fundAccountAdd = {
 
 export const fundAccountDelete = {
   post: (data, config) => http.post(APIS.fundAccountDelete, data, config)
+}
+
+export const fundAccountSerial = {
+  post: (data, config) => http.post(APIS.fundAccountSerial, data, config)
+}
+
+export const fundAccountSerialAdd = {
+  post: (data, config) => http.post(APIS.fundAccountSerialAdd, data, config)
+}
+
+export const fundAccountSerialDelete = {
+  post: (data, config) => http.post(APIS.fundAccountSerialDelete, data, config)
+}
+
+export const fundAccountSerialUpload = {
+  post: (data, config) => http.post(APIS.fundAccountSerialUpload, data, config)
 }
 
 export const assetInfo = {

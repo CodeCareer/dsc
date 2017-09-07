@@ -148,6 +148,7 @@ export default {
 
     operationStatus(data) {
       if (data.resultCode === 'SUCCESS') {
+        this.search()
         this.$message.success({
           message: data.resultMsg || '成功！'
         })
