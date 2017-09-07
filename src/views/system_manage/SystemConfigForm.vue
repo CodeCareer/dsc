@@ -10,12 +10,12 @@
             .form-inner.center
               el-form-item(label="配置编号：", prop="configNo")
                 span {{systemConfigData.configNo}}
-              el-form-item(label="配置值：", prop="configValue")
-                el-input(type="text", placeholder="请输入配置值", v-model="systemConfigData.configValue")
               el-form-item(label="配置名称：", prop="configName")
                 el-input(type="text", placeholder="请输入配置名称", v-model="systemConfigData.configName")
+              el-form-item(label="配置值：", prop="configValue")
+                el-input(type="textarea", placeholder="请输入配置值", :maxlength="500", :autosize="{ minRows: 4, maxRows: 6}", v-model="systemConfigData.configValue")
               el-form-item(label="备注：", prop="remark")
-                el-input(type="textarea", placeholder="请输入备注", :maxlength="500", :autosize="{ minRows: 2, maxRows: 4}", v-model="systemConfigData.remark")
+                el-input(type="textarea", placeholder="请输入备注", :maxlength="500", :autosize="{ minRows: 4, maxRows: 6}", v-model="systemConfigData.remark")
     .bottom-buttons
       el-button(type="primary", size="small", @click="submitForm") 保存
       el-button(type="gray", size="small", @click="cancel") 取消

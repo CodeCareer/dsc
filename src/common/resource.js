@@ -82,6 +82,7 @@ export const APIS = {
   fundDeposit: '/fundManage/listFundDepositDetail', //账户入金明细
   fundAutoCheckUp: '/fundManage/autoCheckUpAccount', //账户入金明细自动对账
   fundManualCheckUp: '/fundManage/manualCheckUpAccount', //账户入金明细手动对账
+  isShowAutoCheckUp: '/fundManage/isShowAutoCheckUpAccount', //是否显示入金明细完成对账
   fundAccountManage: '/fundManage/listAccountInfo', //资金账户查询
   fundAccountEdit: '/fundManage/editAccountInfo', //资金账户编辑
   fundAccountAdd: '/fundManage/addAccountInfo', //资金账户新增
@@ -172,6 +173,10 @@ export const fundAutoCheckUp = {
 
 export const fundManualCheckUp = {
   get: config => http.get(APIS.fundManualCheckUp, config)
+}
+
+export const isShowAutoCheckUp = {
+  get: config => http.get(APIS.isShowAutoCheckUp, config)
 }
 
 export const fundAccountManage = {
