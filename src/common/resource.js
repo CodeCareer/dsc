@@ -106,6 +106,8 @@ export const APIS = {
   carGpsList: '/thirdPartyData/gpsManage/geos', // 车辆GPS信息列表获取接口
   carMatchList: '/thirdPartyData/vehicleManage/vehicleMatchs/list', // 车辆匹配信息管理
   carMatchUpdate: '/thirdPartyData/vehicleManage/vehicleMatchs/update', // 车辆匹配信息管理
+  sysConfigList: '/sysConfig/page', // 分页展示系统配置项
+  sysConfigUpdate: '/sysConfig/update', // 修改系统配置项
   downLoad: '/common/download' // 下载文件
 }
 
@@ -238,4 +240,12 @@ export const riskQuery = {
 
 export const riskWarn = {
   get: (config) => http.get(APIS.riskWarn, config)
+}
+
+export const sysConfigList = {
+  post: (data, config) => http.post(APIS.sysConfigList, data, config)
+}
+
+export const sysConfigUpdate = {
+  post: (data, config) => http.post(APIS.sysConfigUpdate, data, config)
 }
