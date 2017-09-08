@@ -42,7 +42,7 @@
             .operations
               i.iconfont.icon-edit(title="编辑基础信息", @click="editCarInfo(scope.row)", v-if="$permit('carInfoDetail')")
               //- i.iconfont.icon-delete(@click.stop="deleteCarInfo(scope.row)")
-      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
+      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper, ->, sizes', :total='parseInt(page.total)')
 </template>
 
 <script>
