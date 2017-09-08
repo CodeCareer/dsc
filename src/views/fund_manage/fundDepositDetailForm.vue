@@ -3,6 +3,9 @@
   .box
     .box-header
       | {{title}}
+      router-link.buttons(:to="{ name: 'repayPlan', query: { assetId: fundDepositData.assetId, termNo: fundDepositData.termNo }}", target="_blank", v-if="fundDepositData.checkingStatus === 'UNPASS'")
+        el-button(type="primary", size="small")
+          | 查看实际还款
     .box-content
       .box-section
         el-row(:gutter="20")
@@ -27,7 +30,7 @@
                 td(:class="fundDepositData.checkingStatus | statusClass") {{fundDepositData.checkingStatus | statusFormat}}
               tr
                 th 创建时间：
-                td {{fundDepositData.createDateTime | moment('YYYY-MM-DD', 'YYYYMMDD')}}
+                td {{fundDepositData.createDateTime | moment('YYYY-MM-DD HH:mm:ss')}}
               tr
                 th 创建类型：
                 td {{fundDepositData.createType | statusFormat}}
@@ -46,8 +49,7 @@
                 th 月供期数	：
                 td {{fundDepositData.termNo}}
     .bottom-buttons 
-      el-button(v-if="fundDepositData.checkingStatus === 'WAIT_CHECKING'", type="primary", size="small", @click="checkUp('PASSED')") 通过
-      el-button(v-if="fundDepositData.checkingStatus === 'WAIT_CHECKING'", type="gray", size="small", @click="checkUp('DENIED')") 驳回
+      el-button(v-if="fundDepositData.checkingStatus === 'UNPASS'", type="primary", size="small", @click="checkUp('PASSED')") 通过
       el-button(size="small", @click="cancel") 返回
 </template>
 

@@ -82,6 +82,7 @@ export const APIS = {
   fundDeposit: '/fundManage/listFundDepositDetail', //账户入金明细
   fundAutoCheckUp: '/fundManage/autoCheckUpAccount', //账户入金明细自动对账
   fundManualCheckUp: '/fundManage/manualCheckUpAccount', //账户入金明细手动对账
+  isShowAutoCheckUp: '/fundManage/isShowAutoCheckUpAccount', //是否显示入金明细完成对账
   fundAccountManage: '/fundManage/listAccountInfo', //资金账户查询
   fundAccountEdit: '/fundManage/editAccountInfo', //资金账户编辑
   fundAccountAdd: '/fundManage/addAccountInfo', //资金账户新增
@@ -106,6 +107,8 @@ export const APIS = {
   carGpsList: '/thirdPartyData/gpsManage/geos', // 车辆GPS信息列表获取接口
   carMatchList: '/thirdPartyData/vehicleManage/vehicleMatchs/list', // 车辆匹配信息管理
   carMatchUpdate: '/thirdPartyData/vehicleManage/vehicleMatchs/update', // 车辆匹配信息管理
+  sysConfigList: '/sysConfig/page', // 分页展示系统配置项
+  sysConfigUpdate: '/sysConfig/update', // 修改系统配置项
   downLoad: '/common/download' // 下载文件
 }
 
@@ -170,6 +173,10 @@ export const fundAutoCheckUp = {
 
 export const fundManualCheckUp = {
   get: config => http.get(APIS.fundManualCheckUp, config)
+}
+
+export const isShowAutoCheckUp = {
+  get: config => http.get(APIS.isShowAutoCheckUp, config)
 }
 
 export const fundAccountManage = {
@@ -238,4 +245,12 @@ export const riskQuery = {
 
 export const riskWarn = {
   get: (config) => http.get(APIS.riskWarn, config)
+}
+
+export const sysConfigList = {
+  post: (data, config) => http.post(APIS.sysConfigList, data, config)
+}
+
+export const sysConfigUpdate = {
+  post: (data, config) => http.post(APIS.sysConfigUpdate, data, config)
 }

@@ -19,7 +19,8 @@ export default {
       'fundAccountSeriaDelete',
       'fundAccountSeriaUpload',
       'fundAutoCheckUp',
-      'fundManualCheckUp'
+      'fundManualCheckUp',
+      'isShowAutoCheckUp'
     ],
     menu: {
       name: '资金管理',
@@ -70,7 +71,7 @@ export default {
     component: resolve => require(['@/views/fund_manage/fundDepositDetail.vue'], resolve),
     meta: {
       title: '车DAS系统-入金明细信息',
-      permit: ['fundDeposit', 'fundAutoCheckUp'],
+      permit: ['fundDeposit', 'fundAutoCheckUp', 'isShowAutoCheckUp'],
       menu: {
         name: '入金明细信息',
         activeIncludes: ['fundDepositDetail', 'fundDepositDetailForm']
