@@ -19,9 +19,9 @@
       el-table.no-wrap-cell(:data='fundAccount', style='width: 100%')
         el-table-column(prop='id', label='ID')
         el-table-column(prop='accountName', label='账户名称')
-        el-table-column(prop='accountUsages', label='账户用途', width='100')
+        el-table-column(prop='accountUsages', label='账户用途')
           template(scope="scope")
-            span {{scope.row.accountUsages | statusFormat}}
+            span {{scope.row.accountUsages | accountUsagesFormat}}
         el-table-column(prop='assetFrom', label='资产来源', width='100')
           template(scope="scope")
             span {{scope.row.assetFrom | statusFormat}}
@@ -46,7 +46,8 @@
 <script>
 import {
   merge,
-  find
+  find,
+  forEach
 } from 'lodash'
 
 import {
@@ -69,6 +70,14 @@ const statusList = [{
   name: '花生',
   value: 'HUASHENG'
 }, {
+  name: '是',
+  value: 'YES'
+}, {
+  name: '否',
+  value: 'NO'
+}]
+
+const accountUsagesList = [{
   name: '直接收取月租',
   value: 'INSTALMENT'
 }, {
@@ -89,12 +98,6 @@ const statusList = [{
 }, {
   name: '产品提前还款',
   value: 'PREPAYMENT'
-}, {
-  name: '是',
-  value: 'YES'
-}, {
-  name: '否',
-  value: 'NO'
 }]
 
 export default {
@@ -103,6 +106,18 @@ export default {
     statusFormat(value) {
       const status = find(statusList, s => s.value === value)
       return status ? status.name : '未知类型'
+    },
+
+    accountUsagesFormat(value) {
+      const valueArray = value.split(',')
+      // const valueStr = ''
+      // const status = find(accountUsagesList, s => s.value === value)
+      forEach(valueArray, function(n, key) {
+        const status = find(accountUsagesList, s => s.value === n)
+        valueArray[key] = status ? status.name : '未知类型'
+      })
+      return valueArray.join(',')
+      // return status ? status.name : '未知类型'
     }
   },
   methods: {
