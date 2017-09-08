@@ -26,33 +26,33 @@
           el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table.no-wrap-cell(:max-height="maxHeight", :data='fundAccountSerial', style='width: 100%', :summary-method="getSummaries", show-summary)
-        el-table-column(prop='fundAccountId', label='资金账户Id' width="240")
-        el-table-column(prop='accountBalance', label='账户余额' width="120")
+        el-table-column(prop='fundAccountId', label='资金账户Id', width="240")
+        el-table-column(prop='accountBalance', label='账户余额', width="120")
           template(scope="scope")
             span {{scope.row.accountBalance | ktCurrency}}
-        el-table-column(prop='occurAmount', label='发生金额' width="120")
+        el-table-column(prop='occurAmount', label='发生金额', width="120")
           template(scope="scope")
             span {{scope.row.occurAmount | ktCurrency}}
         el-table-column(prop='fundDirection', label='资金方向')
           template(scope="scope")
             span {{scope.row.fundDirection | statusFormat}}
-        el-table-column(prop='fundSerialStatus', label='对账状态' width="110")
+        el-table-column(prop='fundSerialStatus', label='对账状态', width="110")
           template(scope="scope")
             span {{scope.row.fundSerialStatus | statusFormat}}
-        el-table-column(prop='occurDatetime', label='发生时间' width="150")
+        el-table-column(prop='occurDatetime', label='发生时间', width="150")
           template(scope="scope")
             span {{scope.row.occurDatetime | moment('YYYY-MM-DD HH:mm:ss')}}
-        el-table-column(prop='needSystemOperate', label='是否需要对账' width="130")
+        el-table-column(prop='needSystemOperate', label='是否需要对账', width="130")
           template(scope="scope")
             span {{scope.row.needSystemOperate | statusFormat}}
-        el-table-column(prop='inputType', label='录入方式')
+        el-table-column(prop='inputType', label='录入方式', width="100")
           template(scope="scope")
             span {{scope.row.inputType | statusFormat}}
-        el-table-column(prop='inputUserId', label='录入人用户id' width="240")
-        el-table-column(prop='createDatetime', label='创建时间' width="150")
+        el-table-column(prop='inputUserId', label='录入人用户id', width="240")
+        el-table-column(prop='createDatetime', label='创建时间', width="150")
           template(scope="scope")
             span {{scope.row.createDatetime | moment('YYYY-MM-DD HH:mm:ss')}}
-        el-table-column(prop='remark', label='备注' width="250")
+        el-table-column(prop='remark', label='备注', width="250")
         el-table-column(label='操作', fixed="right", v-if="$permit('fundAccountSerialDelete')")
           template(scope="scope")
             .operations
@@ -101,11 +101,11 @@ const statusList = [{
   name: '已对账',
   value: 'CHECKED'
 }, {
-  name: 'EXCEL',
-  value: 'EXCEL导入'
+  name: 'EXCEL导入',
+  value: 'EXCEL'
 }, {
-  name: 'MANUALLY',
-  value: '手动录入'
+  name: '手动录入',
+  value: 'MANUALLY'
 }]
 
 export default {
