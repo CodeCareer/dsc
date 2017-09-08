@@ -26,11 +26,15 @@
         el-table-column(prop='dealStatus', label='处理状态')
           template(scope="scope")
             span(:class="scope.row.dealStatus | statusClass") {{scope.row.dealStatus | statusFormat}}
+        el-table-column(prop='validStatus', label='校验状态')
+          template(scope="scope")
+            span(:class="scope.row.valid_status | statusClass") {{scope.row.valid_status | statusFormat}}
         el-table-column(prop='payChannel', label='支付渠道')
           template(scope="scope")
             span {{scope.row.payChannel | statusFormat}}
         el-table-column(prop='payNo', label='支付流水号')
         el-table-column(prop='factBenefit', label='实际优惠金额')
+        el-table-column(prop='remark', label='备注')
           template(scope="scope")
             span {{scope.row.factBenefit | ktCurrency}}
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total,  sizes, prev, pager, next, jumper', :total='parseInt(page.total)')
@@ -60,8 +64,23 @@ const statusList = [{
   name: '待处理',
   value: 'WAIT_DEAL'
 }, {
-  name: '已处理',
-  value: 'DEALED'
+  name: '已处理，无异常',
+  value: 'DEALED_RIGHT'
+}, {
+  name: '已处理，有异常',
+  value: 'DEALED_ERROR'
+}, {
+  name: '待校验',
+  value: 'WAIT_VALID'
+}, {
+  name: '已校验',
+  value: 'VALIDED_PASS'
+}, {
+  name: '已校验，未通过',
+  value: 'VALIDED_UNPASS'
+}, {
+  name: '无需校验',
+  value: 'NO_NEED_VALID'
 }, {
   name: '网商',
   value: 'MYBANK'
@@ -84,8 +103,12 @@ export default {
   filters: {
     statusClass(value) {
       const classMap = {
-        'DEALED': 'color-green',
-        'WAIT_DEAL': 'color-red'
+        'DEALED_RIGHT': 'color-green',
+        'DEALED_ERROR': 'color-red',
+        'WAIT_DEAL': 'color-red',
+        'VALIDED_PASS': 'color-green',
+        'WAIT_VALID': 'color-red',
+        'NO_NEED_VALID': 'color-red'
       }
       return classMap[value] || ''
     },
