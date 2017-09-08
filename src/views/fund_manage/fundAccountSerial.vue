@@ -4,10 +4,10 @@
       .box-header
         h3 筛选条件
         .buttons
-          el-button(type="primary", size="small", @click="upload()")
+          el-button(type="primary", size="small", @click="upload()", v-if="$permit('fundAccountSerialUpload')")
             i.iconfont.icon-add
             | 导入Excel
-          el-button(type="primary", size="small", @click="add()")
+          el-button(type="primary", size="small", @click="add()", v-if="$permit('fundAccountSerialAdd')")
             i.iconfont.icon-add
             | 新增
       .filters
@@ -53,10 +53,10 @@
           template(scope="scope")
             span {{scope.row.createDatetime | moment('YYYY-MM-DD HH:mm:ss')}}
         el-table-column(prop='remark', label='备注' width="250")
-        el-table-column(label='操作', fixed="right")
+        el-table-column(label='操作', fixed="right", v-if="$permit('fundAccountDelete')")
           template(scope="scope")
             .operations
-              i.iconfont.icon-delete(@click="del(scope.row)")
+              i.iconfont.icon-delete(@click="del(scope.row)", v-if="$permit('fundAccountDelete')")
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total,  sizes, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
