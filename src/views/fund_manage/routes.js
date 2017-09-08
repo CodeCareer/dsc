@@ -14,10 +14,10 @@ export default {
       'fundAccountEdit',
       'fundAccountAdd',
       'fundAccountDelete',
-      'fundAccountSeria',
-      'fundAccountSeriaAdd',
-      'fundAccountSeriaDelete',
-      'fundAccountSeriaUpload',
+      'fundAccountSerial',
+      'fundAccountSerialAdd',
+      'fundAccountSerialDelete',
+      'fundAccountSerialUpload',
       'fundAutoCheckUp',
       'fundManualCheckUp',
       'isShowAutoCheckUp'
@@ -109,10 +109,10 @@ export default {
     component: resolve => require(['@/views/fund_manage/fundAccountSerial.vue'], resolve),
     meta: {
       title: '车DAS系统-资金账户流水',
-      permit: ['fundAccountSerial', 'fundAccountDelete'],
+      permit: ['fundAccountSerial'],
       menu: {
         name: '资金账户流水',
-        activeIncludes: ['fundAccountSerial', 'fundAccountSeriaForm']
+        activeIncludes: ['fundAccountSerial', 'fundAccountSerialForm']
       },
       crumbs: [{
         name: '资金管理',
