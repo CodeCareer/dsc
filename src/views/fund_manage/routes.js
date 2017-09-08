@@ -14,10 +14,10 @@ export default {
       'fundAccountEdit',
       'fundAccountAdd',
       'fundAccountDelete',
-      'fundAccountSeria',
-      'fundAccountSeriaAdd',
-      'fundAccountSeriaDelete',
-      'fundAccountSeriaUpload',
+      'fundAccountSerial',
+      'fundAccountSerialAdd',
+      'fundAccountSerialDelete',
+      'fundAccountSerialUpload',
       'fundAutoCheckUp',
       'fundManualCheckUp',
       'isShowAutoCheckUp'
@@ -112,7 +112,7 @@ export default {
       permit: ['fundAccountSerial'],
       menu: {
         name: '资金账户流水',
-        activeIncludes: ['fundAccountSerial', 'fundAccountSeriaForm']
+        activeIncludes: ['fundAccountSerial', 'fundAccountSerialForm']
       },
       crumbs: [{
         name: '资金管理',

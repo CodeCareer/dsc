@@ -137,6 +137,31 @@
             "name": "风控规则模板更新",
             "url": "/riskManage/riskRules/*/update",
             "check": true
+        }, {
+            "id": "da300370a73040f280e2a9f34069cbc7",
+            "name": "查询资金账户流水",
+            "url": "/fundManage/listFundAccountSerial",
+            "check": true
+        }, {
+            "id": "da300370a73040f280e2a9f34069cbc7",
+            "name": "资金账户流水新增",
+            "url": "/fundManage/addFundAccountSerial",
+            "check": true
+        }, {
+            "id": "da300370a73040f280e2a9f34069cbc7",
+            "name": "资金账户流水删除",
+            "url": "/fundManage/delFundAccountSerial",
+            "check": true
+        }, {
+            "id": "da300370a73040f280e2a9f34069cbc7",
+            "name": "资金账户流水导入",
+            "url": "/fundManage/uploadFundAccountSerial",
+            "check": true
+        }, {
+            "id": "da300370a73040f280e2a9f34069cbc7",
+            "name": "需要维护账户流水的资金账户数据字典",
+            "url": "/fundManage/dictsUpholdFundAccount",
+            "check": true
         }],
         "groups": []
     }, {

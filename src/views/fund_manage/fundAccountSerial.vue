@@ -53,10 +53,10 @@
           template(scope="scope")
             span {{scope.row.createDatetime | moment('YYYY-MM-DD HH:mm:ss')}}
         el-table-column(prop='remark', label='备注' width="250")
-        el-table-column(label='操作', fixed="right", v-if="$permit('fundAccountDelete')")
+        el-table-column(label='操作', fixed="right", v-if="$permit('fundAccountSerialDelete')")
           template(scope="scope")
             .operations
-              i.iconfont.icon-delete(@click="del(scope.row)", v-if="$permit('fundAccountDelete')")
+              i.iconfont.icon-delete(@click="del(scope.row)", v-if="$permit('fundAccountSerialDelete')")
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total,  sizes, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
