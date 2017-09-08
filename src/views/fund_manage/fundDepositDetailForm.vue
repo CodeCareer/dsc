@@ -48,6 +48,9 @@
               tr
                 th 月供期数	：
                 td {{fundDepositData.termNo}}
+              tr
+                th 备注	：
+                td {{fundDepositData.remark}}
     .bottom-buttons 
       el-button(v-if="fundDepositData.checkingStatus === 'UNPASS'", type="primary", size="small", @click="checkUp('PASSED')") 通过
       el-button(size="small", @click="cancel") 返回

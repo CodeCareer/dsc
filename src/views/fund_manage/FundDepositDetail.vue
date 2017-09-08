@@ -45,6 +45,7 @@
           template(scope="scope")
             span {{scope.row.depositType | statusFormat}}
         el-table-column(prop='termNo', label='月供期数')
+        el-table-column(prop='remark', label='备注')
         el-table-column(label='操作', fixed="right", width='100')
           template(scope="scope")
             .operations
@@ -133,7 +134,7 @@ export default {
     },
     statusFormat(value) {
       const status = find(statusList, s => s.value === value)
-      return status ? status.name : '未知状态'
+      return status ? status.name : '-'
     }
   },
   methods: {
@@ -157,10 +158,12 @@ export default {
         this.page.total = data.total
       })
 
-      isShowAutoCheckUp.get().then(res => {
-        const data = res.data.data
-        this.ShowAutoCheckUp = (data.isShow)
-      })
+      if (this.$permit('isShowAutoCheckUp')) {
+        isShowAutoCheckUp.get().then(res => {
+          const data = res.data.data
+          this.ShowAutoCheckUp = (data.isShow)
+        })
+      }
     },
 
     detail(rows) {

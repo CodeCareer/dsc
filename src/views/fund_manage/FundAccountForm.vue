@@ -4,15 +4,15 @@
     .box-header
       | {{title}}
     .box-content
-      el-form(:model="fundAccount", :rules="rules", ref="fundAccountForm", label-width="120px")
+      el-form(:model="fundAccount", :rules="rules", ref="fundAccountForm", label-width="160px")
         el-row
           el-col(:span="12", :offset="6")
             .form-inner.center
               el-form-item(label="账户名称：", prop="accountName")
                 el-input(type="text", placeholder="请输入账户名称", :maxlength="64",  v-model="fundAccount.accountName")
               el-form-item(label="账户用途：", prop="accountUsages")
-                el-select(v-model="fundAccount.accountUsages", placeholder="请选择账户用途")
-                  el-option(v-for="t in accountUsages", :key="t.name", :value="t.value", :label="t.name")
+                el-checkbox-group(v-model="accountUsagesArray" @change="checkboxchange(fundAccount)")
+                  el-checkbox.circle.mini(v-for="t in accountUsages", :label="t.value", :key="t.value") {{t.name}}
               el-form-item(label="资产来源：", prop="assetFrom")
                 el-select(v-model="fundAccount.assetFrom", placeholder="请选择资产来源")
                   el-option(v-for="t in assetFrom", :key="t.name", :value="t.value", :label="t.name")
@@ -95,6 +95,10 @@ export default {
           message: data.resultMsg || '失败！'
         })
       }
+    },
+
+    checkboxchange(module) {
+      this.fundAccount.accountUsages = this.accountUsagesArray.join(',')
     }
   },
   created() {
@@ -106,6 +110,7 @@ export default {
         id: 'fundAccountForm',
         name: '编辑资金账户'
       }])
+      this.accountUsagesArray = this.fundAccount.accountUsages.split(',')
     } else {
       this.updateCrumb.$emit('update-crumbs', [{
         id: 'fundAccountForm',
@@ -117,6 +122,7 @@ export default {
   data() {
     return {
       title: '新增资金账户',
+      accountUsagesArray: [],
       assetFrom: [{
         name: '花生',
         value: 'HUASHENG'
@@ -161,7 +167,7 @@ export default {
         }],
         accountUsages: [{
           required: true,
-          message: '必填项',
+          message: '必选项',
           trigger: 'change'
         }],
         assetFrom: [{
@@ -202,5 +208,8 @@ export default {
   .bottom-buttons {
     margin: 0 0 20px;
   }
+}
+.el-checkbox {
+  margin-left: 15px;
 }
 </style>
