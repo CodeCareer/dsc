@@ -11,11 +11,17 @@
             i.iconfont.icon-add
             | 新增
       .filters
-        el-input(placeholder='账户ID', icon='search', @keyup.native.13="search", v-model.trim='filter.fundAccountId')
-        el-date-picker(placeholder='发生时间下限', type='date', format='yyyy-MM-dd', :value='date.occurDatetimeLower', @input="handleDateLower", :picker-options="pickerOptionsLower")
-        el-date-picker(placeholder='发生时间上限', type='date', format='yyyy-MM-dd', :value='date.occurDatetimeUpper', @input="handleDatetUpper", :picker-options="pickerOptionsUpper")
-        el-button(size="small", type="primary", @click="search")  搜索
-        el-button(size="small", type="primary", @click="clearFilter")  清除
+        .filter-line
+          el-input(placeholder='账户ID', icon='search', @keyup.native.13="search", v-model.trim='filter.fundAccountId')
+          el-date-picker(placeholder='发生时间下限', type='date', format='yyyy-MM-dd', :value='date.occurDatetimeLower', @input="handleDateLower", :picker-options="pickerOptionsLower")
+          el-date-picker(placeholder='发生时间上限', type='date', format='yyyy-MM-dd', :value='date.occurDatetimeUpper', @input="handleDatetUpper", :picker-options="pickerOptionsUpper")
+        .filter-line
+          el-select(v-model="filter.needSystemOperate", placeholder="请选择是否需要对账" @change="search")
+            el-option(v-for="t in needSystemOperateList", :key="t.name", :value="t.value", :label="t.name")
+          el-select(v-model="filter.fundSerialStatus", placeholder="对账状态" @change="search")
+            el-option(v-for="t in fundSerialStatusList", :key="t.name", :value="t.value", :label="t.name")
+          el-button(size="small", type="primary", @click="search")  搜索
+          el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table.no-wrap-cell(:data='fundAccountSerial', style='width: 100%')
         el-table-column(prop='fundAccountId', label='资金账户Id' width="240")
@@ -24,13 +30,13 @@
         el-table-column(prop='fundDirection', label='资金方向')
           template(scope="scope")
             span {{scope.row.fundDirection | statusFormat}}
-        el-table-column(prop='fundSerialStatus', label='资金流水状态' width="110")
+        el-table-column(prop='fundSerialStatus', label='对账状态' width="110")
           template(scope="scope")
             span {{scope.row.fundSerialStatus | statusFormat}}
         el-table-column(prop='occurDatetime', label='发生时间' width="150")
           template(scope="scope")
             span {{scope.row.occurDatetime | moment('YYYY-MM-DD HH:mm:ss')}}
-        el-table-column(prop='needSystemOperate', label='是否需要系统操作' width="130")
+        el-table-column(prop='needSystemOperate', label='是否需要对账' width="130")
           template(scope="scope")
             span {{scope.row.needSystemOperate | statusFormat}}
         el-table-column(prop='inputType', label='录入方式')
@@ -195,13 +201,28 @@ export default {
       },
       fixed: window.innerWidth - 180 - 12 * 2 > 1150 ? false : 'right', // 180 左侧菜单宽度，12 section的padding
       fundAccountSerial: [],
+      needSystemOperateList: [{
+        name: '是',
+        value: 'YES'
+      }, {
+        name: '否',
+        value: 'NO'
+      }],
+      fundSerialStatusList: [{
+        name: '已录入',
+        value: 'INPUT'
+      }, {
+        name: '已对账',
+        value: 'CHECKED'
+      }],
       date: {
         occurDatetimeLower: '',
         occurDatetimeUpper: ''
       },
       filter: {
-        accountType: '',
-        checkingStatus: '',
+        fundAccountId: '',
+        needSystemOperate: '',
+        fundSerialStatus: '',
         occurDatetimeLower: '',
         occurDatetimeUpper: '',
         page: 1,
