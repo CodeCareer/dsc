@@ -7,7 +7,7 @@
           el-button(type="primary", size="small", @click="upload()", v-if="$permit('fundAccountSerialUpload')")
             i.iconfont.icon-add
             | 导入Excel
-          el-button(type="primary", size="small", @click="add()", v-if="$permit('fundAccountSerialAdd')")
+          el-button(type="primary", size="small", @click="add()", v-if="false && $permit('fundAccountSerialAdd')")
             i.iconfont.icon-add
             | 新增
       .filters
@@ -20,8 +20,6 @@
             el-option(v-for="t in fundDirectionList", :key="t.name", :value="t.value", :label="t.name")
           el-select(v-model="filter.needSystemOperate", placeholder="是否需要对账" @change="search")
             el-option(v-for="t in needSystemOperateList", :key="t.name", :value="t.value", :label="t.name")
-          el-select(v-model="filter.fundSerialStatus", placeholder="对账状态" @change="search")
-            el-option(v-for="t in fundSerialStatusList", :key="t.name", :value="t.value", :label="t.name")
           el-button(size="small", type="primary", @click="search")  搜索
           el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
@@ -36,9 +34,6 @@
         el-table-column(prop='fundDirection', label='资金方向')
           template(scope="scope")
             span {{scope.row.fundDirection | statusFormat}}
-        el-table-column(prop='fundSerialStatus', label='对账状态', width="110")
-          template(scope="scope")
-            span {{scope.row.fundSerialStatus | statusFormat}}
         el-table-column(prop='occurDatetime', label='发生时间', width="150")
           template(scope="scope")
             span {{scope.row.occurDatetime | moment('YYYY-MM-DD HH:mm:ss')}}
@@ -53,7 +48,7 @@
           template(scope="scope")
             span {{scope.row.createDatetime | moment('YYYY-MM-DD HH:mm:ss')}}
         el-table-column(prop='remark', label='备注', width="250")
-        el-table-column(label='操作', fixed="right", v-if="$permit('fundAccountSerialDelete')")
+        el-table-column(label='操作', fixed="right", v-if="false && $permit('fundAccountSerialDelete')")
           template(scope="scope")
             .operations
               i.iconfont.icon-delete(@click="del(scope.row)", v-if="$permit('fundAccountSerialDelete')")
@@ -94,12 +89,6 @@ const statusList = [{
 }, {
   name: '出',
   value: 'OUT'
-}, {
-  name: '已录入',
-  value: 'INPUT'
-}, {
-  name: '已对账',
-  value: 'CHECKED'
 }, {
   name: 'EXCEL导入',
   value: 'EXCEL'
@@ -242,13 +231,6 @@ export default {
       }, {
         name: '否',
         value: 'NO'
-      }],
-      fundSerialStatusList: [{
-        name: '已录入',
-        value: 'INPUT'
-      }, {
-        name: '已对账',
-        value: 'CHECKED'
       }],
       fundDirectionList: [{
         name: '入',
