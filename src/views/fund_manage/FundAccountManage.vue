@@ -16,7 +16,7 @@
         el-button(size="small", type="primary", @click="search")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
-      el-table.no-wrap-cell(:data='fundAccount', style='width: 100%')
+      el-table.no-wrap-cell(:max-height="maxHeight", :data='fundAccount', style='width: 100%')
         el-table-column(prop='id', label='ID')
         el-table-column(prop='accountName', label='账户名称')
         el-table-column(prop='accountUsages', label='账户用途', width='100')
@@ -40,7 +40,7 @@
             .operations
               i.iconfont.icon-edit(@click="edit(scope.row)")
               i.iconfont.icon-delete(@click="del(scope.row)")
-      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
+      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total,  sizes, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
 <script>

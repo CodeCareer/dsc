@@ -16,17 +16,23 @@
           el-date-picker(placeholder='发生时间下限', type='date', format='yyyy-MM-dd', :value='date.occurDatetimeLower', @input="handleDateLower", :picker-options="pickerOptionsLower")
           el-date-picker(placeholder='发生时间上限', type='date', format='yyyy-MM-dd', :value='date.occurDatetimeUpper', @input="handleDatetUpper", :picker-options="pickerOptionsUpper")
         .filter-line
-          el-select(v-model="filter.needSystemOperate", placeholder="请选择是否需要对账" @change="search")
+          el-select(v-model="filter.fundDirection", placeholder="资金方向" @change="search")
+            el-option(v-for="t in fundDirectionList", :key="t.name", :value="t.value", :label="t.name")
+          el-select(v-model="filter.needSystemOperate", placeholder="是否需要对账" @change="search")
             el-option(v-for="t in needSystemOperateList", :key="t.name", :value="t.value", :label="t.name")
           el-select(v-model="filter.fundSerialStatus", placeholder="对账状态" @change="search")
             el-option(v-for="t in fundSerialStatusList", :key="t.name", :value="t.value", :label="t.name")
           el-button(size="small", type="primary", @click="search")  搜索
           el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
-      el-table.no-wrap-cell(:data='fundAccountSerial', style='width: 100%')
+      el-table.no-wrap-cell(:max-height="maxHeight", :data='fundAccountSerial', style='width: 100%', :summary-method="getSummaries", show-summary)
         el-table-column(prop='fundAccountId', label='资金账户Id' width="240")
         el-table-column(prop='accountBalance', label='账户余额' width="120")
+          template(scope="scope")
+            span {{scope.row.accountBalance | ktCurrency}}
         el-table-column(prop='occurAmount', label='发生金额' width="120")
+          template(scope="scope")
+            span {{scope.row.occurAmount | ktCurrency}}
         el-table-column(prop='fundDirection', label='资金方向')
           template(scope="scope")
             span {{scope.row.fundDirection | statusFormat}}
@@ -46,18 +52,19 @@
         el-table-column(prop='createDatetime', label='创建时间' width="150")
           template(scope="scope")
             span {{scope.row.createDatetime | moment('YYYY-MM-DD HH:mm:ss')}}
-        el-table-column(prop='remark', label='备注' width="300")
+        el-table-column(prop='remark', label='备注' width="250")
         el-table-column(label='操作', fixed="right")
           template(scope="scope")
             .operations
               i.iconfont.icon-delete(@click="del(scope.row)")
-      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
+      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total,  sizes, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
 <script>
 import {
   merge,
-  find
+  find,
+  indexOf
 } from 'lodash'
 
 import {
@@ -170,6 +177,34 @@ export default {
           message: data.resultMsg || '失败！'
         })
       }
+    },
+    getSummaries(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '当页合计'
+          return
+        }
+        if (indexOf([3, 4, 5, 6, 7, 8, 9, 10, 11], index) > -1) {
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return prev + curr
+            } else {
+              return prev
+            }
+          }, 0)
+          sums[index] = Vue.filter('ktCurrency')(sums[index])
+        } else {
+          sums[index] = 'N/A'
+        }
+      })
+      return sums
     }
   },
 
@@ -215,16 +250,24 @@ export default {
         name: '已对账',
         value: 'CHECKED'
       }],
+      fundDirectionList: [{
+        name: '入',
+        value: 'IN'
+      }, {
+        name: '出',
+        value: 'OUT'
+      }],
       date: {
         occurDatetimeLower: '',
         occurDatetimeUpper: ''
       },
       filter: {
         fundAccountId: '',
-        needSystemOperate: '',
-        fundSerialStatus: '',
         occurDatetimeLower: '',
         occurDatetimeUpper: '',
+        fundDirection: '',
+        needSystemOperate: '',
+        fundSerialStatus: '',
         page: 1,
         limit: 10
       }

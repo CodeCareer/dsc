@@ -16,7 +16,7 @@
           el-button(size="small", type="primary", @click="search")  搜索
           el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
-      el-table.no-wrap-cell(:data='assetInfo', style='width: 100%')
+      el-table.no-wrap-cell(:max-height="maxHeight", :data='assetInfo', style='width: 100%')
         el-table-column(prop='assetBaseInfo.assetFrom', label='资产来源')
           template(scope="scope")
             span {{scope.row.assetBaseInfo.assetFrom | statusFormat}}
@@ -52,7 +52,7 @@
             .operations
               i.iconfont.icon-details(@click="detail(scope.row)")
               i.iconfont.icon-repayPlan(@click="repayPlan(scope.row)")
-      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
+      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total,  sizes, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
 <script>
