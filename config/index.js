@@ -31,27 +31,21 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      // '/api/thirdPartyData/vehicleManage': {
-      //   target: 'http://10.132.1.218:8080',
-      //   changeOrigin: true,
-      //   pathRewrite: function(path, req) {
-      //     return path.replace('/api/', '/')
-      //   }
-      // },
-      // '/api/thirdPartyData/gpsManage/': {
-      //   target: 'http://10.132.1.115:8080',
-      //   changeOrigin: true,
-      //   pathRewrite: function(path, req) {
-      //     return path.replace('/api/', '/')
-      //   }
-      // },
-      // '/api/api/usermanage/': {
-      //   target: 'http://10.132.1.171:9093',
-      //   changeOrigin: true,
-      //   pathRewrite: function(path, req) {
-      //     return path.replace('/api/api/', '/api/')
-      //   }
-      // },
+      '/api/fundManage': {
+        target: 'http://apidoc.wjs-dev.com/mockjsdata/61',
+        // target: 'http://192.168.220.217:8080',
+        changeOrigin: true,
+        pathRewrite: function(path, req) {
+          return path.replace('/api/', '/')
+        }
+      },
+      '/api/api/usermanage/v1/permission/listByRoleId': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+        pathRewrite: function(path, req) {
+          return path.replace('/api/api/usermanage/v1/permission/listByRoleId', '/static/json/listByRoleId.json')
+        }
+      },
       '/api': {
         target: 'https://kf-wdy.trunk.wjs-test.com/wdy',
         secure: false,

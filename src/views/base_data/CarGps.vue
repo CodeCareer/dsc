@@ -46,7 +46,7 @@
         el-table-column(prop='vehicleStatus', label='车辆状态', width='120')
           template(scope="scope")
             span(:class="scope.row.vehicleStatus | vehicleStatusClass") {{scope.row.vehicleStatus | vehicleStatusLocal}}
-      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper, ->, sizes', :total='parseInt(page.total)')
+      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total,  sizes, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
 <script>

@@ -16,7 +16,7 @@
           el-date-picker(placeholder='发生时间下限', type='date', format='yyyy-MM-dd', :value='date.occurDatetimeLower', @input="handleDateLower", :picker-options="pickerOptionsLower")
           el-date-picker(placeholder='发生时间上限', type='date', format='yyyy-MM-dd', :value='date.occurDatetimeUpper', @input="handleDatetUpper", :picker-options="pickerOptionsUpper")
         .filter-line
-          el-select(v-model="filter.needSystemOperate", placeholder="请选择是否需要对账" @change="search")
+          el-select(v-model="filter.needSystemOperate", placeholder="是否需要对账" @change="search")
             el-option(v-for="t in needSystemOperateList", :key="t.name", :value="t.value", :label="t.name")
           el-select(v-model="filter.fundSerialStatus", placeholder="对账状态" @change="search")
             el-option(v-for="t in fundSerialStatusList", :key="t.name", :value="t.value", :label="t.name")
@@ -51,7 +51,7 @@
           template(scope="scope")
             .operations
               i.iconfont.icon-delete(@click="del(scope.row)")
-      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper, ->, sizes', :total='parseInt(page.total)')
+      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total,  sizes, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
 <script>

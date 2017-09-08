@@ -27,7 +27,7 @@
           el-table-column(prop='updateTime', label='数据更新日期')
             template(scope="scope")
               span {{scope.row.updateTime | moment('YYYY-MM-DD HH:mm:ss')}}
-        el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper, ->, sizes', :total='parseInt(page.total)')
+        el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total,  sizes, prev, pager, next, jumper', :total='parseInt(page.total)')
     .dialog-footer(slot="footer")
       el-button(type="primary", size="small", @click='submit', v-if="$permit('carMatchUpdate')") 确定
 </template>
