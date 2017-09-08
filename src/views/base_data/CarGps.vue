@@ -13,7 +13,7 @@
         el-button(size="small", type="primary", @click="search()")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
-      el-table.no-wrap-cell(:data='carGps', style='width: 100%')
+      el-table.no-wrap-cell(:max-height="maxHeight", :data='carGps', style='width: 100%')
         el-table-column(prop='vinCode', label='VIN码', width='200')
         el-table-column(prop='acc', label='ACC', width='120')
           template(scope="scope")
@@ -46,7 +46,7 @@
         el-table-column(prop='vehicleStatus', label='车辆状态', width='120')
           template(scope="scope")
             span(:class="scope.row.vehicleStatus | vehicleStatusClass") {{scope.row.vehicleStatus | vehicleStatusLocal}}
-      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper, ->, sizes', :total='parseInt(page.total)')
+      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total,  sizes, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
 <script>

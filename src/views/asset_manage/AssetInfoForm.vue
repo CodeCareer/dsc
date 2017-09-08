@@ -273,7 +273,7 @@
     .box-header
       | 资产保险信息
     .table-container
-      el-table.no-wrap-cell(:data='assetInsuranceInfoList', style='width: 100%')
+      el-table.no-wrap-cell(:max-height="maxHeight", :data='assetInsuranceInfoList', style='width: 100%')
         el-table-column(prop='insurantName', label='被保险人名称', width='120')
         el-table-column(prop='assetId', label='资产ID', width='250')
         el-table-column(prop='id', label='uuid', width='250')

@@ -57,8 +57,9 @@ export const tableListMixins = {
     return {
       page: {
         total: 0,
-        sizes: [10, 20, 30, 50]
-      }
+        sizes: [10, 20, 50, 100, 500]
+      },
+      maxHeight: 600
     }
   }
 }

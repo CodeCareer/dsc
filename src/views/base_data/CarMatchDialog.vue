@@ -11,7 +11,7 @@
           el-button(size="small", type="primary", @click="search()")  搜索
           el-button(size="small", type="primary", @click="clearFilter")  清除
       .table-container
-        el-table.no-wrap-cell(:data='carList', highlight-current-row, ref="carsTable", @current-change="checkCar", max-height="200")
+        el-table.no-wrap-cell(:max-height="maxHeight", :data='carList', highlight-current-row, ref="carsTable", @current-change="checkCar", max-height="200")
           el-table-column(type='index', width='65', label='选择')
             template(scope="scope")
               el-checkbox.circle.mini(v-model="scope.row.checked")
@@ -27,7 +27,7 @@
           el-table-column(prop='updateTime', label='数据更新日期')
             template(scope="scope")
               span {{scope.row.updateTime | moment('YYYY-MM-DD HH:mm:ss')}}
-        el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper, ->, sizes', :total='parseInt(page.total)')
+        el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total,  sizes, prev, pager, next, jumper', :total='parseInt(page.total)')
     .dialog-footer(slot="footer")
       el-button(type="primary", size="small", @click='submit', v-if="$permit('carMatchUpdate')") 确定
 </template>

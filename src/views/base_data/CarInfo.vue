@@ -14,7 +14,7 @@
         el-button(size="small", type="primary", @click="search()")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
-      el-table.no-wrap-cell(:data='carInfos', style='width: 100%')
+      el-table.no-wrap-cell(:max-height="maxHeight", :data='carInfos', style='width: 100%')
         el-table-column(prop='brandName', label='品牌', width='120')
         el-table-column(prop='seriesName', label='车系', width='120')
         el-table-column(prop='modelName', label='车型', min-width='240')
@@ -42,7 +42,7 @@
             .operations
               i.iconfont.icon-edit(title="编辑基础信息", @click="editCarInfo(scope.row)", v-if="$permit('carInfoDetail')")
               //- i.iconfont.icon-delete(@click.stop="deleteCarInfo(scope.row)")
-      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper, ->, sizes', :total='parseInt(page.total)')
+      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total,  sizes, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
 <script>

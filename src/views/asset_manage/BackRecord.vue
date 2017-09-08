@@ -8,7 +8,7 @@
         el-button(size="small", type="primary", @click="search")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
-      el-table.no-wrap-cell(:data='backRecord', style='width: 100%')
+      el-table.no-wrap-cell(:max-height="maxHeight", :data='backRecord', style='width: 100%')
         el-table-column(prop='assetId', label='资产ID')
         el-table-column(prop='buyBackAmout', label='回购金额')
           template(scope="scope")
@@ -17,7 +17,7 @@
           template(scope="scope")
             span {{scope.row.buyBackDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
         el-table-column(prop='buyBackReason', label='回购原因')
-      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper, ->, sizes', :total='parseInt(page.total)')
+      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total,  sizes, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
 <script>

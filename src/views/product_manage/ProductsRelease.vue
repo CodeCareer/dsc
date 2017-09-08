@@ -20,7 +20,7 @@
           el-button(size="small", type="primary", @click="search")  搜索
           el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
-      el-table.no-wrap-cell(:data='productsRelease', style='width: 100%')
+      el-table.no-wrap-cell(:max-height="maxHeight", :data='productsRelease', style='width: 100%')
         el-table-column(prop='productName', label='产品名称', width='250')
         el-table-column(prop='productCode', label='产品代码', width='150')
         el-table-column(prop='assetFrom', label='资产来源', width='100')
@@ -72,7 +72,7 @@
             .operations
               i.iconfont.icon-shenhe(v-if="scope.row.productStatus === 'AUTO_AUDIT_FAIL_WAIT_CONFIRMED' && $permit('productsAudit')", @click="audit(scope.row)")
               i.iconfont.icon-details(v-else, @click="audit(scope.row)")
-      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper, ->, sizes', :total='parseInt(page.total)')
+      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total,  sizes, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
 <script>

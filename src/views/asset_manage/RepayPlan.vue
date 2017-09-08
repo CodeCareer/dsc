@@ -15,7 +15,7 @@
           el-button(size="small", type="primary", @click="search")  搜索
           el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
-      el-table.no-wrap-cell(:data='repayPlan', style='width: 100%')
+      el-table.no-wrap-cell(:max-height="maxHeight", :data='repayPlan', style='width: 100%')
         el-table-column(prop='assetId', label='资产ID', width='280')
         el-table-column(prop='termNo', label='期数', width='100')
         el-table-column(prop='repayDate', label='应还款日期', width='110')
@@ -63,7 +63,7 @@
           template(scope="scope")
             .operations
               i.iconfont.icon-details(@click="detail(scope.row)")
-      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper, ->, sizes', :total='parseInt(page.total)')
+      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total,  sizes, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
 <script>

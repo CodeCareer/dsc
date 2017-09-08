@@ -12,7 +12,7 @@
           el-button(size="small", type="primary",@click="search") 搜索
           el-button(size="small", type="primary",@click="clearFilter")  清除
     .risk-table.table-container
-      el-table.no-wrap-cell(:data="riskDatas")
+      el-table.no-wrap-cell(:max-height="maxHeight", :data="riskDatas")
         el-table-column(label="资产方")
           template(scope="scope")
             span {{scope.row.assetFrom | ktNull}}

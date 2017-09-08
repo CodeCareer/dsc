@@ -19,7 +19,7 @@
         el-button(size="small", type="primary", @click="search")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
-      el-table.no-wrap-cell(:data='fundDepositData', style='width: 100%')
+      el-table.no-wrap-cell(:max-height="maxHeight", :data='fundDepositData', style='width: 100%', :summary-method="getSummaries", show-summary)
         el-table-column(prop='id', label='id', width='120')
         el-table-column(prop='accountSymbol', label='账户标记', width='100')
           template(scope="scope")
@@ -50,13 +50,14 @@
             .operations
               i.iconfont.icon-check(v-if="scope.row.checkingStatus === 'WAIT_CHECKING'", @click="manualCheckUp(scope.row)")
               i.iconfont.icon-details(v-else, @click="detail(scope.row)")
-      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper, ->, sizes', :total='parseInt(page.total)')
+      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total,  sizes, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
 <script>
 import {
   merge,
-  find
+  find,
+  indexOf
 } from 'lodash'
 
 import {
@@ -196,6 +197,35 @@ export default {
           message: data.resultMsg || '失败！'
         })
       }
+    },
+
+    getSummaries(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '当页合计'
+          return
+        }
+        if (indexOf([1, 2, 3, 4, 5, 6, 8, 9, 10, 11], index) > -1) {
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return prev + curr
+            } else {
+              return prev
+            }
+          }, 0)
+          sums[index] = Vue.filter('ktCurrency')(sums[index])
+        } else {
+          sums[index] = 'N/A'
+        }
+      })
+      return sums
     }
   },
 
