@@ -175,7 +175,7 @@ export default {
           sums[index] = '当页合计'
           return
         }
-        if (indexOf([3, 4, 5, 6, 7, 8, 9, 10, 11], index) > -1) {
+        if (indexOf([3, 4, 5, 6, 7, 8, 9], index) > -1) {
           return
         }
         const values = data.map(item => Number(item[column.property]))
