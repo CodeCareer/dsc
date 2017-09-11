@@ -101,9 +101,16 @@ export const APIS = {
   carGpsList: '/thirdPartyData/gpsManage/geos', // 车辆GPS信息列表获取接口
   carMatchList: '/thirdPartyData/vehicleManage/vehicleMatchs/list', // 车辆匹配信息管理
   carMatchUpdate: '/thirdPartyData/vehicleManage/vehicleMatchs/update', // 车辆匹配信息管理
-  downLoad: '/common/download' // 下载文件
+  downLoad: '/common/download', // 下载文件
+  ageAnalyze: '/reportForm/reportAge', //资产分析-年龄分析
+  carAnalyze: '/reportForm/reportBrand', //汽车品牌分析
+  cityAnalyze: '/reportForm/reportProvince', //城市分布
+  payAnalyze: '/reportForm/reportDownPaymentsPercent', //首付比例查询
+  assetAnalyze: '/reportForm/reportAssetBalance',  //资产余额分析
+  riskOverdue: '/reportForm/reportOverDueRate', //风险分析-逾期率
+  riskMigrateRate: '/reportForm/reportMigrateRate', //迁徙率
+  riskVintage: '/reportForm/reportVintage'  //vintage
 }
-
 export const session = {
   get: config => http.get(APIS.session, config),
   post: (data, config) => http.post(APIS.session, data, config)
@@ -213,4 +220,36 @@ export const riskQuery = {
 
 export const riskWarn = {
   get: (config) => http.get(APIS.riskWarn, config)
+}
+
+export const ageAnalyze = {
+  post: (data, config) => http.post(APIS.ageAnalyze, data, config)
+}
+
+export const carAnalyze = {
+  post: (data, config) => http.post(APIS.carAnalyze, data, config)
+}
+
+export const cityAnalyze = {
+  post: (data, config) => http.post(APIS.cityAnalyze, data, config)
+}
+
+export const payAnalyze = {
+  post: (data, config) => http.post(APIS.payAnalyze, data, config)
+}
+
+export const assetAnalyze = {
+  post: (data, config) => http.post(APIS.assetAnalyze, data, config)
+}
+
+export const riskOverdue = {
+  post: (data, config) => http.post(APIS.riskOverdue, data, config)
+}
+
+export const riskMigrateRate = {
+  post: (data, config) => http.post(APIS.riskMigrateRate, data, config)
+}
+
+export const riskVintage = {
+  post: (data, config) => http.post(APIS.riskVintage, data, config)
 }

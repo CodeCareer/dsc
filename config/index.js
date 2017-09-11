@@ -31,13 +31,13 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      // '/api/thirdPartyData/vehicleManage': {
-      //   target: 'http://10.132.1.218:8080',
-      //   changeOrigin: true,
-      //   pathRewrite: function(path, req) {
-      //     return path.replace('/api/', '/')
-      //   }
-      // },
+      '/api/reportForm': {
+        target: 'http://10.132.1.38:8080',
+        changeOrigin: true,
+        pathRewrite: function(path, req) {
+          return path.replace('/api/', '/')
+        }
+      },
       // '/api/thirdPartyData/gpsManage/': {
       //   target: 'http://10.132.1.115:8080',
       //   changeOrigin: true,
