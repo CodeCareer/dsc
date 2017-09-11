@@ -1,7 +1,8 @@
-import { each, keys } from 'lodash'
+import { each, keys, merge } from 'lodash'
 import {
   pruneParams
 } from '@/common/util.js'
+
 import moment from 'moment'
 
 export const tableListMixins = {
@@ -25,6 +26,7 @@ export const tableListMixins = {
         name: this.$route.name,
         query: pruneParams(this.filter)
       })
+      this.filter = merge(this.filter, {'refresh': Math.random()})
     },
 
     dateSearch(value, key) {
@@ -55,8 +57,9 @@ export const tableListMixins = {
     return {
       page: {
         total: 0,
-        sizes: [10, 20, 30, 50]
-      }
+        sizes: [10, 20, 50, 100, 500]
+      },
+      maxHeight: 600
     }
   }
 }

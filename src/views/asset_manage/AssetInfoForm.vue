@@ -66,7 +66,9 @@
                   td {{assetBaseInfo.orderDateTime | moment('YYYY-MM-DD')}}
                 tr
                   th 合同协议路径：
-                  td(v-html='$options.filters.download(assetBaseInfo.contractFilesPath)')
+                  td(v-if='assetBaseInfo.contractFilesPath') 
+                    down-load(:filePath="assetBaseInfo.contractFilesPath.split(',')")
+                  td(v-else) 无附件
             el-col(:span="8")
               table     
                 tr
@@ -86,10 +88,14 @@
                   td  {{assetBaseInfo.phoneNum}}
                 tr
                   th 身份证正面照片路径：
-                  td(v-html='$options.filters.download(assetBaseInfo.certFrontPicPath)')
+                  td(v-if='assetBaseInfo.certFrontPicPath')
+                    down-load(:filePath="assetBaseInfo.certFrontPicPath.split(',')")
+                  td(v-else) 无附件
                 tr
                   th 身份证反面照片路径：
-                  td(v-html='$options.filters.download(assetBaseInfo.certBackPicPath)')
+                  td(v-if='assetBaseInfo.certBackPicPath')
+                    down-load(:filePath="assetBaseInfo.certBackPicPath.split(',')")
+                  td(v-else) 无附件
                 
                 tr
                   th 回购状态：
@@ -219,13 +225,19 @@
                   td {{assetCarBackUpInfo.assetId}}
                 tr
                   th 车辆行驶证路径：
-                  td(v-html='$options.filters.download(assetCarBackUpInfo.carDrivingPermitCertPath)')
+                  td(v-if='assetCarBackUpInfo.carDrivingPermitCertPath')
+                    down-load(:filePath="assetCarBackUpInfo.carDrivingPermitCertPath.split(',')")
+                  td(v-else) 无附件
                 tr
                   th 车辆登记证路径：
-                  td(v-html='$options.filters.download(assetCarBackUpInfo.carRegisterCertPath)')
+                  td(v-if='assetCarBackUpInfo.carRegisterCertPath')
+                    down-load(:filePath="assetCarBackUpInfo.carRegisterCertPath.split(',')")
+                  td(v-else) 无附件
                 tr
                   th 驾驶证照片路径：
-                  td(v-html='$options.filters.download(assetCarBackUpInfo.drivingLicencePicPath)')
+                  td(v-if='assetCarBackUpInfo.drivingLicencePicPath')
+                    down-load(:filePath="assetCarBackUpInfo.drivingLicencePicPath.split(',')")
+                  td(v-else) 无附件
             el-col(:span="8")
               table
                 tr
@@ -244,7 +256,9 @@
               table        
                 tr
                   th 提车确认单文件路径：
-                  td(v-html='$options.filters.download(assetCarBackUpInfo.pickUpFilePath)')
+                  td(v-if='assetCarBackUpInfo.pickUpFilePath')
+                    down-load(:filePath="assetCarBackUpInfo.pickUpFilePath.split(',')")
+                  td(v-else) 无附件
                 tr
                   th 购置税：
                   td {{assetCarBackUpInfo.purchasTax | ktCurrency}}
@@ -259,7 +273,7 @@
     .box-header
       | 资产保险信息
     .table-container
-      el-table.no-wrap-cell(:data='assetInsuranceInfoList', style='width: 100%')
+      el-table.no-wrap-cell(:max-height="maxHeight", :data='assetInsuranceInfoList', style='width: 100%')
         el-table-column(prop='insurantName', label='被保险人名称', width='120')
         el-table-column(prop='assetId', label='资产ID', width='250')
         el-table-column(prop='id', label='uuid', width='250')
@@ -269,8 +283,10 @@
         el-table-column(prop='insuranceNo', label='保单号', width='100')
         el-table-column(prop='insuranceOrgName', label='保险公司名称', width='150')
         el-table-column(prop='insurancePicPath', label='保单图片路径', width='120')
-           template(scope="scope")
-            span(v-html='$options.filters.download(scope.row.insurancePicPath)')
+          template(scope="scope")
+            span(v-if='scope.row.insurancePicPath')
+              down-load(:filePath="scope.row.insurancePicPath.split(',')")
+            span(v-else) 无附件
         el-table-column(prop='insuranceType', label='保险类型', width='100')
           template(scope="scope")
             span {{scope.row.insuranceType | statusFormat}}
@@ -290,7 +306,7 @@ import {
   tableListMixins
 } from '@/common/mixins.js'
 
-import store from '@/vuex/store.js'
+import DownLoad from '@/components/DownLoad.vue'
 
 const statusList = [{
   name: '花生',
@@ -393,7 +409,16 @@ export default {
       return status ? status.name : '未知状态'
     },
     download(value) {
-      return '<a download="附件" class="color-blue" href="' + process.env.API_HOST + '/common/download?filePath=' + value + '&token=' + store.getters.token + '">下载附件</a>'
+      const arr = value.split(',')
+      let result = ''
+      let num = ''
+      for (let item in arr) {
+        if (arr.length > 1) {
+          num = parseInt(item) + 1
+        }
+        result += '<a class="color-blue download" onclick="downloadAttachment(' + '\'' + arr[item] + '\'' + ')" href="javascript:;">下载附件' + num + '</a>'
+      }
+      return result
     }
   },
   methods: {
@@ -414,6 +439,9 @@ export default {
         query: {subjectId: id}
       })
     }
+  },
+  components: {
+    DownLoad
   },
   created() {
     this._fetchData()
@@ -438,5 +466,9 @@ export default {
       }
     }
   }
+}
+.download{
+  display:inline-block;
+  margin-right:5px;
 }
 </style>

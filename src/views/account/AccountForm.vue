@@ -23,7 +23,7 @@
                 el-input(type="text", placeholder="请输入联系邮箱", v-model="account.email")
               el-form-item(label="角色：", prop="roleId")
                 el-select(placeholder="角色", v-model="account.roleId")
-                  el-option(v-for="o in roleList", :value="o.value", :label="o.name", :key="o.value")
+                  el-option(v-for="o in roleList", :value="o.value", :label="o.name | roleFilter(o.roleName)", :key="o.value")
     .bottom-buttons
       el-button(type="primary", size="small", v-if="$permit(['accountAdd', 'accountUpdate'])", @click="submitForm") 保存
       el-button(type="gray", size="small", @click="cancel") 取消
@@ -104,7 +104,8 @@ export default {
       const roles = map(res.data.data.content, v => {
         return {
           name: v.roleNickname,
-          value: v.id
+          value: v.id,
+          roleName: v.roleName
         }
       })
       this.roleList = roles

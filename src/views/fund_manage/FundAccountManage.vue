@@ -9,30 +9,45 @@
             | 新增
       .filters
         el-input(placeholder='账户名称', icon='search', @keyup.native.13="search", v-model.trim='filter.accountName')
-        el-select(v-model="filter.accountType", placeholder="账户类型", @change="search")
-          el-option(v-for="t in assetTypes", :key="t.name", :value="t.value", :label="t.name")
+        el-select(v-model="filter.accountUsages", placeholder="账户用途", @change="search")
+          el-option(v-for="t in accountUsages", :key="t.name", :value="t.value", :label="t.name")
+        el-select(v-model="filter.assetFrom", placeholder="资产来源", @change="search")
+          el-option(v-for="t in assetFrom", :key="t.name", :value="t.value", :label="t.name")
         el-button(size="small", type="primary", @click="search")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
-      el-table.no-wrap-cell(:data='fundAccount', style='width: 100%')
+      el-table.no-wrap-cell(:max-height="maxHeight", :data='fundAccount', style='width: 100%')
         el-table-column(prop='id', label='ID')
         el-table-column(prop='accountName', label='账户名称')
-        el-table-column(prop='accountType', label='账户类型', width='100')
+        el-table-column(prop='accountUsages', label='账户用途')
           template(scope="scope")
-            span {{scope.row.accountType | statusFormat}}
+            span {{scope.row.accountUsages | accountUsagesFormat}}
+        el-table-column(prop='assetFrom', label='资产来源', width='100')
+          template(scope="scope")
+            span {{scope.row.assetFrom | statusFormat}}
+        el-table-column(prop='bankAccount', label='银行账号')
+        el-table-column(prop='bankAccountName', label='银行账户名称')
+        el-table-column(prop='bankName', label='银行名称')
+        el-table-column(prop='coManagementAccount', label='是否共管账户')
+          template(scope="scope")
+            span {{scope.row.coManagementAccount | statusFormat}}
+        el-table-column(prop='needUpdateAccountSerial', label='是否需要维护账户流水')
+          template(scope="scope")
+            span {{scope.row.needUpdateAccountSerial | statusFormat}}
         el-table-column(prop='remark', label='备注')
         el-table-column(label='操作')
           template(scope="scope")
             .operations
               i.iconfont.icon-edit(@click="edit(scope.row)")
               i.iconfont.icon-delete(@click="del(scope.row)")
-      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
+      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total,  sizes, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
 <script>
 import {
   merge,
-  find
+  find,
+  forEach
 } from 'lodash'
 
 import {
@@ -54,6 +69,35 @@ const statusList = [{
 }, {
   name: '花生',
   value: 'HUASHENG'
+}, {
+  name: '是',
+  value: 'YES'
+}, {
+  name: '否',
+  value: 'NO'
+}]
+
+const accountUsagesList = [{
+  name: '直接收取月租',
+  value: 'INSTALMENT'
+}, {
+  name: '尾款',
+  value: 'REST'
+}, {
+  name: '回购款',
+  value: 'BUY_BACK'
+}, {
+  name: '月供转付',
+  value: 'INSTALMENT_REMITTANCE'
+}, {
+  name: '月供垫付',
+  value: 'INSTALMENT_ADVANCE'
+}, {
+  name: '差额补足',
+  value: 'MAKE_UP_THE_BALANCE'
+}, {
+  name: '产品提前还款',
+  value: 'PREPAYMENT'
 }]
 
 export default {
@@ -62,6 +106,18 @@ export default {
     statusFormat(value) {
       const status = find(statusList, s => s.value === value)
       return status ? status.name : '未知类型'
+    },
+
+    accountUsagesFormat(value) {
+      const valueArray = value.split(',')
+      // const valueStr = ''
+      // const status = find(accountUsagesList, s => s.value === value)
+      forEach(valueArray, function(n, key) {
+        const status = find(accountUsagesList, s => s.value === n)
+        valueArray[key] = status ? status.name : '未知类型'
+      })
+      return valueArray.join(',')
+      // return status ? status.name : '未知类型'
     }
   },
   methods: {
@@ -107,6 +163,7 @@ export default {
 
     operationStatus(data) {
       if (data.resultCode === 'SUCCESS') {
+        this.search()
         this.$message.success({
           message: data.resultMsg || '成功！'
         })
@@ -134,12 +191,35 @@ export default {
       fixed: window.innerWidth - 180 - 12 * 2 > 1150 ? false : 'right', // 180 左侧菜单宽度，12 section的padding
       fundAccount: [],
       filter: {
-        accountType: '',
+        accountUsages: '',
+        assetFrom: '',
         accountName: '',
         page: 1,
         limit: 10
       },
-      assetTypes: [{
+      accountUsages: [{
+        name: '直接收取月租',
+        value: 'INSTALMENT'
+      }, {
+        name: '尾款',
+        value: 'REST'
+      }, {
+        name: '回购款',
+        value: 'BUY_BACK'
+      }, {
+        name: '月供转付',
+        value: 'INSTALMENT_REMITTANCE'
+      }, {
+        name: '月供垫付',
+        value: 'INSTALMENT_ADVANCE'
+      }, {
+        name: '差额补足',
+        value: 'MAKE_UP_THE_BALANCE'
+      }, {
+        name: '产品提前还款',
+        value: 'PREPAYMENT'
+      }],
+      assetFrom: [{
         name: '花生',
         value: 'HUASHENG'
       }, {

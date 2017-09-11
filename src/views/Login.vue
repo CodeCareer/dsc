@@ -2,7 +2,9 @@
 .login-page
   header
     .inner
-      .logo 3TAN-DAS车贷资产管理系统
+      span.logo
+        img(src="../assets/images/logo.png")
+        | 3TAN-DAS车贷资产管理系统
   .login-warpper(@keyup.13="submitForm()")
     h2 登录
     el-form.login-form(ref="user", :model="user", :rules="rules")
@@ -97,6 +99,7 @@ export default {
 <style lang="scss">
 //登录页面样式
 @import '../assets/scss/_vars.scss';
+$header-height: 60px;
 .login-page {
   .login-form {
     border: 1px solid $border-color;
@@ -120,10 +123,16 @@ export default {
     left: 0;
     right: 0;
     z-index: 9;
-    .logo {
-      height: 35px;
-      margin-top: 12px;
+    height: $header-height;
+    line-height: $header-height;
+    span.logo {
       font-size: 26px;
+      color: #fff;
+      img {
+        width: 42px;
+        margin: 12px 10px 0 10px;
+        display: inline-block;
+      }
     }
   }
   footer {

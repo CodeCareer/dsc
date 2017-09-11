@@ -69,5 +69,9 @@ export default {
       }
       return date ? moment(date).format(format) : '-'
     })
+
+    Vue.filter('roleFilter', (data, name) => {
+      return data ? data + '(' + name + ')' : '-'
+    })
   }
 }
