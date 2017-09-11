@@ -36,7 +36,9 @@
         el-table-column(prop='factBenefit', label='实际优惠金额')
           template(scope="scope")
             span {{scope.row.factBenefit | ktCurrency}}
-        el-table-column(prop='remark', label='备注')
+        el-table-column(prop='remark', label='备注', width="350")
+          template(scope="scope")
+            span(v-html="txt2html(scope.row.remark)")
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total,  sizes, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
@@ -166,6 +168,9 @@ export default {
         }
       })
       return sums
+    },
+    txt2html(value) {
+      return value.replace(/\r\n/g, '<br>')
     }
   },
 
