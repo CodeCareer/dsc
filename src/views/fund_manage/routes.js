@@ -71,7 +71,7 @@ export default {
     component: resolve => require(['@/views/fund_manage/fundDepositDetail.vue'], resolve),
     meta: {
       title: '车DAS系统-入金明细信息',
-      permit: ['fundDeposit', 'fundAutoCheckUp', 'isShowAutoCheckUp'],
+      permit: ['fundDeposit', 'fundAutoCheckUp', 'isShowAutoCheckUp', 'fundManualCheckUp'],
       menu: {
         name: '入金明细信息',
         activeIncludes: ['fundDepositDetail', 'fundDepositDetailForm']

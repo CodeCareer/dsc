@@ -3,7 +3,7 @@
   .box
     .box-header
       | {{title}}
-      router-link.buttons(:to="{ name: 'repayPlan', query: { assetId: fundDepositData.assetId, termNo: fundDepositData.termNo }}", target="_blank", v-if="fundDepositData.checkingStatus === 'UNPASS'")
+      router-link.buttons(:to="{ name: 'repayPlan', query: { assetId: fundDepositData.assetId, termNo: fundDepositData.termNo }}", target="_blank", v-if="fundDepositData.checkingStatus === 'UNPASS' && $permit('fundManualCheckUp')")
         el-button(type="primary", size="small")
           | 查看实际还款
     .box-content
@@ -52,7 +52,7 @@
                 th 备注	：
                 td {{fundDepositData.remark}}
     .bottom-buttons 
-      el-button(v-if="fundDepositData.checkingStatus === 'UNPASS'", type="primary", size="small", @click="checkUp('PASSED')") 通过
+      el-button(v-if="fundDepositData.checkingStatus === 'UNPASS' && $permit('fundManualCheckUp')", type="primary", size="small", @click="checkUp('PASSED')") 通过
       el-button(size="small", @click="cancel") 返回
 </template>
 
