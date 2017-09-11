@@ -12,7 +12,7 @@
                 el-select(v-model="uploadData.fundAccountId", placeholder="请选择账户")
                   el-option(v-for="t in fundAccountList", :key="t.name", :value="t.id", :label="t.name")
               el-form-item(label="上传文件：", prop="fundAccountSerialFile")
-                el-upload(drag, :action="action", multiple, ref="fundAccountSerialUpload", accept=".xlsx", :data="uploadData", :on-change="handleChange", :on-remove="handleRemove", :auto-upload="false", :on-success="success")
+                el-upload(drag, :action="action", multiple, ref="fundAccountSerialUpload", accept=".xlsx", :data="uploadData", :on-change="handleChange", :on-remove="handleRemove", :auto-upload="false", :on-success="success", :headers="headers")
                   i.el-icon-upload
                   .el-upload__text 将文件拖到此处，或
                     em 点击上传
@@ -91,6 +91,9 @@ export default {
       title: '新增资金账户流水',
       fundAccountList: '',
       action: process.env.API_HOST + '/fundManage/uploadFundAccountSerial',
+      headers: {
+        'x-auth-token': this.$store.getters.token
+      },
       rules: {
         fundAccountId: [{
           required: true,
