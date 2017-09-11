@@ -197,7 +197,9 @@ export default {
     operationStatus(data) {
       if (data.resultCode === 'SUCCESS') {
         this.$message.success({
-          message: data.resultMsg || '成功！'
+          message: data.resultMsg || '成功！',
+          duration: 0,
+          showClose: true
         })
       } else {
         this.$message.error({
