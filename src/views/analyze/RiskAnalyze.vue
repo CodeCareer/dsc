@@ -4,8 +4,8 @@
       .box-header
         h3 筛选条件
       .filters
-        el-date-picker(placeholder="开始日期",:value="date.startDate",type="month",format="yyyy-MM",@input="dateSearch($event, 'startDate')",:picker-options="pickerOptions")
-        el-date-picker(placeholder="结束日期",:value="date.endDate",type="month",format="yyyy-MM",@input="dateSearch($event, 'endDate')",:picker-options="pickerOptions")
+        el-date-picker(placeholder="开始日期",:value="date.startDate",type="month",format="yyyy-MM",@input="riskDateSearch($event, 'startDate')",:picker-options="pickerOptions")
+        el-date-picker(placeholder="结束日期",:value="date.endDate",type="month",format="yyyy-MM",@input="riskDateSearch($event, 'endDate')",:picker-options="pickerOptions")
         el-button(size="small", type="primary",@click="search") 搜索
         el-button(size="small", type="primary",@click="clearFilter")  清除
     section
@@ -15,7 +15,7 @@
           el-radio-group(v-model="isCollapse", @change="val=> overDueEchartResize(val, 'overDueTableVisible')")
             el-radio-button.table(:label="true") 表
             el-radio-button.chart(:label="false") 图
-          a.iconfont.icon-down.fr()
+          //- a.iconfont.icon-down.fr()
       .asset-table(v-show="tableChartStatus.overDueTableVisible")
         el-table(:data="tables.overDue.data")
           el-table-column(prop="status",label="逾期")
@@ -31,7 +31,7 @@
           el-radio-group(v-model="tableChartStatus.migrateTableVisible", @change="val=> migrateEchartResize(val, 'migrateTableVisible')")
             el-radio-button.table(:label="true") 表
             el-radio-button.chart(:label="false") 图
-          a.iconfont.icon-down.fr()
+          //- a.iconfont.icon-down.fr()
       .asset-table(v-show="tableChartStatus.migrateTableVisible")
         el-table(:data="tables.migrate.data")
           el-table-column(prop="status",label="逾期")
@@ -47,7 +47,7 @@
           el-radio-group(v-model="tableChartStatus.vintageTableVisible", @change="val=> vintageEchartResize(val, 'vintageTableVisible')")
             el-radio-button.table(:label="true") 表
             el-radio-button.chart(:label="false") 图
-          a.iconfont.icon-down.fr()
+          //- a.iconfont.icon-down.fr()
       .asset-table(v-show="tableChartStatus.vintageTableVisible")
         el-table(:data="tables.vintage.data")
           el-table-column(prop="status",label="Vintage")
@@ -78,7 +78,7 @@ import {
 } from '@/common/mixins.js'
 
 import Vue from 'vue'
-// import moment from 'moment'
+import moment from 'moment'
 import LineEchart from '@/components/LineEchart.vue'
 
 export default {
@@ -88,14 +88,6 @@ export default {
   mixins: [tableListMixins],
   data() {
     return {
-      id: '',
-      buttonDatas: [{ name: '111' }, {
-        name: '222'
-      }, {
-        name: '333'
-      }, {
-        name: '444'
-      }],
       overDueChartOption: {},
       migrateChartOption: {},
       vintageChartOption: {},
@@ -105,8 +97,8 @@ export default {
         endDate: ''
       },
       filter: {
-        startDate: '201708',
-        endDate: '201709'
+        startDate: '',
+        endDate: ''
       },
       pickerOptions: {},
       tableChartStatus: {
@@ -137,6 +129,12 @@ export default {
   },
 
   methods: {
+    riskDateSearch(value, key) {
+      this.filter[key] = value ? moment(value).format('YYYYMM') : ''
+      this.date[key] = value ? moment(value).format('YYYY-MM') : ''
+      this.search()
+    },
+
     overDueEchartResize(val, val2) {
       this.tableChartStatus[val2] = val
       this.$nextTick(() => {

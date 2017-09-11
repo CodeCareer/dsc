@@ -14,7 +14,7 @@
           el-radio-group(v-model="tableChartStatus.ageTableVisible", @change= "val=> ageEchartResize(val, 'ageTableVisible')")
             el-radio-button.table(:label="true") 表
             el-radio-button.chart(:label="false") 图
-          a.iconfont.icon-down.fr()
+          //- a.iconfont.icon-down.fr()
       .asset-table(v-show="tableChartStatus.ageTableVisible")
         el-table(:data="tables.ageTable")
           el-table-column(prop="ageSection",label="年龄区间")
@@ -38,7 +38,7 @@
           el-radio-group(v-model="tableChartStatus.carTableVisible", @change='val => carEchartResize(val, "carTableVisible")')
             el-radio-button.table(:label="true") 表
             el-radio-button.chart(:label="false") 图
-          a.iconfont.icon-down.fr()
+          //- a.iconfont.icon-down.fr()
       .asset-table(v-show="tableChartStatus.carTableVisible")
         el-table(:data="tables.carTable")
           el-table-column(prop="brandName",label="品牌")
@@ -62,7 +62,7 @@
           el-radio-group(v-model="tableChartStatus.cityTableVisible", @change='val => cityEchartResize(val, "cityTableVisible")')
             el-radio-button.table(:label="true") 表
             el-radio-button.chart(:label="false") 图
-          a.iconfont.icon-down.fr()
+          //- a.iconfont.icon-down.fr()
       .asset-table(v-show="tableChartStatus.cityTableVisible")
         el-table(:data="tables.cityTable")
           el-table-column(prop="province",label="城市")
@@ -86,7 +86,7 @@
           el-radio-group(v-model="tableChartStatus.paymentTableVisible", @change='val => payEchartResize(val, "paymentTableVisible")')
             el-radio-button.table(:label="true") 表
             el-radio-button.chart(:label="false") 图
-          a.iconfont.icon-down.fr()
+          //- a.iconfont.icon-down.fr()
       .asset-table(v-show="tableChartStatus.paymentTableVisible")
         el-table(:data="tables.payTable")
           el-table-column(prop="downPaymentsPercent",label="首付比例")
@@ -110,7 +110,7 @@
           el-radio-group(v-model="tableChartStatus.assetTableVisible", @change='val => assetEchartResize(val, "assetTableVisible")')
             el-radio-button.table(:label="true") 表
             el-radio-button.chart(:label="false") 图
-          a.iconfont.icon-down.fr()
+          //- a.iconfont.icon-down.fr()
       .asset-table(v-show="tableChartStatus.assetTableVisible")
         el-table(:data="tables.assetTable")
           el-table-column(prop="assetBalance",label="余额范围")
