@@ -28,7 +28,7 @@
             span(:class="scope.row.dealStatus | statusClass") {{scope.row.dealStatus | statusFormat}}
         el-table-column(prop='validStatus', label='校验状态')
           template(scope="scope")
-            span(:class="scope.row.valid_status | statusClass") {{scope.row.valid_status | statusFormat}}
+            span(:class="scope.row.validStatus | statusClass") {{scope.row.validStatus | statusFormat}}
         el-table-column(prop='payChannel', label='支付渠道')
           template(scope="scope")
             span {{scope.row.payChannel | statusFormat}}
