@@ -49,8 +49,8 @@
         el-table-column(label='操作', fixed="right", width='100')
           template(scope="scope")
             .operations
+              i.iconfont.icon-details(@click="detail(scope.row)")
               i.iconfont.icon-check(v-if="scope.row.checkingStatus === 'UNPASS'", @click="manualCheckUp(scope.row)")
-              i.iconfont.icon-details(v-else, @click="detail(scope.row)")
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total,  sizes, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
