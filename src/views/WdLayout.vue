@@ -2,7 +2,9 @@
   .wd-content
     n-progress(parent=".wd-content")
     header
-      .logo 3TAN-DAS车贷资产管理系统
+      span.logo
+        img(src="../assets/images/logo.png")
+        | 3TAN-DAS车贷资产管理系统
       .user-info.fr
         span
           i.iconfont.icon-user.icon-color
@@ -188,13 +190,14 @@ $menu-height: 50px;
         color: white;
       }
     }
-    .logo {
-      height: 60px;
-      color: #fff;
-      width: 400px;
-      margin: 0 0 0 30px;
+    span.logo {
       font-size: 26px;
-      display: inline-block;
+      color: #fff;
+      img {
+        width: 42px;
+        margin: 12px 10px 0 10px;
+        display: inline-block;
+      }
     }
     .user-info {
       span {
