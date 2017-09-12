@@ -79,13 +79,13 @@ export default {
     operationStatus(data, file) {
       if (data.resultCode === 'SUCCESS') {
         this.$message.success({
-          message: '文件' + file.name + '上传成功！',
+          message: '文件' + file.name + '上传成功，' + data.resultMsg + '！',
           duration: 0,
           showClose: true
         })
       } else {
         this.$message.error({
-          message: '文件' + file.name + '上传失败！',
+          message: '文件' + file.name + '上传失败，' + data.resultMsg + '！',
           duration: 0,
           showClose: true
         })
