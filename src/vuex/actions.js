@@ -62,9 +62,9 @@ export default {
 
     if (data.token) await dispatch('updateToken', data.token || '')
     await dispatch('updateUser', data.data)
-    await dispatch('getOrgId', { params: { orgName: ORG_NAME }, loadingMaskTarget: '.login-form' })
+    await dispatch('getOrgId', { params: { orgName: ORG_NAME }, ...params.config })
     if (!process.env.STOP_PERMIT) {
-      await dispatch('getPermissions', { loadingMaskTarget: '.login-form' })
+      await dispatch('getPermissions', { ...params.config })
     }
     return data
   },

@@ -28,22 +28,24 @@
             span(:class="scope.row.dealStatus | statusClass") {{scope.row.dealStatus | statusFormat}}
         el-table-column(prop='validStatus', label='校验状态')
           template(scope="scope")
-            span(:class="scope.row.valid_status | statusClass") {{scope.row.valid_status | statusFormat}}
+            span(:class="scope.row.validStatus | statusClass") {{scope.row.validStatus | statusFormat}}
         el-table-column(prop='payChannel', label='支付渠道')
           template(scope="scope")
             span {{scope.row.payChannel | statusFormat}}
         el-table-column(prop='payNo', label='支付流水号', width="160")
-        el-table-column(prop='factBenefit', label='实际优惠金额')
-        el-table-column(prop='remark', label='备注', width="160")
-          template(scope="scope")
+        el-table-column(prop='factBenefit', label='实际优惠金额')          template(scope="scope")
             span {{scope.row.factBenefit | ktCurrency}}
+        el-table-column(prop='remark', label='备注', width="350")
+          template(scope="scope")
+            span(v-html="txt2html(scope.row.remark)")
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total,  sizes, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
 <script>
 import {
   merge,
-  find
+  find,
+  indexOf
 } from 'lodash'
 
 import {
@@ -146,7 +148,7 @@ export default {
           sums[index] = '当页合计'
           return
         }
-        if (index === 1 || index === 2 || index === 5 || index === 7 || index === 6) {
+        if (indexOf([1, 2, 5, 6, 7, 8, 10], index) > -1) {
           return
         }
         const values = data.map(item => Number(item[column.property]))
@@ -165,6 +167,9 @@ export default {
         }
       })
       return sums
+    },
+    txt2html(value) {
+      return value.replace(/\r\n/g, '<br>')
     }
   },
 

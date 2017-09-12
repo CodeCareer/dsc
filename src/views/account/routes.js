@@ -27,7 +27,7 @@ export default {
       title: '车DAS系统-用户列表',
       permit: [
         'accountList', 'accountUpdateEable', 'accountUpdate',
-        'accountDetail', 'accountAdd', 'accountDelete'
+        'accountAdd', 'accountDelete'
       ],
       menu: {
         name: '用户列表',
