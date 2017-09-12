@@ -35,7 +35,7 @@
           template(scope="scope")
             span {{scope.row.needUpdateAccountSerial | statusFormat}}
         el-table-column(prop='remark', label='备注', width="250")
-        el-table-column(label='操作')
+        el-table-column(label='操作', fixed="right", width='100')
           template(scope="scope")
             .operations
               i.iconfont.icon-edit(@click="edit(scope.row)")
