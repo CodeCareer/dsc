@@ -9,7 +9,7 @@
           el-col(:span="12", :offset="6")
             .form-inner.center
               el-form-item(label="账户名称：", prop="fundAccountId")
-                el-select(v-model="uploadData.fundAccountId", placeholder="请选择账户")
+                el-select(v-model="uploadData.fundAccountId", placeholder="请选择账户", @change="handleFileList")
                   el-option(v-for="t in fundAccountList", :key="t.name", :value="t.id", :label="t.name")
               el-form-item(label="上传文件：", prop="fundAccountSerialFile")
                 el-upload(drag, :action="action", multiple, ref="fundAccountSerialUpload", accept=".xlsx", :data="uploadData", :on-change="handleChange", :on-remove="handleRemove", :auto-upload="false", :on-success="success", :headers="headers")
@@ -42,7 +42,13 @@ export default {
         this.fundAccountList = data.data.dicts
       })
     },
-
+    handleFileList() {
+      if (this.hasUploaded) {
+        this.$refs.fundAccountSerialUpload.clearFiles()
+        this.hasUploaded = false
+        this.fileList = []
+      }
+    },
     upload() {
       this.$refs.fundAccountSerialUpload.submit()
     },
@@ -65,19 +71,23 @@ export default {
       this.$refs.fundAccountSerialForm.validateField('fundAccountSerialFile')
     },
 
-    success(data) {
-      this.operationStatus(data)
+    success(data, file, fileList) {
+      this.operationStatus(data, file)
+      this.hasUploaded = true
     },
 
-    operationStatus(data) {
+    operationStatus(data, file) {
       if (data.resultCode === 'SUCCESS') {
         this.$message.success({
-          message: data.resultMsg || '成功！'
+          message: '文件' + file.name + '上传成功！',
+          duration: 0,
+          showClose: true
         })
-        this.$router.back()
       } else {
         this.$message.error({
-          message: data.resultMsg || '失败！'
+          message: '文件' + file.name + '上传失败！',
+          duration: 0,
+          showClose: true
         })
       }
     }
@@ -112,7 +122,8 @@ export default {
       uploadData: {
         fundAccountId: ''
       },
-      fileList: []
+      fileList: [],
+      hasUploaded: false
     }
   }
 }
