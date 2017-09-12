@@ -20,28 +20,28 @@
         el-table-column(prop='assetBaseInfo.assetFrom', label='资产来源')
           template(scope="scope")
             span {{scope.row.assetBaseInfo.assetFrom | statusFormat}}
-        el-table-column(prop='assetBaseInfo.outerAssetOrderNo', label='外部资产订单编号')
-        el-table-column(prop='assetBaseInfo.productCode', label='产品代码')
-        el-table-column(prop='assetBaseInfo.name', label='姓名')
-        el-table-column(prop='assetCarCoreInfo.tenancyStartDate', label='租约起始日期')
+        el-table-column(prop='assetBaseInfo.outerAssetOrderNo', label='外部资产订单编号', width="160")
+        el-table-column(prop='assetBaseInfo.productCode', label='产品代码', width="120")
+        el-table-column(prop='assetBaseInfo.name', label='姓名', width="120")
+        el-table-column(prop='assetCarCoreInfo.tenancyStartDate', label='租约起始日期', width="100")
           template(scope="scope")
             span {{scope.row.assetCarCoreInfo.tenancyStartDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
-        el-table-column(prop='assetCarCoreInfo.tenancyEndDate', label='租约结束日期')
+        el-table-column(prop='assetCarCoreInfo.tenancyEndDate', label='租约结束日期', width="100")
           template(scope="scope")
             span {{scope.row.assetCarCoreInfo.tenancyEndDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
-        el-table-column(prop='assetCarCoreInfo.guidePrice', label='厂商指导价')
+        el-table-column(prop='assetCarCoreInfo.guidePrice', label='厂商指导价', width="120")
           template(scope="scope")
             span {{scope.row.assetCarCoreInfo.guidePrice | ktCurrency}}
-        el-table-column(prop='assetCarCoreInfo.downPaymentsAmount', label='首付金额')
+        el-table-column(prop='assetCarCoreInfo.downPaymentsAmount', label='首付金额', width="120")
           template(scope="scope")
             span {{scope.row.assetCarCoreInfo.downPaymentsAmount | ktCurrency}}
         el-table-column(prop='assetCarCoreInfo.downPaymentsPercent', label='首付比例')
           template(scope="scope")
             span {{scope.row.assetCarCoreInfo.downPaymentsPercent | ktPercent}}
-        el-table-column(prop='assetCarCoreInfo.instalmentAmount', label='月供金额')
+        el-table-column(prop='assetCarCoreInfo.instalmentAmount', label='月供金额', width="120")
           template(scope="scope")
             span {{scope.row.assetCarCoreInfo.instalmentAmount | ktCurrency}}
-        el-table-column(prop='assetCarCoreInfo.restAmount', label='尾款金额')
+        el-table-column(prop='assetCarCoreInfo.restAmount', label='尾款金额', width="120")
           template(scope="scope")
             span {{scope.row.assetCarCoreInfo.restAmount | ktCurrency}}
         el-table-column(prop='assetBaseInfo.assetStatus', label='资产状态')
