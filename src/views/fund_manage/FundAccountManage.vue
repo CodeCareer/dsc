@@ -17,9 +17,9 @@
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table.no-wrap-cell(:max-height="maxHeight", :data='fundAccount', style='width: 100%')
-        el-table-column(prop='id', label='ID')
+        el-table-column(prop='id', label='ID', width='280')
         el-table-column(prop='accountName', label='账户名称')
-        el-table-column(prop='accountUsages', label='账户用途')
+        el-table-column(prop='accountUsages', label='账户用途', width="200")
           template(scope="scope")
             span {{scope.row.accountUsages | accountUsagesFormat}}
         el-table-column(prop='assetFrom', label='资产来源', width='100')
@@ -34,7 +34,7 @@
         el-table-column(prop='needUpdateAccountSerial', label='是否需要维护账户流水')
           template(scope="scope")
             span {{scope.row.needUpdateAccountSerial | statusFormat}}
-        el-table-column(prop='remark', label='备注')
+        el-table-column(prop='remark', label='备注', width="250")
         el-table-column(label='操作')
           template(scope="scope")
             .operations

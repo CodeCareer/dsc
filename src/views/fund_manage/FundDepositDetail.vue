@@ -26,7 +26,7 @@
             span {{scope.row.accountSymbol | statusFormat}}
         el-table-column(prop='assetId', label='资产ID', width='280')
         el-table-column(prop='fundAccountId', label='资金账户ID', width='280')
-        el-table-column(prop='checkingStatus', label='对账状态')
+        el-table-column(prop='checkingStatus', label='对账状态', width='100')
           template(scope="scope")
             span(:class="scope.row.checkingStatus | statusClass") {{scope.row.checkingStatus | statusFormat}}
         el-table-column(prop='createDateTime', label='创建时间', width='160')
@@ -45,7 +45,7 @@
           template(scope="scope")
             span {{scope.row.depositType | statusFormat}}
         el-table-column(prop='termNo', label='月供期数')
-        el-table-column(prop='remark', label='备注')
+        el-table-column(prop='remark', label='备注', width="250")
         el-table-column(label='操作', fixed="right", width='100')
           template(scope="scope")
             .operations
@@ -196,6 +196,7 @@ export default {
 
     operationStatus(data) {
       if (data.resultCode === 'SUCCESS') {
+        this.search()
         this.$message.success({
           message: data.resultMsg || '成功！',
           duration: 0,
