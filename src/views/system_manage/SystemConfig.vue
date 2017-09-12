@@ -10,14 +10,14 @@
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table.no-wrap-cell(:data='systemConfigData', style='width: 100%')
-        el-table-column(prop='id', label='id', width='120')
-        el-table-column(prop='configNo', label='配置编号')
+        el-table-column(prop='id', label='id', width='280')
+        el-table-column(prop='configNo', label='配置编号', width='100')
         el-table-column(prop='configName', label='配置名称')
         el-table-column(prop='configValue', label='配置值')
-        el-table-column(prop='allowOperateModify', label='是否允许修改')
+        el-table-column(prop='allowOperateModify', label='是否允许修改', width='100')
           template(scope="scope")
             span(:class="scope.row.allowOperateModify | statusClass") {{scope.row.allowOperateModify | statusFormat}}
-        el-table-column(prop='remark', label='备注')
+        el-table-column(prop='remark', label='备注', width='250')
 
         el-table-column(label='操作', fixed="right", width='100')
           template(scope="scope")
