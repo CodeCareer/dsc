@@ -20,21 +20,10 @@
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table.no-wrap-cell(:max-height="maxHeight", :data='fundDepositData', style='width: 100%', :summary-method="getSummaries", show-summary)
-        el-table-column(prop='id', label='id', width='280')
-        el-table-column(prop='accountSymbol', label='账户标记', width='100')
-          template(scope="scope")
-            span {{scope.row.accountSymbol | statusFormat}}
         el-table-column(prop='assetId', label='资产ID', width='280')
-        el-table-column(prop='fundAccountId', label='资金账户ID', width='280')
         el-table-column(prop='checkingStatus', label='对账状态', width='100')
           template(scope="scope")
             span(:class="scope.row.checkingStatus | statusClass") {{scope.row.checkingStatus | statusFormat}}
-        el-table-column(prop='createDateTime', label='创建时间', width='160')
-          template(scope="scope")
-            span {{scope.row.createDateTime | moment('YYYY-MM-DD HH:mm:ss')}}
-        el-table-column(prop='createType', label='创建类型', width='100')
-          template(scope="scope")
-            span {{scope.row.createType | statusFormat}}
         el-table-column(prop='depositAmout', label='入金金额', width='220')
           template(scope="scope")
             span {{scope.row.depositAmout | ktCurrency}}
@@ -46,6 +35,12 @@
             span {{scope.row.depositType | statusFormat}}
         el-table-column(prop='termNo', label='月供期数')
         el-table-column(prop='remark', label='备注', width="250")
+        el-table-column(prop='createType', label='创建类型', width='100')
+          template(scope="scope")
+            span {{scope.row.createType | statusFormat}}
+        el-table-column(prop='createDateTime', label='创建时间', width='160')
+          template(scope="scope")
+            span {{scope.row.createDateTime | moment('YYYY-MM-DD HH:mm:ss')}}
         el-table-column(label='操作', fixed="right", width='100')
           template(scope="scope")
             .operations
