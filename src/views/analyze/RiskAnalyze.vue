@@ -12,7 +12,7 @@
       .asset-title
         h3.fl 逾期率趋势
         .table-chart.fr
-          el-radio-group(v-model="isCollapse", @change="val=> overDueEchartResize(val, 'overDueTableVisible')")
+          el-radio-group(v-model="tableChartStatus.overDueTableVisible", @change="val=> overDueEchartResize(val, 'overDueTableVisible')")
             el-radio-button.table(:label="true") 表
             el-radio-button.chart(:label="false") 图
           //- a.iconfont.icon-down.fr()
@@ -91,14 +91,13 @@ export default {
       overDueChartOption: {},
       migrateChartOption: {},
       vintageChartOption: {},
-      isCollapse: true,
       date: {
-        startDate: '',
-        endDate: ''
+        startDate: moment().subtract(6, 'month').format('YYYY-MM'),
+        endDate: moment().subtract(1, 'month').format('YYYY-MM')
       },
       filter: {
-        startDate: '',
-        endDate: ''
+        startDate: moment().subtract(6, 'month').format('YYYYMM'),
+        endDate: moment().subtract(1, 'month').format('YYYYMM')
       },
       pickerOptions: {},
       tableChartStatus: {

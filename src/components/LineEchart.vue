@@ -46,8 +46,7 @@ export default {
           color: '#262c38',
           fontSize: 12
         },
-        top: 'bottom',
-        bottom: 30
+        top: 'bottom'
       },
       tooltip: {
         trigger: 'axis',
@@ -70,6 +69,9 @@ export default {
         },
         axisTick: {
           show: true
+        },
+        axisLabel: {
+          interval: 0
         },
         axisLine: {
           show: true,
