@@ -20,7 +20,7 @@
         el-table-column(prop='factRepayAmount', label='实际还款金额', width="120")
           template(scope="scope")
             span {{scope.row.factRepayAmount | ktCurrency}}
-        el-table-column(prop='penaltyInterst', label='罚息')
+        el-table-column(prop='penaltyInterst', label='罚息', width="120")
           template(scope="scope")
             span {{scope.row.penaltyInterst | ktCurrency}}
         el-table-column(prop='dealStatus', label='处理状态', width="120")
@@ -33,7 +33,8 @@
           template(scope="scope")
             span {{scope.row.payChannel | statusFormat}}
         el-table-column(prop='payNo', label='支付流水号', width="160")
-        el-table-column(prop='factBenefit', label='实际优惠金额')          template(scope="scope")
+        el-table-column(prop='factBenefit', label='实际优惠金额', width="120")          
+          template(scope="scope")
             span {{scope.row.factBenefit | ktCurrency}}
         el-table-column(prop='remark', label='备注', width="350")
           template(scope="scope")
