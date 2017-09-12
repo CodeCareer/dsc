@@ -59,7 +59,7 @@ export const tableListMixins = {
         total: 0,
         sizes: [10, 20, 50, 100, 500]
       },
-      maxHeight: 600
+      maxHeight: 6000
     }
   }
 }
