@@ -6,17 +6,17 @@
         .buttons
           el-button(v-if="ShowAutoCheckUp == 'YES'", type="primary", size="small", @click="autoCheckUp()")  完成对账
       .filters
-        el-input(placeholder='资产ID', icon='search', @keyup.native.13="search", v-model.trim='filter.assetId')
-        el-input(placeholder='资金账户ID', icon='search', @keyup.native.13="search", v-model.trim='filter.fundAccountId')
-        el-select(v-model="filter.depositType", placeholder="入金类型", @change="search")
+        el-input(placeholder='资产ID', icon='search', @keyup.native.13="_fetchData", v-model.trim='filter.assetId')
+        el-input(placeholder='资金账户ID', icon='search', @keyup.native.13="_fetchData", v-model.trim='filter.fundAccountId')
+        el-select(v-model="filter.depositType", placeholder="入金类型", @change="_fetchData")
           el-option(v-for="t in depositTypes", :key="t.name", :value="t.value", :label="t.name")
          
         .filter-line
-        el-select(v-model="filter.checkingStatus", placeholder="对账状态", @change="search")
+        el-select(v-model="filter.checkingStatus", placeholder="对账状态", @change="_fetchData")
           el-option(v-for="t in checkingTypes", :key="t.name", :value="t.value", :label="t.name")
         el-date-picker(placeholder='入金日期下限', type='date', format='yyyy-MM-dd', :value='date.depositDateLower', @input="handleDepositDateLower", :picker-options="pickerOptions")
         el-date-picker(placeholder='入金日期上限', type='date', format='yyyy-MM-dd', :value='date.depositDateUpper', @input="handleDepositDateUpper", :picker-options="pickerOptions")
-        el-button(size="small", type="primary", @click="search")  搜索
+        el-button(size="small", type="primary", @click="_fetchData")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table.no-wrap-cell(:max-height="maxHeight", :data='fundDepositData', style='width: 100%', :summary-method="getSummaries", show-summary)
@@ -141,12 +141,12 @@ export default {
     handleDepositDateLower(value) {
       this.filter.depositDateLower = value ? moment(value).format('YYYYMMDD') : ''
       this.date.depositDateLower = value ? moment(value).format('YYYY-MM-DD') : ''
-      this.search()
+      this._fetchData()
     },
     handleDepositDateUpper(value) {
       this.filter.depositDateUpper = value ? moment(value).format('YYYYMMDD') : ''
       this.date.depositDateUpper = value ? moment(value).format('YYYY-MM-DD') : ''
-      this.search()
+      this._fetchData()
     },
     parseInt: window.parseInt,
     _fetchData() {
@@ -196,6 +196,7 @@ export default {
 
     operationStatus(data) {
       if (data.resultCode === 'SUCCESS') {
+        this._fetchData()
         this.$message.success({
           message: data.resultMsg || '成功！',
           duration: 0,
