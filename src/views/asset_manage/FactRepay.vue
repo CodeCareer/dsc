@@ -14,16 +14,16 @@
       el-table.no-wrap-cell(:max-height="maxHeight", :data='factRepay', style='width: 100%', :summary-method="getSummaries", show-summary)
         el-table-column(prop='assetId', label='资产ID', width="250")
         el-table-column(prop='termNo', label='期数')
-        el-table-column(prop='factRepayDate', label='实际还款日期')
+        el-table-column(prop='factRepayDate', label='实际还款日期', width="120")
           template(scope="scope")
             span {{scope.row.factRepayDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
-        el-table-column(prop='factRepayAmount', label='实际还款金额')
+        el-table-column(prop='factRepayAmount', label='实际还款金额', width="120")
           template(scope="scope")
             span {{scope.row.factRepayAmount | ktCurrency}}
         el-table-column(prop='penaltyInterst', label='罚息')
           template(scope="scope")
             span {{scope.row.penaltyInterst | ktCurrency}}
-        el-table-column(prop='dealStatus', label='处理状态')
+        el-table-column(prop='dealStatus', label='处理状态', width="120")
           template(scope="scope")
             span(:class="scope.row.dealStatus | statusClass") {{scope.row.dealStatus | statusFormat}}
         el-table-column(prop='validStatus', label='校验状态')
@@ -32,9 +32,8 @@
         el-table-column(prop='payChannel', label='支付渠道')
           template(scope="scope")
             span {{scope.row.payChannel | statusFormat}}
-        el-table-column(prop='payNo', label='支付流水号')
-        el-table-column(prop='factBenefit', label='实际优惠金额')
-          template(scope="scope")
+        el-table-column(prop='payNo', label='支付流水号', width="160")
+        el-table-column(prop='factBenefit', label='实际优惠金额')          template(scope="scope")
             span {{scope.row.factBenefit | ktCurrency}}
         el-table-column(prop='remark', label='备注', width="350")
           template(scope="scope")

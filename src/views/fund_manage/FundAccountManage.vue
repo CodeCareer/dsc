@@ -18,20 +18,20 @@
     .table-container
       el-table.no-wrap-cell(:max-height="maxHeight", :data='fundAccount', style='width: 100%')
         el-table-column(prop='id', label='ID', width='280')
-        el-table-column(prop='accountName', label='账户名称')
+        el-table-column(prop='accountName', label='账户名称', width="120")
         el-table-column(prop='accountUsages', label='账户用途', width="200")
           template(scope="scope")
             span {{scope.row.accountUsages | accountUsagesFormat}}
         el-table-column(prop='assetFrom', label='资产来源', width='100')
           template(scope="scope")
             span {{scope.row.assetFrom | statusFormat}}
-        el-table-column(prop='bankAccount', label='银行账号')
-        el-table-column(prop='bankAccountName', label='银行账户名称')
-        el-table-column(prop='bankName', label='银行名称')
-        el-table-column(prop='coManagementAccount', label='是否共管账户')
+        el-table-column(prop='bankAccount', label='银行账号', width="120")
+        el-table-column(prop='bankAccountName', label='银行账户名称', width="120")
+        el-table-column(prop='bankName', label='银行名称', width="100")
+        el-table-column(prop='coManagementAccount', label='是否共管账户', width="120")
           template(scope="scope")
             span {{scope.row.coManagementAccount | statusFormat}}
-        el-table-column(prop='needUpdateAccountSerial', label='是否需要维护账户流水')
+        el-table-column(prop='needUpdateAccountSerial', label='是否需要维护账户流水', width="120")
           template(scope="scope")
             span {{scope.row.needUpdateAccountSerial | statusFormat}}
         el-table-column(prop='remark', label='备注', width="250")
