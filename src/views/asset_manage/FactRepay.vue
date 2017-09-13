@@ -26,13 +26,14 @@
         el-table-column(prop='dealStatus', label='处理状态', width="120")
           template(scope="scope")
             span(:class="scope.row.dealStatus | statusClass") {{scope.row.dealStatus | statusFormat}}
-        el-table-column(prop='validStatus', label='校验状态')
+        el-table-column(prop='validStatus', label='月供验真状态')
           template(scope="scope")
             span(:class="scope.row.validStatus | statusClass") {{scope.row.validStatus | statusFormat}}
         el-table-column(prop='payChannel', label='支付渠道')
           template(scope="scope")
             span {{scope.row.payChannel | statusFormat}}
         el-table-column(prop='payNo', label='支付流水号', width="160")
+        el-table-column(prop='payBatchNo', label='支付批次号', width="160")
         el-table-column(prop='factBenefit', label='实际优惠金额', width="120")          
           template(scope="scope")
             span {{scope.row.factBenefit | ktCurrency}}
@@ -149,7 +150,7 @@ export default {
           sums[index] = '当页合计'
           return
         }
-        if (indexOf([1, 2, 5, 6, 7, 8, 10], index) > -1) {
+        if (indexOf([1, 2, 5, 6, 7, 8, 9, 11], index) > -1) {
           return
         }
         const values = data.map(item => Number(item[column.property]))
