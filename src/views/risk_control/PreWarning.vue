@@ -143,6 +143,9 @@ export default {
       riskAssetFroms: [{
         value: 'DSC',
         label: '大搜车'
+      }, {
+        value: 'HUASHENG',
+        label: '花生好车'
       }],
       riskTypes: [{
         value: 'ACCESS',

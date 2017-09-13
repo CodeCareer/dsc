@@ -114,7 +114,7 @@ export default {
 
     clearFilter() {
       each(this.filter, (v, k) => {
-        if (k !== 'page' && k !== 'pageSize') {
+        if (k !== 'limit' && k !== 'page' && k !== 'pageSize') {
           this.filter[k] = ''
         }
       })
