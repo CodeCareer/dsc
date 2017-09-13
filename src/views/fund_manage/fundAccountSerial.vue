@@ -48,7 +48,7 @@
           template(scope="scope")
             span {{scope.row.createDatetime | moment('YYYY-MM-DD HH:mm:ss')}}
         el-table-column(prop='remark', label='备注', width="250")
-        el-table-column(label='操作', fixed="right", v-if="false && $permit('fundAccountSerialDelete')")
+        el-table-column(label='操作', fixed="right", v-if="$permit('fundAccountSerialDelete')")
           template(scope="scope")
             .operations
               i.iconfont.icon-delete(@click="del(scope.row)", v-if="$permit('fundAccountSerialDelete')")
