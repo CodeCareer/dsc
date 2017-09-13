@@ -411,6 +411,8 @@ export default {
 section {
   margin: 30px 0;
   .asset-title {
+    border: 1px solid #e7eaed;
+    border-bottom: none;
     height: 40px;
     line-height: 40px;
     background: #f3f6f8;
@@ -430,6 +432,9 @@ section {
         color: #20a0ff;
       }
     }
+  }
+  .asset-chart{
+    border: 1px solid #e7eaed;
   }
 }
 </style>

@@ -8,7 +8,7 @@
         el-date-picker(placeholder="结束日期",:value="date.endDate",type="month",format="yyyy-MM",@input="riskDateSearch($event, 'endDate')",:picker-options="pickerOptions")
         el-button(size="small", type="primary",@click="search") 搜索
         el-button(size="small", type="primary",@click="clearFilter")  清除
-    section(v-if="$permit(['riskOverdue'])")
+    section.section(v-if="$permit(['riskOverdue'])")
       .asset-title
         h3.fl 逾期率趋势
         .table-chart.fr
@@ -24,7 +24,7 @@
               span {{scope.row[date] | filterRate(scope.row.status)}}
       .asset-chart(v-show="!tableChartStatus.overDueTableVisible")
         line-echart(:chart-option="overDueChartOption", ref="overDueEchart")
-    section(v-if="$permit(['riskMigrateRate'])")
+    section.section(v-if="$permit(['riskMigrateRate'])")
       .asset-title
         h3.fl 迁徙率分析
         .table-chart.fr
@@ -40,7 +40,7 @@
               span {{scope.row[date] | ktPercent | filterNull}}
       .asset-chart(v-show="!tableChartStatus.migrateTableVisible")
         line-echart(:chart-option="migrateChartOption", ref="migrateEchart")
-    section(v-if="$permit(['riskVintage'])")
+    section.section(v-if="$permit(['riskVintage'])")
       .asset-title
         h3.fl Vintage分析
         .table-chart.fr
@@ -157,6 +157,7 @@ export default {
 
     getRiskOverdue() {
       riskOverdue.post({
+        loadingMaskTarget: '.section',
         startOfDate: this.filter.startDate,
         asOfDate: this.filter.endDate
       }).then(res => {
@@ -195,6 +196,8 @@ export default {
 
     getRiskMigrateTable() {
       riskMigrateRate.post({
+        loadingMaskTarget: '.section',
+        startOfDate: this.filter.startDate,
         asOfDate: this.filter.endDate
       }).then(res => {
         const datas = res.data.data
@@ -232,6 +235,8 @@ export default {
 
     getRiskVintageTable() {
       riskVintage.post({
+        loadingMaskTarget: '.section',
+        startOfDate: this.filter.startDate,
         asOfDate: this.filter.endDate
       }).then(res => {
         const datas = res.data.data
@@ -322,6 +327,8 @@ export default {
 section {
   margin: 30px 0;
   .asset-title {
+    border: 1px solid #e7eaed;
+    border-bottom: none;
     height: 40px;
     line-height: 40px;
     background: #f3f6f8;
@@ -341,6 +348,9 @@ section {
         color: #20a0ff;
       }
     }
+  }
+  .asset-chart{
+    border: 1px solid #e7eaed;
   }
 }
 </style>
