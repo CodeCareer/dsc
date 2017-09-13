@@ -50,10 +50,6 @@
           template(scope="scope")
             span {{scope.row.createDatetime | moment('YYYY-MM-DD HH:mm:ss')}}
         el-table-column(prop='remark', label='备注', width="250")
-        el-table-column(label='操作', fixed="right", v-if="$permit('fundAccountSerialDelete')")
-          template(scope="scope")
-            .operations
-              i.iconfont.icon-delete(@click="del(scope.row)", v-if="$permit('fundAccountSerialDelete')")
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total,  sizes, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
@@ -65,8 +61,7 @@ import {
 } from 'lodash'
 
 import {
-  fundAccountSerial,
-  fundAccountSerialDelete
+  fundAccountSerial
 } from '@/common/resource.js'
 
 import {
@@ -129,19 +124,6 @@ export default {
       })
     },
 
-    del(rows) {
-      this.$confirm('确定删除吗？', '提示', {
-        type: 'warning'
-      }).then(() => {
-        fundAccountSerialDelete.post({id: rows.id}, {
-          loadingMaskTarget: '.fund-account-serial'
-        }).then(res => {
-          const data = res.data
-          this.operationStatus(data)
-        })
-      }).catch(() => {})
-    },
-
     upload() {
       this.$router.push({
         name: 'fundAccountSerialUpload'
@@ -177,7 +159,7 @@ export default {
           sums[index] = '当页合计'
           return
         }
-        if (indexOf([1, 4, 5, 6, 7, 8, 9, 10, 11], index) > -1) {
+        if (indexOf([1, 4, 5, 6, 7, 8, 9, 10], index) > -1) {
           return
         }
         const values = data.map(item => Number(item[column.property]))
