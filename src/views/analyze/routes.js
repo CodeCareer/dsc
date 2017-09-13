@@ -8,7 +8,7 @@ export default {
     }
   },
   meta: {
-    permit: ['productsRelease', 'productsAudit'],
+    permit: ['ageAnalyze', 'carAnalyze', 'cityAnalyze', 'payAnalyze', 'assetAnalyze', 'riskOverdue', 'riskMigrateRate', 'riskVintage'],
     menu: {
       name: '统计分析',
       icon: 'icon-analyze'
@@ -20,8 +20,7 @@ export default {
     component: resolve => require(['@/views/analyze/AssetAnalyze.vue'], resolve),
     meta: {
       title: '车DAS系统-资产分析',
-      // permit: ['ageAnalyze', 'carAnalyze', 'cityAnalyze', 'payAnalyze', 'assetAnalyze'],
-      permit: ['productsRelease'],
+      permit: ['ageAnalyze', 'carAnalyze', 'cityAnalyze', 'payAnalyze', 'assetAnalyze'],
       menu: {
         name: '资产分析'
       },
@@ -39,7 +38,7 @@ export default {
     component: resolve => require(['@/views/analyze/RiskAnalyze.vue'], resolve),
     meta: {
       title: '车DAS系统-风险分析',
-      permit: ['productsRelease', 'productsAudit'],
+      permit: ['riskOverdue', 'riskMigrateRate', 'riskVintage'],
       menu: {
         name: '逾期分析'
       },

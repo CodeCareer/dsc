@@ -8,7 +8,7 @@
         el-date-picker(placeholder="结束日期",:value="date.endDate",type="month",format="yyyy-MM",@input="riskDateSearch($event, 'endDate')",:picker-options="pickerOptions")
         el-button(size="small", type="primary",@click="search") 搜索
         el-button(size="small", type="primary",@click="clearFilter")  清除
-    section
+    section(v-if="$permit(['riskOverdue'])")
       .asset-title
         h3.fl 逾期率趋势
         .table-chart.fr
@@ -24,7 +24,7 @@
               span {{scope.row[date] | filterRate(scope.row.status)}}
       .asset-chart(v-show="!tableChartStatus.overDueTableVisible")
         line-echart(:chart-option="overDueChartOption", ref="overDueEchart")
-    section
+    section(v-if="$permit(['riskMigrateRate'])")
       .asset-title
         h3.fl 迁徙率分析
         .table-chart.fr
@@ -40,7 +40,7 @@
               span {{scope.row[date] | ktPercent | filterNull}}
       .asset-chart(v-show="!tableChartStatus.migrateTableVisible")
         line-echart(:chart-option="migrateChartOption", ref="migrateEchart")
-    section
+    section(v-if="$permit(['riskVintage'])")
       .asset-title
         h3.fl Vintage分析
         .table-chart.fr

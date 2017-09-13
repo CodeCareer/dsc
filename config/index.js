@@ -31,13 +31,13 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api/reportForm': {
+      '/api': {
         target: 'http://10.132.1.38:8080',
         changeOrigin: true,
         pathRewrite: function(path, req) {
           return path.replace('/api/', '/')
         }
-      },
+      }
       // '/api/thirdPartyData/gpsManage/': {
       //   target: 'http://10.132.1.115:8080',
       //   changeOrigin: true,
@@ -52,19 +52,19 @@ module.exports = {
       //     return path.replace('/api/api/', '/api/')
       //   }
       // },
-      '/api': {
-        target: 'https://kf-wdy.trunk.wjs-test.com/wdy',
-        secure: false,
-        agent: https.globalAgent,
-        changeOrigin: true,
-        onProxyRes: function(proxyRes, req, res) {
-          // proxyRes.headers['x-auth-token'] = 'adfa-adsfaf-asf'
-          // delete proxyRes.headers['set-cookie'] // 删除Rap上的cookie设置因为会影响到/api/usermanage的cookie设置
-        },
-        pathRewrite: function(path, req) {
-          return path.replace('/api/', '/')
-        }
-      }
+      // '/api': {
+      //   target: 'https://kf-wdy.trunk.wjs-test.com/wdy',
+      //   secure: false,
+      //   agent: https.globalAgent,
+      //   changeOrigin: true,
+      //   onProxyRes: function(proxyRes, req, res) {
+      //     // proxyRes.headers['x-auth-token'] = 'adfa-adsfaf-asf'
+      //     // delete proxyRes.headers['set-cookie'] // 删除Rap上的cookie设置因为会影响到/api/usermanage的cookie设置
+      //   },
+      //   pathRewrite: function(path, req) {
+      //     return path.replace('/api/', '/')
+      //   }
+      // }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README

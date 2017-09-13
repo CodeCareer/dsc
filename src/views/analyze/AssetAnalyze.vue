@@ -7,7 +7,7 @@
         el-date-picker(placeholder="截止日期",:value="date.endDate",type="date",format="yyyy-MM-dd",@input="dateSearch($event, 'endDate')",:picker-options="pickerOptions")
         el-button(size="small", type="primary",@click="search") 搜索
         el-button(size="small", type="primary",@click="clearFilter")  清除
-    section.section
+    section.section(v-if="$permit(['ageAnalyze'])")
       .asset-title
         h3.fl 年龄分析
         .table-chart.fr
@@ -31,7 +31,7 @@
               span {{scope.row.rateBalance | ktNull}}
       .asset-chart(v-show="!tableChartStatus.ageTableVisible")
         bar-chart(:chart-option="ageChartOption",ref="ageChart")
-    section.section
+    section.section(v-if="$permit(['carAnalyze'])")
       .asset-title
         h3.fl 汽车品牌分析
         .table-chart.fr
@@ -55,7 +55,7 @@
               span {{scope.row.rateBalance | ktNull}}
       .asset-chart(v-show="!tableChartStatus.carTableVisible")
         bar-chart(:chart-option="carChartOption", ref="carChart")
-    section.section
+    section.section(v-if="$permit(['cityAnalyze'])")
       .asset-title
         h3.fl 城市分布
         .table-chart.fr
@@ -79,7 +79,7 @@
               span {{scope.row.rateBalance | ktNull}}
       .asset-chart(v-show="!tableChartStatus.cityTableVisible")
         bar-chart(:chart-option="cityChartOption", ref="cityChart")
-    section.section
+    section.section(v-if="$permit(['payAnalyze'])")
       .asset-title
         h3.fl 首付比例分布
         .table-chart.fr
@@ -103,7 +103,7 @@
               span {{scope.row.rateBalance | ktNull}}
       .asset-chart(v-show="!tableChartStatus.paymentTableVisible")
         bar-chart(:chart-option="payChartOption", ref="payChart")
-    section.section
+    section.section(v-if="$permit(['assetAnalyze'])")
       .asset-title
         h3.fl 资产余额分布
         .table-chart.fr
