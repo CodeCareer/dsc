@@ -6,6 +6,9 @@
       router-link.buttons(:to="{ name: 'repayPlan', query: { assetId: fundDepositData.assetId, termNo: fundDepositData.termNo }}", target="_blank", v-if="fundDepositData.checkingStatus === 'UNPASS' && $permit('fundManualCheckUp')")
         el-button(type="primary", size="small")
           | 查看实际还款
+      router-link.buttons(:to="{ name: 'fundAccountSerial', query: { id: fundDepositData.fundAccountSerialId }}", target="_blank", v-if="fundDepositData.fundAccountSerialId != ''")
+        el-button(type="primary", size="small")
+          | 查看资金账户流水
     .box-content
       .box-section
         el-row(:gutter="20")
