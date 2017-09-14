@@ -469,7 +469,8 @@ export default {
     },
     statusFormat(value) {
       const status = find(statusList, s => s.value === value)
-      return status ? status.name : '未知状态'
+      console.log(status)
+      return status ? status.name : '-'
     },
     download(value) {
       const arr = value.split(',')
