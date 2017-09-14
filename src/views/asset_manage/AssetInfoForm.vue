@@ -52,7 +52,9 @@
                   td {{assetBaseInfo.edu}}
                 tr
                   th 其他身份证明文件：
-                  td {{assetBaseInfo.otherCertPicsPath}}
+                  td(v-if='assetBaseInfo.otherCertPicsPath')
+                    down-load(:filePath="assetBaseInfo.otherCertPicsPath.split(',')")
+                  td(v-else) 无文件
             el-col(:span="8")
               table
                 tr
@@ -212,8 +214,8 @@
                   th 保险费用：
                   td {{assetCarCoreInfo.insuranceFee | ktCurrency}}
                 tr
-                  th 城市：
-                  td {{assetCarCoreInfo.city}}
+                  th 省份：
+                  td {{assetCarCoreInfo.province}}
                 tr
                   th 首付支付方式：
                   td {{assetCarCoreInfo.downPaymentsPayType | statusFormat}}
@@ -250,14 +252,14 @@
                   th 年份：
                   td {{assetCarCoreInfo.year}}
                 tr
+                  th 城市：
+                  td {{assetCarCoreInfo.city}}
+                tr
                   th 车牌号：
                   td {{assetCarCoreInfo.plateNumber}}
                 tr
                   th 实际尾款金额：
                   td {{assetCarCoreInfo.factRestAmount | ktCurrency}}
-                tr
-                  th 省份：
-                  td {{assetCarCoreInfo.province}}
                 tr
                   th 融资本金：
                   td {{assetCarCoreInfo.financingPrincipal | ktCurrency}}
