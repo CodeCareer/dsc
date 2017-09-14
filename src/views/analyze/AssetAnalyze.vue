@@ -139,6 +139,10 @@ import {
 } from '@/common/resource.js'
 
 import {
+  pruneParams
+} from '@/common/util.js'
+
+import {
   mergeWith,
   map,
   merge
@@ -184,7 +188,6 @@ export default {
           text: '资产余额范围列表（万元）'
         }
       },
-      isCollapse: true,
       date: {
         endDate: moment((new Date().getTime() - 86400000)).format('YYYY-MM-DD')
       },
@@ -238,7 +241,7 @@ export default {
     getAgeAnalyze() {
       ageAnalyze.post({
         loadingMaskTarget: '.section',
-        asOfDate: this.filter.endDate
+        ...pruneParams(this.filter)
       }).then(res => {
         this.tables.ageTable = res.data.data.rows
         this.ageChartOption = mergeWith({}, this.ageChartOption, {
@@ -268,7 +271,7 @@ export default {
     getCarAnalyze() {
       carAnalyze.post({
         loadingMaskTarget: '.section',
-        asOfDate: this.filter.endDate
+        ...pruneParams(this.filter)
       }).then(res => {
         this.tables.carTable = res.data.data.rows
         this.carChartOption = mergeWith({}, this.carChartOption, {
@@ -298,7 +301,7 @@ export default {
     getCityAnalyze() {
       cityAnalyze.post({
         loadingMaskTarget: '.section',
-        asOfDate: this.filter.endDate
+        ...pruneParams(this.filter)
       }).then(res => {
         this.tables.cityTable = res.data.data.rows
         this.cityChartOption = mergeWith({}, this.cityChartOption, {
@@ -328,7 +331,7 @@ export default {
     getPayAnalyze() {
       payAnalyze.post({
         loadingMaskTarget: '.section',
-        asOfDate: this.filter.endDate
+        ...pruneParams(this.filter)
       }).then(res => {
         this.tables.payTable = res.data.data.rows
         this.payChartOption = mergeWith({}, this.payChartOption, {
@@ -358,7 +361,7 @@ export default {
     getAssetAnalyze() {
       assetAnalyze.post({
         loadingMaskTarget: '.section',
-        asOfDate: this.filter.endDate
+        ...pruneParams(this.filter)
       }).then(res => {
         this.tables.assetTable = res.data.data.rows
         this.assetChartOption = mergeWith({}, this.assetChartOption, {

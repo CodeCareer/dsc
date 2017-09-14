@@ -273,30 +273,17 @@ export default {
     },
 
     customData(data, chart) {
-      const tables = {
-        overDue: {
-          dates: [],
-          data: []
-        },
-        migrate: {
-          dates: [],
-          data: []
-        },
-        vintage: {
-          dates: [],
-          data: []
-        }
-      }
-      tables[chart].dates = data.labelDate
+      this.tables[chart].dates = data.labelDate
+      const dataArr = []
       for (let stat of data.status) {
         let obj = {}
         obj.status = stat
         for (let date of data.labelDate) {
           obj[date] = data.tableData[date][stat]
         }
-        tables[chart].data.push(obj)
+        dataArr.push(obj)
       }
-      this.tables[chart] = tables[chart]
+      this.tables[chart].data = dataArr
     },
 
     customChartData(data, chart) {
