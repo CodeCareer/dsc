@@ -38,6 +38,21 @@
                 tr
                   th 资产来源明细：
                   td {{assetBaseInfo.assetFromDetail | statusFormat}}
+                tr
+                  th 入池日期：
+                  td {{assetBaseInfo.inPoolDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
+                tr
+                  th 已还款金额：
+                  td {{assetBaseInfo.haveRepayedAmount | ktCurrency}}
+                tr
+                  th 已还款期数：
+                  td {{assetBaseInfo.haveRepayedPeriods}}
+                tr
+                  th 学历：
+                  td {{assetBaseInfo.edu}}
+                tr
+                  th 其他身份证明文件：
+                  td {{assetBaseInfo.otherCertPicsPath}}
             el-col(:span="8")
               table
                 tr
@@ -69,6 +84,18 @@
                   td(v-if='assetBaseInfo.contractFilesPath') 
                     down-load(:filePath="assetBaseInfo.contractFilesPath.split(',')")
                   td(v-else) 无附件
+                tr
+                  th 出池日期：
+                  td {{assetBaseInfo.outPoolDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
+                tr
+                  th 还款总期数：
+                  td {{assetBaseInfo.repayPeriods}}
+                tr
+                  th 创建时间戳：
+                  td {{assetBaseInfo.createDateTime | moment('YYYY-MM-DD HH:mm:ss')}}
+                tr
+                  th 银行卡号：
+                  td {{assetBaseInfo.bankCardNo}}
             el-col(:span="8")
               table     
                 tr
@@ -96,13 +123,26 @@
                   td(v-if='assetBaseInfo.certBackPicPath')
                     down-load(:filePath="assetBaseInfo.certBackPicPath.split(',')")
                   td(v-else) 无附件
-                
                 tr
                   th 回购状态：
                   td {{assetBaseInfo.buyBackStatus | statusFormat}}
                 tr
                   th 推送状态：
                   td {{assetBaseInfo.pushStatus | statusFormat}}
+                tr
+                  th 待还款金额：
+                  td {{assetBaseInfo.waitRepayAmount | ktCurrency}}
+                tr
+                  th 待还款期数：
+                  td {{assetBaseInfo.waitRepayPeriods}}
+                tr
+                  th 其他合同协议路径：
+                  td(v-if='assetBaseInfo.otherContractFilesPath')
+                    down-load(:filePath="assetBaseInfo.otherContractFilesPath.split(',')")
+                  td(v-else) 无附件
+                tr
+                  th 开户行：
+                  td {{assetBaseInfo.bankName}}
 
   .box.mt20(v-if="assetCarCoreInfo")
     .box-header
@@ -145,6 +185,9 @@
                 tr
                   th 无源GPS供应商名称：
                   td {{assetCarCoreInfo.gpsNonSourceOrgName}}
+                tr
+                  th 剩余期数：
+                  td {{assetCarCoreInfo.leftTerm}}
             el-col(:span="8")
               table
                 tr
@@ -180,6 +223,9 @@
                 tr
                   th 有源GPS代码：
                   td {{assetCarCoreInfo.gpsSoureCode}}
+                tr
+                  th 用户已还本金：
+                  td {{assetCarCoreInfo.repaidPrincipal | ktCurrency}}
             el-col(:span="8")
               table    
                 tr
@@ -212,6 +258,12 @@
                 tr
                   th 省份：
                   td {{assetCarCoreInfo.province}}
+                tr
+                  th 融资本金：
+                  td {{assetCarCoreInfo.financingPrincipal | ktCurrency}}
+                tr
+                  th 剩余本金：
+                  td {{assetCarCoreInfo.leftPrincipal | ktCurrency}}
   .box.mt20(v-if="assetCarBackUpInfo")
     .box-header
       | 资产车贷备用信息
@@ -238,6 +290,9 @@
                   td(v-if='assetCarBackUpInfo.drivingLicencePicPath')
                     down-load(:filePath="assetCarBackUpInfo.drivingLicencePicPath.split(',')")
                   td(v-else) 无附件
+                tr
+                  th 车船税：
+                  td {{assetCarBackUpInfo.carTax | ktCurrency}}
             el-col(:span="8")
               table
                 tr
@@ -252,6 +307,11 @@
                 tr
                   th 市场参考价：
                   td {{assetCarBackUpInfo.marketPrice | ktCurrency}}
+                tr
+                  th 购车发票路径：
+                  td(v-if='assetCarBackUpInfo.invoicePath')
+                    down-load(:filePath="assetCarBackUpInfo.invoicePath.split(',')")
+                  td(v-else) 无附件
             el-col(:span="8")
               table        
                 tr
@@ -290,6 +350,7 @@
         el-table-column(prop='insuranceType', label='保险类型', width='100')
           template(scope="scope")
             span {{scope.row.insuranceType | statusFormat}}
+        el-table-column(prop='insuranceOrgCode', label='保险公司代码', width='160')
         el-table-column(prop='insurantCode', label='被保险人社会统一信用代码', width='200')
 </template>
 
@@ -317,9 +378,6 @@ const statusList = [{
 }, {
   name: '弹个车APP',
   value: 'TGC'
-}, {
-  name: '天猫',
-  value: 'TMALL'
 }, {
   name: '待审核',
   value: 'WAIT_AUDIT'
@@ -362,6 +420,9 @@ const statusList = [{
 }, {
   name: '支付宝',
   value: 'ALIPAY'
+}, {
+  name: '其他',
+  value: 'OTHER'
 }, {
   name: '科峰时代拍卖',
   value: 'KFDEAL'

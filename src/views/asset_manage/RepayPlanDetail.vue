@@ -26,6 +26,9 @@
                 tr
                   th 实际还款金额：
                   td {{repayPlan.factRepayAmount | ktCurrency}}
+                tr
+                  th 剩余本金：
+                  td {{repayPlan.leftPrincipal | ktCurrency}}
             el-col(:span="8")
               table
                 tr
@@ -46,6 +49,9 @@
                 tr
                   th 罚息：
                   td {{repayPlan.penaltyInterst | ktCurrency}}
+                tr
+                  th 提前结清金额：
+                  td {{repayPlan.preendAmount | ktCurrency}}
             el-col(:span="8")
               table 
                 tr
@@ -63,6 +69,12 @@
                 tr
                   th 还款状态：
                   td {{repayPlan.repayStatus | statusFormat}}
+                tr
+                  th 核销状态：
+                  td {{repayPlan.verifyStatus | statusFormat}}
+                tr
+                  th 支付批次号：
+                  td {{repayPlan.payBatchNo}}
     .bottom-buttons 
       el-button(size="small", @click="cancel") 返回
 </template>
@@ -107,6 +119,15 @@ const statusList = [{
 }, {
   name: '其他',
   value: 'OTHER'
+}, {
+  name: '未核销',
+  value: 'NOT_VERIFY'
+}, {
+  name: '已核销',
+  value: 'VERIFYED'
+}, {
+  name: '无需核销',
+  value: 'NO_NEED'
 }]
 
 export default {
