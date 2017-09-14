@@ -129,7 +129,7 @@ export default {
     },
     statusFormat(value) {
       const status = find(statusList, s => s.value === value)
-      return status ? status.name : '未知状态'
+      return status ? status.name : '-'
     }
   },
   methods: {
