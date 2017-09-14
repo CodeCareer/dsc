@@ -469,7 +469,6 @@ export default {
     },
     statusFormat(value) {
       const status = find(statusList, s => s.value === value)
-      console.log(status)
       return status ? status.name : '-'
     },
     download(value) {
