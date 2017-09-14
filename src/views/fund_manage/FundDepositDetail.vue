@@ -170,6 +170,7 @@ export default {
 
     autoCheckUp() {
       const confirmMsg = '资金账户流水录入完毕，完成对账？'
+      const doubleConfirmMsg = '资金账户流水无记录，是否继续？'
       this.$confirm(confirmMsg, '提示', {
         type: 'warning'
       }).then(() => {
@@ -177,7 +178,23 @@ export default {
           loadingMaskTarget: '.fund-deposit-detail'
         }).then(res => {
           const data = res.data
-          this.operationStatus(data)
+          if (data.resultCode === '100001') {
+            this.$confirm(doubleConfirmMsg, '提示', {
+              type: 'warning'
+            }).then(() => {
+              fundAutoCheckUp.get({
+                params: {
+                  isForceExecute: 'YES'
+                },
+                loadingMaskTarget: '.fund-deposit-detail'
+              }).then(res => {
+                const confirmData = res.data
+                this.operationStatus(confirmData)
+              })
+            })
+          } else {
+            this.operationStatus(data)
+          }
         })
       })
     },
