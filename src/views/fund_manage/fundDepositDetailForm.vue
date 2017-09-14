@@ -51,7 +51,11 @@
               tr
                 th 月供期数	：
                 td {{fundDepositData.termNo}}
-              tr
+              tr(v-if="fundDepositData.checkingStatus === 'UNPASS' && $permit('fundManualCheckUp')")
+                th 备注	：
+                td
+                  el-input(type="textarea", placeholder="请输入备注", :maxlength="500", v-model="fundDepositData.remark")
+              tr(v-else)
                 th 备注	：
                 td {{fundDepositData.remark}}
     .bottom-buttons 
@@ -147,7 +151,8 @@ export default {
       fundManualCheckUp.get({
         params: {
           checkingStatus: checkStatus,
-          id: this.$route.params.id
+          id: this.$route.params.id,
+          remark: this.fundDepositData.remark
         }
       }).then(res => {
         const msg = res.data
@@ -201,6 +206,10 @@ export default {
       }
     }
   }
+}
+.el-textarea textarea{
+  width: 240px;
+  height: 80px;
 }
   
 </style>
