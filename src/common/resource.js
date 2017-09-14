@@ -76,6 +76,7 @@ http.interceptors.response.use(res => {
 export const APIS = {
   productsRelease: '/productManage/pageProductInfo', //产品发行管理
   productsAudit: '/productManage/auditManually', //产品发行审核
+  productRedeemPlan: '/productRedeemPlan/page', //产品回款计划
   accountDepositManage: '/fundManage/listAccountFundDetail', //账户入金查询
   accountDepositDelete: '/fundManage/deleteAccountFundDetail', //账户入金删除
   accountDepositAudit: '/fundManage/auditAccountFundDetail', //账户入金审核
@@ -149,6 +150,10 @@ export const productsRelease = {
 
 export const productsAudit = {
   post: (data, config) => http.post(APIS.productsAudit, data, config)
+}
+
+export const productRedeemPlan = {
+  post: (data, config) => http.post(APIS.productRedeemPlan, data, config)
 }
 
 export const accountDepositManage = {

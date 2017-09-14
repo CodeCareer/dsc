@@ -8,7 +8,11 @@ export default {
     }
   },
   meta: {
-    permit: ['productsRelease', 'productsAudit'],
+    permit: [
+      'productsRelease',
+      'productsAudit',
+      'productRedeemPlan'
+    ],
     menu: {
       icon: 'icon-layers',
       name: '产品管理'
@@ -50,6 +54,25 @@ export default {
         id: 'productsReleaseForm',
         name: '产品发行审核',
         to: { name: 'productsReleaseForm' }
+      }]
+    }
+  }, {
+    path: 'products_redeem_plan',
+    name: 'productRedeemPlan',
+    component: resolve => require(['@/views/product_manage/productRedeemPlan.vue'], resolve),
+    meta: {
+      title: '车DAS系统-产品回款计划',
+      permit: ['productRedeemPlan'],
+      menu: {
+        name: '产品回款计划',
+        activeIncludes: ['productRedeemPlan']
+      },
+      crumbs: [{
+        name: '产品管理',
+        to: { name: 'productsRelease' }
+      }, {
+        name: '产品回款计划',
+        to: { name: 'productRedeemPlan' }
       }]
     }
   }]

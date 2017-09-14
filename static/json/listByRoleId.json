@@ -107,6 +107,11 @@
             "name": "产品模块-发布产品",
             "url": "/timetask/productManage/releaseProduct",
             "check": true
+        }, {
+            "id": "5549745d992111e7a00328d244a09f71",
+            "name": "产品回款计划",
+            "url": "/productRedeemPlan/page",
+            "check": true
         }],
         "groups": []
     }, {

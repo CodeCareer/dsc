@@ -66,6 +66,11 @@
         el-table-column(prop='redeemAmount', label='到期应兑付总金额', width='140')
           template(scope="scope")
             span {{scope.row.redeemAmount | ktCurrency}}
+        el-table-column(prop='leftPeriods', label='剩余期数', width='100')
+        el-table-column(prop='repayType', label='还款方式', width='140')
+          template(scope="scope")
+            span {{scope.row.repayType | statusFormat}}
+        el-table-column(prop='totalPeriods', label='总期数', width='100')
         el-table-column(prop='remark', label='备注', width='220')
         el-table-column(label='操作', fixed="right", width='60')
           template(scope="scope")
@@ -125,6 +130,12 @@ const statusList = [{
 }, {
   name: '已回款',
   value: 'FINISHED'
+}, {
+  name: '一次性还本付息',
+  value: 'ONE_TIME'
+}, {
+  name: '按月等额本息',
+  value: 'AVAERAGEC_CAPITAL_INTEREST'
 }]
 
 export default {
