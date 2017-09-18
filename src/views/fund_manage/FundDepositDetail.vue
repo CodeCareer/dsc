@@ -4,7 +4,9 @@
       .box-header
         h3 筛选条件
         .buttons
-          el-button(v-if="ShowAutoCheckUp == 'YES'", type="primary", size="small", @click="autoCheckUp()")  完成对账
+          el-date-picker(class="datePicker", placeholder='开始日期', clearable=false, type='date', format='yyyy-MM-dd', v-model='date.checkUpStartDate', :value='date.checkUpStartDate', @input="handleCheckUpStartDate", :picker-options="pickerOptions")
+          el-date-picker(class="datePicker", placeholder='结束日期', clearable=false, type='date', format='yyyy-MM-dd', v-model='date.checkUpEndDate', :value='date.checkUpEndDate', @input="handleCheckUpEndDate", :picker-options="pickerOptions")
+          el-button(type="primary", size="small", @click="autoCheckUp()")  完成对账
       .filters
         el-input(placeholder='资产ID', icon='search', @keyup.native.13="search", v-model.trim='filter.assetId')
         el-input(placeholder='资金账户ID', icon='search', @keyup.native.13="search", v-model.trim='filter.fundAccountId')
@@ -59,7 +61,7 @@ import {
 import {
   fundDeposit,
   fundAutoCheckUp,
-  isShowAutoCheckUp
+  fundAutoCheckUpDefaultDate
 } from '@/common/resource.js'
 
 import {
@@ -133,9 +135,17 @@ export default {
     }
   },
   methods: {
+    handleCheckUpStartDate(value) {
+      this.date.checkUpStartDate = value ? moment(value).format('YYYY-MM-DD') : ''
+    },
+    handleCheckUpEndDate(value) {
+      this.date.checkUpEndDate = value ? moment(value).format('YYYY-MM-DD') : ''
+    },
     handleDepositDateLower(value) {
       this.filter.depositDateLower = value ? moment(value).format('YYYYMMDD') : ''
       this.date.depositDateLower = value ? moment(value).format('YYYY-MM-DD') : ''
+      // console.log(moment(value))
+      console.log(moment(value).format('YYYY-MM-DD'))
       this.search()
     },
     handleDepositDateUpper(value) {
@@ -153,10 +163,11 @@ export default {
         this.page.total = data.total
       })
 
-      if (this.$permit('isShowAutoCheckUp')) {
-        isShowAutoCheckUp.get().then(res => {
+      if (this.$permit('fundAutoCheckUpDefaultDate')) {
+        fundAutoCheckUpDefaultDate.get().then(res => {
           const data = res.data.data
-          this.ShowAutoCheckUp = (data.isShow)
+          this.date.checkUpStartDate = moment(data.startDate, 'YYYYMMDD').format('YYYY-MM-DD')
+          this.date.checkUpEndDate = moment(data.endDate, 'YYYYMMDD').format('YYYY-MM-DD')
         })
       }
     },
@@ -175,6 +186,9 @@ export default {
         type: 'warning'
       }).then(() => {
         fundAutoCheckUp.get({
+          params: {
+            dealDate: this.dealDate
+          },
           loadingMaskTarget: '.fund-deposit-detail'
         }).then(res => {
           const data = res.data
@@ -184,6 +198,7 @@ export default {
             }).then(() => {
               fundAutoCheckUp.get({
                 params: {
+                  dealDate: this.dealDate,
                   isForceExecute: 'YES'
                 },
                 loadingMaskTarget: '.fund-deposit-detail'
@@ -264,16 +279,23 @@ export default {
     this._fetchData()
   },
 
+  computed: {
+    dealDate: function () {
+      return moment(this.date.checkUpStartDate).format('YYYYMMDD') + '-' + moment(this.date.checkUpEndDate).format('YYYYMMDD')
+    }
+  },
+
   data() {
     return {
       pickerOptions: '',
-      ShowAutoCheckUp: '',
       fixed: window.innerWidth - 180 - 12 * 2 > 1150 ? false : 'right', // 180 左侧菜单宽度，12 section的padding
       fundDepositData: [],
       date: {
         depositDate: '',
         depositDateLower: '',
-        depositDateUpper: ''
+        depositDateUpper: '',
+        checkUpStartDate: '',
+        checkUpEndDate: ''
       },
       filter: {
         fundAccountId: '',
@@ -339,5 +361,15 @@ export default {
     height: 40px;
     line-height: 40px;
     padding-right: 15px;
+}
+.datePicker {
+  margin-right: 10px;
+  margin-top: 10px
+}
+.box-header {
+  height: 60px;
+}
+.box .box-header h3 {
+  line-height: 60px;
 }
 </style>
