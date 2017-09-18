@@ -53,7 +53,7 @@
                 tr
                   th 其他身份证明文件：
                   td(v-if='assetBaseInfo.otherCertPicsPath')
-                    down-load(:filePath="assetBaseInfo.otherCertPicsPath.split(',')")
+                    down-load(:assetFrom="assetBaseInfo.assetFrom", :filePath="assetBaseInfo.otherCertPicsPath.split(',')")
                   td(v-else) 无文件
             el-col(:span="8")
               table
@@ -84,7 +84,7 @@
                 tr
                   th 合同协议路径：
                   td(v-if='assetBaseInfo.contractFilesPath') 
-                    down-load(:filePath="assetBaseInfo.contractFilesPath.split(',')")
+                    down-load(:assetFrom="assetBaseInfo.assetFrom", :filePath="assetBaseInfo.contractFilesPath.split(',')")
                   td(v-else) 无附件
                 tr
                   th 出池日期：
@@ -118,12 +118,12 @@
                 tr
                   th 身份证正面照片路径：
                   td(v-if='assetBaseInfo.certFrontPicPath')
-                    down-load(:filePath="assetBaseInfo.certFrontPicPath.split(',')")
+                    down-load(:assetFrom="assetBaseInfo.assetFrom", :filePath="assetBaseInfo.certFrontPicPath.split(',')")
                   td(v-else) 无附件
                 tr
                   th 身份证反面照片路径：
                   td(v-if='assetBaseInfo.certBackPicPath')
-                    down-load(:filePath="assetBaseInfo.certBackPicPath.split(',')")
+                    down-load(:assetFrom="assetBaseInfo.assetFrom", :filePath="assetBaseInfo.certBackPicPath.split(',')")
                   td(v-else) 无附件
                 tr
                   th 回购状态：
@@ -140,7 +140,7 @@
                 tr
                   th 其他合同协议路径：
                   td(v-if='assetBaseInfo.otherContractFilesPath')
-                    down-load(:filePath="assetBaseInfo.otherContractFilesPath.split(',')")
+                    down-load(:assetFrom="assetBaseInfo.assetFrom", :filePath="assetBaseInfo.otherContractFilesPath.split(',')")
                   td(v-else) 无附件
                 tr
                   th 开户行：
@@ -280,17 +280,17 @@
                 tr
                   th 车辆行驶证路径：
                   td(v-if='assetCarBackUpInfo.carDrivingPermitCertPath')
-                    down-load(:filePath="assetCarBackUpInfo.carDrivingPermitCertPath.split(',')")
+                    down-load(:assetFrom="assetBaseInfo.assetFrom", :filePath="assetCarBackUpInfo.carDrivingPermitCertPath.split(',')")
                   td(v-else) 无附件
                 tr
                   th 车辆登记证路径：
                   td(v-if='assetCarBackUpInfo.carRegisterCertPath')
-                    down-load(:filePath="assetCarBackUpInfo.carRegisterCertPath.split(',')")
+                    down-load(:assetFrom="assetBaseInfo.assetFrom", :filePath="assetCarBackUpInfo.carRegisterCertPath.split(',')")
                   td(v-else) 无附件
                 tr
                   th 驾驶证照片路径：
                   td(v-if='assetCarBackUpInfo.drivingLicencePicPath')
-                    down-load(:filePath="assetCarBackUpInfo.drivingLicencePicPath.split(',')")
+                    down-load(:assetFrom="assetBaseInfo.assetFrom", :filePath="assetCarBackUpInfo.drivingLicencePicPath.split(',')")
                   td(v-else) 无附件
                 tr
                   th 车船税：
@@ -312,14 +312,14 @@
                 tr
                   th 购车发票路径：
                   td(v-if='assetCarBackUpInfo.invoicePath')
-                    down-load(:filePath="assetCarBackUpInfo.invoicePath.split(',')")
+                    down-load(:assetFrom="assetBaseInfo.assetFrom", :filePath="assetCarBackUpInfo.invoicePath.split(',')")
                   td(v-else) 无附件
             el-col(:span="8")
               table        
                 tr
                   th 提车确认单文件路径：
                   td(v-if='assetCarBackUpInfo.pickUpFilePath')
-                    down-load(:filePath="assetCarBackUpInfo.pickUpFilePath.split(',')")
+                    down-load(:assetFrom="assetBaseInfo.assetFrom", :filePath="assetCarBackUpInfo.pickUpFilePath.split(',')")
                   td(v-else) 无附件
                 tr
                   th 购置税：
@@ -347,7 +347,7 @@
         el-table-column(prop='insurancePicPath', label='保单图片路径', width='120')
           template(scope="scope")
             span(v-if='scope.row.insurancePicPath')
-              down-load(:filePath="scope.row.insurancePicPath.split(',')")
+              down-load(:assetFrom="assetBaseInfo.assetFrom", :filePath="scope.row.insurancePicPath.split(',')")
             span(v-else) 无附件
         el-table-column(prop='insuranceType', label='保险类型', width='100')
           template(scope="scope")
