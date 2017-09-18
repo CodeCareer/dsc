@@ -29,6 +29,9 @@
         el-table-column(prop='productStatus', label='产品状态', width='110')
           template(scope="scope")
             span {{scope.row.productStatus | statusFormat}}
+        el-table-column(prop='assetAcceptStatus', label='资产接收状态', width='110')
+          template(scope="scope")
+            span {{scope.row.assetAcceptStatus | statusFormat}}
         el-table-column(prop='profitYearRate', label='发行利率', width='100')
           template(scope="scope")
             span {{scope.row.profitYearRate | ktPercent}}
@@ -136,6 +139,12 @@ const statusList = [{
 }, {
   name: '按月等额本息',
   value: 'AVAERAGEC_CAPITAL_INTEREST'
+}, {
+  name: '已接收',
+  value: 'ACCEPTED'
+}, {
+  name: '未接收',
+  value: 'NOT_ACCEPT'
 }]
 
 export default {

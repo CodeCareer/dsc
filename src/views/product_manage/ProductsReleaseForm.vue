@@ -25,6 +25,9 @@
                     th 产品状态：
                     td {{product.productStatus | statusFormat}}
                   tr
+                    th 资产接收状态：
+                    td {{product.assetAcceptStatus | statusFormat}}
+                  tr
                     th 发行利率：
                     td {{product.profitYearRate | ktPercent}}
                   tr
@@ -140,6 +143,12 @@ const statusList = [{
 }, {
   name: '按月等额本息',
   value: 'AVAERAGEC_CAPITAL_INTEREST'
+}, {
+  name: '已接收',
+  value: 'ACCEPTED'
+}, {
+  name: '未接收',
+  value: 'NOT_ACCEPT'
 }]
 
 export default {
