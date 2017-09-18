@@ -278,9 +278,9 @@
             "url": "/fundManage/deleteAccountInfo",
             "check": true
         }, {
-            "id": "daaff21d93ad11e7b00428d244a09f71",
-            "name": "是否显示入金明细完成对账",
-            "url": "/fundManage/isShowAutoCheckUpAccount",
+            "id": "c10cf2029c1111e7a1e328d244a09f71",
+            "name": "自动对账默认日期",
+            "url": "/fundManage/autoCheckUpAccountDefaultDate",
             "check": true
         }],
         "groups": []

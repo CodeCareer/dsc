@@ -59,7 +59,7 @@
                 th 备注	：
                 td {{fundDepositData.remark}}
     .bottom-buttons 
-      el-button(v-if="fundDepositData.checkingStatus === 'UNPASS' && $permit('fundManualCheckUp')", type="primary", size="small", @click="checkUp('PASSED')") 通过
+      el-button(v-if="fundDepositData.checkingStatus === 'UNPASS' && $permit('fundManualCheckUp')", type="primary", size="small", @click="checkUp()") 通过
       el-button(size="small", @click="cancel") 返回
 </template>
 
@@ -147,10 +147,8 @@ export default {
     },
 
     fundCheckUp(data) {
-      const checkStatus = data === 'PASSED' ? 'PASS' : 'UNPASS'
       fundManualCheckUp.get({
         params: {
-          checkingStatus: checkStatus,
           id: this.$route.params.id,
           remark: this.fundDepositData.remark
         }
