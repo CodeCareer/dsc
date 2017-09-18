@@ -42,6 +42,9 @@
         el-table-column(prop='needSystemOperate', label='是否需要对账', width="130")
           template(scope="scope")
             span {{scope.row.needSystemOperate | statusFormat}}
+        el-table-column(prop='checkStatus', label='对账状态')
+          template(scope="scope")
+            span {{scope.row.checkStatus | statusFormat}}
         el-table-column(prop='inputType', label='录入方式', width="100")
           template(scope="scope")
             span {{scope.row.inputType | statusFormat}}
@@ -92,6 +95,12 @@ const statusList = [{
 }, {
   name: '手动录入',
   value: 'MANUALLY'
+}, {
+  name: '待对账',
+  value: 'WAIT_CHECK'
+}, {
+  name: '已对账',
+  value: 'CHECKED'
 }]
 
 export default {
@@ -159,7 +168,7 @@ export default {
           sums[index] = '当页合计'
           return
         }
-        if (indexOf([1, 4, 5, 6, 7, 8, 9, 10], index) > -1) {
+        if (indexOf([1, 4, 5, 6, 7, 8, 9, 10, 11], index) > -1) {
           return
         }
         const values = data.map(item => Number(item[column.property]))
