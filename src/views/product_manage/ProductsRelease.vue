@@ -11,7 +11,8 @@
             el-option(v-for="t in assetTypes", :key="t.name", :value="t.value", :label="t.name")
           el-select(v-model="filter.productStatus", placeholder="产品状态", @change="search")
             el-option(v-for="t in productStatusTypes", :key="t.name", :value="t.value", :label="t.name")
-         
+          el-select(v-model="filter.assetAcceptStatus", placeholder="资产接收状态", @change="search")
+            el-option(v-for="t in assetAcceptStatusTypes", :key="t.name", :value="t.value", :label="t.name")
         .filter-line
           el-date-picker(placeholder='上架日期下限', format='yyyy-MM-dd', type='date', :value='date.carriageDateLower', @input="handleCarriageDateLower", :picker-options="pickerOptions")
           el-date-picker(placeholder='上架日期上限', format='yyyy-MM-dd', type='date', :value='date.carriageDateUpper', @input="handleCarriageDateUpper", :picker-options="pickerOptions")
@@ -238,6 +239,7 @@ export default {
         productName: '',
         productCode: '',
         productStatus: '',
+        assetAcceptStatus: '',
         page: 1,
         limit: 10
       },
@@ -247,6 +249,13 @@ export default {
       }, {
         name: '大搜车',
         value: 'DSC'
+      }],
+      assetAcceptStatusTypes: [{
+        name: '已接收',
+        value: 'ACCEPTED'
+      }, {
+        name: '未接收',
+        value: 'NOT_ACCEPT'
       }],
       productStatusTypes: [{
         name: '待审核',
