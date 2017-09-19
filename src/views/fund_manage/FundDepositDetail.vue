@@ -12,7 +12,6 @@
         el-input(placeholder='资金账户ID', icon='search', @keyup.native.13="search", v-model.trim='filter.fundAccountId')
         el-select(v-model="filter.depositType", placeholder="入金类型", @change="search")
           el-option(v-for="t in depositTypes", :key="t.name", :value="t.value", :label="t.name")
-         
         .filter-line
         el-select(v-model="filter.checkingStatus", placeholder="对账状态", @change="search")
           el-option(v-for="t in checkingTypes", :key="t.name", :value="t.value", :label="t.name")
@@ -181,7 +180,6 @@ export default {
 
     autoCheckUp() {
       const confirmMsg = '资金账户流水录入完毕，完成对账？'
-      const doubleConfirmMsg = '资金账户流水无记录，是否继续？'
       this.$confirm(confirmMsg, '提示', {
         type: 'warning'
       }).then(() => {
@@ -192,8 +190,8 @@ export default {
           loadingMaskTarget: '.fund-deposit-detail'
         }).then(res => {
           const data = res.data
-          if (data.resultCode === '100001') {
-            this.$confirm(doubleConfirmMsg, '提示', {
+          if (data.data.isStraightSuccess === 'NO') {
+            this.$confirm(data.data.errorMsg, '提示', {
               type: 'warning'
             }).then(() => {
               fundAutoCheckUp.get({
