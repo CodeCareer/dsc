@@ -5,7 +5,7 @@ import store from '@/vuex/store.js'
 import { urlMatcher } from '@/common/util.js'
 import qs from 'qs'
 
-let loadingInstance
+const loadingInstances = {}
 
 export const http = axios.create({
   baseURL: process.env.API_HOST || '/api/',
@@ -19,13 +19,20 @@ export const http = axios.create({
   }]
 })
 
+function closeLoading(url) {
+  const loadingInstance = loadingInstances[url]
+  if (loadingInstance) {
+    loadingInstance.close()
+    delete loadingInstances[url]
+  }
+}
+
 http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 http.interceptors.request.use(config => {
   config.headers.common['x-auth-token'] = store.getters.token
   config.url = urlMatcher(config.url, config.pathParams)
-
   if (config.loadingMaskTarget) {
-    loadingInstance = Loading.service({
+    loadingInstances[config.url] = Loading.service({
       target: config.loadingMaskTarget
     })
   }
@@ -33,7 +40,7 @@ http.interceptors.request.use(config => {
 })
 
 http.interceptors.response.use(res => {
-  if (loadingInstance) loadingInstance.close()
+  closeLoading(res.config.url)
   const data = res.data
 
   // 兼容统一的权限控制代码
@@ -68,7 +75,7 @@ http.interceptors.response.use(res => {
   return res
   // return Promise.reject(data)
 }, err => {
-  if (loadingInstance) loadingInstance.close()
+  err.config && closeLoading(err.config.url)
   msgBoxErr(err.message.indexOf('timeout') > -1 ? '请求超时' : '抱歉，服务器忙！', 'SERVER')
   return Promise.reject(err)
 })
@@ -106,10 +113,10 @@ export const APIS = {
   carAnalyze: '/reportForm/reportBrand', //汽车品牌分析
   cityAnalyze: '/reportForm/reportProvince', //城市分布
   payAnalyze: '/reportForm/reportDownPaymentsPercent', //首付比例查询
-  assetAnalyze: '/reportForm/reportAssetBalance',  //资产余额分析
+  assetAnalyze: '/reportForm/reportAssetBalance', //资产余额分析
   riskOverdue: '/reportForm/reportOverDueRate', //风险分析-逾期率
   riskMigrateRate: '/reportForm/reportMigrateRate', //迁徙率
-  riskVintage: '/reportForm/reportVintage'  //vintage
+  riskVintage: '/reportForm/reportVintage' //vintage
 }
 export const session = {
   get: config => http.get(APIS.session, config),

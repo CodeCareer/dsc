@@ -73,7 +73,6 @@ export default {
       color: ['#20a0ff', 'rgb(25, 183, 207)', '#61a0a8', '#d48265', '#91c7ae'],
       xAxis: {
         type: 'category',
-        // data: _.map(data.fund_trends, v => moment(v.date).format('MM-DD')),
         splitLine: {
           show: false
         },
@@ -83,28 +82,14 @@ export default {
       },
       yAxis: [{
         type: 'value',
-        name: '资产余额',
-
-        // interval: 0,
-        // axisLabel: {
-        //   show: true,
-        //   formatter: '{value}'
-        // },
-        // axisLine: {
-        //   show: true,
-        //   lineStyle: {
-        //     color: '#000'
-        //   }
-        // },
-        // axisTick: {
+        name: '资产余额（万元）'
+        // splitLine: {
         //   show: false
-        // },
-        splitLine: {
-          show: false
-        }
+        // }
       }, {
         type: 'value',
         name: '资产总笔数',
+        minInterval: 1,
         position: 'right'
       }],
       grid: {

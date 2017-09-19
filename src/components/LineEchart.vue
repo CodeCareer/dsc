@@ -64,9 +64,9 @@ export default {
       xAxis: {
         type: 'category',
         // data: map(data.fund_trends, v => moment(v.date).format('MM-DD')),
-        splitLine: {
-          show: false
-        },
+        // splitLine: {
+        //   show: false
+        // },
         axisTick: {
           show: true
         },
@@ -94,10 +94,10 @@ export default {
         },
         axisTick: {
           show: true
-        },
-        splitLine: {
-          show: false
         }
+        // splitLine: {
+        //   show: false
+        // }
       },
       grid: {
         show: false,

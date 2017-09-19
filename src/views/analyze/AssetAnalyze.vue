@@ -4,10 +4,10 @@
       .box-header
         h3 筛选条件
       .filters
-        el-date-picker(placeholder="截止日期",:value="date.endDate",type="date",format="yyyy-MM-dd",@input="dateSearch($event, 'endDate')",:picker-options="pickerOptions")
+        el-date-picker(placeholder="截止日期",:value="date.asOfDate",type="date",format="yyyy-MM-dd",@input="dateSearch($event, 'asOfDate')",:picker-options="pickerOptions")
         el-button(size="small", type="primary",@click="search") 搜索
         el-button(size="small", type="primary",@click="clearFilter")  清除
-    section.section(v-if="$permit(['ageAnalyze'])")
+    section.age-section(v-if="$permit(['ageAnalyze'])")
       .asset-title
         h3.fl 年龄分析
         .table-chart.fr
@@ -15,7 +15,7 @@
             el-radio-button.table(:label="true") 表
             el-radio-button.chart(:label="false") 图
           //- a.iconfont.icon-down.fr()
-      .asset-table(v-show="tableChartStatus.ageTableVisible")
+      .asset-table(v-if="tableChartStatus.ageTableVisible")
         el-table(:data="tables.ageTable")
           el-table-column(prop="ageSection",label="年龄区间")
             template(scope='scope')
@@ -29,9 +29,9 @@
           el-table-column(prop="rateBalance",label="余额占比")
             template(scope="scope")
               span {{scope.row.rateBalance | ktNull}}
-      .asset-chart(v-show="!tableChartStatus.ageTableVisible")
+      .asset-chart(v-if="!tableChartStatus.ageTableVisible")
         bar-chart(:chart-option="ageChartOption",ref="ageChart")
-    section.section(v-if="$permit(['carAnalyze'])")
+    section.car-section(v-if="$permit(['carAnalyze'])")
       .asset-title
         h3.fl 汽车品牌分析
         .table-chart.fr
@@ -39,7 +39,7 @@
             el-radio-button.table(:label="true") 表
             el-radio-button.chart(:label="false") 图
           //- a.iconfont.icon-down.fr()
-      .asset-table(v-show="tableChartStatus.carTableVisible")
+      .asset-table(v-if="tableChartStatus.carTableVisible")
         el-table(:data="tables.carTable")
           el-table-column(prop="brandName",label="品牌")
             template(scope="scope")
@@ -53,9 +53,9 @@
           el-table-column(prop="rateBalance",label="余额占比")
             template(scope="scope")
               span {{scope.row.rateBalance | ktNull}}
-      .asset-chart(v-show="!tableChartStatus.carTableVisible")
+      .asset-chart(v-if="!tableChartStatus.carTableVisible")
         bar-chart(:chart-option="carChartOption", ref="carChart")
-    section.section(v-if="$permit(['cityAnalyze'])")
+    section.city-section(v-if="$permit(['cityAnalyze'])")
       .asset-title
         h3.fl 城市分布
         .table-chart.fr
@@ -63,7 +63,7 @@
             el-radio-button.table(:label="true") 表
             el-radio-button.chart(:label="false") 图
           //- a.iconfont.icon-down.fr()
-      .asset-table(v-show="tableChartStatus.cityTableVisible")
+      .asset-table(v-if="tableChartStatus.cityTableVisible")
         el-table(:data="tables.cityTable")
           el-table-column(prop="province",label="城市")
             template(scope="scope")
@@ -77,9 +77,9 @@
           el-table-column(prop="rateBalance",label="余额占比")
             template(scope="scope")
               span {{scope.row.rateBalance | ktNull}}
-      .asset-chart(v-show="!tableChartStatus.cityTableVisible")
+      .asset-chart(v-if="!tableChartStatus.cityTableVisible")
         bar-chart(:chart-option="cityChartOption", ref="cityChart")
-    section.section(v-if="$permit(['payAnalyze'])")
+    section.pay-section(v-if="$permit(['payAnalyze'])")
       .asset-title
         h3.fl 首付比例分布
         .table-chart.fr
@@ -87,7 +87,7 @@
             el-radio-button.table(:label="true") 表
             el-radio-button.chart(:label="false") 图
           //- a.iconfont.icon-down.fr()
-      .asset-table(v-show="tableChartStatus.paymentTableVisible")
+      .asset-table(v-if="tableChartStatus.paymentTableVisible")
         el-table(:data="tables.payTable")
           el-table-column(prop="downPaymentsPercent",label="首付比例")
             template(scope="scope")
@@ -101,9 +101,9 @@
           el-table-column(prop="rateBalance",label="余额占比")
             template(scope="scope")
               span {{scope.row.rateBalance | ktNull}}
-      .asset-chart(v-show="!tableChartStatus.paymentTableVisible")
+      .asset-chart(v-if="!tableChartStatus.paymentTableVisible")
         bar-chart(:chart-option="payChartOption", ref="payChart")
-    section.section(v-if="$permit(['assetAnalyze'])")
+    section.asset-section(v-if="$permit(['assetAnalyze'])")
       .asset-title
         h3.fl 资产余额分布
         .table-chart.fr
@@ -142,10 +142,15 @@ import {
   pruneParams
 } from '@/common/util.js'
 
+import numeral from 'numeral'
+
 import {
   mergeWith,
   map,
-  merge
+  merge,
+  isNumber,
+  round,
+  isArray
 } from 'lodash'
 
 import {
@@ -156,6 +161,8 @@ import moment from 'moment'
 
 import barChart from '@/components/BarEchart.vue'
 
+// import Vue from 'vue'
+
 export default {
   components: {
     barChart
@@ -165,34 +172,34 @@ export default {
     return {
       ageChartOption: {
         title: {
-          text: '年龄分布列表（万元）'
+          text: '年龄分布'
         }
       },
       carChartOption: {
         title: {
-          text: '汽车品牌分布列表（万元）'
+          text: '汽车品牌分布'
         }
       },
       cityChartOption: {
         title: {
-          text: '城市分布列表（万元）'
+          text: '城市分布'
         }
       },
       payChartOption: {
         title: {
-          text: '首付比例列表（万元）'
+          text: '首付比例'
         }
       },
       assetChartOption: {
         title: {
-          text: '资产余额范围列表（万元）'
+          text: '资产余额范围'
         }
       },
       date: {
-        endDate: moment((new Date().getTime() - 86400000)).format('YYYY-MM-DD')
+        asOfDate: moment((new Date().getTime() - 86400000)).format('YYYY-MM-DD')
       },
       filter: {
-        endDate: moment(new Date().getTime() - 86400000).format('YYYYMMDD')
+        asOfDate: moment(new Date().getTime() - 86400000).format('YYYYMMDD')
       },
       pickerOptions: {},
       tableChartStatus: {
@@ -212,36 +219,66 @@ export default {
     }
   },
 
+  filters: {
+    filterThousand(value) {
+      if (isNumber(value)) {
+        return numeral(round(value / 10000)).format('0,0')
+      }
+      return value || '-'
+    }
+  },
+
   methods: {
     ageEchartResize(val, val2) {
       this.tableChartStatus[val2] = val
-      this.$refs.ageChart.echart.resize()
+      if (val === false) {
+        this.$nextTick(() => {
+          this.$refs.ageChart.echart.resize()
+        })
+      }
     },
 
     carEchartResize(val, val2) {
       this.tableChartStatus[val2] = val
-      this.$refs.carChart.echart.resize()
+      if (val === false) {
+        this.$nextTick(() => {
+          this.$refs.carChart.echart.resize()
+        })
+      }
     },
 
     cityEchartResize(val, val2) {
       this.tableChartStatus[val2] = val
-      this.$refs.cityChart.echart.resize()
+      if (val === false) {
+        this.$nextTick(() => {
+          this.$refs.cityChart.echart.resize()
+        })
+      }
     },
 
     payEchartResize(val, val2) {
       this.tableChartStatus[val2] = val
-      this.$refs.payChart.echart.resize()
+      if (val === false) {
+        this.$nextTick(() => {
+          this.$refs.payChart.echart.resize()
+        })
+      }
     },
 
     assetEchartResize(val, val2) {
       this.tableChartStatus[val2] = val
-      this.$refs.assetChart.echart.resize()
+      if (val === false) {
+        this.$nextTick(() => {
+          this.$refs.assetChart.echart.resize()
+        })
+      }
     },
 
     getAgeAnalyze() {
       ageAnalyze.post({
-        loadingMaskTarget: '.section',
         ...pruneParams(this.filter)
+      }, {
+        loadingMaskTarget: '.age-section'
       }).then(res => {
         this.tables.ageTable = res.data.data.rows
         this.ageChartOption = mergeWith({}, this.ageChartOption, {
@@ -251,6 +288,13 @@ export default {
           xAxis: {
             data: map(this.tables.ageTable, v => v.ageSection)
           },
+          yAxis: [{
+            axisLabel: {
+              formatter: (value) => {
+                return this.$options.filters.filterThousand(value)
+              }
+            }
+          }],
           allData: this.tables.ageTable,
           series: [{
             name: '资产余额',
@@ -264,14 +308,19 @@ export default {
             yAxisIndex: 1,
             data: map(this.tables.ageTable, v => v.assetsCount)
           }]
+        }, (oldOpt, newOpt) => {
+          if (isArray(newOpt)) {
+            return newOpt
+          }
         })
       })
     },
 
     getCarAnalyze() {
       carAnalyze.post({
-        loadingMaskTarget: '.section',
         ...pruneParams(this.filter)
+      }, {
+        loadingMaskTarget: '.car-section'
       }).then(res => {
         this.tables.carTable = res.data.data.rows
         this.carChartOption = mergeWith({}, this.carChartOption, {
@@ -282,6 +331,13 @@ export default {
           xAxis: {
             data: map(this.tables.carTable, v => v.brandName)
           },
+          yAxis: [{
+            axisLabel: {
+              formatter: (value) => {
+                return this.$options.filters.filterThousand(value)
+              }
+            }
+          }],
           series: [{
             name: '资产余额',
             type: 'bar',
@@ -294,14 +350,19 @@ export default {
             yAxisIndex: 1,
             data: map(this.tables.carTable, v => v.assetsCount)
           }]
+        }, (oldOpt, newOpt) => {
+          if (isArray(newOpt)) {
+            return newOpt
+          }
         })
       })
     },
 
     getCityAnalyze() {
       cityAnalyze.post({
-        loadingMaskTarget: '.section',
         ...pruneParams(this.filter)
+      }, {
+        loadingMaskTarget: '.city-section'
       }).then(res => {
         this.tables.cityTable = res.data.data.rows
         this.cityChartOption = mergeWith({}, this.cityChartOption, {
@@ -312,6 +373,13 @@ export default {
           xAxis: {
             data: map(this.tables.cityTable, v => v.province)
           },
+          yAxis: [{
+            axisLabel: {
+              formatter: (value) => {
+                return this.$options.filters.filterThousand(value)
+              }
+            }
+          }],
           series: [{
             name: '资产余额',
             type: 'bar',
@@ -324,14 +392,19 @@ export default {
             yAxisIndex: 1,
             data: map(this.tables.cityTable, v => v.assetsCount)
           }]
+        }, (oldOpt, newOpt) => {
+          if (isArray(newOpt)) {
+            return newOpt
+          }
         })
       })
     },
 
     getPayAnalyze() {
       payAnalyze.post({
-        loadingMaskTarget: '.section',
         ...pruneParams(this.filter)
+      }, {
+        loadingMaskTarget: '.pay-section'
       }).then(res => {
         this.tables.payTable = res.data.data.rows
         this.payChartOption = mergeWith({}, this.payChartOption, {
@@ -341,6 +414,13 @@ export default {
           xAxis: {
             data: map(this.tables.payTable, v => v.downPaymentsPercent)
           },
+          yAxis: [{
+            axisLabel: {
+              formatter: (value) => {
+                return this.$options.filters.filterThousand(value)
+              }
+            }
+          }],
           allData: this.tables.payTable,
           series: [{
             name: '资产余额',
@@ -354,14 +434,19 @@ export default {
             yAxisIndex: 1,
             data: map(this.tables.payTable, v => v.assetsCount)
           }]
+        }, (oldOpt, newOpt) => {
+          if (isArray(newOpt)) {
+            return newOpt
+          }
         })
       })
     },
 
     getAssetAnalyze() {
       assetAnalyze.post({
-        loadingMaskTarget: '.section',
         ...pruneParams(this.filter)
+      }, {
+        loadingMaskTarget: '.asset-section'
       }).then(res => {
         this.tables.assetTable = res.data.data.rows
         this.assetChartOption = mergeWith({}, this.assetChartOption, {
@@ -371,6 +456,13 @@ export default {
           xAxis: {
             data: map(this.tables.assetTable, v => v.assetBalance)
           },
+          yAxis: [{
+            axisLabel: {
+              formatter: (value) => {
+                return this.$options.filters.filterThousand(value)
+              }
+            }
+          }],
           allData: this.tables.assetTable,
           series: [{
             name: '资产余额',
@@ -384,6 +476,10 @@ export default {
             yAxisIndex: 1,
             data: map(this.tables.assetTable, v => v.assetsCount)
           }]
+        }, (oldOpt, newOpt) => {
+          if (isArray(newOpt)) {
+            return newOpt
+          }
         })
       })
     }
@@ -436,7 +532,7 @@ section {
       }
     }
   }
-  .asset-chart{
+  .asset-chart {
     border: 1px solid #e7eaed;
   }
 }

@@ -11,9 +11,9 @@ export default {
       return value
     })
 
-    Vue.filter('ktThousand', (value, prefix = '￥', suffix = '万元') => {
+    Vue.filter('ktThousand', (value, suffix = '万元') => {
       if (isNumber(value)) {
-        return prefix + numeral(round(value / 10000)).format('0,0.00') + suffix
+        return numeral(round(value / 10000)).format('0,0') + suffix
       }
       return value || '-'
     })
