@@ -12,6 +12,7 @@
         .filter-line
           el-date-picker(placeholder='应还款日期下限', format='yyyy-MM-dd', type='date', :value='date.repayDateLower', @input="handleRepayDateLower", :picker-options="pickerOptions")
           el-date-picker(placeholder='应还款日期上限', format='yyyy-MM-dd', type='date', :value='date.repayDateUpper', @input="handleRepayDateUpper", :picker-options="pickerOptions")
+          el-checkbox(v-model="filter.showInvalid", class="search-label", true-label="YES", false-label="NO" @change="search") 展示审核、募集失败记录
           el-button(size="small", type="primary", @click="search")  搜索
           el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
@@ -205,6 +206,7 @@ export default {
         factRepayDateUpper: '',
         repayDateLower: '',
         repayDateUpper: '',
+        showInvalid: 'NO',
         assetId: '',
         page: 1,
         limit: 10
