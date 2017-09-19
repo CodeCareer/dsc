@@ -67,8 +67,10 @@ export default {
         // splitLine: {
         //   show: false
         // },
+        // interval: 'auto',
         axisTick: {
-          show: true
+          show: true,
+          alignWithLabel: true
         },
         axisLabel: {
           interval: 0

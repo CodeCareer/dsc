@@ -179,11 +179,6 @@ export default {
             text: '逾期率报表'
           },
           xAxis: {
-            // axisLabel: {
-            //   formatter: value => {
-            //     return
-            //   }
-            // },
             data: datas.labelDate
           },
           yAxis: {

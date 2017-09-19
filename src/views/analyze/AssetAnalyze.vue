@@ -187,12 +187,12 @@ export default {
       },
       payChartOption: {
         title: {
-          text: '首付比例'
+          text: '首付比例分布'
         }
       },
       assetChartOption: {
         title: {
-          text: '资产余额范围'
+          text: '资产余额分布'
         }
       },
       date: {
