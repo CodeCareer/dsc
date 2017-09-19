@@ -13,6 +13,7 @@
       .filters
         .filter-line
           el-input(placeholder='账户ID', icon='search', @keyup.native.13="search", v-model.trim='filter.fundAccountId')
+          el-input(placeholder='银行流水号', icon='search', @keyup.native.13="search", v-model.trim='filter.bankSerialNo')
           el-date-picker(placeholder='发生时间下限', type='date', format='yyyy-MM-dd', :value='date.occurDatetimeLower', @input="handleDateLower", :picker-options="pickerOptionsLower")
           el-date-picker(placeholder='发生时间上限', type='date', format='yyyy-MM-dd', :value='date.occurDatetimeUpper', @input="handleDatetUpper", :picker-options="pickerOptionsUpper")
         .filter-line
@@ -26,7 +27,7 @@
     .table-container
       el-table.no-wrap-cell(:max-height="maxHeight", :data='fundAccountSerial', style='width: 100%', :summary-method="getSummaries", show-summary)
         el-table-column(prop='id', label='ID', width="240")
-        el-table-column(prop='fundAccountId', label='资金账户ID', width="240")
+        el-table-column(prop='fundAccountId', label='资金账户ID', width="250")
         el-table-column(prop='accountBalance', label='账户余额', width="120")
           template(scope="scope")
             span {{scope.row.accountBalance | ktCurrency}}
@@ -36,6 +37,7 @@
         el-table-column(prop='fundDirection', label='资金方向')
           template(scope="scope")
             span {{scope.row.fundDirection | statusFormat}}
+        el-table-column(prop='bankSerialNo', label='银行流水号', width="250")
         el-table-column(prop='occurDatetime', label='发生时间', width="150")
           template(scope="scope")
             span {{scope.row.occurDatetime | moment('YYYY-MM-DD HH:mm:ss')}}
@@ -242,6 +244,7 @@ export default {
       filter: {
         id: '',
         fundAccountId: '',
+        bankSerialNo: '',
         occurDatetimeLower: '',
         occurDatetimeUpper: '',
         fundDirection: '',
