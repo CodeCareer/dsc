@@ -78,6 +78,9 @@ import moment from 'moment'
 import Vue from 'vue'
 
 const statusList = [{
+  name: '--',
+  value: ''
+}, {
   name: '是',
   value: 'YES'
 }, {
