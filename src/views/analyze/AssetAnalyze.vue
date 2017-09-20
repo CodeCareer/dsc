@@ -213,7 +213,7 @@ export default {
         ageTable: [],
         carTable: [],
         cityTable: [],
-        paymentTable: [],
+        payTable: [],
         assetTable: []
       }
     }
