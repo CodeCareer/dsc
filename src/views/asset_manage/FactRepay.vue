@@ -26,7 +26,7 @@
         el-table-column(prop='dealStatus', label='处理状态', width="120")
           template(scope="scope")
             span(:class="scope.row.dealStatus | statusClass") {{scope.row.dealStatus | statusFormat}}
-        el-table-column(prop='validStatus', label='月供验真状态')
+        el-table-column(prop='validStatus', label='月供验真状态', width="120")
           template(scope="scope")
             span(:class="scope.row.validStatus | statusClass") {{scope.row.validStatus | statusFormat}}
         el-table-column(prop='payChannel', label='支付渠道')
@@ -112,7 +112,8 @@ export default {
         'WAIT_DEAL': 'color-red',
         'VALIDED_PASS': 'color-green',
         'WAIT_VALID': 'color-red',
-        'NO_NEED_VALID': 'color-red'
+        'NO_NEED_VALID': 'color-green',
+        'VALIDED_UNPASS': 'color-red'
       }
       return classMap[value] || ''
     },
