@@ -5,7 +5,7 @@ import store from '@/vuex/store.js'
 import { urlMatcher } from '@/common/util.js'
 import qs from 'qs'
 
-let loadingInstance
+const loadingInstances = {}
 
 export const http = axios.create({
   baseURL: process.env.API_HOST || '/api/',
@@ -19,13 +19,20 @@ export const http = axios.create({
   }]
 })
 
+function closeLoading(url) {
+  const loadingInstance = loadingInstances[url]
+  if (loadingInstance) {
+    loadingInstance.close()
+    delete loadingInstances[url]
+  }
+}
+
 http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 http.interceptors.request.use(config => {
   config.headers.common['x-auth-token'] = store.getters.token
   config.url = urlMatcher(config.url, config.pathParams)
-
   if (config.loadingMaskTarget) {
-    loadingInstance = Loading.service({
+    loadingInstances[config.url] = Loading.service({
       target: config.loadingMaskTarget
     })
   }
@@ -33,7 +40,7 @@ http.interceptors.request.use(config => {
 })
 
 http.interceptors.response.use(res => {
-  if (loadingInstance) loadingInstance.close()
+  closeLoading(res.config.url)
   const data = res.data
 
   // 兼容统一的权限控制代码
@@ -68,7 +75,7 @@ http.interceptors.response.use(res => {
   return res
   // return Promise.reject(data)
 }, err => {
-  if (loadingInstance) loadingInstance.close()
+  err.config && closeLoading(err.config.url)
   msgBoxErr(err.message.indexOf('timeout') > -1 ? '请求超时' : '抱歉，服务器忙！', 'SERVER')
   return Promise.reject(err)
 })
@@ -108,11 +115,18 @@ export const APIS = {
   carGpsList: '/thirdPartyData/gpsManage/geos', // 车辆GPS信息列表获取接口
   carMatchList: '/thirdPartyData/vehicleManage/vehicleMatchs/list', // 车辆匹配信息管理
   carMatchUpdate: '/thirdPartyData/vehicleManage/vehicleMatchs/update', // 车辆匹配信息管理
+  ageAnalyze: '/reportForm/reportAge', //资产分析-年龄分析
+  carAnalyze: '/reportForm/reportBrand', //汽车品牌分析
+  cityAnalyze: '/reportForm/reportProvince', //城市分布
+  payAnalyze: '/reportForm/reportDownPaymentsPercent', //首付比例查询
+  assetAnalyze: '/reportForm/reportAssetBalance', //资产余额分析
+  riskOverdue: '/reportForm/reportOverDueRate', //风险分析-逾期率
+  riskMigrateRate: '/reportForm/reportMigrateRate', //迁徙率
+  riskVintage: '/reportForm/reportVintage', //vintage
   sysConfigList: '/sysConfig/page', // 分页展示系统配置项
   sysConfigUpdate: '/sysConfig/update', // 修改系统配置项
   downLoad: '/common/download' // 下载文件
 }
-
 export const session = {
   get: config => http.get(APIS.session, config),
   post: (data, config) => http.post(APIS.session, data, config)
@@ -252,6 +266,37 @@ export const riskWarn = {
   get: (config) => http.get(APIS.riskWarn, config)
 }
 
+export const ageAnalyze = {
+  post: (data, config) => http.post(APIS.ageAnalyze, data, config)
+}
+
+export const carAnalyze = {
+  post: (data, config) => http.post(APIS.carAnalyze, data, config)
+}
+
+export const cityAnalyze = {
+  post: (data, config) => http.post(APIS.cityAnalyze, data, config)
+}
+
+export const payAnalyze = {
+  post: (data, config) => http.post(APIS.payAnalyze, data, config)
+}
+
+export const assetAnalyze = {
+  post: (data, config) => http.post(APIS.assetAnalyze, data, config)
+}
+
+export const riskOverdue = {
+  post: (data, config) => http.post(APIS.riskOverdue, data, config)
+}
+
+export const riskMigrateRate = {
+  post: (data, config) => http.post(APIS.riskMigrateRate, data, config)
+}
+
+export const riskVintage = {
+  post: (data, config) => http.post(APIS.riskVintage, data, config)
+}
 export const sysConfigList = {
   post: (data, config) => http.post(APIS.sysConfigList, data, config)
 }

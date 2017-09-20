@@ -33,7 +33,8 @@ import {
   MessageBox,
   Notification,
   Message,
-  Tooltip
+  Tooltip,
+  RadioButton
 } from 'element-ui'
 import CollapseTransition from 'element-ui/lib/transitions/collapse-transition.js'
 
@@ -62,6 +63,7 @@ Vue.component(DatePicker.name, DatePicker)
 Vue.component(Collapse.name, Collapse)
 Vue.component(CollapseTransition.name, CollapseTransition)
 Vue.component(Tooltip.name, Tooltip)
+Vue.component(RadioButton.name, RadioButton)
 Vue.use(Loading.directive)
 Vue.prototype.$loading = Loading.service
 Vue.prototype.$msgbox = MessageBox

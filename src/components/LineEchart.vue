@@ -6,9 +6,10 @@
 import echarts from 'echarts/lib/echarts'
 require('echarts/lib/chart/bar')
 require('echarts/lib/chart/line')
-require('echarts/lib/model/series')
+require('echarts/lib/model/Series.js')
 require('echarts/lib/component/tooltip')
 require('echarts/lib/component/legend')
+require('echarts/lib/component/title')
 require('echarts/lib/component/grid')
 require('echarts/lib/component/axis')
 
@@ -30,6 +31,13 @@ export default {
   mounted() {
     this.echart = echarts.init(this.$refs.lineEchart)
     var option = {
+      title: {
+        left: 'center',
+        top: 10,
+        typeStyle: {
+          fontSize: 15
+        }
+      },
       legend: {
         itemWidth: 10,
         itemHeight: 10,
@@ -37,7 +45,8 @@ export default {
         textStyle: {
           color: '#262c38',
           fontSize: 12
-        }
+        },
+        top: 'bottom'
       },
       tooltip: {
         trigger: 'axis',
@@ -47,7 +56,7 @@ export default {
             map(params, v => {
               return `<tr class="line">
                         <td class="left"><i class="circle" style="color:${v.color}"></i>${v.seriesName}：</td>
-                        <td class="right">${Vue.filter('ktCurrency')(v.value)}</td>
+                        <td class="right">${Vue.filter('ktPercent')(v.value)}</td>
                       </tr>`
             }), '</table>').join('')
         }
@@ -55,11 +64,16 @@ export default {
       xAxis: {
         type: 'category',
         // data: map(data.fund_trends, v => moment(v.date).format('MM-DD')),
-        splitLine: {
-          show: false
-        },
+        // splitLine: {
+        //   show: false
+        // },
+        // interval: 'auto',
         axisTick: {
-          show: false
+          show: true,
+          alignWithLabel: true
+        },
+        axisLabel: {
+          interval: 0
         },
         axisLine: {
           show: true,
@@ -71,10 +85,8 @@ export default {
       yAxis: {
         type: 'value',
         name: '',
-        interval: 0,
         axisLabel: {
-          show: true,
-          formatter: '{value}'
+          show: true
         },
         axisLine: {
           show: true,
@@ -84,16 +96,16 @@ export default {
         },
         axisTick: {
           show: true
-        },
-        splitLine: {
-          show: false
         }
+        // splitLine: {
+        //   show: false
+        // }
       },
       grid: {
         show: false,
         left: 70,
-        right: 20,
-        bottom: 60
+        right: 70,
+        bottom: 100
       }
     }
 
@@ -114,7 +126,7 @@ export default {
 <style lang="scss">
 .line-echart {
   min-width: 500px;
-  height: 100%;
+  height: 350px;
   margin: 0 auto;
 }
 </style>
