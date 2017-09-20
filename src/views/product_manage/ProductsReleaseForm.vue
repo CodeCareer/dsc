@@ -142,7 +142,7 @@ const statusList = [{
   value: 'ONE_TIME'
 }, {
   name: '按月等额本息',
-  value: 'AVAERAGE_CAPITAL_INTEREST'
+  value: 'AVERAGE_CAPITAL_INTEREST'
 }, {
   name: '已接收',
   value: 'ACCEPTED'
