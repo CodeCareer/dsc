@@ -25,9 +25,9 @@
         el-table-column(prop='redeemInterest', label='回款利息', width='200')
           template(scope="scope")
             span {{scope.row.redeemInterest | ktCurrency}}
-        el-table-column(prop='redeemStatus', label='回款状态', width='120')
+        el-table-column(prop='redeemPlanStatus', label='回款状态', width='120')
           template(scope="scope")
-            span {{scope.row.redeemStatus | statusFormat}}
+            span {{scope.row.redeemPlanStatus | statusFormat}}
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total,  sizes, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
