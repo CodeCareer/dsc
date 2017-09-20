@@ -31,6 +31,9 @@
         el-table-column(prop='lastPower', label='剩余电量', width='120')
           template(scope="scope")
             span {{scope.row.lastPower | lastPowerLocal}}
+        el-table-column(prop='wire', label='Gps源类型', width='120')
+          template(scope="scope")
+            span {{scope.row.wire | wireLocal}}
         el-table-column(prop='travelDistance', label='总里程', width='120')
           template(scope="scope")
             span {{scope.row.travelDistance | ktKm}}
@@ -103,6 +106,11 @@ export default {
         4: '单基站'
       }
       return map[value] || '未知状态'
+    },
+
+    wireLocal(value) {
+      const map = ['未知', '无源', '有源']
+      return map[value] || '类型异常'
     },
 
     accLocal(value) {
