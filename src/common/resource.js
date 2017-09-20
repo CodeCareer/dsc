@@ -83,16 +83,23 @@ http.interceptors.response.use(res => {
 export const APIS = {
   productsRelease: '/productManage/pageProductInfo', //产品发行管理
   productsAudit: '/productManage/auditManually', //产品发行审核
+  productRedeemPlan: '/productRedeemPlan/page', //产品回款计划
   accountDepositManage: '/fundManage/listAccountFundDetail', //账户入金查询
   accountDepositDelete: '/fundManage/deleteAccountFundDetail', //账户入金删除
-  accountDepositEdit: '/fundManage/editAccountFundDetail', //账户入金编辑
   accountDepositAudit: '/fundManage/auditAccountFundDetail', //账户入金审核
-  accountDepositAdd: '/fundManage/addAccountFundDetail', //账户入金新增
-  fundDeposit: '/fundManage/listCapitalDetail', //账户入金明细
+  fundDeposit: '/fundManage/listFundDepositDetail', //账户入金明细
+  fundAutoCheckUp: '/fundManage/autoCheckUpAccount', //账户入金明细自动对账
+  fundManualCheckUp: '/fundManage/manualCheckUpAccount', //账户入金明细手动对账
+  fundAutoCheckUpDefaultDate: '/fundManage/autoCheckUpAccountDefaultDate', //自动对账默认日期
   fundAccountManage: '/fundManage/listAccountInfo', //资金账户查询
   fundAccountEdit: '/fundManage/editAccountInfo', //资金账户编辑
   fundAccountAdd: '/fundManage/addAccountInfo', //资金账户新增
   fundAccountDelete: '/fundManage/deleteAccountInfo', //资金账户删除
+  fundAccountSerial: '/fundManage/listFundAccountSerial', //查询资金账户流水
+  fundAccountSerialAdd: '/fundManage/addFundAccountSerial', //资金账户流水新增
+  fundAccountSerialDelete: '/fundManage/delFundAccountSerial', //资金账户流水删除
+  fundAccountSerialUpload: '/fundManage/uploadFundAccountSerial', //资金账户流水导入
+  dictsUpholdFundAccount: '/fundManage/dictsUpholdFundAccount', //需要维护账户流水的资金账户数据字典
   assetInfo: '/assetManage/listAllAssetInfo', //资产的全部信息
   backRecord: '/assetManage/listBuyBackRecord', // 查询回购记录
   factRepay: '/assetManage/listFactRepayInfo', // 查询实际还款
@@ -108,7 +115,6 @@ export const APIS = {
   carGpsList: '/thirdPartyData/gpsManage/geos', // 车辆GPS信息列表获取接口
   carMatchList: '/thirdPartyData/vehicleManage/vehicleMatchs/list', // 车辆匹配信息管理
   carMatchUpdate: '/thirdPartyData/vehicleManage/vehicleMatchs/update', // 车辆匹配信息管理
-  downLoad: '/common/download', // 下载文件
   ageAnalyze: '/reportForm/reportAge', //资产分析-年龄分析
   carAnalyze: '/reportForm/reportBrand', //汽车品牌分析
   cityAnalyze: '/reportForm/reportProvince', //城市分布
@@ -116,7 +122,10 @@ export const APIS = {
   assetAnalyze: '/reportForm/reportAssetBalance', //资产余额分析
   riskOverdue: '/reportForm/reportOverDueRate', //风险分析-逾期率
   riskMigrateRate: '/reportForm/reportMigrateRate', //迁徙率
-  riskVintage: '/reportForm/reportVintage' //vintage
+  riskVintage: '/reportForm/reportVintage', //vintage
+  sysConfigList: '/sysConfig/page', // 分页展示系统配置项
+  sysConfigUpdate: '/sysConfig/update', // 修改系统配置项
+  downLoad: '/common/download' // 下载文件
 }
 export const session = {
   get: config => http.get(APIS.session, config),
@@ -145,12 +154,20 @@ export const carMatch = {
   put: (data, config) => http.post(APIS.carMatchUpdate, data, config)
 }
 
+export const dictsUpholdFundAccount = {
+  post: (data, config) => http.post(APIS.dictsUpholdFundAccount, data, config)
+}
+
 export const productsRelease = {
   post: (data, config) => http.post(APIS.productsRelease, data, config)
 }
 
 export const productsAudit = {
   post: (data, config) => http.post(APIS.productsAudit, data, config)
+}
+
+export const productRedeemPlan = {
+  post: (data, config) => http.post(APIS.productRedeemPlan, data, config)
 }
 
 export const accountDepositManage = {
@@ -161,20 +178,24 @@ export const accountDepositDelete = {
   post: (data, config) => http.post(APIS.accountDepositDelete, data, config)
 }
 
-export const accountDepositEdit = {
-  post: (data, config) => http.post(APIS.accountDepositEdit, data, config)
-}
-
 export const accountDepositAudit = {
   post: (data, config) => http.post(APIS.accountDepositAudit, data, config)
 }
 
-export const accountDepositAdd = {
-  post: (data, config) => http.post(APIS.accountDepositAdd, data, config)
-}
-
 export const fundDeposit = {
   post: (data, config) => http.post(APIS.fundDeposit, data, config)
+}
+
+export const fundAutoCheckUp = {
+  get: config => http.get(APIS.fundAutoCheckUp, config)
+}
+
+export const fundManualCheckUp = {
+  get: config => http.get(APIS.fundManualCheckUp, config)
+}
+
+export const fundAutoCheckUpDefaultDate = {
+  get: config => http.get(APIS.fundAutoCheckUpDefaultDate, config)
 }
 
 export const fundAccountManage = {
@@ -191,6 +212,22 @@ export const fundAccountAdd = {
 
 export const fundAccountDelete = {
   post: (data, config) => http.post(APIS.fundAccountDelete, data, config)
+}
+
+export const fundAccountSerial = {
+  post: (data, config) => http.post(APIS.fundAccountSerial, data, config)
+}
+
+export const fundAccountSerialAdd = {
+  post: (data, config) => http.post(APIS.fundAccountSerialAdd, data, config)
+}
+
+export const fundAccountSerialDelete = {
+  post: (data, config) => http.post(APIS.fundAccountSerialDelete, data, config)
+}
+
+export const fundAccountSerialUpload = {
+  post: (data, config) => http.post(APIS.fundAccountSerialUpload, data, config)
 }
 
 export const assetInfo = {
@@ -259,4 +296,11 @@ export const riskMigrateRate = {
 
 export const riskVintage = {
   post: (data, config) => http.post(APIS.riskVintage, data, config)
+}
+export const sysConfigList = {
+  post: (data, config) => http.post(APIS.sysConfigList, data, config)
+}
+
+export const sysConfigUpdate = {
+  post: (data, config) => http.post(APIS.sysConfigUpdate, data, config)
 }

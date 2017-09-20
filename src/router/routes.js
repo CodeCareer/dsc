@@ -5,6 +5,7 @@ import riskRoutes from '@/views/risk_control/routes.js'
 import baseDataRoutes from '@/views/base_data/routes.js'
 import accountRoutes from '@/views/account/routes.js'
 import analyzeRoutes from '@/views/analyze/routes.js'
+import systemRoutes from '@/views/system_manage/routes.js'
 
 export default [{
   path: '/',
@@ -26,6 +27,7 @@ export default [{
     riskRoutes,
     baseDataRoutes,
     accountRoutes,
-    analyzeRoutes
+    analyzeRoutes,
+    systemRoutes
   ]
 }]

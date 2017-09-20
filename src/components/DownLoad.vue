@@ -1,6 +1,6 @@
 <template lang="pug">
   span
-    a.color-blue.download(v-for="item in filePath", :href="href(item)") 下载附件 
+    a.color-blue.download(v-for="item in filePath", :href="href(item, assetFrom)") 下载附件 
 </template>
 
 <script>
@@ -9,11 +9,12 @@ import store from '@/vuex/store.js'
 export default {
   name: 'down-load',
   props: {
-    filePath: Array
+    filePath: Array,
+    assetFrom: String
   },
   methods: {
-    href(value) {
-      return process.env.API_HOST + '/common/download?filePath=' + value + '&token=' + store.getters.token
+    href(value, assetFrom) {
+      return process.env.API_HOST + '/common/download?filePath=' + value + '&assetFrom=' + assetFrom + '&token=' + store.getters.token
     }
   }
 }

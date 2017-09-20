@@ -12,7 +12,7 @@
           el-button(size="small", type="primary",@click="search") 搜索
           el-button(size="small", type="primary",@click="clearFilter")  清除
     .risk-table.table-container
-      el-table.no-wrap-cell(:data="riskDatas")
+      el-table.no-wrap-cell(:max-height="maxHeight", :data="riskDatas")
         el-table-column(label="资产方")
           template(scope="scope")
             span {{scope.row.assetFrom | ktNull}}
@@ -114,7 +114,7 @@ export default {
 
     clearFilter() {
       each(this.filter, (v, k) => {
-        if (k !== 'page' && k !== 'pageSize') {
+        if (k !== 'limit' && k !== 'page' && k !== 'pageSize') {
           this.filter[k] = ''
         }
       })

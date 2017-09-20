@@ -12,10 +12,11 @@
         .filter-line
           el-date-picker(placeholder='应还款日期下限', format='yyyy-MM-dd', type='date', :value='date.repayDateLower', @input="handleRepayDateLower", :picker-options="pickerOptions")
           el-date-picker(placeholder='应还款日期上限', format='yyyy-MM-dd', type='date', :value='date.repayDateUpper', @input="handleRepayDateUpper", :picker-options="pickerOptions")
+          el-checkbox(v-model="filter.showInvalid", class="search-label", true-label="YES", false-label="NO" @change="search") 展示审核、募集失败记录
           el-button(size="small", type="primary", @click="search")  搜索
           el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
-      el-table.no-wrap-cell(:data='repayPlan', style='width: 100%')
+      el-table.no-wrap-cell(:max-height="maxHeight", :data='repayPlan', style='width: 100%')
         el-table-column(prop='assetId', label='资产ID', width='280')
         el-table-column(prop='termNo', label='期数', width='100')
         el-table-column(prop='repayDate', label='应还款日期', width='110')
@@ -63,7 +64,7 @@
           template(scope="scope")
             .operations
               i.iconfont.icon-details(@click="detail(scope.row)")
-      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
+      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total,  sizes, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
 <script>
@@ -129,7 +130,7 @@ export default {
     },
     statusFormat(value) {
       const status = find(statusList, s => s.value === value)
-      return status ? status.name : '未知状态'
+      return status ? status.name : '-'
     }
   },
   methods: {
@@ -205,6 +206,7 @@ export default {
         factRepayDateUpper: '',
         repayDateLower: '',
         repayDateUpper: '',
+        showInvalid: 'NO',
         assetId: '',
         page: 1,
         limit: 10

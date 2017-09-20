@@ -3,43 +3,63 @@
   .box
     .box-header
       | {{title}}
+      router-link.buttons(:to="{ name: 'repayPlan', query: { assetId: fundDepositData.assetId, termNo: fundDepositData.termNo }}", target="_blank", v-if="fundDepositData.checkingStatus === 'UNPASS' && $permit('fundManualCheckUp')")
+        el-button(type="primary", size="small")
+          | 查看实际还款
+      router-link.buttons(:to="{ name: 'fundAccountSerial', query: { id: fundDepositData.fundAccountSerialId }}", target="_blank", v-if="fundDepositData.fundAccountSerialId != ''")
+        el-button(type="primary", size="small")
+          | 查看资金账户流水
     .box-content
       .box-section
         el-row(:gutter="20")
-            el-col(:span="8")
-              table
-                tr
-                  th 账户名称：
-                  td {{fundDepositData.accountName}}
-                tr
-                  th 账户类型	：
-                  td {{fundDepositData.accountType | statusFormat}}
-                tr
-                  th 资产ID：
-                  td {{fundDepositData.assetId}}
-            el-col(:span="8")
-              table
-                tr
-                  th 资金账户ID：
-                  td {{fundDepositData.fundAccountId}}
-                tr
-                  th 对账状态：
-                  td(:class="fundDepositData.checkingStatus | statusClass") {{fundDepositData.checkingStatus | statusFormat}}
-                tr
-                  th 入金金额：
-                  td {{fundDepositData.depositAmout | ktCurrency}}
-            el-col(:span="8")
-              table        
-                tr
-                  th 入金日期：
-                  td {{fundDepositData.depositDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
-                tr
-                  th 入金类型：
-                  td {{fundDepositData.depositType | statusFormat}}
-                tr
-                  th 月供期数：
-                  td {{fundDepositData.termNo}}
+          el-col(:span="8")
+            table
+              tr
+                th id：
+                td {{fundDepositData.id}}
+              tr
+                th 账户标记	：
+                td {{fundDepositData.accountSymbol | statusFormat}}
+              tr
+                th 资产ID：
+                td {{fundDepositData.assetId}}
+              tr
+                th 资金账户ID：
+                td {{fundDepositData.fundAccountId}}
+          el-col(:span="8")
+            table
+              tr
+                th 对账状态	：
+                td(:class="fundDepositData.checkingStatus | statusClass") {{fundDepositData.checkingStatus | statusFormat}}
+              tr
+                th 创建时间：
+                td {{fundDepositData.createDateTime | moment('YYYY-MM-DD HH:mm:ss')}}
+              tr
+                th 创建类型：
+                td {{fundDepositData.createType | statusFormat}}
+              tr
+                th 入金金额	：
+                td {{fundDepositData.depositAmout | ktCurrency}}
+          el-col(:span="8")
+            table
+              tr
+                th 入金日期：
+                td {{fundDepositData.depositDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
+              tr
+                th 入金类型：
+                td {{fundDepositData.depositType | statusFormat}}
+              tr
+                th 月供期数	：
+                td {{fundDepositData.termNo}}
+              tr(v-if="fundDepositData.checkingStatus === 'UNPASS' && $permit('fundManualCheckUp')")
+                th 备注	：
+                td
+                  el-input(type="textarea", placeholder="请输入备注", :maxlength="500", v-model="fundDepositData.remark")
+              tr(v-else)
+                th 备注	：
+                td {{fundDepositData.remark}}
     .bottom-buttons 
+      el-button(v-if="fundDepositData.checkingStatus === 'UNPASS' && $permit('fundManualCheckUp')", type="primary", size="small", @click="checkUp()") 通过
       el-button(size="small", @click="cancel") 返回
 </template>
 
@@ -47,6 +67,10 @@
 import {
   find
 } from 'lodash'
+
+import {
+  fundManualCheckUp
+} from '@/common/resource.js'
 
 import {
   tableListMixins
@@ -76,6 +100,24 @@ const statusList = [{
 }, {
   name: '对账不通过',
   value: 'UNPASS'
+}, {
+  name: '中金捷翊',
+  value: 'ZHONGJIN_JIEYU'
+}, {
+  name: '中金捷众',
+  value: 'ZHONGJIN_JIEZHONG'
+}, {
+  name: '银联',
+  value: 'UNIPAY'
+}, {
+  name: '线下',
+  value: 'OFF_LINE'
+}, {
+  name: '系统创建',
+  value: 'SYSTEM_CREATE'
+}, {
+  name: '外部系统通知创建',
+  value: 'OUTER_SYSTEM_NOTIFY'
 }]
 
 export default {
@@ -91,12 +133,46 @@ export default {
     },
     statusFormat(value) {
       const status = find(statusList, s => s.value === value)
-      return status ? status.name : '未知状态'
+      return status ? status.name : '-'
     }
   },
   methods: {
+    checkUp(data) {
+      const confirmMsg = '确定对账通过吗？'
+      this.$confirm(confirmMsg, '提示', {
+        type: 'warning'
+      }).then(() => {
+        this.fundCheckUp(data)
+      })
+    },
+
+    fundCheckUp(data) {
+      fundManualCheckUp.get({
+        params: {
+          id: this.$route.params.id,
+          remark: this.fundDepositData.remark
+        }
+      }).then(res => {
+        const msg = res.data
+        this.operationStatus(msg)
+      })
+    },
+
     cancel() {
       this.$router.back()
+    },
+
+    operationStatus(data) {
+      if (data.resultCode === 'SUCCESS') {
+        this.$message.success({
+          message: data.resultMsg || '审核成功！'
+        })
+        this.$router.back()
+      } else {
+        this.$message.error({
+          message: data.resultMsg || '审核失败！'
+        })
+      }
     }
   },
   created() {
@@ -128,6 +204,10 @@ export default {
       }
     }
   }
+}
+.el-textarea textarea{
+  width: 240px;
+  height: 80px;
 }
   
 </style>

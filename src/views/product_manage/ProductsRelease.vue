@@ -11,7 +11,8 @@
             el-option(v-for="t in assetTypes", :key="t.name", :value="t.value", :label="t.name")
           el-select(v-model="filter.productStatus", placeholder="产品状态", @change="search")
             el-option(v-for="t in productStatusTypes", :key="t.name", :value="t.value", :label="t.name")
-         
+          el-select(v-model="filter.assetAcceptStatus", placeholder="资产接收状态", @change="search")
+            el-option(v-for="t in assetAcceptStatusTypes", :key="t.name", :value="t.value", :label="t.name")
         .filter-line
           el-date-picker(placeholder='上架日期下限', format='yyyy-MM-dd', type='date', :value='date.carriageDateLower', @input="handleCarriageDateLower", :picker-options="pickerOptions")
           el-date-picker(placeholder='上架日期上限', format='yyyy-MM-dd', type='date', :value='date.carriageDateUpper', @input="handleCarriageDateUpper", :picker-options="pickerOptions")
@@ -20,7 +21,7 @@
           el-button(size="small", type="primary", @click="search")  搜索
           el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
-      el-table.no-wrap-cell(:data='productsRelease', style='width: 100%')
+      el-table.no-wrap-cell(:max-height="maxHeight", :data='productsRelease', style='width: 100%')
         el-table-column(prop='productName', label='产品名称', width='250')
         el-table-column(prop='productCode', label='产品代码', width='150')
         el-table-column(prop='assetFrom', label='资产来源', width='100')
@@ -29,6 +30,9 @@
         el-table-column(prop='productStatus', label='产品状态', width='110')
           template(scope="scope")
             span {{scope.row.productStatus | statusFormat}}
+        el-table-column(prop='assetAcceptStatus', label='资产接收状态', width='110')
+          template(scope="scope")
+            span {{scope.row.assetAcceptStatus | statusFormat}}
         el-table-column(prop='profitYearRate', label='发行利率', width='100')
           template(scope="scope")
             span {{scope.row.profitYearRate | ktPercent}}
@@ -66,13 +70,18 @@
         el-table-column(prop='redeemAmount', label='到期应兑付总金额', width='140')
           template(scope="scope")
             span {{scope.row.redeemAmount | ktCurrency}}
+        el-table-column(prop='leftPeriods', label='剩余期数', width='100')
+        el-table-column(prop='repayType', label='还款方式', width='140')
+          template(scope="scope")
+            span {{scope.row.repayType | statusFormat}}
+        el-table-column(prop='totalPeriods', label='总期数', width='100')
         el-table-column(prop='remark', label='备注', width='220')
         el-table-column(label='操作', fixed="right", width='60')
           template(scope="scope")
             .operations
               i.iconfont.icon-shenhe(v-if="scope.row.productStatus === 'AUTO_AUDIT_FAIL_WAIT_CONFIRMED' && $permit('productsAudit')", @click="audit(scope.row)")
               i.iconfont.icon-details(v-else, @click="audit(scope.row)")
-      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
+      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total,  sizes, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
 <script>
@@ -125,6 +134,18 @@ const statusList = [{
 }, {
   name: '已回款',
   value: 'FINISHED'
+}, {
+  name: '一次性还本付息',
+  value: 'ONE_TIME'
+}, {
+  name: '按月等额本息',
+  value: 'AVAERAGE_CAPITAL_INTEREST'
+}, {
+  name: '已接收',
+  value: 'ACCEPTED'
+}, {
+  name: '未接收',
+  value: 'NOT_ACCEPT'
 }]
 
 export default {
@@ -139,7 +160,7 @@ export default {
     },
     statusFormat(value) {
       const status = find(statusList, s => s.value === value)
-      return status ? status.name : '未知状态'
+      return status ? status.name : '-'
     }
   },
   methods: {
@@ -218,6 +239,7 @@ export default {
         productName: '',
         productCode: '',
         productStatus: '',
+        assetAcceptStatus: '',
         page: 1,
         limit: 10
       },
@@ -227,6 +249,13 @@ export default {
       }, {
         name: '大搜车',
         value: 'DSC'
+      }],
+      assetAcceptStatusTypes: [{
+        name: '已接收',
+        value: 'ACCEPTED'
+      }, {
+        name: '未接收',
+        value: 'NOT_ACCEPT'
       }],
       productStatusTypes: [{
         name: '待审核',

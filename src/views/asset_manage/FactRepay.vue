@@ -11,35 +11,43 @@
         el-button(size="small", type="primary", @click="search")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
-      el-table.no-wrap-cell(:data='factRepay', style='width: 100%', :summary-method="getSummaries", show-summary)
+      el-table.no-wrap-cell(:max-height="maxHeight", :data='factRepay', style='width: 100%', :summary-method="getSummaries", show-summary)
         el-table-column(prop='assetId', label='资产ID', width="250")
         el-table-column(prop='termNo', label='期数')
-        el-table-column(prop='factRepayDate', label='实际还款日期')
+        el-table-column(prop='factRepayDate', label='实际还款日期', width="120")
           template(scope="scope")
             span {{scope.row.factRepayDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
-        el-table-column(prop='factRepayAmount', label='实际还款金额')
+        el-table-column(prop='factRepayAmount', label='实际还款金额', width="120")
           template(scope="scope")
             span {{scope.row.factRepayAmount | ktCurrency}}
-        el-table-column(prop='penaltyInterst', label='罚息')
+        el-table-column(prop='penaltyInterst', label='罚息', width="120")
           template(scope="scope")
             span {{scope.row.penaltyInterst | ktCurrency}}
-        el-table-column(prop='dealStatus', label='处理状态')
+        el-table-column(prop='dealStatus', label='处理状态', width="120")
           template(scope="scope")
             span(:class="scope.row.dealStatus | statusClass") {{scope.row.dealStatus | statusFormat}}
+        el-table-column(prop='validStatus', label='月供验真状态', width="120")
+          template(scope="scope")
+            span(:class="scope.row.validStatus | statusClass") {{scope.row.validStatus | statusFormat}}
         el-table-column(prop='payChannel', label='支付渠道')
           template(scope="scope")
             span {{scope.row.payChannel | statusFormat}}
-        el-table-column(prop='payNo', label='支付流水号')
-        el-table-column(prop='factBenefit', label='实际优惠金额')
+        el-table-column(prop='payNo', label='支付流水号', width="160")
+        el-table-column(prop='payBatchNo', label='支付批次号', width="160")
+        el-table-column(prop='factBenefit', label='实际优惠金额', width="120")          
           template(scope="scope")
             span {{scope.row.factBenefit | ktCurrency}}
-      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total, prev, pager, next, jumper', :total='parseInt(page.total)')
+        el-table-column(prop='remark', label='备注', width="350")
+          template(scope="scope")
+            span(v-html="txt2html(scope.row.remark)")
+      el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total,  sizes, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
 <script>
 import {
   merge,
-  find
+  find,
+  indexOf
 } from 'lodash'
 
 import {
@@ -60,8 +68,23 @@ const statusList = [{
   name: '待处理',
   value: 'WAIT_DEAL'
 }, {
-  name: '已处理',
-  value: 'DEALED'
+  name: '已处理，无异常',
+  value: 'DEALED_RIGHT'
+}, {
+  name: '已处理，有异常',
+  value: 'DEALED_ERROR'
+}, {
+  name: '待校验',
+  value: 'WAIT_VALID'
+}, {
+  name: '已校验',
+  value: 'VALIDED_PASS'
+}, {
+  name: '已校验，未通过',
+  value: 'VALIDED_UNPASS'
+}, {
+  name: '无需校验',
+  value: 'NO_NEED_VALID'
 }, {
   name: '网商',
   value: 'MYBANK'
@@ -84,14 +107,19 @@ export default {
   filters: {
     statusClass(value) {
       const classMap = {
-        'DEALED': 'color-green',
-        'WAIT_DEAL': 'color-red'
+        'DEALED_RIGHT': 'color-green',
+        'DEALED_ERROR': 'color-red',
+        'WAIT_DEAL': 'color-red',
+        'VALIDED_PASS': 'color-green',
+        'WAIT_VALID': 'color-red',
+        'NO_NEED_VALID': 'color-green',
+        'VALIDED_UNPASS': 'color-red'
       }
       return classMap[value] || ''
     },
     statusFormat(value) {
       const status = find(statusList, s => s.value === value)
-      return status ? status.name : '未知状态'
+      return status ? status.name : '-'
     }
   },
   methods: {
@@ -123,7 +151,7 @@ export default {
           sums[index] = '当页合计'
           return
         }
-        if (index === 1 || index === 2 || index === 5 || index === 7 || index === 6) {
+        if (indexOf([1, 2, 5, 6, 7, 8, 9, 11], index) > -1) {
           return
         }
         const values = data.map(item => Number(item[column.property]))
@@ -142,6 +170,9 @@ export default {
         }
       })
       return sums
+    },
+    txt2html(value) {
+      return value.replace(/\r\n/g, '<br>')
     }
   },
 

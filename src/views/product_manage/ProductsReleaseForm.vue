@@ -25,11 +25,17 @@
                     th 产品状态：
                     td {{product.productStatus | statusFormat}}
                   tr
+                    th 资产接收状态：
+                    td {{product.assetAcceptStatus | statusFormat}}
+                  tr
                     th 发行利率：
                     td {{product.profitYearRate | ktPercent}}
                   tr
                     th 上架日期：
                     td {{product.carriageDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
+                  tr
+                    th 剩余期数：
+                    td {{product.leftPeriods}}
               el-col(:span="8")
                 table
                   tr
@@ -55,6 +61,9 @@
                   tr(v-else)
                     th 备注：
                     td {{product.remark}}
+                  tr
+                    th 还款方式：
+                    td {{product.repayType | statusFormat}}
               el-col(:span="8")
                 table
                   tr
@@ -75,6 +84,9 @@
                   tr
                     th 最早可提前还款日期：
                     td {{product.minPreDueDate | moment('YYYY-MM-DD', 'YYYYMMDD')}}
+                  tr
+                    th 总期数：
+                    td {{product.totalPeriods}}
     .bottom-buttons
       el-button(v-if="product.productStatus === 'AUTO_AUDIT_FAIL_WAIT_CONFIRMED' && $permit('productsAudit')", type="primary", size="small", @click="audit('PASSED')") 通过
       el-button(v-if="product.productStatus === 'AUTO_AUDIT_FAIL_WAIT_CONFIRMED' && $permit('productsAudit')", type="gray", size="small", @click="audit('DENIED')") 驳回
@@ -125,6 +137,18 @@ const statusList = [{
 }, {
   name: '已回款',
   value: 'FINISHED'
+}, {
+  name: '一次性还本付息',
+  value: 'ONE_TIME'
+}, {
+  name: '按月等额本息',
+  value: 'AVAERAGE_CAPITAL_INTEREST'
+}, {
+  name: '已接收',
+  value: 'ACCEPTED'
+}, {
+  name: '未接收',
+  value: 'NOT_ACCEPT'
 }]
 
 export default {
@@ -139,7 +163,7 @@ export default {
     },
     statusFormat(value) {
       const status = find(statusList, s => s.value === value)
-      return status ? status.name : '未知状态'
+      return status ? status.name : '-'
     }
   },
   methods: {

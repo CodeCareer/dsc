@@ -9,16 +9,18 @@ export default {
   },
   meta: {
     permit: [
-      'accountDepositManage',
-      'accountDepositDelete',
-      'accountDepositEdit',
-      'accountDepositAudit',
-      'accountDepositAdd',
       'fundDeposit',
       'fundAccountManage',
       'fundAccountEdit',
       'fundAccountAdd',
-      'fundAccountDelete'
+      'fundAccountDelete',
+      'fundAccountSerial',
+      'fundAccountSerialAdd',
+      'fundAccountSerialDelete',
+      'fundAccountSerialUpload',
+      'fundAutoCheckUp',
+      'fundManualCheckUp',
+      'fundAutoCheckUpDefaultDate'
     ],
     menu: {
       name: '资金管理',
@@ -64,54 +66,12 @@ export default {
       }]
     }
   }, {
-    path: 'account_deposit_manage',
-    name: 'accountDepositManage',
-    component: resolve => require(['@/views/fund_manage/AccountDepositManage.vue'], resolve),
-    meta: {
-      title: '车DAS系统-账户入金管理',
-      permit: [
-        'accountDepositManage', 'accountDepositDelete',
-        'accountDepositEdit', 'accountDepositAudit',
-        'accountDepositAdd'
-      ],
-      menu: {
-        name: '账户入金管理',
-        activeIncludes: ['accountDepositManage', 'accountDepositForm']
-      },
-      crumbs: [{
-        name: '资金管理',
-        to: { name: 'fundAccountManage' }
-      }, {
-        name: '账户入金管理',
-        to: { name: 'accountDepositManage' }
-      }]
-    }
-  }, {
-    path: 'account_deposit/:id',
-    name: 'accountDepositForm',
-    component: resolve => require(['@/views/fund_manage/AccountDepositForm.vue'], resolve),
-    meta: {
-      title: '车DAS系统-账户入金管理',
-      permit: ['accountDepositEdit', 'accountDepositAdd'],
-      crumbs: [{
-        name: '资金管理',
-        to: { name: 'fundAccountManage' }
-      }, {
-        name: '账户入金管理',
-        to: { name: 'accountDepositManage' }
-      }, {
-        id: 'accountDepositForm',
-        name: '新增账户入金',
-        to: { name: 'accountDepositForm' }
-      }]
-    }
-  }, {
     path: 'fund_deposit_detail',
     name: 'fundDepositDetail',
-    component: resolve => require(['@/views/fund_manage/FundDepositDetail.vue'], resolve),
+    component: resolve => require(['@/views/fund_manage/fundDepositDetail.vue'], resolve),
     meta: {
       title: '车DAS系统-入金明细信息',
-      permit: ['fundDeposit'],
+      permit: ['fundDeposit', 'fundAutoCheckUp', 'fundManualCheckUp', 'fundAutoCheckUpDefaultDate'],
       menu: {
         name: '入金明细信息',
         activeIncludes: ['fundDepositDetail', 'fundDepositDetailForm']
@@ -130,7 +90,7 @@ export default {
     component: resolve => require(['@/views/fund_manage/fundDepositDetailForm.vue'], resolve),
     meta: {
       title: '车DAS系统-入金明细信息详情',
-      permit: ['fundDeposit'],
+      permit: ['fundDeposit', 'fundManualCheckUp'],
       crumbs: [{
         name: '资金管理',
         to: { name: 'fundDepositDetail' }
@@ -141,6 +101,63 @@ export default {
         id: 'fundDepositDetailForm',
         name: '入金明细信息详情',
         to: { name: 'fundDepositDetailForm' }
+      }]
+    }
+  }, {
+    path: 'fund_account_serial',
+    name: 'fundAccountSerial',
+    component: resolve => require(['@/views/fund_manage/fundAccountSerial.vue'], resolve),
+    meta: {
+      title: '车DAS系统-资金账户流水',
+      permit: ['fundAccountSerial'],
+      menu: {
+        name: '资金账户流水',
+        activeIncludes: ['fundAccountSerial', 'fundAccountSerialForm']
+      },
+      crumbs: [{
+        name: '资金管理',
+        to: { name: 'fundAccountManage' }
+      }, {
+        name: '资金账户流水',
+        to: { name: 'fundAccountSerial' }
+      }]
+    }
+  }, {
+    path: 'fund_account_serial_form/:uuid',
+    name: 'fundAccountSerialForm',
+    component: resolve => require(['@/views/fund_manage/fundAccountSerialForm.vue'], resolve),
+    meta: {
+      title: '车DAS系统-资金账户流水',
+      permit: ['fundAccountSerialAdd'],
+      crumbs: [{
+        name: '资金管理',
+        to: { name: 'fundAccountManage' }
+      }, {
+        name: '资金账户流水',
+        to: { name: 'fundAccountSerial' }
+      }, {
+        id: 'fundAccountSerialForm',
+        name: '新增资金账户流水',
+        to: { name: 'fundAccountSerialForm' }
+      }]
+    }
+  }, {
+    path: 'fund_account_serial_upload',
+    name: 'fundAccountSerialUpload',
+    component: resolve => require(['@/views/fund_manage/fundAccountSerialUpload.vue'], resolve),
+    meta: {
+      title: '车DAS系统-导入资金账户流水',
+      permit: ['fundAccountSerialUpload'],
+      crumbs: [{
+        name: '资金管理',
+        to: { name: 'fundAccountManage' }
+      }, {
+        name: '资金账户流水',
+        to: { name: 'fundAccountSerial' }
+      }, {
+        id: 'fundAccountSerialUpload',
+        name: '导入资金账户流水',
+        to: { name: 'fundAccountSerialUpload' }
       }]
     }
   }]
