@@ -138,7 +138,7 @@ export default {
   },
   methods: {
     checkUp(data) {
-      const confirmMsg = data === 'PASSED' ? '确定对账通过吗？' : '确定对账驳回吗？'
+      const confirmMsg = '确定对账通过吗？'
       this.$confirm(confirmMsg, '提示', {
         type: 'warning'
       }).then(() => {
