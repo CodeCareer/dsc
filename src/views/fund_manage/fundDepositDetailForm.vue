@@ -3,7 +3,7 @@
   .box
     .box-header
       | {{title}}
-      router-link.buttons(:to="{ name: 'repayPlan', query: { assetId: fundDepositData.assetId, termNo: fundDepositData.termNo }}", target="_blank", v-if="fundDepositData.checkingStatus === 'UNPASS' && $permit('fundManualCheckUp')")
+      router-link.buttons(:to="{ name: 'repayPlan', query: { assetId: fundDepositData.assetId, termNo: fundDepositData.termNo }}", target="_blank")
         el-button(type="primary", size="small")
           | 查看实际还款
       router-link.buttons(:to="{ name: 'fundAccountSerial', query: { id: fundDepositData.fundAccountSerialId }}", target="_blank", v-if="fundDepositData.fundAccountSerialId != ''")

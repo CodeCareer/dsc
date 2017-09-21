@@ -19,15 +19,14 @@
         .filter-line
           el-select(v-model="filter.fundDirection", placeholder="资金方向" @change="search")
             el-option(v-for="t in fundDirectionList", :key="t.name", :value="t.value", :label="t.name")
-          el-select(v-model="filter.needSystemOperate", placeholder="是否需要对账" @change="search")
+          el-select(v-model="filter.needSystemOperate", placeholder="是否识别出业务信息" @change="search")
             el-option(v-for="t in needSystemOperateList", :key="t.name", :value="t.value", :label="t.name")
           el-input(placeholder='ID', icon='search', @keyup.native.13="search", v-model.trim='filter.id')
           el-button(size="small", type="primary", @click="search")  搜索
           el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table.no-wrap-cell(:max-height="maxHeight", :data='fundAccountSerial', style='width: 100%', :summary-method="getSummaries", show-summary)
-        el-table-column(prop='id', label='ID', width="240")
-        el-table-column(prop='fundAccountId', label='资金账户ID', width="250")
+        el-table-column(prop='bankSerialNo', label='银行流水号', width="250")
         el-table-column(prop='accountBalance', label='账户余额', width="120")
           template(scope="scope")
             span {{scope.row.accountBalance | ktCurrency}}
@@ -37,11 +36,10 @@
         el-table-column(prop='fundDirection', label='资金方向')
           template(scope="scope")
             span {{scope.row.fundDirection | statusFormat}}
-        el-table-column(prop='bankSerialNo', label='银行流水号', width="250")
         el-table-column(prop='occurDatetime', label='发生时间', width="150")
           template(scope="scope")
             span {{scope.row.occurDatetime | moment('YYYY-MM-DD HH:mm:ss')}}
-        el-table-column(prop='needSystemOperate', label='是否需要对账', width="130")
+        el-table-column(prop='needSystemOperate', label='是否识别出业务信息', width="130")
           template(scope="scope")
             span {{scope.row.needSystemOperate | statusFormat}}
         el-table-column(prop='checkStatus', label='对账状态')
@@ -55,6 +53,8 @@
           template(scope="scope")
             span {{scope.row.createDatetime | moment('YYYY-MM-DD HH:mm:ss')}}
         el-table-column(prop='remark', label='备注', width="250")
+        el-table-column(prop='id', label='ID', width="240")
+        el-table-column(prop='fundAccountId', label='资金账户ID', width="250")
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total,  sizes, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
@@ -173,7 +173,7 @@ export default {
           sums[index] = '当页合计'
           return
         }
-        if (indexOf([1, 4, 5, 6, 7, 8, 9, 10, 11, 12], index) > -1) {
+        if (indexOf([3, 4, 5, 6, 7, 8, 9, 10, 11, 12], index) > -1) {
           return
         }
         const values = data.map(item => Number(item[column.property]))
