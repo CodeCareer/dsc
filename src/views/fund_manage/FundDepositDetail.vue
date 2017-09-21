@@ -317,7 +317,7 @@ export default {
       }],
       depositTypes: [{
         name: '月供',
-        value: 'NSTALMENT'
+        value: 'INSTALMENT'
       }, {
         name: '尾款',
         value: 'REST'
