@@ -147,7 +147,10 @@ export default {
   },
   methods: {
     _fetchData() {
-      repayPlan.post({ repayPlanId: this.$route.params.id }, {
+      repayPlan.post({
+        repayPlanId: this.$route.params.id,
+        showInvalid: 'YES'
+      }, {
         loadingMaskTarget: '.repay-plan-detail'
       }).then(res => {
         this.repayPlan = res.data.data.rows[0]
