@@ -62,6 +62,7 @@ export default {
     dataSourceLocal(value) {
       const map = {
         'autohome': '汽车之家',
+        'HUASHENG': '花生好车',
         'manual_add': '手动添加'
       }
       return map[value] || '来源不详'
