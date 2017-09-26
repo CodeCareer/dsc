@@ -79,10 +79,12 @@ import {
   every,
   merge,
   cloneDeep
-  // isNumber
-  // remove
 } from 'lodash'
+import {
+  tableListMixins
+} from '@/common/mixins.js'
 export default {
+  mixins: [tableListMixins],
   data() {
     return {
       backupRule: {},

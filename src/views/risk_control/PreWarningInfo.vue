@@ -4,8 +4,10 @@
       .box-header
         h3 筛选条件
       .filters
-          el-input(placeholder='资产方', icon='search', @keyup.native.13="search", v-model='filter.assetFrom')
-          el-input(placeholder='预警名称', icon='search', @keyup.native.13="search", v-model='filter.name')
+          el-select(v-model="filter.assetFrom",filterable,placeholder="资产方",@change="search",)
+            el-option(v-for="asset in assets",:key="asset.value",:value="asset.value",:label="asset.label")
+          el-select(v-model="filter.name",filterable,placeholder="预警名称",@change="search")
+            el-option(v-for="type in assetTypes",:label="type",:value="type",:key="type")
           el-select(v-model="filter.status",filterable,placeholder="状态",@change="search",)
             el-option(v-for="option in options",:key="option.value",:value="option.value",:label="option.label")
           el-input(placeholder='预警对象ID', icon='search', @keyup.native.13="search", v-model='filter.subjectId')
@@ -40,28 +42,43 @@
 
 <script>
 import {
-  riskWarn
+  riskWarn,
+  riskQuery
 } from '@/common/resource.js'
 import {
   pruneParams
 } from '@/common/util.js'
 import {
   each,
-  merge
+  merge,
+  map,
+  flatten
 } from 'lodash'
-
+import {
+  tableListMixins
+} from '@/common/mixins.js'
 export default {
+  mixins: [tableListMixins],
   data() {
     return {
       riskDatas: [],
       filter: {
         assetFrom: '',
         name: '',
+        type: 'WARNING',
         page: 1,
         limit: 10,
         status: '',
         subjectId: ''
       },
+      assetTypes: [],
+      assets: [{
+        value: 'DSC',
+        label: '大搜车'
+      }, {
+        value: 'HUASHENG',
+        label: '花生好车'
+      }],
       page: {
         total: 1000,
         sizes: [10, 20, 30, 40]
@@ -112,6 +129,19 @@ export default {
       }).catch((res) => {})
     },
 
+    riskQueryGet () {
+      riskQuery.get({
+        params: {
+          ...pruneParams(this.filter)
+        },
+        loadingMaskTarget: '.risk-zr'
+      }).then(res => {
+        this.assetTypes = flatten(map(res.data.data, val => {
+          return map(val.riskRules, val2 => val2.name)
+        }))
+      })
+    },
+
     clearFilter() {
       each(this.filter, (v, k) => {
         if (k !== 'limit' && k !== 'page' && k !== 'pageSize') {
@@ -141,11 +171,13 @@ export default {
   watch: {
     $route() {
       this.risktemGet()
+      this.riskQueryGet()
     }
   },
   created() {
     this.filter = merge(this.filter, this.$route.query)
     this.risktemGet()
+    this.riskQueryGet()
   }
 }
 </script>
