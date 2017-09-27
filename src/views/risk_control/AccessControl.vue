@@ -5,9 +5,9 @@
         h3 筛选条件
       .filters
           el-select(v-model="filter.assetFrom",filterable,placeholder="资产方",@change="search",)
-            el-option(v-for="asset in assetFromList",:key="asset.value",:value="asset.value",:label="asset.name")
+            el-option(v-for="asset in assets",:key="asset.value",:value="asset.value",:label="asset.label")
           el-select(v-model="filter.name",filterable,placeholder="规则名",@change="search")
-            el-option(v-for="type in assetTypes",:label="type",:value="type",:key="type")
+            el-option(v-for="type in assetTypesComputed",:label="type.value",:value="type.value",:key="type.value")
           el-select(v-model="filter.status",filterable,placeholder="状态",@change="search")
             el-option(v-for="option in options",:key="option.value",:value="option.value",:label="option.label")
           el-input(placeholder='对象ID', icon='search', @keyup.native.13="search", v-model='filter.subjectId')
@@ -33,7 +33,7 @@
         el-table-column(label="详情",width="500")
           template(scope="scope")
             span {{scope.row.description | ktNull}}
-      el-pagination(@size-change="sizeChange",@current-change="currentChange",:current-page="parseInt(filter.page)",:page-sizes="page.sizes",:page-size="parseInt(filter.pageSize)",layout="total, sizes, prev, pager, next, jumper",:total="parseInt(page.total)")
+      el-pagination(@size-change="pageSizeChange",@current-change="pageChange",:current-page="parseInt(filter.page)",:page-sizes="page.sizes",:page-size="parseInt(filter.pageSize)",layout="total, sizes, prev, pager, next, jumper",:total="parseInt(page.total)")
 
 </template>
 
@@ -49,14 +49,24 @@ import {
   tableListMixins
 } from '@/common/mixins.js'
 
+import baseDataMixin from '@/views/base_data/mixin.js'
+
 import {
   each,
   merge,
   flatten,
-  map
+  filter,
+  map,
+  find
 } from 'lodash'
-import baseDataMixin from '@/views/base_data/mixin.js'
 
+const options = [{
+  value: 'PASS',
+  label: '通过'
+}, {
+  value: 'FAIL',
+  label: '未通过'
+}]
 export default {
   mixins: [tableListMixins, baseDataMixin],
   data() {
@@ -72,17 +82,18 @@ export default {
         subjectId: ''
       },
       assetTypes: [],
+      assets: [{
+        value: 'DSC',
+        label: '大搜车'
+      }, {
+        value: 'HUASHENG',
+        label: '花生好车'
+      }],
       page: {
         total: 1000,
         sizes: [10, 20, 30, 40]
       },
-      options: [{
-        value: 'PASS',
-        label: '通过'
-      }, {
-        value: 'FAIL',
-        label: '未通过'
-      }]
+      options: options
     }
   },
 
@@ -96,13 +107,8 @@ export default {
     },
 
     riskState(value) {
-      if (value === 'PASS') {
-        return '通过'
-      } else if (value === 'FAIL') {
-        return '未通过'
-      } else {
-        return '-'
-      }
+      const filterState = find(options, v => value === v.value)
+      return filterState ? filterState.label : '-'
     }
   },
 
@@ -128,7 +134,9 @@ export default {
         loadingMaskTarget: '.risk-zr'
       }).then(res => {
         this.assetTypes = flatten(map(res.data.data, val => {
-          return map(val.riskRules, val2 => val2.name)
+          return map(val.riskRules, val2 => {
+            return { tag: (val.name.indexOf('花生') > -1 ? 'HUASHENG' : 'DSC'), value: val2.name }
+          })
         }))
       })
     },
@@ -140,31 +148,25 @@ export default {
         }
       })
       this.search()
-    },
+    }
 
-    search() {
-      this.$router.push({
-        name: this.$router.name,
-        query: pruneParams(this.filter)
+  },
+
+  computed: {
+    assetTypesComputed() {
+      return filter(this.assetTypes, item => {
+        return this.filter.assetFrom ? item.tag === this.filter.assetFrom : true
       })
-    },
-
-    sizeChange(val) {
-      this.filter.limit = val
-      this.search()
-    },
-
-    currentChange(val) {
-      this.filter.page = val
-      this.search()
     }
   },
+
   watch: {
     $route() {
       this.risktemGet()
-      this.riskQueryGet()
+      // this.riskQueryGet()
     }
   },
+
   created() {
     this.filter = merge(this.filter, this.$route.query)
     this.risktemGet()

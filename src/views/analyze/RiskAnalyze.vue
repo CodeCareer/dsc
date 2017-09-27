@@ -355,33 +355,35 @@ export default {
 </script>
 
 <style lang="scss">
-section {
-  margin: 30px 0;
-  .asset-title {
-    border: 1px solid #e7eaed;
-    border-bottom: none;
-    height: 40px;
-    line-height: 40px;
-    background: #f3f6f8;
-    border-radius: 4px 4px 0 0;
-    padding: 0 15px;
-  }
-  h3 {
-    font-weight: bold;
-    font-size: 13px;
-    color: #595f67;
-    line-height: 40px;
-  }
-  .table-chart {
-    .icon-down {
-      margin-left: 15px;
-      &:hover {
-        color: #20a0ff;
+.asset-analyze{
+  section {
+    margin: 30px 0;
+    .asset-title {
+      border: 1px solid #e7eaed;
+      border-bottom: none;
+      height: 40px;
+      line-height: 40px;
+      background: #f3f6f8;
+      border-radius: 4px 4px 0 0;
+      padding: 0 15px;
+    }
+    h3 {
+      font-weight: bold;
+      font-size: 13px;
+      color: #595f67;
+      line-height: 40px;
+    }
+    .table-chart {
+      .icon-down {
+        margin-left: 15px;
+        &:hover {
+          color: #20a0ff;
+        }
       }
     }
-  }
-  .asset-chart {
-    border: 1px solid #e7eaed;
+    .asset-chart {
+      border: 1px solid #e7eaed;
+    }
   }
 }
 </style>
