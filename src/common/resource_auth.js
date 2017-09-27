@@ -5,7 +5,7 @@ import store from '@/vuex/store.js'
 import { urlMatcher } from '@/common/util.js'
 import qs from 'qs'
 
-let loadingInstance
+const loadingInstances = {}
 
 export const http = axios.create({
   baseURL: process.env.API_HOST + '/api/',
@@ -19,6 +19,14 @@ export const http = axios.create({
   }]
 })
 
+function closeLoading(url) {
+  const loadingInstance = loadingInstances[url]
+  if (loadingInstance) {
+    loadingInstance.close()
+    delete loadingInstances[url]
+  }
+}
+
 http.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 http.interceptors.request.use(config => {
   config.headers.common['x-auth-token'] = store.getters.token
@@ -28,7 +36,7 @@ http.interceptors.request.use(config => {
   // }
 
   if (config.loadingMaskTarget) {
-    loadingInstance = Loading.service({
+    loadingInstances[config.url] = Loading.service({
       target: config.loadingMaskTarget
     })
   }
@@ -36,7 +44,7 @@ http.interceptors.request.use(config => {
 })
 
 http.interceptors.response.use(res => {
-  if (loadingInstance) loadingInstance.close()
+  closeLoading(res.config.url)
   const data = res.data
 
   if (data.code === 200) {
@@ -63,7 +71,7 @@ http.interceptors.response.use(res => {
   return res
   // return Promise.reject(data)
 }, err => {
-  if (loadingInstance) loadingInstance.close()
+  err.config && closeLoading(err.config.url)
   msgBoxErr(err.message.indexOf('timeout') > -1 ? '请求超时' : '抱歉，服务器忙！', 'SERVER')
   return Promise.reject(err)
 })
