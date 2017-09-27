@@ -157,7 +157,7 @@ export default {
 
   created() {
     merge(this.filter, this.$route.query)
-    this._fetchData()
+    // this._fetchData()
   },
 
   data() {
