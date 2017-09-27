@@ -20,6 +20,8 @@
     .table-container
       el-table.no-wrap-cell(:max-height="maxHeight", :data='carMatchs', style='width: 100%')
         el-table-column(prop='assetFrom', label='资产来源', width="120")
+          template(scope="scope")
+            span {{scope.row.assetFrom | statusLocal}}
         el-table-column(prop='brandName', label='品牌', width='120')
         el-table-column(prop='seriesName', label='车系', width='120')
         el-table-column(prop='modelName', label='车型', min-width='240')
@@ -65,6 +67,12 @@ const statusList = [{
 }, {
   name: '已匹配',
   value: 'MATCH_SUCCESS'
+}, {
+  name: '大搜车',
+  value: 'DSC'
+}, {
+  name: '花生好车',
+  value: 'HUASHENG'
 }]
 
 export default {

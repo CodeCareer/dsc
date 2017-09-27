@@ -17,7 +17,7 @@
       el-table.no-wrap-cell(:max-height="maxHeight", :data="riskDatas")
         el-table-column(label="资产方")
           template(scope="scope")
-            span {{scope.row.assetFrom | ktNull}}
+            span {{scope.row.assetFrom | statusFormat}}
         el-table-column(label="预警名称",width="180")
           template(scope="scope")
             span {{scope.row.name | ktNull}}
@@ -52,11 +52,21 @@ import {
   each,
   merge,
   map,
-  flatten
+  flatten,
+  find
 } from 'lodash'
 import {
   tableListMixins
 } from '@/common/mixins.js'
+
+const statusList = [{
+  name: '大搜车',
+  value: 'DSC'
+}, {
+  name: '花生',
+  value: 'HUASHENG'
+}]
+
 export default {
   mixins: [tableListMixins],
   data() {
@@ -112,6 +122,11 @@ export default {
       } else {
         return '-'
       }
+    },
+
+    statusFormat(value) {
+      const status = find(statusList, s => s.value === value)
+      return status ? status.name : '-'
     }
   },
 

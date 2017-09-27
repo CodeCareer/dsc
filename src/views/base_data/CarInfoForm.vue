@@ -36,8 +36,12 @@ import {
 import {
   merge
 } from 'lodash'
+import {
+  tableListMixins
+} from '@/common/mixins.js'
 
 export default {
+  mixins: [tableListMixins],
   methods: {
     submitForm() {
       this.$refs.carInfoForm.validate((valid) => {

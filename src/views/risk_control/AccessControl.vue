@@ -17,7 +17,7 @@
       el-table.no-wrap-cell(:data="riskDatas")
         el-table-column(label="资产方")
           template(scope="scope")
-            span {{scope.row.assetFrom | ktNull}}
+            span {{scope.row.assetFrom | statusFormat}}
         el-table-column(label="规则名",width="250")
           template(scope="scope")
             span {{scope.row.name | ktNull}}
@@ -53,9 +53,16 @@ import {
   each,
   merge,
   flatten,
-  map
-  // filter
+  map,
+  find
 } from 'lodash'
+const statusList = [{
+  name: '大搜车',
+  value: 'DSC'
+}, {
+  name: '花生好车',
+  value: 'HUASHENG'
+}]
 export default{
   mixins: [tableListMixins],
   data() {
@@ -109,6 +116,11 @@ export default{
       } else {
         return '-'
       }
+    },
+
+    statusFormat(value) {
+      const status = find(statusList, s => s.value === value)
+      return status ? status.name : '-'
     }
   },
 
