@@ -100,6 +100,12 @@ function getPermitRoute(to) {
   })
 }
 
+router.openInTab = function(routeObj) {
+  const resolveRoute = router.resolve(routeObj)
+  const href = `//${location.host}/${resolveRoute.href}`
+  window.open(href, '_blank')
+}
+
 export default {
   run() {
     new Vue({

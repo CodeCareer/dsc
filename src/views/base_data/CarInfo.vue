@@ -11,6 +11,8 @@
         el-input(placeholder='品牌', icon='search', @keyup.native.13='search()', v-model='filter.brandName')
         el-input(placeholder='车系', icon='search', @keyup.native.13='search()', v-model='filter.seriesName')
         el-input(placeholder='车型', icon='search', @keyup.native.13='search()', v-model='filter.modelName')
+        el-select(placeholder="状态", v-model="filter.dataSource", @change="search()")
+          el-option(v-for="o in dataSourceList", :value="o.value", :label="o.name", :key="o.value")
         el-button(size="small", type="primary", @click="search()")  搜索
         el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
@@ -47,7 +49,8 @@
 
 <script>
 import {
-  merge
+  merge,
+  find
 } from 'lodash'
 import {
   carInfos
@@ -56,16 +59,31 @@ import {
   tableListMixins
 } from '@/common/mixins.js'
 
+const dataSourceList = [{
+  name: '全部',
+  value: '_all_'
+}, {
+  name: '汽车之家',
+  value: 'autohome'
+}, {
+  name: '花生好车',
+  value: 'HUASHENG'
+}, {
+  name: '手动添加',
+  value: 'manual_add'
+}]
+
 export default {
   mixins: [tableListMixins],
   filters: {
     dataSourceLocal(value) {
-      const map = {
-        'autohome': '汽车之家',
-        'HUASHENG': '花生好车',
-        'manual_add': '手动添加'
-      }
-      return map[value] || '来源不详'
+      // const map = {
+      //   'autohome': '汽车之家',
+      //   'HUASHENG': '花生好车',
+      //   'manual_add': '手动添加'
+      // }
+      const status = find(dataSourceList, s => s.value === value)
+      return status ? status.name : '来源不详'
     }
   },
 
@@ -117,10 +135,12 @@ export default {
     return {
       fixed: window.innerWidth - 180 - 12 * 2 > 1150 ? false : 'right', // 180 左侧菜单宽度，12 section的padding
       carInfos: [],
+      dataSourceList,
       filter: {
         brandName: '',
         seriesName: '',
         modelName: '',
+        dataSource: '',
         page: 1,
         limit: 10
       }
