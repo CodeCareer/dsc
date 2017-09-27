@@ -22,8 +22,8 @@
           el-select(v-model="filter.needSystemOperate", placeholder="是否识别出业务信息" @change="search")
             el-option(v-for="t in needSystemOperateList", :key="t.name", :value="t.value", :label="t.name")
           el-input(placeholder='ID', icon='search', @keyup.native.13="search", v-model.trim='filter.id')
-          el-select(v-model="filter.fundSerialStatus", placeholder="对账状态", @change="search")
-            el-option(v-for="t in fundSerialTypes", :key="t.name", :value="t.value", :label="t.name")
+          el-select(v-model="filter.checkStatus", placeholder="对账状态", @change="search")
+            el-option(v-for="t in checkStatusTypes", :key="t.name", :value="t.value", :label="t.name")
           el-button(size="small", type="primary", @click="search")  搜索
           el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
@@ -252,11 +252,11 @@ export default {
         occurDatetimeUpper: '',
         fundDirection: '',
         needSystemOperate: '',
-        fundSerialStatus: '',
+        checkStatus: '',
         page: 1,
         limit: 10
       },
-      fundSerialTypes: [{
+      checkStatusTypes: [{
         name: '已录入',
         value: 'INPUT'
       }, {
