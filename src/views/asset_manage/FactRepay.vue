@@ -4,12 +4,16 @@
       .box-header
         h3 筛选条件
       .filters
-        el-input(placeholder='资产ID', icon='search', @keyup.native.13='search', v-model.trim='filter.assetId')
-        el-input(placeholder='期数', icon='search', @keyup.native.13='search', v-model.trim='filter.termNo')
-        el-date-picker(placeholder='实际还款日期下限', format='yyyy-MM-dd', type='date', :value='date.factRepayDateLower', @input="handleFactRepayDateLower", :picker-options="pickerOptions")
-        el-date-picker(placeholder='实际还款日期上限', format='yyyy-MM-dd', type='date', :value='date.factRepayDateUpper', @input="handleFactRepayDateUpper", :picker-options="pickerOptions")
-        el-button(size="small", type="primary", @click="search")  搜索
-        el-button(size="small", type="primary", @click="clearFilter")  清除
+        .filter-line
+          el-input(placeholder='资产ID', icon='search', @keyup.native.13='search', v-model.trim='filter.assetId')
+          el-input(placeholder='期数', icon='search', @keyup.native.13='search', v-model.trim='filter.termNo')
+          el-date-picker(placeholder='实际还款日期下限', format='yyyy-MM-dd', type='date', :value='date.factRepayDateLower', @input="handleFactRepayDateLower", :picker-options="pickerOptions")
+          el-date-picker(placeholder='实际还款日期上限', format='yyyy-MM-dd', type='date', :value='date.factRepayDateUpper', @input="handleFactRepayDateUpper", :picker-options="pickerOptions")
+        .filter-line
+          el-select(v-model="filter.assetFrom", placeholder="资产来源", @change="search")
+            el-option(v-for="t in assetFroms", :key="t.name", :value="t.value", :label="t.name")
+          el-button(size="small", type="primary", @click="search")  搜索
+          el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table.no-wrap-cell(:max-height="maxHeight", :data='factRepay', style='width: 100%', :summary-method="getSummaries", show-summary)
         el-table-column(prop='assetId', label='资产ID', width="250")
@@ -203,9 +207,17 @@ export default {
         factRepayDateLower: '',
         factRepayDateUpper: '',
         assetId: '',
+        assetFrom: '',
         page: 1,
         limit: 10
-      }
+      },
+      assetFroms: [{
+        name: '大搜车',
+        value: 'DSC'
+      }, {
+        name: '花生',
+        value: 'HUASHENG'
+      }]
     }
   }
 }

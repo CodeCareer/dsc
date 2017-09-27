@@ -12,7 +12,7 @@
             | 新增
       .filters
         .filter-line
-          el-input(placeholder='账户ID', icon='search', @keyup.native.13="search", v-model.trim='filter.fundAccountId')
+          el-input(placeholder='账户名称', icon='search', @keyup.native.13="search", v-model.trim='filter.accountName')
           el-input(placeholder='银行流水号', icon='search', @keyup.native.13="search", v-model.trim='filter.bankSerialNo')
           el-date-picker(placeholder='发生时间下限', type='date', format='yyyy-MM-dd', :value='date.occurDatetimeLower', @input="handleDateLower", :picker-options="pickerOptionsLower")
           el-date-picker(placeholder='发生时间上限', type='date', format='yyyy-MM-dd', :value='date.occurDatetimeUpper', @input="handleDatetUpper", :picker-options="pickerOptionsUpper")
@@ -22,10 +22,13 @@
           el-select(v-model="filter.needSystemOperate", placeholder="是否识别出业务信息" @change="search")
             el-option(v-for="t in needSystemOperateList", :key="t.name", :value="t.value", :label="t.name")
           el-input(placeholder='ID', icon='search', @keyup.native.13="search", v-model.trim='filter.id')
+          el-select(v-model="filter.checkStatus", placeholder="对账状态", @change="search")
+            el-option(v-for="t in checkStatusTypes", :key="t.name", :value="t.value", :label="t.name")
           el-button(size="small", type="primary", @click="search")  搜索
           el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
       el-table.no-wrap-cell(:max-height="maxHeight", :data='fundAccountSerial', style='width: 100%', :summary-method="getSummaries", show-summary)
+        el-table-column(prop='accountName', label='账户名称', width="120")
         el-table-column(prop='bankSerialNo', label='银行流水号', width="250")
         el-table-column(prop='accountBalance', label='账户余额', width="120")
           template(scope="scope")
@@ -173,7 +176,7 @@ export default {
           sums[index] = '当页合计'
           return
         }
-        if (indexOf([3, 4, 5, 6, 7, 8, 9, 10, 11, 12], index) > -1) {
+        if (indexOf([1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], index) > -1) {
           return
         }
         const values = data.map(item => Number(item[column.property]))
@@ -249,10 +252,17 @@ export default {
         occurDatetimeUpper: '',
         fundDirection: '',
         needSystemOperate: '',
-        fundSerialStatus: '',
+        checkStatus: '',
         page: 1,
         limit: 10
-      }
+      },
+      checkStatusTypes: [{
+        name: '已录入',
+        value: 'INPUT'
+      }, {
+        name: '已对账',
+        value: 'CHECKED'
+      }]
     }
   }
 }

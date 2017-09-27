@@ -79,8 +79,8 @@
         el-table-column(label='操作', fixed="right", width='60')
           template(scope="scope")
             .operations
-              i.iconfont.icon-shenhe(v-if="scope.row.productStatus === 'AUTO_AUDIT_FAIL_WAIT_CONFIRMED' && $permit('productsAudit')", @click="audit(scope.row)")
-              i.iconfont.icon-details(v-else, @click="audit(scope.row)")
+              router-link.iconfont.icon-shenhe(v-if="scope.row.productStatus === 'AUTO_AUDIT_FAIL_WAIT_CONFIRMED' && $permit('productsAudit')", :to="{ name: 'productsReleaseForm', params: scope.row}", target="_blank")
+              router-link.iconfont.icon-details(v-else, :to="{ name: 'productsReleaseForm', params: scope.row}", target="_blank")
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total,  sizes, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
@@ -192,13 +192,6 @@ export default {
         const data = res.data.data
         this.productsRelease = data.rows
         this.page.total = data.total
-      })
-    },
-
-    audit(rows) {
-      this.$router.push({
-        name: 'productsReleaseForm',
-        params: rows
       })
     }
   },

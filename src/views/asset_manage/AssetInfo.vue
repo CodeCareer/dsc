@@ -50,7 +50,7 @@
         el-table-column(label='操作')
           template(scope="scope")
             .operations
-              i.iconfont.icon-details(@click="detail(scope.row)")
+              router-link.iconfont.icon-details(:to="{ name: 'assetInfoForm', params: {assetId: scope.row.assetBaseInfo.id}}", target="_blank")
               i.iconfont.icon-repayPlan(@click="repayPlan(scope.row)")
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total,  sizes, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
@@ -138,15 +138,6 @@ export default {
         const data = res.data.data
         this.assetInfo = data.rows
         this.page.total = data.total
-      })
-    },
-
-    detail(rows) {
-      this.$router.push({
-        name: 'assetInfoForm',
-        params: {
-          assetId: rows.assetBaseInfo.id
-        }
       })
     },
 
