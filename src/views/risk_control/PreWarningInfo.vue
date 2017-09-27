@@ -5,7 +5,7 @@
         h3 筛选条件
       .filters
           el-select(v-model="filter.assetFrom",filterable,placeholder="资产方",@change="search",)
-            el-option(v-for="asset in assets",:key="asset.value",:value="asset.value",:label="asset.label")
+            el-option(v-for="asset in assetFromList",:key="asset.value",:value="asset.value",:label="asset.name")
           el-select(v-model="filter.name",filterable,placeholder="预警名称",@change="search")
             el-option(v-for="type in assetTypes",:label="type",:value="type",:key="type")
           el-select(v-model="filter.status",filterable,placeholder="状态",@change="search",)
@@ -17,7 +17,7 @@
       el-table.no-wrap-cell(:max-height="maxHeight", :data="riskDatas")
         el-table-column(label="资产方")
           template(scope="scope")
-            span {{scope.row.assetFrom | statusFormat}}
+            span {{scope.row.assetFrom | assetFromLocal}}
         el-table-column(label="预警名称",width="180")
           template(scope="scope")
             span {{scope.row.name | ktNull}}
@@ -52,23 +52,15 @@ import {
   each,
   merge,
   map,
-  flatten,
-  find
+  flatten
 } from 'lodash'
 import {
   tableListMixins
 } from '@/common/mixins.js'
-
-const statusList = [{
-  name: '大搜车',
-  value: 'DSC'
-}, {
-  name: '花生',
-  value: 'HUASHENG'
-}]
+import baseDataMixin from '@/views/base_data/mixin.js'
 
 export default {
-  mixins: [tableListMixins],
+  mixins: [tableListMixins, baseDataMixin],
   data() {
     return {
       riskDatas: [],
@@ -82,13 +74,6 @@ export default {
         subjectId: ''
       },
       assetTypes: [],
-      assets: [{
-        value: 'DSC',
-        label: '大搜车'
-      }, {
-        value: 'HUASHENG',
-        label: '花生好车'
-      }],
       page: {
         total: 1000,
         sizes: [10, 20, 30, 40]
@@ -122,11 +107,6 @@ export default {
       } else {
         return '-'
       }
-    },
-
-    statusFormat(value) {
-      const status = find(statusList, s => s.value === value)
-      return status ? status.name : '-'
     }
   },
 
@@ -144,7 +124,7 @@ export default {
       }).catch((res) => {})
     },
 
-    riskQueryGet () {
+    riskQueryGet() {
       riskQuery.get({
         params: {
           ...pruneParams(this.filter)

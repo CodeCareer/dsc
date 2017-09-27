@@ -1,8 +1,4 @@
 import { each, keys, merge } from 'lodash'
-import {
-  pruneParams
-} from '@/common/util.js'
-
 import moment from 'moment'
 
 export const tableListMixins = {
@@ -24,7 +20,7 @@ export const tableListMixins = {
       if (!savedPage) this.filter.page = 1 // 重置到第一个页面
       this.$router.push({
         name: this.$route.name,
-        query: pruneParams(this.filter)
+        query: this.pruneParams(this.filter)
       })
       this.filter = merge(this.filter, {'refresh': Math.random()})
     },

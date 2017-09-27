@@ -8,6 +8,8 @@
           el-input(placeholder='品牌', icon='search', @keyup.native.13='search()', v-model='filter.brandName')
           el-input(placeholder='车系', icon='search', @keyup.native.13='search()', v-model='filter.seriesName')
           el-input(placeholder='车型', icon='search', @keyup.native.13='search()', v-model='filter.modelName')
+          el-select(placeholder="信息来源", v-model="filter.dataSource", @change="search()")
+            el-option(v-for="o in dataSourceList", :value="o.value", :label="o.name", :key="o.value")
           el-button(size="small", type="primary", @click="search()")  搜索
           el-button(size="small", type="primary", @click="clearFilter")  清除
       .table-container
@@ -18,6 +20,9 @@
           el-table-column(prop='brandName', label='品牌', width="120")
           el-table-column(prop='seriesName', label='车系', width="120")
           el-table-column(prop='modelName', label='车型')
+          el-table-column(prop='dataSource', label='信息来源', width='120')
+            template(scope="scope")
+              span {{scope.row.dataSource | dataSourceLocal}}
           el-table-column(prop='guidePrice', label='厂商指导价')
             template(scope="scope")
               span {{scope.row.guidePrice | ktCurrency | ktNull}}
@@ -44,9 +49,10 @@ import {
   map
   // find
 } from 'lodash'
+import baseDataMixin from '@/views/base_data/mixin.js'
 
 export default {
-  mixins: [tableListMixins],
+  mixins: [tableListMixins, baseDataMixin],
   methods: {
     _fetchData() {
       carInfos.get({
@@ -127,6 +133,7 @@ export default {
         brandName: '',
         seriesName: '',
         modelName: '',
+        dataSource: '',
         page: 1,
         limit: 10
       },

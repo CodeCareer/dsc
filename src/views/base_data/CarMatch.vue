@@ -21,7 +21,7 @@
       el-table.no-wrap-cell(:max-height="maxHeight", :data='carMatchs', style='width: 100%')
         el-table-column(prop='assetFrom', label='资产来源', width="120")
           template(scope="scope")
-            span {{scope.row.assetFrom | statusLocal}}
+            span {{scope.row.assetFrom | assetFromLocal}}
         el-table-column(prop='brandName', label='品牌', width='120')
         el-table-column(prop='seriesName', label='车系', width='120')
         el-table-column(prop='modelName', label='车型', min-width='240')
@@ -56,6 +56,7 @@ import {
   tableListMixins
 } from '@/common/mixins.js'
 import CarMatchDialog from '@/views/base_data/CarMatchDialog.vue'
+import baseDataMixin from '@/views/base_data/mixin.js'
 import Vue from 'vue'
 
 const statusList = [{
@@ -67,16 +68,10 @@ const statusList = [{
 }, {
   name: '已匹配',
   value: 'MATCH_SUCCESS'
-}, {
-  name: '大搜车',
-  value: 'DSC'
-}, {
-  name: '花生好车',
-  value: 'HUASHENG'
 }]
 
 export default {
-  mixins: [tableListMixins],
+  mixins: [tableListMixins, baseDataMixin],
   components: {
     CarMatchDialog
   },
