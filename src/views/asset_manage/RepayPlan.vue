@@ -12,11 +12,16 @@
         .filter-line
           el-date-picker(placeholder='应还款日期下限', format='yyyy-MM-dd', type='date', :value='date.repayDateLower', @input="handleRepayDateLower", :picker-options="pickerOptions")
           el-date-picker(placeholder='应还款日期上限', format='yyyy-MM-dd', type='date', :value='date.repayDateUpper', @input="handleRepayDateUpper", :picker-options="pickerOptions")
+          el-select(v-model="filter.repayStatus", placeholder="还款状态", @change="search")
+            el-option(v-for="t in repayTypes", :key="t.name", :value="t.value", :label="t.name")
+          el-select(v-model="filter.verifyStatus", placeholder="销核状态", @change="search")
+            el-option(v-for="t in verifyTypes", :key="t.name", :value="t.value", :label="t.name")
+        .filter-line  
           el-checkbox(v-model="filter.showInvalid", class="search-label", true-label="YES", false-label="NO" @change="search") 展示审核、募集失败记录
           el-button(size="small", type="primary", @click="search")  搜索
           el-button(size="small", type="primary", @click="clearFilter")  清除
     .table-container
-      el-table.no-wrap-cell(:max-height="maxHeight", :data='repayPlan', style='width: 100%')
+      el-table.no-wrap-cell(:max-height="maxHeight", :data='repayPlan', style='width: 100%', :summary-method="getSummaries", show-summary)
         el-table-column(prop='assetId', label='资产ID', width='280')
         el-table-column(prop='termNo', label='期数', width='100')
         el-table-column(prop='repayDate', label='应还款日期', width='110')
@@ -63,14 +68,15 @@
         el-table-column(label='操作', fixed="right", width="80")
           template(scope="scope")
             .operations
-              i.iconfont.icon-details(@click="detail(scope.row)")
+              router-link.iconfont.icon-details(:to="{ name: 'repayPlanDetail', params: {id: scope.row.id}}", target="_blank")
       el-pagination(@size-change='pageSizeChange', @current-change='pageChange', :current-page='parseInt(filter.page)', :page-sizes="page.sizes", :page-size="parseInt(filter.limit)", layout='total,  sizes, prev, pager, next, jumper', :total='parseInt(page.total)')
 </template>
 
 <script>
 import {
   merge,
-  find
+  find,
+  indexOf
 } from 'lodash'
 
 import {
@@ -164,13 +170,33 @@ export default {
         this.page.total = data.total
       })
     },
-    detail(rows) {
-      this.$router.push({
-        name: 'repayPlanDetail',
-        params: {
-          id: rows.id
+    getSummaries(param) {
+      const { columns, data } = param
+      const sums = []
+      columns.forEach((column, index) => {
+        if (index === 0) {
+          sums[index] = '当页合计'
+          return
+        }
+        if (indexOf([1, 2, 5, 6, 10, 11, 12, 13, 17], index) > -1) {
+          return
+        }
+        const values = data.map(item => Number(item[column.property]))
+        if (!values.every(value => isNaN(value))) {
+          sums[index] = values.reduce((prev, curr) => {
+            const value = Number(curr)
+            if (!isNaN(value)) {
+              return prev + curr
+            } else {
+              return prev
+            }
+          }, 0)
+          sums[index] = Vue.filter('ktCurrency')(sums[index])
+        } else {
+          sums[index] = 'N/A'
         }
       })
+      return sums
     }
   },
 
@@ -208,9 +234,28 @@ export default {
         repayDateUpper: '',
         showInvalid: 'NO',
         assetId: '',
+        repayStatus: '',
+        verifyStatus: '',
         page: 1,
         limit: 10
-      }
+      },
+      repayTypes: [{
+        name: '待还款',
+        value: 'WAITING'
+      }, {
+        name: '已还款',
+        value: 'REPAID'
+      }],
+      verifyTypes: [{
+        name: '未核销',
+        value: 'NOT_VERIFY'
+      }, {
+        name: '已核销',
+        value: 'VERIFYED'
+      }, {
+        name: '无需核销',
+        value: 'NO_NEED'
+      }]
     }
   }
 }
