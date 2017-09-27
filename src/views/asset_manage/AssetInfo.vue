@@ -4,12 +4,12 @@
       .box-header
         h3 筛选条件
       .filters
-        .filter-line 
+        .filter-line
           el-input(placeholder='资产ID', icon='search', @keyup.native.13='search', v-model.trim='filter.assetId')
           el-input(placeholder='外部资产订单编号', icon='search', @keyup.native.13='search', v-model.trim='filter.outerAssetOrderNo')
           el-select(v-model="filter.assetFrom", placeholder="资产来源", @change="search")
             el-option(v-for="t in assetFroms", :key="t.name", :value="t.value", :label="t.name")
-        .filter-line 
+        .filter-line
           el-input(placeholder='产品代码', icon='search', @keyup.native.13='search', v-model.trim='filter.productCode')
           el-select(v-model="filter.assetStatus", placeholder="资产状态", @change="search")
             el-option(v-for="t in assetTypes", :key="t.name", :value="t.value", :label="t.name")
