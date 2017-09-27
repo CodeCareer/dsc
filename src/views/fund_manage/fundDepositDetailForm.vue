@@ -60,7 +60,7 @@
                 td {{fundDepositData.remark}}
     .bottom-buttons 
       el-button(v-if="fundDepositData.checkingStatus === 'UNPASS' && $permit('fundManualCheckUp')", type="primary", size="small", @click="checkUp()") 通过
-      el-button(size="small", @click="cancel") 返回
+      el-button(size="small", @click="back") 返回
 </template>
 
 <script>
@@ -69,6 +69,7 @@ import {
 } from 'lodash'
 
 import {
+  fundDeposit,
   fundManualCheckUp
 } from '@/common/resource.js'
 
@@ -158,8 +159,10 @@ export default {
       })
     },
 
-    cancel() {
-      this.$router.back()
+    back() {
+      this.$router.push({
+        name: 'fundDepositDetail'
+      })
     },
 
     operationStatus(data) {
@@ -167,16 +170,24 @@ export default {
         this.$message.success({
           message: data.resultMsg || '审核成功！'
         })
-        this.$router.back()
+        this.back()
       } else {
         this.$message.error({
           message: data.resultMsg || '审核失败！'
         })
       }
+    },
+
+    _fetchData() {
+      fundDeposit.post({ assetId: this.$route.params.assetId }, {
+        loadingMaskTarget: '.products-release-form'
+      }).then(res => {
+        this.fundDepositData = res.data.data.rows[0]
+      })
     }
   },
   created() {
-    this.fundDepositData = this.$route.params
+    this._fetchData()
   },
   data() {
     return {

@@ -90,7 +90,7 @@
     .bottom-buttons
       el-button(v-if="product.productStatus === 'AUTO_AUDIT_FAIL_WAIT_CONFIRMED' && $permit('productsAudit')", type="primary", size="small", @click="audit('PASSED')") 通过
       el-button(v-if="product.productStatus === 'AUTO_AUDIT_FAIL_WAIT_CONFIRMED' && $permit('productsAudit')", type="gray", size="small", @click="audit('DENIED')") 驳回
-      el-button(size="small", @click="cancel") 返回
+      el-button(size="small", @click="back") 返回
 </template>
 
 <script>
@@ -209,7 +209,7 @@ export default {
         this.$message.success({
           message: data.resultMsg || '审核成功！'
         })
-        this.$router.back()
+        this.back()
       } else {
         this.$message.error({
           message: data.resultMsg || '审核失败！'
@@ -217,8 +217,10 @@ export default {
       }
     },
 
-    cancel() {
-      this.$router.back()
+    back() {
+      this.$router.push({
+        name: 'productsRelease'
+      })
     }
   },
   created() {
