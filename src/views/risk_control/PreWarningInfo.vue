@@ -129,9 +129,10 @@ export default {
       }).then(res => {
         this.assetTypes = flatten(map(res.data.data, val => {
           return map(val.riskRules, val2 => {
-            return { tag: val.name.indexOf('花生') > -1 ? 'HUASENG' : 'DSC', value: val2.name }
+            return { tag: val.name.indexOf('花生') > -1 ? 'HUASHENG' : 'DSC', value: val2.name }
           })
         }))
+        console.log(this.assetTypes)
       })
     }
   },
