@@ -1,6 +1,12 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 var path = require('path')
-var devConfig = require('./dev.local.js')
+var devConfig = {}
+var fs = require('fs')
+var devConfigUrl = path.posix.resolve(__dirname, './dev.local.js')
+
+if (fs.existsSync(devConfigUrl)) {
+  devConfig = require(devConfigUrl)
+}
 
 module.exports = {
   build: {
