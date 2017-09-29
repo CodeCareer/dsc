@@ -8,7 +8,9 @@
           | 新增
       .filters
         .filter-line
-          el-input(placeholder='资产来源', icon='search', @keyup.native.13="search()", v-model='filter.assetFrom')
+          //- el-input(placeholder='资产来源', icon='search', @keyup.native.13="search()", v-model='filter.assetFrom')
+          el-select(v-model="filter.assetFrom",filterable,placeholder="资产方",@change="search",)
+            el-option(v-for="asset in assetFromList",:key="asset.value",:value="asset.value",:label="asset.name")
           el-input(placeholder='品牌', icon='search', @keyup.native.13="search()", v-model='filter.brandName')
           el-input(placeholder='车系', icon='search', @keyup.native.13="search()", v-model='filter.seriesName')
           el-input(placeholder='车型', icon='search', @keyup.native.13="search()", v-model='filter.modelName')
