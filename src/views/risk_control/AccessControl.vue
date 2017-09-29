@@ -87,7 +87,7 @@ export default {
         label: '大搜车'
       }, {
         value: 'HUASHENG',
-        label: '花生好车'
+        label: '花生'
       }],
       page: {
         total: 1000,
