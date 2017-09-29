@@ -26,7 +26,7 @@ files.forEach(f => {
     if (!matched) return
     fs.writeFile(f, result, 'utf8', function(err) {
       if (err) return console.log(chalk.red(err))
-      console.log(chalk.green('ENV SET SUCESSS'))
+      console.log(f, chalk.green('ENV SET SUCESSS'))
     })
   }
 })
