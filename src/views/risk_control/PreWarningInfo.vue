@@ -17,6 +17,7 @@
           el-date-picker(placeholder="结束日期",:value="date.endDate",format="yyyy-MM-dd",type='date',@input="filterDateSearch($event, 'endDate')",:picker-options="pickerOptions")
           el-button(size="small", type="primary",@click="search") 搜索
           el-button(size="small", type="primary",@click="clearFilter")  清除
+          export-excel(:excel-filter="excelfilter")
     .risk-table.table-container
       el-table.no-wrap-cell(:max-height="maxHeight", :data="riskDatas")
         el-table-column(label="资产方")
@@ -66,6 +67,8 @@ import {
 
 import moment from 'moment'
 
+import exportExcel from '@/components/ExportExcel.vue'
+
 import baseDataMixin from '@/views/base_data/mixin.js'
 
 const options = [{
@@ -84,6 +87,9 @@ const options = [{
 
 export default {
   mixins: [tableListMixins, baseDataMixin],
+  components: {
+    exportExcel
+  },
   data() {
     return {
       riskDatas: [],
@@ -160,6 +166,10 @@ export default {
       return filter(this.assetTypes, val => {
         return this.filter.assetFrom ? val.tag === this.filter.assetFrom : true
       })
+    },
+
+    excelfilter() {
+      return '/riskManage/downloadRiskWarningExcel?assetFrom=' + this.filter.assetFrom + '&name=' + this.filter.name + '&startDate=' + this.filter.startDate + '&endDate=' + this.filter.endDate + '&page=' + this.filter.page + '&limit=' + this.filter.limit + '&status=' + this.filter.status + '&subjectId=' + this.filter.subjectId
     }
   },
 

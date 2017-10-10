@@ -108,6 +108,7 @@ export const APIS = {
   riskEdit: '/riskManage/riskRules/:riskRuleId/update', //风控修改风险规则
   riskQuery: '/riskManage/riskRuleTemplates', //查询风险规则模板
   riskWarn: '/riskManage/riskRuleWarnings', //查询风险预警信息
+  riskDownLoad: '/riskManage/downloadRiskWarningExcel', //导出为excel
   carInfoList: '/thirdPartyData/vehicleManage/vehicles/list', // 车辆信息列表获取接口
   carInfoDetail: '/thirdPartyData/vehicleManage/vehicles/details/:id', // 车辆信息获取接口
   carInfoAdd: '/thirdPartyData/vehicleManage/vehicles/create', // 车辆信息
@@ -264,6 +265,10 @@ export const riskQuery = {
 
 export const riskWarn = {
   get: (config) => http.get(APIS.riskWarn, config)
+}
+
+export const riskDownLoad = {
+  get: (config) => http.get(APIS.riskDownLoad, config)
 }
 
 export const ageAnalyze = {
