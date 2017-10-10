@@ -257,8 +257,8 @@ export default {
         limit: 10
       },
       checkStatusTypes: [{
-        name: '已录入',
-        value: 'INPUT'
+        name: '待对账',
+        value: 'WAIT_CHECK'
       }, {
         name: '已对账',
         value: 'CHECKED'
