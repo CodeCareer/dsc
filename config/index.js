@@ -1,11 +1,14 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 var path = require('path')
-var devConfig = {}
+var chalk = require('chalk')
 var fs = require('fs')
-var devConfigUrl = path.posix.resolve(__dirname, './dev.local.js')
+var devConfig = {}
+var devConfigUrl = path.resolve(__dirname, './dev.local.js')
 
 if (fs.existsSync(devConfigUrl)) {
   devConfig = require(devConfigUrl)
+} else {
+  console.log('Warning: ', devConfigUrl, chalk.red(' not exist'))
 }
 
 module.exports = {
