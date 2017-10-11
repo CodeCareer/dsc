@@ -21,11 +21,11 @@
             el-form-item(label="风控规则：")
               .risk-row(v-for="(rule, indexr) in risk.riskRules")
                 el-row
-                  el-col.risk-col(:span="8")
+                  el-col.risk-col(:span="9")
                     //- span.risk-also(v-if='indexr !== 0 && risk.type === "WARNING"') 并且
                     //- span.risk-also(v-if='indexr !== 0 && risk.type === "ACCESS"') 或者
                     el-checkbox(:label="rule.name",v-model="rule.status",true-label="ENABLED",false-label="DISABLED",:disabled="!rule.editing")
-                  el-col(:span="16")
+                  el-col(:span="12")
                     .risk-filter(v-for="(detail, indexd) in rule.details")
                       //- NUMERIC
                       .risk-num(v-if="rule.inputType ==='NUMERIC'")
@@ -310,6 +310,21 @@ export default {
 }
 </script>
 <style lang="scss">
+.risk-rule{
+  .el-checkbox{
+    padding-left:20px;
+  }
+  .el-checkbox__input{
+    margin-left:-20px;
+  }
+  .el-checkbox__label{
+    width:100%;
+    word-break: break-all;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    line-height: 25px;
+  }
+}
 .risk-form {
   margin-bottom: 30px;
 }
