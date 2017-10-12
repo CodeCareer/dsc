@@ -149,7 +149,7 @@ import {
   map,
   merge,
   isNumber,
-  round,
+  // round,
   isArray
 } from 'lodash'
 
@@ -222,7 +222,7 @@ export default {
   filters: {
     filterThousand(value) {
       if (isNumber(value)) {
-        return numeral(round(value / 10000)).format('0,0')
+        return numeral(value / 10000).format('0,0.00')
       }
       return value || '-'
     }

@@ -13,7 +13,7 @@ export default {
 
     Vue.filter('ktThousand', (value, suffix = '万元') => {
       if (isNumber(value)) {
-        return numeral(round(value / 10000)).format('0,0') + suffix
+        return numeral(value / 10000).format('0,0.00') + suffix
       }
       return value || '-'
     })
