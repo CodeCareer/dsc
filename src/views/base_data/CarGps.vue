@@ -4,6 +4,7 @@
       .box-header
         h3 筛选条件
       .filters
+        span.x-symbol *
         el-input(placeholder='VIN码', icon='search', @keyup.native.13='search()', v-model='filter.vinCode')
         //- el-input(placeholder='SIM码', icon='search', @keyup.native.13='search()', v-model='filter.simNo')
         el-select(placeholder="状态", v-model="filter.vehicleStatus", @change="search()")
@@ -187,3 +188,13 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+  .car-gps{
+    .x-symbol{
+      color: red;
+      padding-right:5px;
+      font-size:15px;
+      vertical-align: middle;
+    }
+  }
+</style>
